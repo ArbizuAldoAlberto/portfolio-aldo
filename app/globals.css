@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-space-black: #0A0A0F;
+  --color-deep-space: #111118;
+  --color-orbital-teal: #1D9E75;
+  --color-amber-gold: #EF9F27;
+  --color-electric-purple: #7F77DD;
+  --color-coral-burn: #D85A30;
+  --color-mist-gray: #C2C0B6;
+  --color-space-border: rgba(255, 255, 255, 0.08);
+
+  --font-serif: var(--font-cormorant), serif;
+  --font-mono: var(--font-jetbrains), monospace;
+  --font-space: var(--font-space), monospace;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-white tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-surface {
+    @apply bg-[var(--color-deep-space)] border border-[var(--color-space-border)] backdrop-blur-md;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-90 transition-all border border-[var(--color-orbital-teal)]/50;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:border-[var(--color-orbital-teal)] transition-colors;
+  }
+}
