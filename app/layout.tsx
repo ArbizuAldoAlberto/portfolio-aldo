@@ -1,12 +1,19 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, JetBrains_Mono, Space_Mono } from 'next/font/google'
+import { Cormorant_Garamond, JetBrains_Mono, Space_Mono, Inter } from 'next/font/google'
 import './globals.css'
 import SmoothScroll from '../components/SmoothScroll'
+import CustomCursor from '../components/CustomCursor'
+import GrainOverlay from '../components/GrainOverlay'
 
 const cormorant = Cormorant_Garamond({ 
   subsets: ['latin'],
   weight: ['300', '400', '600', '700'],
   variable: '--font-cormorant'
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter'
 })
 
 const jetbrains = JetBrains_Mono({
@@ -21,18 +28,18 @@ const space = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Aldo Arbizu | Product Engineer & 3D Designer',
-  description: 'Portafolio Profesional de Aldo Arbizu. Especialista en Ingeniería Offline-First, Desarrollo Web3, Contratos Inteligentes y Diseño de Hardware/Piezas 3D.',
-  keywords: ['Product Engineer', 'React Native', 'Offline-First', 'Web3', 'Smart Contracts', 'Impresión 3D', 'Drones', 'Automatización n8n'],
+  title: 'Antigravity Studio | by Aldo Arbizu',
+  description: 'Ingeniería Mobile & Arquitecturas Offline-First para el Futuro del Agro. Desarrollo de ecosistemas resilientes y soluciones AgTech.',
+  keywords: ['Antigravity Studio', 'Aldo Arbizu', 'AgTech', 'Offline-First', 'React Native', 'Agricultura de Precisión', 'Geo-Tracking', 'Sentinel Project'],
   authors: [{ name: 'Aldo Arbizu', url: 'https://github.com/ArbizuAldoAlberto' }],
   creator: 'Aldo Arbizu',
   openGraph: {
     type: 'website',
     locale: 'es_AR',
-    url: 'https://aldoarbizu.com',
-    title: 'Aldo Arbizu | Engineering & Web3',
-    description: 'Arquitecturas Offline-First, Web3 y Diseño 3D.',
-    siteName: 'Aldo Arbizu Portfolio'
+    url: 'https://antigravity.studio',
+    title: 'Antigravity Studio | AgTech Engineering',
+    description: 'Conectamos el trabajo duro del lote con la administración en la nube.',
+    siteName: 'Antigravity Studio'
   }
 }
 
@@ -46,8 +53,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={`${cormorant.variable} ${jetbrains.variable} ${space.variable}`}>
-      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[#1D9E75]/30">
+    <html lang="es" className={`${cormorant.variable} ${jetbrains.variable} ${space.variable} ${inter.variable}`}>
+      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-inter antialiased selection:bg-[#1D9E75]/30">
+        <GrainOverlay />
+        <CustomCursor />
         <SmoothScroll>
           {children}
         </SmoothScroll>
