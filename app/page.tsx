@@ -2,9 +2,12 @@
 import { useEffect } from 'react'
 import Hero from '../components/hero/Hero'
 import Manifesto from '../components/sections/Manifesto'
+import OfflineSimulator from '../components/sections/OfflineSimulator'
 import Services from '../components/sections/Services'
 import Projects from '../components/sections/Projects'
+import StudioLab from '../components/sections/StudioLab'
 import CryptoLab from '../components/sections/CryptoLab'
+import NexusTelemetry from '../components/sections/NexusTelemetry'
 import Contact from '../components/sections/Contact'
 
 export default function Home() {
@@ -29,9 +32,12 @@ export default function Home() {
     <main className="min-h-screen">
       <Hero />
       <Manifesto />
+      <OfflineSimulator />
       <Services />
       <Projects />
+      <StudioLab />
       <CryptoLab />
+      <NexusTelemetry />
       <Contact />
     </main>
   )

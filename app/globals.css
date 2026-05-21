@@ -18,27 +18,89 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
   }
   
   body {
-    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased overflow-x-hidden;
+    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased overflow-x-hidden relative;
+    /* Interactive Mouse Spotlight Background Overlay */
+    background-image: 
+      radial-gradient(
+        circle 600px at var(--mouse-x) var(--mouse-y), 
+        rgba(29, 158, 117, 0.04) 0%, 
+        rgba(127, 119, 221, 0.025) 50%, 
+        transparent 100%
+      ),
+      radial-gradient(
+        circle 800px at 50% -200px,
+        rgba(127, 119, 221, 0.08) 0%,
+        transparent 100%
+      );
+    background-attachment: fixed;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-white tracking-tight;
   }
+
+  /* Custom Cosmic Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-space-black);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-orbital-teal)/30, var(--color-electric-purple)/30);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-orbital-teal)/50;
+  }
 }
 
 @layer components {
+  /* Premium Glassmorphism */
   .glass-surface {
-    @apply bg-[var(--color-deep-space)] border border-[var(--color-space-border)] backdrop-blur-md;
+    @apply bg-[var(--color-deep-space)]/80 border border-[var(--color-space-border)] backdrop-blur-lg shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-300;
+  }
+
+  .glass-surface:hover {
+    @apply border-[var(--color-orbital-teal)]/20 shadow-[0_8px_32px_0_rgba(29,158,117,0.05)];
   }
   
+  /* Glowing CTA buttons */
   .btn-primary {
-    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-90 transition-all border border-[var(--color-orbital-teal)]/50;
+    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-95 transition-all border border-[var(--color-orbital-teal)]/50 relative overflow-hidden shadow-[0_0_15px_rgba(29,158,117,0.2)] hover:shadow-[0_0_25px_rgba(29,158,117,0.45)];
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-white/20 translate-x-[-100%] transition-transform duration-1000 ease-in-out;
+  }
+
+  .btn-primary:hover::after {
+    @apply translate-x-[100%];
   }
   
   .btn-outline {
-    @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:border-[var(--color-orbital-teal)] transition-colors;
+    @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:border-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)]/5 transition-all shadow-[0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(29,158,117,0.1)];
+  }
+
+  /* Shimmer glowing border decoration */
+  .cosmic-shimmer-border {
+    position: relative;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--color-orbital-teal), var(--color-electric-purple), var(--color-amber-gold), var(--color-orbital-teal));
+    background-size: 300% 300%;
+    animation: borderShimmer 8s ease infinite;
+    padding: 1px;
+  }
+
+  @keyframes borderShimmer {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
   }
 }

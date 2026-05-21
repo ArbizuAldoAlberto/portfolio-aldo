@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import GlitchText from '../ui/GlitchText'
 
 const services = [
   {
@@ -43,7 +44,9 @@ export default function Services() {
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block">
           Servicios
         </span>
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">Las 4 Órbitas</h2>
+        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">
+          <GlitchText text="Las 4 Órbitas" />
+        </h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {services.map((svc, i) => (

@@ -1,0 +1,44 @@
+name: Next.js CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: portfolio/dark-orbital/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd portfolio/dark-orbital || cd dark-orbital
+          npm ci
+
+      - name: Type Check
+        run: |
+          cd portfolio/dark-orbital || cd dark-orbital
+          npx tsc --noEmit
+
+      - name: ESLint Check
+        run: |
+          cd portfolio/dark-orbital || cd dark-orbital
+          npm run lint
+
+      - name: Next.js Build
+        run: |
+          cd portfolio/dark-orbital || cd dark-orbital
+          npm run build
+        env:
+          NEXT_PUBLIC_RESEND_API_KEY: ${{ secrets.NEXT_PUBLIC_RESEND_API_KEY }}

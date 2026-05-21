@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, JetBrains_Mono, Space_Mono } from 'next/font/google'
+import SpotlightWrapper from '../components/theme/SpotlightWrapper'
+import NoiseOverlay from '../components/theme/NoiseOverlay'
+import CustomCursor from '../components/theme/CustomCursor'
+import { CursorProvider } from '../components/theme/CursorContext'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({ 
@@ -36,8 +40,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${cormorant.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`}>
-      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30">
-        {children}
+      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 cursor-none">
+        <CursorProvider>
+          <NoiseOverlay />
+          <CustomCursor />
+          <SpotlightWrapper />
+          {children}
+        </CursorProvider>
       </body>
     </html>
   )

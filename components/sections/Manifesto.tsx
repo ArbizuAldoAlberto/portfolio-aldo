@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import GlitchText from '../ui/GlitchText'
 
 export default function Manifesto() {
   return (
@@ -15,7 +16,7 @@ export default function Manifesto() {
         </span>
         
         <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 max-w-2xl leading-tight">
-          Construyo software que sobrevive a la realidad del campo.
+          <GlitchText text="Construyo software que sobrevive a la realidad del campo." />
         </h2>
         
         <p className="font-mono text-lg text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
