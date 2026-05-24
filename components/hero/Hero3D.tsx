@@ -1,16 +1,42 @@
 'use client'
-import { useRef, useMemo, useEffect } from 'react'
+import { useRef, useMemo, useEffect, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, Float, Sparkles, MeshDistortMaterial } from '@react-three/drei'
+import { OrbitControls, Float, Sparkles, MeshDistortMaterial, useGLTF } from '@react-three/drei'
 import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import * as THREE from 'three'
 import { useCursor } from '../theme/CursorContext'
 
-function NexusNeuralCore() {
-  const coreRef = useRef<THREE.Mesh>(null)
-  const cageRef = useRef<THREE.Mesh>(null)
-  const cage2Ref = useRef<THREE.Mesh>(null)
+interface BranchProps {
+  from: THREE.Vector3
+  to: THREE.Vector3
+  radiusStart: number
+  radiusEnd: number
+  color?: string
+}
+
+// Procedural branch component to render thick volumetric 3D branches oriented correctly
+function CylinderBranch({ from, to, radiusStart, radiusEnd, color = "#121217" }: BranchProps) {
+  const direction = new THREE.Vector3().subVectors(to, from)
+  const length = direction.length()
+  const midpoint = new THREE.Vector3().addVectors(from, to).multiplyScalar(0.5)
+  
+  const up = new THREE.Vector3(0, 1, 0)
+  const quaternion = new THREE.Quaternion().setFromUnitVectors(up, direction.clone().normalize())
+  
+  return (
+    <mesh position={midpoint} quaternion={quaternion}>
+      <cylinderGeometry args={[radiusEnd, radiusStart, length, 8]} />
+      <meshStandardMaterial color={color} roughness={0.8} metalness={0.65} />
+    </mesh>
+  )
+}
+
+function CyberOrganicTree() {
+  const trunkRef = useRef<THREE.Group>(null)
+  const ring1Ref = useRef<THREE.Mesh>(null)
+  const ring2Ref = useRef<THREE.Mesh>(null)
+  const ring3Ref = useRef<THREE.Mesh>(null)
   const pingRef = useRef<THREE.Mesh>(null)
   const groupRef = useRef<THREE.Group>(null)
 
@@ -20,55 +46,157 @@ function NexusNeuralCore() {
 
   const { pointer } = useThree()
 
-  const nodeCount = 32
-  const maxLines = 150
+  const treeMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
 
-  // 1. Generate node definitions
+  // Load Hunyuan3D-2 generated model
+  const { scene } = useGLTF('/models/tree.glb')
+
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true
+        child.receiveShadow = true
+        // Apply cyber-organic dark bark material with emissive tech veins
+        const mat = new THREE.MeshPhysicalMaterial({
+          color: new THREE.Color('#0a0e12'),
+          roughness: 0.65,
+          metalness: 0.7,
+          emissive: new THREE.Color('#104f38'),
+          emissiveIntensity: 0.8,
+          clearcoat: 0.4,
+          clearcoatRoughness: 0.3,
+          envMapIntensity: 1.5,
+        })
+        child.material = mat
+        treeMaterialRef.current = mat
+      }
+    })
+  }, [scene])
+
+  const nodeCount = 32
+  const maxLines = 120
+
+  // 1. Procedural definition of the trunk and branch hierarchy
+  const treeStructure = useMemo(() => {
+    return [
+      // Trunk Segments (from, to, radiusStart, radiusEnd)
+      { from: new THREE.Vector3(0, -2.4, 0), to: new THREE.Vector3(0.05, -1.8, 0), rStart: 0.28, rEnd: 0.24 },
+      { from: new THREE.Vector3(0.05, -1.8, 0), to: new THREE.Vector3(-0.05, -1.2, 0.05), rStart: 0.24, rEnd: 0.20 },
+      { from: new THREE.Vector3(-0.05, -1.2, 0.05), to: new THREE.Vector3(-0.15, -0.6, 0.1), rStart: 0.20, rEnd: 0.17 },
+      { from: new THREE.Vector3(-0.15, -0.6, 0.1), to: new THREE.Vector3(0.0, 0.0, 0.15), rStart: 0.17, rEnd: 0.14 },
+      { from: new THREE.Vector3(0.0, 0.0, 0.15), to: new THREE.Vector3(0.05, 0.6, 0.2), rStart: 0.14, rEnd: 0.11 },
+
+      // Left Major Branch
+      { from: new THREE.Vector3(-0.05, -1.2, 0.05), to: new THREE.Vector3(-0.8, -0.6, 0.4), rStart: 0.16, rEnd: 0.12 },
+      { from: new THREE.Vector3(-0.8, -0.6, 0.4), to: new THREE.Vector3(-1.6, 0.4, 0.9), rStart: 0.12, rEnd: 0.08 },
+
+      // Right Major Branch
+      { from: new THREE.Vector3(-0.15, -0.6, 0.1), to: new THREE.Vector3(0.7, 0.1, -0.2), rStart: 0.15, rEnd: 0.11 },
+      { from: new THREE.Vector3(0.7, 0.1, -0.2), to: new THREE.Vector3(1.5, 0.9, -0.7), rStart: 0.11, rEnd: 0.07 },
+
+      // Middle/Back Branch
+      { from: new THREE.Vector3(0.05, 0.6, 0.2), to: new THREE.Vector3(0.1, 1.2, 0.5), rStart: 0.10, rEnd: 0.07 },
+      { from: new THREE.Vector3(0.1, 1.2, 0.5), to: new THREE.Vector3(-0.3, 1.8, 0.8), rStart: 0.07, rEnd: 0.05 },
+
+      // Front/Top Branch
+      { from: new THREE.Vector3(0.05, 0.6, 0.2), to: new THREE.Vector3(-0.4, 1.1, -0.4), rStart: 0.10, rEnd: 0.07 },
+      { from: new THREE.Vector3(-0.4, 1.1, -0.4), to: new THREE.Vector3(-0.8, 1.6, -1.0), rStart: 0.07, rEnd: 0.05 }
+    ]
+  }, [])
+
+  // Branch tip coordinates where leaves/nodos cluster
+  const branchTips = useMemo(() => [
+    new THREE.Vector3(-1.6, 0.4, 0.9),
+    new THREE.Vector3(1.5, 0.9, -0.7),
+    new THREE.Vector3(-0.3, 1.8, 0.8),
+    new THREE.Vector3(-0.8, 1.6, -1.0)
+  ], [])
+
+  // Spline paths for sap-like energy packets traveling from root up to branch tips
+  const paths = useMemo(() => {
+    const p0 = [
+      new THREE.Vector3(0, -2.4, 0),
+      new THREE.Vector3(0.05, -1.8, 0),
+      new THREE.Vector3(-0.05, -1.2, 0.05),
+      new THREE.Vector3(-0.8, -0.6, 0.4),
+      new THREE.Vector3(-1.6, 0.4, 0.9)
+    ]
+    const p1 = [
+      new THREE.Vector3(0, -2.4, 0),
+      new THREE.Vector3(0.05, -1.8, 0),
+      new THREE.Vector3(-0.05, -1.2, 0.05),
+      new THREE.Vector3(-0.15, -0.6, 0.1),
+      new THREE.Vector3(0.7, 0.1, -0.2),
+      new THREE.Vector3(1.5, 0.9, -0.7)
+    ]
+    const p2 = [
+      new THREE.Vector3(0, -2.4, 0),
+      new THREE.Vector3(0.05, -1.8, 0),
+      new THREE.Vector3(-0.05, -1.2, 0.05),
+      new THREE.Vector3(-0.15, -0.6, 0.1),
+      new THREE.Vector3(0.0, 0.0, 0.15),
+      new THREE.Vector3(0.05, 0.6, 0.2),
+      new THREE.Vector3(0.1, 1.2, 0.5),
+      new THREE.Vector3(-0.3, 1.8, 0.8)
+    ]
+    const p3 = [
+      new THREE.Vector3(0, -2.4, 0),
+      new THREE.Vector3(0.05, -1.8, 0),
+      new THREE.Vector3(-0.05, -1.2, 0.05),
+      new THREE.Vector3(-0.15, -0.6, 0.1),
+      new THREE.Vector3(0.0, 0.0, 0.15),
+      new THREE.Vector3(0.05, 0.6, 0.2),
+      new THREE.Vector3(-0.4, 1.1, -0.4),
+      new THREE.Vector3(-0.8, 1.6, -1.0)
+    ]
+    return [
+      new THREE.CatmullRomCurve3(p0),
+      new THREE.CatmullRomCurve3(p1),
+      new THREE.CatmullRomCurve3(p2),
+      new THREE.CatmullRomCurve3(p3)
+    ]
+  }, [])
+
+  // 2. Generate data leaf nodes orbiting each branch tip
   const nodes = useMemo(() => {
     const arr = []
     for (let i = 0; i < nodeCount; i++) {
-      const radius = 1.6 + Math.random() * 2.2
-      const speed = 0.15 + Math.random() * 0.3
+      const radius = 0.35 + Math.random() * 0.45
+      const speed = 0.25 + Math.random() * 0.35
       const phase = Math.random() * Math.PI * 2
-      const inclinationX = (Math.random() - 0.5) * Math.PI * 0.4
-      const inclinationZ = (Math.random() - 0.5) * Math.PI * 0.4
+      const inclinationX = (Math.random() - 0.5) * Math.PI * 0.5
+      const inclinationZ = (Math.random() - 0.5) * Math.PI * 0.5
       const color = i % 3 === 0 ? '#1D9E75' : i % 3 === 1 ? '#7F77DD' : '#EF9F27'
       arr.push({ radius, speed, phase, inclinationX, inclinationZ, color })
     }
     return arr
   }, [])
 
-  // 2. Node positions references
   const nodePositions = useRef<THREE.Vector3[]>(nodes.map(() => new THREE.Vector3()))
 
-  // 3. Pre-allocated arrays and temp variables
   const tempObject = useMemo(() => new THREE.Object3D(), [])
   const linePositions = useMemo(() => new Float32Array(maxLines * 2 * 3), [])
 
-  // 4. Data packets traveling along the network
-  const packetCount = 8
+  const packetCount = 10
   const packets = useMemo(() => {
     const arr = []
     for (let i = 0; i < packetCount; i++) {
       arr.push({
         t: Math.random(),
-        speed: 0.5 + Math.random() * 0.8,
-        sourceIdx: Math.floor(Math.random() * nodeCount),
-        targetIdx: Math.floor(Math.random() * nodeCount),
+        speed: 0.35 + Math.random() * 0.35,
+        pathIdx: Math.floor(Math.random() * 4)
       })
     }
     return arr
   }, [])
 
-  // 5. Interactive Ping Shockwave state
   const pingState = useRef({ active: false, time: 0 })
 
-  const handleCoreClick = () => {
+  const handleTreeClick = () => {
     pingState.current.active = true
     pingState.current.time = 0
   }
 
-  // Set colors on mount
   useEffect(() => {
     if (instancedMeshRef.current) {
       nodes.forEach((node, idx) => {
@@ -87,36 +215,45 @@ function NexusNeuralCore() {
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime()
 
-    // A. Rotate and pulse core
-    if (coreRef.current) {
-      coreRef.current.rotation.y = time * 0.25
-      coreRef.current.rotation.z = time * 0.1
-      const pulse = 1.0 + Math.sin(time * 3) * 0.05
-      coreRef.current.scale.set(pulse, pulse, pulse)
+    // A. Pulse tree emissive veins
+    if (treeMaterialRef.current) {
+      treeMaterialRef.current.emissiveIntensity = 0.5 + Math.sin(time * 2.0) * 0.3
     }
 
-    // B. Rotate outer cages in opposing directions
-    if (cageRef.current) {
-      cageRef.current.rotation.y = -time * 0.15
-      cageRef.current.rotation.z = time * 0.2
+    // A. Pulse trunk cybernetic rings
+    if (ring1Ref.current) {
+      const s = 1.0 + Math.sin(time * 3.5 + 0.0) * 0.06
+      ring1Ref.current.scale.set(s, 1, s)
     }
-    if (cage2Ref.current) {
-      cage2Ref.current.rotation.x = time * 0.12
-      cage2Ref.current.rotation.y = time * 0.18
+    if (ring2Ref.current) {
+      const s = 1.0 + Math.sin(time * 3.5 + 1.2) * 0.06
+      ring2Ref.current.scale.set(s, 1, s)
+    }
+    if (ring3Ref.current) {
+      const s = 1.0 + Math.sin(time * 3.5 + 2.4) * 0.06
+      ring3Ref.current.scale.set(s, 1, s)
     }
 
-    // C. Update node positions and update InstancedMesh
+    // B. Rotate group slightly based on time
+    if (trunkRef.current) {
+      trunkRef.current.rotation.y = Math.sin(time * 0.15) * 0.05
+    }
+
+    // C. Orbit data leaves around their respective branch tips
     nodes.forEach((node, idx) => {
+      const parentTipIdx = Math.floor(idx / 8)
+      const tip = branchTips[parentTipIdx]
       const angle = time * node.speed + node.phase
-      const x = Math.cos(angle) * node.radius
-      const y = Math.sin(angle) * node.radius * Math.cos(node.inclinationX)
-      const z = Math.sin(angle) * node.radius * Math.sin(node.inclinationZ)
+      
+      const x = tip.x + Math.cos(angle) * node.radius
+      const y = tip.y + Math.sin(angle) * node.radius * Math.cos(node.inclinationX)
+      const z = tip.z + Math.sin(angle) * node.radius * Math.sin(node.inclinationZ)
 
       nodePositions.current[idx].set(x, y, z)
 
       if (instancedMeshRef.current) {
         tempObject.position.copy(nodePositions.current[idx])
-        const pulseScale = 0.05 + Math.sin(time * 6 + node.phase) * 0.015
+        const pulseScale = 0.045 + Math.sin(time * 6 + node.phase) * 0.015
         tempObject.scale.set(pulseScale, pulseScale, pulseScale)
         tempObject.updateMatrix()
         instancedMeshRef.current.setMatrixAt(idx, tempObject.matrix)
@@ -126,37 +263,44 @@ function NexusNeuralCore() {
       instancedMeshRef.current.instanceMatrix.needsUpdate = true
     }
 
-    // D. Update line connections
+    // D. Build connections inside each digital foliage cluster
     let lineCount = 0
-    for (let i = 0; i < nodeCount; i++) {
-      const posA = nodePositions.current[i]
+    for (let k = 0; k < 4; k++) {
+      const tip = branchTips[k]
+      const startIdx = k * 8
+      const endIdx = startIdx + 8
 
-      // Connect to Core if close
-      const distToCore = posA.length()
-      if (distToCore < 2.8 && lineCount < maxLines) {
-        const idx = lineCount * 6
-        linePositions[idx] = posA.x
-        linePositions[idx + 1] = posA.y
-        linePositions[idx + 2] = posA.z
-        linePositions[idx + 3] = 0
-        linePositions[idx + 4] = 0
-        linePositions[idx + 5] = 0
-        lineCount++
-      }
-
-      // Connect to other nearby nodes
-      for (let j = i + 1; j < nodeCount; j++) {
-        const posB = nodePositions.current[j]
-        const dist = posA.distanceTo(posB)
-        if (dist < 1.8 && lineCount < maxLines) {
+      // Draw connection from branch tip to cluster nodes
+      for (let i = startIdx; i < endIdx; i++) {
+        const posA = nodePositions.current[i]
+        if (lineCount < maxLines) {
           const idx = lineCount * 6
           linePositions[idx] = posA.x
           linePositions[idx + 1] = posA.y
           linePositions[idx + 2] = posA.z
-          linePositions[idx + 3] = posB.x
-          linePositions[idx + 4] = posB.y
-          linePositions[idx + 5] = posB.z
+          linePositions[idx + 3] = tip.x
+          linePositions[idx + 4] = tip.y
+          linePositions[idx + 5] = tip.z
           lineCount++
+        }
+      }
+
+      // Draw internal cluster lines between nodes
+      for (let i = startIdx; i < endIdx; i++) {
+        const posA = nodePositions.current[i]
+        for (let j = i + 1; j < endIdx; j++) {
+          const posB = nodePositions.current[j]
+          const dist = posA.distanceTo(posB)
+          if (dist < 0.95 && lineCount < maxLines) {
+            const idx = lineCount * 6
+            linePositions[idx] = posA.x
+            linePositions[idx + 1] = posA.y
+            linePositions[idx + 2] = posA.z
+            linePositions[idx + 3] = posB.x
+            linePositions[idx + 4] = posB.y
+            linePositions[idx + 5] = posB.z
+            lineCount++
+          }
         }
       }
     }
@@ -167,21 +311,21 @@ function NexusNeuralCore() {
       lineGeometryRef.current.setDrawRange(0, lineCount * 2)
     }
 
-    // E. Update data packets
+    // E. Travel energy packets up spline paths
     packets.forEach((packet, idx) => {
       packet.t += delta * packet.speed
       if (packet.t >= 1.0) {
         packet.t = 0
-        packet.sourceIdx = packet.targetIdx
-        packet.targetIdx = Math.floor(Math.random() * nodeCount)
+        packet.pathIdx = Math.floor(Math.random() * 4)
+        packet.speed = 0.35 + Math.random() * 0.4
       }
 
-      const posA = nodePositions.current[packet.sourceIdx]
-      const posB = nodePositions.current[packet.targetIdx]
+      const curve = paths[packet.pathIdx]
+      const pos = curve.getPointAt(packet.t)
 
       if (packetsMeshRef.current) {
-        tempObject.position.lerpVectors(posA, posB, packet.t)
-        const pulse = 0.035 + Math.sin(time * 12 + idx) * 0.008
+        tempObject.position.copy(pos)
+        const pulse = 0.03 + Math.sin(time * 12 + idx) * 0.008
         tempObject.scale.set(pulse, pulse, pulse)
         tempObject.updateMatrix()
         packetsMeshRef.current.setMatrixAt(idx, tempObject.matrix)
@@ -191,11 +335,11 @@ function NexusNeuralCore() {
       packetsMeshRef.current.instanceMatrix.needsUpdate = true
     }
 
-    // F. Animate Ping Shockwave
+    // F. Animate shockwave ping
     if (pingState.current.active) {
       pingState.current.time += delta
       const elapsed = pingState.current.time
-      const duration = 1.0
+      const duration = 1.2
 
       if (elapsed >= duration) {
         pingState.current.active = false
@@ -206,86 +350,55 @@ function NexusNeuralCore() {
         if (pingRef.current) {
           pingRef.current.visible = true
           const progress = elapsed / duration
-          const scale = 1.0 + progress * 4.5
+          const scale = 1.0 + progress * 5.0
           pingRef.current.scale.set(scale, scale, scale)
           const mat = pingRef.current.material as THREE.MeshBasicMaterial
-          mat.opacity = 1.0 - progress
+          mat.opacity = 0.8 * (1.0 - progress)
         }
       }
     }
 
-    // G. Pointer tracking lerp rotation
+    // G. Pointer mouse tracking rotation
     if (groupRef.current) {
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.5, 0.05)
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -pointer.y * 0.5, 0.05)
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.4, 0.05)
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -pointer.y * 0.3, 0.05)
     }
   })
 
   return (
     <group ref={groupRef}>
-      {/* ⚛️ INNER REACTOR CORE: Intensive Plasma Core */}
-      <mesh 
-        ref={coreRef} 
-        castShadow 
-        onClick={(e) => {
-          e.stopPropagation()
-          handleCoreClick()
-        }}
-      >
-        <sphereGeometry args={[0.9, 32, 32]} />
-        <MeshDistortMaterial
-          color="#1D9E75"
-          emissive="#1D9E75"
-          emissiveIntensity={2.5}
-          attach="material"
-          distort={0.25}
-          speed={2.2}
-          roughness={0.15}
-          metalness={0.9}
-          transparent
-          opacity={0.85}
-        />
-      </mesh>
+      {/* 🌳 CYBER-ORGANIC TRUNK AND BRANCHES */}
+      <group ref={trunkRef} onClick={(e) => { e.stopPropagation(); handleTreeClick() }}>
+        <primitive object={scene} scale={[1.5, 1.5, 1.5]} position={[0, -2.4, 0]} />
 
-      {/* 🛡️ CAGE 1: Icosahedron wireframe */}
-      <mesh ref={cageRef}>
-        <icosahedronGeometry args={[1.25, 1]} />
-        <meshStandardMaterial
-          color="#7F77DD"
-          emissive="#7F77DD"
-          emissiveIntensity={1.5}
-          roughness={0}
-          metalness={1}
-          wireframe={true}
-        />
-      </mesh>
+        {/* Pulsing sap cyber rings around trunk */}
+        <mesh ref={ring1Ref} position={[0.02, -1.8, 0]} rotation={[0.1, 0, 0.05]}>
+          <torusGeometry args={[0.27, 0.008, 6, 24]} />
+          <meshBasicMaterial color="#1D9E75" transparent opacity={0.5} />
+        </mesh>
+        <mesh ref={ring2Ref} position={[-0.05, -1.2, 0.05]} rotation={[0.1, 0, 0.05]}>
+          <torusGeometry args={[0.23, 0.008, 6, 24]} />
+          <meshBasicMaterial color="#7F77DD" transparent opacity={0.5} />
+        </mesh>
+        <mesh ref={ring3Ref} position={[-0.15, -0.6, 0.1]} rotation={[0.1, 0, 0.05]}>
+          <torusGeometry args={[0.19, 0.008, 6, 24]} />
+          <meshBasicMaterial color="#EF9F27" transparent opacity={0.5} />
+        </mesh>
+      </group>
 
-      {/* 🛡️ CAGE 2: Outer dodecahedron wireframe */}
-      <mesh ref={cage2Ref}>
-        <dodecahedronGeometry args={[1.5, 0]} />
-        <meshStandardMaterial
-          color="#EF9F27"
-          emissive="#EF9F27"
-          emissiveIntensity={1.2}
-          roughness={0.1}
-          metalness={1}
-          wireframe={true}
-        />
-      </mesh>
-
-      {/* 💫 NEURAL NETWORK NODES */}
+      {/* 💫 NEURAL DATA LEAVES (FOLIAGE NODES) */}
       <instancedMesh ref={instancedMeshRef} args={[null as any, null as any, nodeCount]}>
         <sphereGeometry args={[1, 16, 16]} />
         <meshStandardMaterial roughness={0.1} metalness={0.9} emissiveIntensity={3} />
       </instancedMesh>
 
-      {/* ⚡ DATA PACKETS */}
+      {/* ⚡ SAP DATA PACKETS */}
       <instancedMesh ref={packetsMeshRef} args={[null as any, null as any, packetCount]}>
         <sphereGeometry args={[1, 8, 8]} />
         <meshBasicMaterial color="#EF9F27" />
       </instancedMesh>
 
-      {/* 🕸️ DYNAMIC CONNECTION LINES */}
+      {/* 🕸️ VEIN CONNECTIONS (DIGITAL LEAF GRID) */}
       <lineSegments>
         <bufferGeometry ref={lineGeometryRef}>
           <bufferAttribute
@@ -296,13 +409,13 @@ function NexusNeuralCore() {
         <lineBasicMaterial
           color="#1D9E75"
           transparent
-          opacity={0.25}
+          opacity={0.35}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </lineSegments>
 
-      {/* 🌊 PING SHOCKWAVE */}
+      {/* 🌊 BIOMETRIC ENERGY PING */}
       <mesh ref={pingRef} visible={false}>
         <torusGeometry args={[1.0, 0.015, 8, 64]} />
         <meshBasicMaterial
@@ -314,9 +427,9 @@ function NexusNeuralCore() {
         />
       </mesh>
 
-      {/* ✨ QUANTUM SPARKS: Cinematic particles */}
-      <Sparkles count={60} scale={4.5} size={2.0} speed={1.2} color="#1D9E75" />
-      <Sparkles count={30} scale={3.5} size={1.5} speed={1.6} color="#7F77DD" />
+      {/* ✨ BIO-POLLEN SPARKLES */}
+      <Sparkles count={50} scale={4.5} size={1.8} speed={1.0} color="#1D9E75" />
+      <Sparkles count={25} scale={3.5} size={1.4} speed={1.3} color="#7F77DD" />
     </group>
   )
 }
@@ -341,9 +454,11 @@ export default function Hero3D() {
         <pointLight position={[-8, -8, -8]} color="#7F77DD" intensity={4} />
         <pointLight position={[0, 0, 4]} color="#EF9F27" intensity={2} />
 
-        <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>
-          <NexusNeuralCore />
-        </Float>
+        <Suspense fallback={null}>
+          <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>
+            <CyberOrganicTree />
+          </Float>
+        </Suspense>
         
         <EffectComposer enableNormalPass={false} multisampling={4}>
           <Bloom 

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert, Play, RefreshCw, AlertCircle, Coins, Workflow, Brain } from 'lucide-react'
+import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert, Play, RefreshCw, AlertCircle, Coins, Workflow, Brain, Search } from 'lucide-react'
 import { useCursor } from '../theme/CursorContext'
 
 interface ConsoleLog {
@@ -31,7 +31,7 @@ export default function NexusTelemetry() {
     setTerminalLogs(prev => [...prev, { text, type }])
   }
 
-  const runSimulatedScript = async (script: 'integrity' | 'security' | 'titan') => {
+  const runSimulatedScript = async (script: 'integrity' | 'security' | 'titan' | 'pixal3d' | 'career-ops' | 'verifier' | 'analyzer') => {
     if (isRunningScript) return
     setIsRunningScript(true)
     setTerminalLogs([])
@@ -48,10 +48,10 @@ export default function NexusTelemetry() {
       await new Promise(r => setTimeout(r, 500))
       addTerminalLog('Phase 4: Checking SOUL.md system design coherence... OK', 'info')
       await new Promise(r => setTimeout(r, 500))
-      addTerminalLog('Phase 5: Checking 76 skills and multi-project config... OK', 'info')
+      addTerminalLog('Phase 5: Checking 77 skills and multi-project config... OK', 'info')
       await new Promise(r => setTimeout(r, 700))
       addTerminalLog('============================================================', 'system')
-      addTerminalLog('  [PASS] Passed:   150', 'success')
+      addTerminalLog('  [PASS] Passed:   152', 'success')
       addTerminalLog('  [FAIL] Failed:   0', 'success')
       addTerminalLog('  [WARN] Warnings: 0', 'success')
       addTerminalLog('============================================================', 'system')
@@ -70,7 +70,7 @@ export default function NexusTelemetry() {
       await new Promise(r => setTimeout(r, 500))
       addTerminalLog('RESULT: 0 vulnerabilities found. 0 secrets leaked to git stage.', 'success')
       addTerminalLog('SYSTEM: Pre-commit security gate verified.', 'success')
-    } else {
+    } else if (script === 'titan') {
       setActiveCommand('python -m titan.regime_detector')
       addTerminalLog('NEXUS > python -m titan.regime_detector', 'system')
       await new Promise(r => setTimeout(r, 600))
@@ -84,6 +84,106 @@ export default function NexusTelemetry() {
       await new Promise(r => setTimeout(r, 600))
       addTerminalLog('PORTFOLIO: Win Rate: 68.4% | Profit Factor: 2.15', 'success')
       addTerminalLog('TRADING STATE: Nominal. Supervisor idle.', 'success')
+    } else if (script === 'pixal3d') {
+      setActiveCommand('python inference.py --image input.png --decimation_target 100000 --texture_size 2048')
+      addTerminalLog('NEXUS > python inference.py --image input.png --decimation_target 100000 --texture_size 2048', 'system')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('PIXAL3D: Loading neural rendering models (DinoV3 + MoGe-2)...', 'info')
+      await new Promise(r => setTimeout(r, 800))
+      addTerminalLog('PIXAL3D: Running fotorrealistic 3D reconstruction stage... [1536 resolution cascade]', 'info')
+      await new Promise(r => setTimeout(r, 900))
+      addTerminalLog('PIXAL3D: Applying mesh decimation target: 100,000 faces... OK', 'success')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('PIXAL3D: Baking combined diffuse & normal lighting to 2048x2048 PBR maps...', 'info')
+      await new Promise(r => setTimeout(r, 800))
+      addTerminalLog('PIXAL3D: Exporting optimized GLB asset (Draco compression enabled)...', 'info')
+      await new Promise(r => setTimeout(r, 700))
+      addTerminalLog('============================================================', 'system')
+      addTerminalLog('  Vertices: 51,204 | Faces: 100,000 | Time taken: 8.42s', 'success')
+      addTerminalLog('============================================================', 'system')
+      addTerminalLog('RESULT: 3D asset generated successfully and verified for WebGL render.', 'success')
+    } else if (script === 'verifier') {
+      setActiveCommand('node scripts/nexus_pipeline_verifier.mjs')
+      addTerminalLog('NEXUS > node scripts/nexus_pipeline_verifier.mjs', 'system')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('🔍 NEXUS PIPELINE VERIFIER: Iniciando auditoría de integridad...', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📂 Archivo: data/pipeline.md', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('AUDIT: Analizando filas de datos...', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('AUDIT: Verificando formato YYYY-MM-DD y estructura de 6 columnas... OK', 'success')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('AUDIT: Verificando estados canónicos de career-ops... OK', 'success')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('AUDIT: Detectando ofertas duplicadas... OK', 'success')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('-------------------------------------------------------------', 'system')
+      addTerminalLog('📊 Resumen de Integridad:', 'info')
+      addTerminalLog('   - Filas de datos analizadas: 5', 'info')
+      addTerminalLog('   - Errores encontrados: 0', 'success')
+      addTerminalLog('   - Advertencias encontradas: 0', 'success')
+      addTerminalLog('-------------------------------------------------------------', 'system')
+      addTerminalLog('✅ AUDITORÍA EXITOSA: Todos los registros son íntegros y canónicos.', 'success')
+    } else if (script === 'analyzer') {
+      setActiveCommand('node scripts/nexus_pattern_analyzer.mjs')
+      addTerminalLog('NEXUS > node scripts/nexus_pattern_analyzer.mjs', 'system')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('📊 NEXUS PATTERN ANALYZER: Iniciando análisis de embudo...', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📈 FUNNEL DE CONVERSIÓN DE BÚSQUEDA:', 'info')
+      addTerminalLog('   - Evaluated   : ████████████████████ [5] (100.0%)', 'info')
+      addTerminalLog('   - Applied     :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - Responded   :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - Interview   :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - Offer       :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - Rejected    :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - Discarded   :                      [0] (0.0%)', 'info')
+      addTerminalLog('   - SKIP        :                      [0] (0.0%)', 'info')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('⚡ MÉTRICAS DE EFICIENCIA:', 'info')
+      addTerminalLog('   - Total Ofertas Escaneadas: 5', 'info')
+      addTerminalLog('   - Tasa de Postulación: 0.0%', 'info')
+      addTerminalLog('   - Tasa de Entrevista: 0.0%', 'info')
+      addTerminalLog('   - Tasa de Oferta final: 0.0%', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📍 ANÁLISIS GEOGRÁFICO Y POLÍTICA DE COMPATIBILIDAD:', 'info')
+      addTerminalLog('   - Vacantes con localización 100% compatible: 5/5 (100.0%)', 'success')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('🏷️ PALABRAS CLAVE PREDOMINANTES EN ROLES:', 'info')
+      addTerminalLog('   - "product": 2 apariciones', 'info')
+      addTerminalLog('   - "applied": 1 apariciones', 'info')
+      addTerminalLog('   - "senior": 1 apariciones', 'info')
+      addTerminalLog('   - "reactnext.js": 1 apariciones', 'info')
+      addTerminalLog('   - "fullstack": 1 apariciones', 'info')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('💡 RECOMENDACIONES PROACTIVAS DE NEXUS:', 'warning')
+      addTerminalLog('   👉 El flujo actual es estable. Continúe alimentando el escáner diariamente.', 'warning')
+      addTerminalLog('=============================================================', 'system')
+    } else {
+      setActiveCommand('node scripts/nexus_job_scanner.mjs')
+      addTerminalLog('NEXUS > node scripts/nexus_job_scanner.mjs', 'system')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('📡 NEXUS CAREER-OPS RADAR: Iniciando escaneo de portales...', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📂 Configuración cargada: 4 portales (OpenAI, Vercel, Linear, Stripe).', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📋 Filtro de títulos (Positivo): [mobile, product, ai, react, next.js, frontend, fullstack]', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('📍 Filtro de localización (Permitido): [remote, us, argentina, latam]', 'info')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('🔍 Escaneando portales... OK (5 coincidencias encontradas)', 'info')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('============================================================', 'system')
+      addTerminalLog('Applying de-duplication cache (scan-history.tsv)...', 'info')
+      await new Promise(r => setTimeout(r, 500))
+      addTerminalLog('✅ NUEVO COINCIDENTE: [Vercel] Senior React/Next.js Engineer - Remote, Argentina', 'success')
+      addTerminalLog('⚠️  DUPLICADO (Ignorado): [OpenAI] Product Engineer - Applied AI', 'warning')
+      addTerminalLog('⚠️  DUPLICADO (Ignorado): [Linear] Fullstack Product Engineer', 'warning')
+      await new Promise(r => setTimeout(r, 600))
+      addTerminalLog('============================================================', 'system')
+      addTerminalLog('📊 Escaneo Finalizado: 5 encontradas | 1 nuevo agregado | 4 duplicados', 'success')
+      addTerminalLog('Pipeline data/pipeline.md actualizado con éxito.', 'success')
     }
     
     setIsRunningScript(false)
@@ -149,7 +249,7 @@ export default function NexusTelemetry() {
                 className="grid md:grid-cols-12 gap-6"
               >
                 {/* System Status Bento Card */}
-                <div className="md:col-span-8 glass-surface p-8 border-l-4 border-l-[var(--color-orbital-teal)] flex flex-col justify-between">
+                <div className="md:col-span-7 glass-surface p-8 border-l-4 border-l-[var(--color-orbital-teal)] flex flex-col justify-between">
                   <div>
                     <div className="flex justify-between items-start mb-6">
                       <div>
@@ -170,11 +270,11 @@ export default function NexusTelemetry() {
                         </div>
                         <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
                           <span className="text-[var(--color-mist-gray)]">Integrity Status:</span>
-                          <span className="text-green-400 font-bold">150/150 Checks [PASS]</span>
+                          <span className="text-green-400 font-bold">152/152 Checks [PASS]</span>
                         </div>
                         <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
                           <span className="text-[var(--color-mist-gray)]">Active Skills:</span>
-                          <span className="text-white font-bold">76 Registered</span>
+                          <span className="text-white font-bold">77 Registered</span>
                         </div>
                       </div>
 
@@ -200,10 +300,48 @@ export default function NexusTelemetry() {
                   </div>
                 </div>
 
-                {/* Subsystem widgets */}
-                <div className="md:col-span-4 space-y-6">
-                  {/* TITAN status */}
-                  <div className="glass-surface p-6 border-l-4 border-l-[var(--color-amber-gold)]">
+                {/* Career-Ops Radar Bento Card */}
+                <div className="md:col-span-5 glass-surface p-8 border-l-4 border-l-[var(--color-coral-burn)] flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="font-serif text-2xl text-white">Career-Ops Radar</h3>
+                        <span className="font-mono text-xs text-[var(--color-mist-gray)]/50">Scanner: Greenhouse & Lever</span>
+                      </div>
+                      <span className="flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-coral-burn)]/20 bg-[var(--color-coral-burn)]/10 text-[var(--color-coral-burn)] font-space text-[10px] font-bold tracking-wider">
+                        ACTIVE
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 font-mono text-xs mb-8">
+                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
+                        <span className="text-[var(--color-mist-gray)]">Keyword Filters:</span>
+                        <span className="text-white font-bold">[Mobile, AI, React, Product]</span>
+                      </div>
+                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
+                        <span className="text-[var(--color-mist-gray)]">Location Policy:</span>
+                        <span className="text-white font-bold">Remote (US/LATAM/ARG)</span>
+                      </div>
+                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
+                        <span className="text-[var(--color-mist-gray)]">Active Pipeline:</span>
+                        <span className="text-green-400 font-bold">14 Positions / 3 Interviews</span>
+                      </div>
+                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
+                        <span className="text-[var(--color-mist-gray)]">Ethical Strategy:</span>
+                        <span className="text-white">Quality Over Quantity</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[var(--color-space-black)]/50 border border-[var(--color-space-border)] p-4 rounded font-mono text-xs text-[var(--color-mist-gray)]">
+                    <span className="text-[var(--color-coral-burn)] font-bold">RADAR_TELEMETRY:</span> "Escaneo directo sin consumo de tokens. De-duplicación automática vía scan-history.tsv."
+                  </div>
+                </div>
+
+                {/* Row 2: Subsystems */}
+                {/* TITAN status */}
+                <div className="md:col-span-6 glass-surface p-6 border-l-4 border-l-[var(--color-amber-gold)] flex flex-col justify-between">
+                  <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2 text-white font-serif font-bold text-lg">
                         <Coins size={18} className="text-[var(--color-amber-gold)]" />
@@ -214,25 +352,30 @@ export default function NexusTelemetry() {
                     <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed mb-4">
                       Bot de trading cuantitativo en régimen de momentum. Kelly sizing calibrado y monitoreo de riesgo on-chain.
                     </p>
-                    <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60">
-                      <span>Win Rate: 68.4%</span>
-                      <span>Regimen: ADX &gt; 28</span>
-                    </div>
                   </div>
+                  <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60 border-t border-[var(--color-space-border)]/30 pt-3">
+                    <span>Win Rate: 68.4%</span>
+                    <span>Regimen: ADX &gt; 28</span>
+                  </div>
+                </div>
 
-                  {/* n8n integration */}
-                  <div className="glass-surface p-6 border-l-4 border-l-[var(--color-electric-purple)]">
-                    <div className="flex items-center gap-2 text-white font-serif font-bold text-lg mb-4">
-                      <Workflow size={18} className="text-[var(--color-electric-purple)]" />
-                      <span>n8n Workflows</span>
+                {/* n8n integration */}
+                <div className="md:col-span-6 glass-surface p-6 border-l-4 border-l-[var(--color-electric-purple)] flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2 text-white font-serif font-bold text-lg">
+                        <Workflow size={18} className="text-[var(--color-electric-purple)]" />
+                        <span>n8n Workflows</span>
+                      </div>
+                      <span className="font-space text-[9px] text-[var(--color-electric-purple)] uppercase tracking-wider font-bold">ONLINE</span>
                     </div>
                     <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed mb-4">
                       Automatización de CRM de leads, notificaciones de facturación de Stripe y reportes de telemetría a canales en caliente.
                     </p>
-                    <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60">
-                      <span>Tasks: 18 triggers/day</span>
-                      <span>State: Nominales</span>
-                    </div>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60 border-t border-[var(--color-space-border)]/30 pt-3">
+                    <span>Tasks: 18 triggers/day</span>
+                    <span>State: Nominales</span>
                   </div>
                 </div>
               </motion.div>
@@ -250,8 +393,8 @@ export default function NexusTelemetry() {
                 {[
                   { title: 'System Design', rate: 95, icon: Cpu, desc: 'Diseño y optimización de infraestructuras distribuidas y APIs escalables basadas en blueprints industriales.' },
                   { title: 'UI-UX Pro Max', rate: 92, icon: Layers, desc: 'Patrones estéticos avanzados, Bento grids, diseño HSL responsivo y micro-interacciones de Awwwards-grade.' },
-                  { title: 'Draco GLB WebGL', rate: 88, icon: RefreshCw, desc: 'Optimización poligonal en Blender, baking de iluminación y exportación reducida para carga 3D ultra rápida.' },
-                  { title: 'DeFi & Web3 Integration', rate: 82, icon: Coins, desc: 'Conexión de contratos inteligentes, lectura on-chain y pasarelas de pago criptográficas descentralizadas.' },
+                  { title: '3D Assets & Pixal3D', rate: 90, icon: RefreshCw, desc: 'Flujo completo de assets 3D: reconstrucción generativa con Pixal3D (DinoV3/MoGe-2), optimización en Blender y renderizado en React Three Fiber.' },
+                  { title: 'AI Pipelines & Career-Ops', rate: 96, icon: Search, desc: 'Despliegue y mantenimiento de pipelines de búsqueda laboral, desduplicación de Greenhouse/Lever APIs y filtrado ético sin consumo de tokens.' },
                   { title: 'n8n & automation', rate: 95, icon: Workflow, desc: 'Flujos bidireccionales complejos, ETLs de datos, notificaciones cruzadas y bots de comunicación eficientes.' },
                   { title: 'Security by Design', rate: 90, icon: ShieldAlert, desc: 'Modelado de amenazas, auditoría estática anti-secrets, escaneo OWASP Mobile y reglas estrictas de bases de datos.' }
                 ].map((skill, index) => {
@@ -321,6 +464,42 @@ export default function NexusTelemetry() {
                         className="w-full text-left p-3 border border-[var(--color-space-border)] hover:border-[var(--color-amber-gold)]/40 hover:bg-white/[0.01] transition-all flex items-center justify-between text-xs font-mono text-white cursor-pointer disabled:opacity-50"
                       >
                         <span>regime_detector.py</span>
+                        <Play size={12} className="text-[var(--color-amber-gold)]" />
+                      </button>
+
+                      <button
+                        onClick={() => runSimulatedScript('pixal3d')}
+                        disabled={isRunningScript}
+                        className="w-full text-left p-3 border border-[var(--color-space-border)] hover:border-[var(--color-coral-burn)]/40 hover:bg-white/[0.01] transition-all flex items-center justify-between text-xs font-mono text-white cursor-pointer disabled:opacity-50"
+                      >
+                        <span>inference.py</span>
+                        <Play size={12} className="text-[var(--color-coral-burn)]" />
+                      </button>
+
+                      <button
+                        onClick={() => runSimulatedScript('career-ops')}
+                        disabled={isRunningScript}
+                        className="w-full text-left p-3 border border-[var(--color-space-border)] hover:border-[var(--color-orbital-teal)]/40 hover:bg-white/[0.01] transition-all flex items-center justify-between text-xs font-mono text-white cursor-pointer disabled:opacity-50"
+                      >
+                        <span>nexus_job_scanner.mjs</span>
+                        <Play size={12} className="text-[var(--color-orbital-teal)]" />
+                      </button>
+
+                      <button
+                        onClick={() => runSimulatedScript('verifier')}
+                        disabled={isRunningScript}
+                        className="w-full text-left p-3 border border-[var(--color-space-border)] hover:border-green-500/40 hover:bg-white/[0.01] transition-all flex items-center justify-between text-xs font-mono text-white cursor-pointer disabled:opacity-50"
+                      >
+                        <span>nexus_pipeline_verifier.mjs</span>
+                        <Play size={12} className="text-green-500" />
+                      </button>
+
+                      <button
+                        onClick={() => runSimulatedScript('analyzer')}
+                        disabled={isRunningScript}
+                        className="w-full text-left p-3 border border-[var(--color-space-border)] hover:border-[var(--color-amber-gold)]/40 hover:bg-white/[0.01] transition-all flex items-center justify-between text-xs font-mono text-white cursor-pointer disabled:opacity-50"
+                      >
+                        <span>nexus_pattern_analyzer.mjs</span>
                         <Play size={12} className="text-[var(--color-amber-gold)]" />
                       </button>
                     </div>

@@ -1,210 +1,391 @@
 'use client'
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Float, Sparkles } from '@react-three/drei'
+import { OrbitControls, Float, Sparkles, RoundedBox, useGLTF } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { Camera, Image, Layers, Smartphone } from 'lucide-react'
 import { useCursor } from '../theme/CursorContext'
 import * as THREE from 'three'
 
 // Interactive ThreeJS Centerpiece Component representing the 3D phone model and abstract telemetry
-function Floating3DMockup() {
-  const phoneRef = useRef<THREE.Group>(null)
-  const gridRef = useRef<THREE.Mesh>(null)
-  const hudCircleRef = useRef<THREE.Group>(null)
-  const hudLeftPanelRef = useRef<THREE.Group>(null)
-  const hudRightPanelRef = useRef<THREE.Group>(null)
+// Interactive ThreeJS centerpiece representing the Pixal3D Neural Scanner & Blender Reconstructor
+interface BarProps {
+  position: [number, number, number]
+  color: string
+  emissive: string
+  index: number
+}
 
-  // Pre-calculated circuit track positions (behind the screen)
-  const circuitPositions = useMemo(() => {
-    const positions = [
-      // Left traces
-      -0.6, 1.2, -0.05,  -0.3, 1.2, -0.05,
-      -0.3, 1.2, -0.05,  -0.1, 0.9, -0.05,
-      
-      -0.5, 0.8, -0.05,  -0.2, 0.8, -0.05,
-      -0.2, 0.8, -0.05,  -0.1, 0.6, -0.05,
-
-      // Right traces
-      0.6, 1.2, -0.05,   0.3, 1.2, -0.05,
-      0.3, 1.2, -0.05,   0.1, 0.9, -0.05,
-
-      0.5, 0.8, -0.05,   0.2, 0.8, -0.05,
-      0.2, 0.8, -0.05,   0.1, 0.6, -0.05,
-
-      // Bottom traces
-      -0.6, -1.2, -0.05, -0.3, -1.2, -0.05,
-      -0.3, -1.2, -0.05, -0.1, -0.9, -0.05,
-
-      0.6, -1.2, -0.05,  0.3, -1.2, -0.05,
-      0.3, -1.2, -0.05,  0.1, -0.9, -0.05,
-
-      // Chip boundaries
-      -0.15, -0.2, -0.05, 0.15, -0.2, -0.05,
-      0.15, -0.2, -0.05,  0.15, 0.2, -0.05,
-      0.15, 0.2, -0.05,  -0.15, 0.2, -0.05,
-      -0.15, 0.2, -0.05, -0.15, -0.2, -0.05
-    ]
-    return new Float32Array(positions)
-  }, [])
-
+function HolographicBar({ position, color, emissive, index }: BarProps) {
+  const ref = useRef<THREE.Mesh>(null)
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
-
-    // A. Animate Phone Mesh Wave Telemetry Screen
-    if (gridRef.current) {
-      const geo = gridRef.current.geometry as THREE.PlaneGeometry
-      const posAttr = geo.attributes.position as THREE.BufferAttribute
-      for (let i = 0; i < posAttr.count; i++) {
-        const vx = posAttr.getX(i)
-        const vy = posAttr.getY(i)
-        // 3D waves running through screen
-        const z = Math.sin(vx * 4 + time * 2.5) * Math.cos(vy * 3 + time * 1.8) * 0.08
-        posAttr.setZ(i, z)
-      }
-      posAttr.needsUpdate = true
-    }
-
-    // B. Floating HUD telemetry animations
-    if (hudCircleRef.current) {
-      hudCircleRef.current.rotation.z = -time * 0.4
-      hudCircleRef.current.position.z = 0.35 + Math.sin(time * 2.2) * 0.03
-    }
-
-    if (hudLeftPanelRef.current) {
-      hudLeftPanelRef.current.position.y = 0.6 + Math.sin(time * 1.8) * 0.04
-      hudLeftPanelRef.current.position.z = 0.25 + Math.cos(time * 1.5) * 0.02
-    }
-
-    if (hudRightPanelRef.current) {
-      hudRightPanelRef.current.position.y = -0.6 + Math.cos(time * 2.0) * 0.04
-      hudRightPanelRef.current.position.z = 0.25 + Math.sin(time * 1.7) * 0.02
-    }
-
-    // C. Tilt phone group based on clock for passive floating rotation
-    if (phoneRef.current) {
-      phoneRef.current.rotation.y = Math.sin(time * 0.6) * 0.15
-      phoneRef.current.rotation.x = Math.cos(time * 0.5) * 0.1
+    const offset = index * 0.4
+    const s = 1.0 + Math.sin(time * 3.0 + offset) * 0.45
+    if (ref.current) {
+      ref.current.scale.set(1, s, 1)
+      ref.current.position.y = position[1] + (s * 0.15) - 0.15
     }
   })
 
   return (
-    <group ref={phoneRef}>
-      {/* 📱 GLASSMORPHIC SMARTPHONE FRAME */}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[1.8, 3.4, 0.12]} />
-        <meshPhysicalMaterial 
-          color="#06060c" 
-          roughness={0.2} 
-          metalness={0.3} 
-          transmission={0.7}
-          thickness={1.2}
-          transparent 
-          opacity={0.5}
-          depthWrite={false}
-        />
-        {/* Glowing Neon Outline Border */}
-        <lineSegments>
-          <edgesGeometry attach="geometry" args={[new THREE.BoxGeometry(1.82, 3.42, 0.13)]} />
-          <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.35} />
-        </lineSegments>
-      </mesh>
+    <mesh ref={ref} position={position}>
+      <boxGeometry args={[0.15, 0.3, 0.15]} />
+      <meshStandardMaterial 
+        color={color} 
+        roughness={0.2} 
+        metalness={0.8} 
+        transparent 
+        opacity={0.8}
+        emissive={emissive}
+      />
+    </mesh>
+  )
+}
 
-      {/* 🕸️ CIRCUITS INTEGRATION (Behind Screen) */}
-      <lineSegments>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[circuitPositions, 3]} />
-        </bufferGeometry>
-        <lineBasicMaterial color="#7F77DD" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
-      </lineSegments>
+function HolographicPhoneCore() {
+  const phoneGroupRef = useRef<THREE.Group>(null)
+  const panel1Ref = useRef<THREE.Group>(null)
+  const panel2Ref = useRef<THREE.Group>(null)
+  const panel3Ref = useRef<THREE.Group>(null)
+  const coreGroupRef = useRef<THREE.Group>(null)
+  const ringRef = useRef<THREE.Mesh>(null)
+  const projectBeamRef = useRef<THREE.Mesh>(null)
 
-      {/* 📡 MOVING 3D TELEMETRY WAVE GRID SCREEN */}
-      <mesh ref={gridRef} position={[0, 0, 0.07]}>
-        <planeGeometry args={[1.65, 3.25, 16, 32]} />
-        <meshStandardMaterial 
-          color="#1D9E75" 
-          wireframe={true} 
-          transparent 
-          opacity={0.5}
-          emissive="#1D9E75"
-          emissiveIntensity={1.2}
-        />
-      </mesh>
+  const phoneMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
 
-      {/* 🛸 HUD CENTRAL Telemetry Ring Constellation */}
-      <group position={[0, 0, 0.35]} ref={hudCircleRef}>
-        <mesh>
-          <ringGeometry args={[0.45, 0.47, 64]} />
-          <meshBasicMaterial color="#EF9F27" transparent opacity={0.4} side={THREE.DoubleSide} />
+  // Load Hunyuan3D-2 generated smartphone model
+  const { scene: phoneScene } = useGLTF('/models/phone.glb')
+
+  useEffect(() => {
+    phoneScene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true
+        child.receiveShadow = true
+        // Apply premium dark chrome smartphone material
+        const mat = new THREE.MeshPhysicalMaterial({
+          color: new THREE.Color('#121217'),
+          roughness: 0.08,
+          metalness: 0.95,
+          emissive: new THREE.Color('#0a1d30'),
+          emissiveIntensity: 0.3,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.05,
+          reflectivity: 1.0,
+          envMapIntensity: 2.0,
+        })
+        child.material = mat
+        phoneMaterialRef.current = mat
+      }
+    })
+  }, [phoneScene])
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+
+    // Pulse phone body reflections dynamically
+    if (phoneMaterialRef.current) {
+      phoneMaterialRef.current.emissiveIntensity = 0.2 + Math.sin(time * 1.5) * 0.15
+    }
+
+    // 1. Slow, premium phone idle float and tilt rotation
+    if (phoneGroupRef.current) {
+      phoneGroupRef.current.rotation.x = -0.45 + Math.sin(time * 0.4) * 0.05
+      phoneGroupRef.current.rotation.y = 0.35 + Math.cos(time * 0.35) * 0.04
+      phoneGroupRef.current.rotation.z = 0.12 + Math.sin(time * 0.3) * 0.02
+      phoneGroupRef.current.position.y = Math.sin(time * 0.8) * 0.08
+    }
+
+    // 2. Animate floating panels (emerging from screen along local Z axis)
+    if (panel1Ref.current) {
+      panel1Ref.current.position.z = 0.35 + Math.sin(time * 1.5) * 0.03
+      panel1Ref.current.position.y = Math.cos(time * 1.0) * 0.02
+    }
+
+    if (panel2Ref.current) {
+      panel2Ref.current.position.z = 0.75 + Math.cos(time * 1.2) * 0.04
+      panel2Ref.current.position.y = Math.sin(time * 1.1) * 0.03
+    }
+
+    if (panel3Ref.current) {
+      panel3Ref.current.position.z = 1.25 + Math.sin(time * 1.8) * 0.05
+      panel3Ref.current.position.x = Math.sin(time * 0.8) * 0.04
+      
+      if (coreGroupRef.current) {
+        coreGroupRef.current.rotation.y = time * 0.8
+        coreGroupRef.current.rotation.x = time * 0.4
+      }
+      if (ringRef.current) {
+        ringRef.current.rotation.z = -time * 1.2
+        ringRef.current.rotation.x = Math.sin(time * 0.5) * 0.3
+      }
+    }
+
+    // 3. Pulse the main projection beam
+    if (projectBeamRef.current) {
+      const pulse = 0.85 + Math.sin(time * 6.0) * 0.15
+      projectBeamRef.current.scale.set(pulse, 1, pulse)
+      const mat = projectBeamRef.current.material as THREE.MeshBasicMaterial
+      mat.opacity = 0.05 + Math.sin(time * 5.0) * 0.02
+    }
+  })
+
+  return (
+    <group>
+      {/* 📱 SMARTPHONE CHASSIS */}
+      <group ref={phoneGroupRef}>
+        {/* Render the generated Pixal3D GLB smartphone model */}
+        <primitive object={phoneScene} scale={[2.4, 2.4, 2.4]} position={[0, 0, -0.1]} rotation={[0, 0, 0]} />
+        
+        {/* Screen Interface elements (wallpaper or static UI glowing components) */}
+        <group position={[0, 0, 0.057]}>
+          {/* Glow grid layout */}
+          <gridHelper args={[1.8, 10, '#1D9E75', '#161d1a']} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.001]} />
+          
+          {/* Status indicators */}
+          <mesh position={[-0.7, 1.65, 0.001]}>
+            <planeGeometry args={[0.15, 0.03]} />
+            <meshBasicMaterial color="#7f7f8f" />
+          </mesh>
+          <mesh position={[0.7, 1.65, 0.001]}>
+            <planeGeometry args={[0.12, 0.04]} />
+            <meshBasicMaterial color="#1D9E75" />
+          </mesh>
+
+          {/* Home Screen App Grid (circular glowing badges) */}
+          {[-0.5, 0, 0.5].map((x, idx) => (
+            [0.8, 0.2, -0.4, -1.0].map((y, idy) => (
+              <mesh key={`${idx}-${idy}`} position={[x, y, 0.001]}>
+                <circleGeometry args={[0.12, 16]} />
+                <meshBasicMaterial 
+                  color={idx === 0 ? "#1D9E75" : idx === 1 ? "#7F77DD" : "#EF9F27"} 
+                  transparent 
+                  opacity={0.35} 
+                />
+              </mesh>
+            ))
+          ))}
+        </group>
+
+        {/* 📐 VOLUMETRIC PROJECTOR BEAM */}
+        {/* Conical light beam emerging from screen */}
+        <mesh ref={projectBeamRef} position={[0, 0, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[1.1, 0.7, 1.3, 32, 1, true]} />
+          <meshBasicMaterial 
+            color="#1D9E75" 
+            transparent 
+            opacity={0.06} 
+            side={THREE.DoubleSide} 
+            depthWrite={false} 
+            blending={THREE.AdditiveBlending}
+          />
         </mesh>
-        <mesh>
-          <ringGeometry args={[0.32, 0.33, 32]} />
-          <meshBasicMaterial color="#7F77DD" transparent opacity={0.35} side={THREE.DoubleSide} />
-        </mesh>
+
+        {/* 🚀 HOLOGRAPHIC PROJECTIONS (EMERGING LAYERS) */}
+        
+        {/* --- LAYER 1: WIREFRAME APP UX BLUEPRINT --- */}
+        <group ref={panel1Ref} position={[0, 0, 0.35]}>
+          {/* Transparent glassmorphic panel */}
+          <mesh>
+            <planeGeometry args={[1.5, 3.2]} />
+            <meshPhysicalMaterial 
+              color="#0b1b17" 
+              transparent 
+              opacity={0.2} 
+              roughness={0.2} 
+              transmission={0.8}
+              depthWrite={false}
+            />
+          </mesh>
+          {/* Glow Border */}
+          <lineSegments>
+            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.5, 3.2)]} />
+            <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+          </lineSegments>
+
+          {/* UI Layout Blueprint Elements */}
+          {/* Top Header Card */}
+          <mesh position={[0, 1.2, 0.01]}>
+            <planeGeometry args={[1.2, 0.4]} />
+            <meshBasicMaterial color="#1D9E75" transparent opacity={0.2} />
+          </mesh>
+          <lineSegments position={[0, 1.2, 0.015]}>
+            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 0.4)]} />
+            <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
+          </lineSegments>
+          
+          {/* Mid Hero Section Grid */}
+          <mesh position={[0, 0.2, 0.01]}>
+            <planeGeometry args={[1.2, 1.0]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.03} />
+          </mesh>
+          <lineSegments position={[0, 0.2, 0.015]}>
+            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 1.0)]} />
+            <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.3} />
+          </lineSegments>
+          
+          {/* Circular Button wireframes */}
+          {[-0.4, 0, 0.4].map((x, i) => (
+            <group key={i} position={[x, -0.6, 0.01]}>
+              <mesh>
+                <ringGeometry args={[0.11, 0.12, 32]} />
+                <meshBasicMaterial color="#EF9F27" transparent opacity={0.6} />
+              </mesh>
+              <mesh>
+                <circleGeometry args={[0.1, 16]} />
+                <meshBasicMaterial color="#EF9F27" transparent opacity={0.15} />
+              </mesh>
+            </group>
+          ))}
+
+          {/* Text lines (simulated) */}
+          {[-1.0, -1.2, -1.4].map((y, i) => (
+            <mesh key={i} position={[0, y, 0.01]}>
+              <planeGeometry args={[1.2, 0.05]} />
+              <meshBasicMaterial color="#1D9E75" transparent opacity={0.25} />
+            </mesh>
+          ))}
+        </group>
+
+        {/* --- LAYER 2: 3D DATA / APP ANALYTICS PANEL --- */}
+        <group ref={panel2Ref} position={[0, 0, 0.75]}>
+          {/* Transparent panel */}
+          <mesh>
+            <planeGeometry args={[1.3, 2.8]} />
+            <meshPhysicalMaterial 
+              color="#0f0f1d" 
+              transparent 
+              opacity={0.3} 
+              roughness={0.1} 
+              transmission={0.8}
+              depthWrite={false}
+            />
+          </mesh>
+          <lineSegments>
+            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.3, 2.8)]} />
+            <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+          </lineSegments>
+
+          {/* Dashboard 3D Bar Chart Emergence */}
+          <group position={[0, -0.3, 0.02]} rotation={[0.4, -0.2, 0]}>
+            {[-0.3, 0, 0.3].map((x, ix) => (
+              [-0.3, 0, 0.3].map((y, iy) => (
+                <HolographicBar
+                  key={`${ix}-${iy}`}
+                  position={[x, y, 0]}
+                  color={ix % 2 === 0 ? "#7F77DD" : "#1D9E75"}
+                  emissive={ix % 2 === 0 ? "#251240" : "#082d22"}
+                  index={ix * 3 + iy}
+                />
+              ))
+            ))}
+          </group>
+
+          {/* Small floating HUD UI metrics */}
+          <group position={[0, 0.8, 0.02]}>
+            <mesh position={[0, 0.2, 0]}>
+              <planeGeometry args={[1.0, 0.3]} />
+              <meshBasicMaterial color="#7F77DD" transparent opacity={0.15} />
+            </mesh>
+            <lineSegments position={[0, 0.2, 0.005]}>
+              <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.0, 0.3)]} />
+              <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.4} />
+            </lineSegments>
+            <mesh position={[-0.35, 0.2, 0.01]}>
+              <sphereGeometry args={[0.04, 16, 16]} />
+              <meshBasicMaterial color="#EF9F27" />
+            </mesh>
+          </group>
+        </group>
+
+        {/* --- LAYER 3: 3D OPTIMIZED MODEL CORE (THE BLENDER / PIXAL3D ASSET) --- */}
+        <group ref={panel3Ref} position={[0, 0, 1.25]}>
+          {/* Stylized wireframe backboard */}
+          <mesh>
+            <ringGeometry args={[0.8, 0.82, 32]} />
+            <meshBasicMaterial color="#EF9F27" transparent opacity={0.4} side={THREE.DoubleSide} />
+          </mesh>
+          <mesh>
+            <ringGeometry args={[0.9, 0.91, 6]} />
+            <meshBasicMaterial color="#7F77DD" transparent opacity={0.3} side={THREE.DoubleSide} />
+          </mesh>
+
+          {/* The 3D optimized model inside the hologram */}
+          <group ref={coreGroupRef}>
+            <mesh castShadow>
+              <icosahedronGeometry args={[0.42, 1]} />
+              <meshPhysicalMaterial 
+                color="#EF9F27" 
+                metalness={0.9} 
+                roughness={0.1}
+                clearcoat={1.0}
+                clearcoatRoughness={0.1}
+                transmission={0.4}
+                thickness={0.5}
+                emissive="#382202"
+              />
+            </mesh>
+            
+            <mesh>
+              <icosahedronGeometry args={[0.43, 1]} />
+              <meshBasicMaterial 
+                color="#ffffff" 
+                wireframe={true} 
+                transparent 
+                opacity={0.3}
+                blending={THREE.AdditiveBlending}
+              />
+            </mesh>
+          </group>
+
+          {/* Telemetry Ring orbiting the asset */}
+          <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
+            <torusGeometry args={[0.65, 0.015, 8, 48]} />
+            <meshBasicMaterial color="#EF9F27" />
+          </mesh>
+
+          {/* Small digital crosshair pointers */}
+          {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle, i) => (
+            <mesh key={i} position={[Math.cos(angle) * 0.65, Math.sin(angle) * 0.65, 0]}>
+              <sphereGeometry args={[0.025, 8, 8]} />
+              <meshBasicMaterial color="#1D9E75" />
+            </mesh>
+          ))}
+        </group>
+
+        {/* 🕸️ TELEMETRY CORNER LIGHT BEAMS */}
+        {useMemo(() => {
+          const cScreen = [
+            new THREE.Vector3(-0.94, -1.94, 0.06),
+            new THREE.Vector3(0.94, -1.94, 0.06),
+            new THREE.Vector3(0.94, 1.94, 0.06),
+            new THREE.Vector3(-0.94, 1.94, 0.06)
+          ]
+          const cPanel = [
+            new THREE.Vector3(-0.75, -1.6, 0.35),
+            new THREE.Vector3(0.75, -1.6, 0.35),
+            new THREE.Vector3(0.75, 1.6, 0.35),
+            new THREE.Vector3(-0.75, 1.6, 0.35)
+          ]
+          return cScreen.map((screenPt, idx) => ({ from: screenPt, to: cPanel[idx] }))
+        }, []).map((line, i) => {
+          const dir = new THREE.Vector3().subVectors(line.to, line.from)
+          const len = dir.length()
+          const mid = new THREE.Vector3().addVectors(line.from, line.to).multiplyScalar(0.5)
+          const up = new THREE.Vector3(0, 1, 0)
+          const quat = new THREE.Quaternion().setFromUnitVectors(up, dir.clone().normalize())
+          return (
+            <mesh key={i} position={mid} quaternion={quat}>
+              <cylinderGeometry args={[0.006, 0.006, len, 4]} />
+              <meshBasicMaterial color="#1D9E75" transparent opacity={0.3} blending={THREE.AdditiveBlending} />
+            </mesh>
+          )
+        })}
+
+        {/* ✨ DATA PARTICLES EMERGING FROM THE PHONE */}
+        <Sparkles count={45} scale={[1.6, 3.4, 1.2]} size={1.4} speed={0.9} color="#1D9E75" position={[0, 0, 0.7]} />
+        <Sparkles count={25} scale={[1.4, 3.0, 1.2]} size={1.1} speed={1.2} color="#7F77DD" position={[0, 0, 0.7]} />
       </group>
-
-      {/* 🖥️ LEFT HUD PANEL */}
-      <group ref={hudLeftPanelRef} position={[-1.3, 0.6, 0.25]}>
-        {/* Panel outline */}
-        <lineSegments>
-          <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.7, 0.9)]} />
-          <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
-        </lineSegments>
-        {/* Floating details inside panel */}
-        <mesh position={[-0.15, 0.25, 0]}>
-          <planeGeometry args={[0.25, 0.05]} />
-          <meshBasicMaterial color="#1D9E75" transparent opacity={0.6} />
-        </mesh>
-        <mesh position={[0.15, 0.1, 0]}>
-          <sphereGeometry args={[0.03, 8, 8]} />
-          <meshBasicMaterial color="#EF9F27" />
-        </mesh>
-        <mesh position={[-0.1, -0.15, 0]}>
-          <planeGeometry args={[0.35, 0.02]} />
-          <meshBasicMaterial color="#7F77DD" transparent opacity={0.5} />
-        </mesh>
-      </group>
-
-      {/* 🖥️ RIGHT HUD PANEL */}
-      <group ref={hudRightPanelRef} position={[1.3, -0.6, 0.25]}>
-        {/* Panel outline */}
-        <lineSegments>
-          <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.7, 0.9)]} />
-          <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.4} />
-        </lineSegments>
-        {/* Floating details inside panel */}
-        <mesh position={[0.15, 0.25, 0]}>
-          <planeGeometry args={[0.25, 0.05]} />
-          <meshBasicMaterial color="#7F77DD" transparent opacity={0.6} />
-        </mesh>
-        <mesh position={[-0.15, 0.1, 0]}>
-          <sphereGeometry args={[0.03, 8, 8]} />
-          <meshBasicMaterial color="#1D9E75" />
-        </mesh>
-        <mesh position={[0.1, -0.15, 0]}>
-          <planeGeometry args={[0.35, 0.02]} />
-          <meshBasicMaterial color="#EF9F27" transparent opacity={0.5} />
-        </mesh>
-      </group>
-
-      {/* 🔮 ORBITAL SATELLITES */}
-      <group position={[0, 0, 0.1]}>
-        <mesh position={[1.0, 1.3, 0.2]}>
-          <sphereGeometry args={[0.07, 16, 16]} />
-          <meshStandardMaterial color="#EF9F27" emissive="#EF9F27" emissiveIntensity={2} />
-        </mesh>
-        <mesh position={[-1.0, -1.1, 0.3]}>
-          <sphereGeometry args={[0.05, 16, 16]} />
-          <meshStandardMaterial color="#1D9E75" emissive="#1D9E75" emissiveIntensity={2} />
-        </mesh>
-        <mesh position={[0.8, -0.7, 0.1]}>
-          <sphereGeometry args={[0.04, 16, 16]} />
-          <meshStandardMaterial color="#7F77DD" emissive="#7F77DD" emissiveIntensity={2} />
-        </mesh>
-      </group>
-
-      {/* Ambient Particle Field */}
-      <Sparkles count={45} scale={3.8} size={1.8} speed={0.8} color="#1D9E75" />
     </group>
   )
 }
@@ -226,7 +407,7 @@ export default function StudioLab() {
           No solo programo interfaces —<br/>las diseño en 3D primero.
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          Blender es mi lienzo para el prototipado físico y visual de aplicaciones móviles. El resultado final son interfaces tridimensionales intuitivas y fluidas que los usuarios experimentan con un sentido de fisicalidad y tactilidad premium.
+          Combino la potencia de la IA generativa 3D de <strong>Pixal3D</strong> (DinoV3 y MoGe-2) con el modelado tradicional en <strong>Blender</strong>. Reconstruyo assets fotorrealistas en segundos y luego los optimizo poligonalmente para crear experiencias WebGL interactivas, fluidas y ultraligeras.
         </p>
 
         <div className="grid lg:grid-cols-12 gap-8 items-center">
@@ -249,9 +430,11 @@ export default function StudioLab() {
               <pointLight position={[-10, -5, -5]} color="#7F77DD" intensity={1.2} />
               <pointLight position={[0, 0, 5]} color="#EF9F27" intensity={0.5} />
               
-              <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>
-                <Floating3DMockup />
-              </Float>
+              <Suspense fallback={null}>
+                <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>
+                  <HolographicPhoneCore />
+                </Float>
+              </Suspense>
               
               <OrbitControls enableZoom={false} enablePan={false} enableDamping={true} dampingFactor={0.05} rotateSpeed={0.7} />
             </Canvas>
@@ -323,18 +506,18 @@ export default function StudioLab() {
                 <div className="p-3 bg-[var(--color-amber-gold)]/10 text-[var(--color-amber-gold)] rounded-lg w-fit mb-4">
                   <Image size={20} />
                 </div>
-                <h3 className="font-serif text-lg text-white mb-2">Exportación WebGL</h3>
+                <h3 className="font-serif text-lg text-white mb-2">Reconstrucción Pixal3D</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                  Optimización de activos GLB exportados de Blender a menos de 1.5MB con compresión de malla Draco y WebGL para cargas web instantáneas de Awwwards-grade.
+                  Generación automatizada de mallas 3D de alta densidad con Pixal3D, seguida de una retopología controlada en Blender y compresión Draco para integraciones web instantáneas.
                 </p>
               </motion.div>
 
             </div>
 
             <div className="glass-surface p-6 border-l-4 border-l-[var(--color-orbital-teal)]">
-              <span className="font-mono text-xs text-white block mb-1">PRO-LEVEL HARDWARE INTEGRATION:</span>
+              <span className="font-mono text-xs text-white block mb-1">IA-ASSISTED 3D PIPELINE:</span>
               <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                "Cada aplicación móvil o SaaS industrial que construyo en Antigravity Studio pasa primero por un riguroso laboratorio 3D en Blender. El resultado: interfaces físicas que el usuario puede sentir con sus manos."
+                "La sinergia entre la generación neuronal con Pixal3D y la optimización en Blender redefine los tiempos de desarrollo. Assets complejos que antes tomaban días, ahora se reconstruyen y pulen en minutos."
               </p>
             </div>
 

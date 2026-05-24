@@ -1,31 +1,63 @@
 'use client'
 import { motion } from 'framer-motion'
-import { Code, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 
 const projects = [
   {
+    title: 'TitanFlow',
+    role: 'SaaS Quant & Bot de Trading',
+    problem: 'Pérdidas de capital por latencia y mala gestión de margen en trading manual de criptoactivos.',
+    solution: 'Robots de trading autónomos conectados a la API de Binance con gestión aislada de margen, interruptor Aegis y telemetría.',
+    stack: ['Node.js', 'Express', 'Binance API', 'WebSockets', 'Python ML'],
+    link: 'https://titanflow.aldoarbizu.com'
+  },
+  {
     title: 'TechZone',
-    role: 'Offline-First E-commerce',
-    problem: 'Comercios en zonas con conectividad inestable necesitaban e-commerce que no dependiera de señal constante.',
-    solution: 'Arquitectura Single Source of Truth local: Redux Toolkit + SQLite → sincronización diferida con Firestore.',
-    stack: ['React Native', 'Expo', 'Firebase', 'SQLite', 'Redux'],
-    link: 'github.com/ArbizuAldoAlberto/TechZone-E-commerce'
+    role: 'E-commerce & POS Offline-First',
+    problem: 'Comercios en zonas de baja conectividad que sufren caídas de ventas al no poder facturar o actualizar catálogos offline.',
+    solution: 'Caché local en SQLite y sincronización diferencial asíncrona bidireccional automática con la base central.',
+    stack: ['React Native', 'Expo', 'SQLite', 'Zustand', 'Firebase', 'Stripe'],
+    link: 'https://techzone.aldoarbizu.com'
   },
   {
     title: 'VigiTrack',
     role: 'SaaS de Seguridad Privada',
-    problem: 'Empresas de seguridad sin sistema digital de rondas. Excel y papel como única herramienta operativa.',
-    solution: 'Plataforma SaaS white-label multi-tenant. Una sola app, infinitas empresas. Theme Engine y Custom Claims.',
-    stack: ['React Native', 'EAS', 'Firebase Auth', 'Firestore Rules'],
-    link: '#'
+    problem: 'Agencias de seguridad física que registran rondas en papel, resultando en pérdidas de datos y falta de control de guardias.',
+    solution: 'SaaS multi-tenant con rondas offline y marcación NFC inmutable, guardado en SQLite local y sincronización diferida.',
+    stack: ['React Native', 'Expo', 'SQLite', 'Redux Toolkit', 'Firebase'],
+    link: 'https://vigitrack.aldoarbizu.com'
   },
   {
     title: 'AgroMarket Pro',
-    role: 'Web + Mobile Sync',
-    problem: 'Productores agropecuarios sin herramienta digital para gestión offline y ventas en el campo.',
-    solution: 'Plataforma web + app mobile con funcionalidad offline y sincronización de inventario distribuido.',
-    stack: ['React', 'Supabase', 'PostgreSQL', 'React Native'],
-    link: '#'
+    role: 'Plataforma Agropecuaria Offline',
+    problem: 'Productores sin señal de red móvil que no pueden registrar inventario, maquinaria y ganado en el campo.',
+    solution: 'UI brutalista de alto contraste para visibilidad solar y reconciliación automática offline de inventarios con Supabase/Postgres.',
+    stack: ['React', 'TailwindCSS', 'Supabase', 'PostgreSQL', 'React Native'],
+    link: 'https://agromarket.aldoarbizu.com'
+  },
+  {
+    title: 'EcoConnect',
+    role: 'SaaS ESG & Huella de Carbono',
+    problem: 'Municipios y corporaciones con datos de compensación y consumo energético fragmentados y difíciles de auditar.',
+    solution: 'Arquitectura multi-tenant unificada con políticas RLS (Row-Level Security) estrictas en Postgres para auditar créditos de carbono.',
+    stack: ['Next.js', 'React', 'TailwindCSS', 'Supabase', 'PostgreSQL'],
+    link: 'https://ecoconnect.aldoarbizu.com'
+  },
+  {
+    title: 'Cannabis SaaS',
+    role: 'Trazabilidad y Dispensario Premium',
+    problem: 'Clubes cannábicos medicinales sin controles automatizados contra el fraude y el exceso de límites legales de dispensación.',
+    solution: 'Validaciones matemáticas inmutables de consumo acumulado a 30 días, bajo una interfaz de alta gama en tonos oscuros y dorados.',
+    stack: ['Node.js', 'Express', 'React', 'TailwindCSS', 'PostgreSQL'],
+    link: 'https://cannabis.aldoarbizu.com'
+  },
+  {
+    title: 'PawHero',
+    role: 'Telemetría Satelital para Mascotas',
+    problem: 'Collares rastreadores GPS comerciales con alto consumo de batería o desconexión en zonas sin señal de red.',
+    solution: 'Pings adaptativos basados en movimiento, búfer de telemetría local vía Bluetooth y geovallas con alertas en tiempo real.',
+    stack: ['React Native', 'Expo', 'Redux Toolkit', 'Firebase'],
+    link: 'https://pawhero.aldoarbizu.com'
   }
 ]
 
@@ -81,8 +113,8 @@ export default function Projects() {
                   </div>
                   
                   <div className="mt-8 flex gap-4">
-                    <a href={p.link !== '#' ? `https://${p.link}` : '#'} target="_blank" rel="noreferrer" className="btn-outline flex items-center gap-2">
-                      <Code size={16} /> Source
+                    <a href={p.link} target="_blank" rel="noreferrer" className="btn-outline flex items-center gap-2">
+                      <ExternalLink size={16} /> Demo En Vivo
                     </a>
                   </div>
                 </div>

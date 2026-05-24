@@ -1,0 +1,57 @@
+{
+  "title_filter": {
+    "positive": [
+      "mobile",
+      "product",
+      "ai",
+      "react",
+      "next.js",
+      "frontend",
+      "fullstack",
+      "ios",
+      "android"
+    ],
+    "negative": [
+      "staff",
+      "director",
+      "manager",
+      "intern",
+      "junior",
+      "lead"
+    ]
+  },
+  "location_filter": {
+    "allow": [
+      "remote",
+      "us",
+      "argentina",
+      "latam",
+      "anywhere"
+    ],
+    "block": [
+      "on-site",
+      "hybrid",
+      "london",
+      "tokyo",
+      "munich"
+    ]
+  },
+  "portals": [
+    {
+      "name": "OpenAI",
+      "careers_url": "https://job-boards.greenhouse.io/openai"
+    },
+    {
+      "name": "Vercel",
+      "careers_url": "https://jobs.lever.co/vercel"
+    },
+    {
+      "name": "Linear",
+      "careers_url": "https://jobs.lever.co/linear"
+    },
+    {
+      "name": "Stripe",
+      "careers_url": "https://job-boards.greenhouse.io/stripe"
+    }
+  ]
+}
