@@ -20,12 +20,12 @@ const projects = [
     link: 'https://techzone.aldoarbizu.com'
   },
   {
-    title: 'VigiTrack',
+    title: 'SentinelOS',
     role: 'SaaS de Seguridad Privada',
     problem: 'Agencias de seguridad física que registran rondas en papel, resultando en pérdidas de datos y falta de control de guardias.',
     solution: 'SaaS multi-tenant con rondas offline y marcación NFC inmutable, guardado en SQLite local y sincronización diferida.',
     stack: ['React Native', 'Expo', 'SQLite', 'Redux Toolkit', 'Firebase'],
-    link: 'https://vigitrack.aldoarbizu.com'
+    link: 'https://sentinelos.aldoarbizu.com'
   },
   {
     title: 'AgroMarket Pro',
