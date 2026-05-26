@@ -4,6 +4,9 @@ import SpotlightWrapper from '../components/theme/SpotlightWrapper'
 import NoiseOverlay from '../components/theme/NoiseOverlay'
 import CustomCursor from '../components/theme/CustomCursor'
 import { CursorProvider } from '../components/theme/CursorContext'
+import { PersonaProvider } from '../components/theme/PersonaContext'
+import { SoundProvider } from '../components/theme/SoundManager'
+import AudioToggle from '../components/ui/AudioToggle'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({ 
@@ -110,12 +113,17 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 cursor-none">
-        <CursorProvider>
-          <NoiseOverlay />
-          <CustomCursor />
-          <SpotlightWrapper />
-          {children}
-        </CursorProvider>
+        <SoundProvider>
+          <PersonaProvider>
+            <CursorProvider>
+              <NoiseOverlay />
+              <CustomCursor />
+              <SpotlightWrapper />
+              <AudioToggle />
+              {children}
+            </CursorProvider>
+          </PersonaProvider>
+        </SoundProvider>
       </body>
     </html>
   )

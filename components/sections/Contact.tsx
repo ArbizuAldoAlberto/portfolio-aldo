@@ -1,11 +1,27 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { sendEmail } from '../../app/actions/sendEmail'
 
 export default function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  
+  useEffect(() => {
+    const handleUcpSuccess = (e: any) => {
+      setMessage(e.detail)
+    }
+    window.addEventListener('ucp-checkout-success', handleUcpSuccess)
+    
+    // Load prefilled lead if present on mount
+    const saved = sessionStorage.getItem('prefilled_lead')
+    if (saved) {
+      setMessage(saved)
+      sessionStorage.removeItem('prefilled_lead')
+    }
+    
+    return () => window.removeEventListener('ucp-checkout-success', handleUcpSuccess)
+  }, [])
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 

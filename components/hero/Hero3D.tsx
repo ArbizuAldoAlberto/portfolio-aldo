@@ -32,6 +32,116 @@ function CylinderBranch({ from, to, radiusStart, radiusEnd, color = "#121217" }:
   )
 }
 
+function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; time: number } }) {
+  const meshRef = useRef<THREE.InstancedMesh>(null)
+  const { pointer } = useThree()
+  const particleCount = 150
+  
+  const particles = useMemo(() => {
+    const arr = []
+    for (let i = 0; i < particleCount; i++) {
+      const orbitType = i % 2 === 0 ? 0 : 1
+      const radius = orbitType === 0 ? 1.9 + Math.random() * 0.45 : 2.6 + Math.random() * 0.65
+      const speed = orbitType === 0 ? 0.4 + Math.random() * 0.2 : -0.3 - Math.random() * 0.15
+      const phase = Math.random() * Math.PI * 2
+      const inclineX = orbitType === 0 ? Math.PI / 4.5 : -Math.PI / 5
+      const inclineZ = orbitType === 0 ? Math.PI / 7 : -Math.PI / 4.5
+      
+      arr.push({
+        radius,
+        speed,
+        phase,
+        inclineX,
+        inclineZ,
+        orbitType,
+        baseColor: orbitType === 0 ? '#1D9E75' : '#7F77DD'
+      })
+    }
+    return arr
+  }, [])
+
+  const tempObj = useMemo(() => new THREE.Object3D(), [])
+  const colorObj = useMemo(() => new THREE.Color(), [])
+
+  useEffect(() => {
+    if (meshRef.current) {
+      particles.forEach((p, idx) => {
+        meshRef.current!.setColorAt(idx, new THREE.Color(p.baseColor))
+      })
+      meshRef.current.instanceColor!.needsUpdate = true
+    }
+  }, [particles])
+
+  useFrame((state, delta) => {
+    const time = state.clock.getElapsedTime()
+    const mouseIntensity = Math.abs(pointer.x) + Math.abs(pointer.y)
+    const speedMultiplier = 1.0 + mouseIntensity * 1.8
+
+    particles.forEach((p, idx) => {
+      let angle = time * p.speed * speedMultiplier + p.phase
+      let radialOffset = 0
+      
+      if (clickPing.active) {
+        const duration = 1.2
+        const progress = clickPing.time / duration
+        const wavefront = progress * 4.0
+        const width = 0.6
+        const dist = p.radius - wavefront
+        
+        if (Math.abs(dist) < width) {
+          const pushForce = (1.0 - Math.abs(dist) / width) * 0.7 * (1.0 - progress)
+          radialOffset = pushForce
+        }
+      }
+
+      const currentRadius = p.radius + radialOffset
+      const basePos = new THREE.Vector3(
+        Math.cos(angle) * currentRadius,
+        0,
+        Math.sin(angle) * currentRadius
+      )
+      
+      basePos.applyAxisAngle(new THREE.Vector3(1, 0, 0), p.inclineX)
+      basePos.applyAxisAngle(new THREE.Vector3(0, 0, 1), p.inclineZ)
+
+      tempObj.position.copy(basePos)
+      const scale = 0.015 + Math.sin(time * 4 + p.phase) * 0.005 + (radialOffset * 0.01)
+      tempObj.scale.set(scale, scale, scale)
+      tempObj.updateMatrix()
+      
+      meshRef.current!.setMatrixAt(idx, tempObj.matrix)
+      
+      if (meshRef.current && meshRef.current.instanceColor) {
+        if (radialOffset > 0.05) {
+          colorObj.set('#EF9F27')
+        } else {
+          const distToMouse = basePos.distanceTo(new THREE.Vector3(pointer.x * 2.2, pointer.y * 2.2, 0))
+          if (distToMouse < 1.4) {
+            colorObj.set(p.orbitType === 0 ? '#55fcd0' : '#bfaaff')
+          } else {
+            colorObj.set(p.baseColor)
+          }
+        }
+        meshRef.current.setColorAt(idx, colorObj)
+      }
+    })
+
+    if (meshRef.current) {
+      meshRef.current.instanceMatrix.needsUpdate = true
+      if (meshRef.current.instanceColor) {
+        meshRef.current.instanceColor.needsUpdate = true
+      }
+    }
+  })
+
+  return (
+    <instancedMesh ref={meshRef} args={[null as any, null as any, particleCount]}>
+      <sphereGeometry args={[1, 6, 6]} />
+      <meshBasicMaterial transparent opacity={0.8} blending={THREE.AdditiveBlending} depthWrite={false} />
+    </instancedMesh>
+  )
+}
+
 function CyberOrganicTree() {
   const trunkRef = useRef<THREE.Group>(null)
   const ring1Ref = useRef<THREE.Mesh>(null)
@@ -358,10 +468,18 @@ function CyberOrganicTree() {
       }
     }
 
-    // G. Pointer mouse tracking rotation
+    // G. Pointer mouse tracking rotation & displacement
     if (groupRef.current) {
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, pointer.x * 0.4, 0.05)
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -pointer.y * 0.3, 0.05)
+      const targetRotY = pointer.x * 0.45
+      const targetRotX = -pointer.y * 0.35
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.06)
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.06)
+
+      // Add dynamic 3D positional shift towards cursor (magnetic attraction)
+      const targetPosX = pointer.x * 0.25
+      const targetPosY = pointer.y * 0.15
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetPosX, 0.05)
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetPosY, 0.05)
     }
   })
 
@@ -430,6 +548,9 @@ function CyberOrganicTree() {
       {/* ✨ BIO-POLLEN SPARKLES */}
       <Sparkles count={50} scale={4.5} size={1.8} speed={1.0} color="#1D9E75" />
       <Sparkles count={25} scale={3.5} size={1.4} speed={1.3} color="#7F77DD" />
+
+      {/* 🌌 INTERACTIVE STAR ORBITS (UCP & ESG DATA RINGS) */}
+      <InteractiveStarRings clickPing={pingState.current} />
     </group>
   )
 }

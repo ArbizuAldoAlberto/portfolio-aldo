@@ -1,14 +1,13 @@
 'use client'
-import { useRef, useMemo, useEffect, Suspense } from 'react'
+import { useRef, useMemo, useEffect, useState, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Float, Sparkles, RoundedBox, useGLTF } from '@react-three/drei'
+import { OrbitControls, Float, Sparkles, useGLTF } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { Camera, Image, Layers, Smartphone } from 'lucide-react'
 import { useCursor } from '../theme/CursorContext'
+import { useSound } from '../theme/SoundManager'
 import * as THREE from 'three'
 
-// Interactive ThreeJS Centerpiece Component representing the 3D phone model and abstract telemetry
-// Interactive ThreeJS centerpiece representing the Pixal3D Neural Scanner & Blender Reconstructor
 interface BarProps {
   position: [number, number, number]
   color: string
@@ -51,8 +50,16 @@ function HolographicPhoneCore() {
   const coreGroupRef = useRef<THREE.Group>(null)
   const ringRef = useRef<THREE.Mesh>(null)
   const projectBeamRef = useRef<THREE.Mesh>(null)
+  const radarRef = useRef<THREE.Mesh>(null)
+  const siloRef = useRef<THREE.Mesh>(null)
 
   const phoneMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
+  const { playClick, playBoot } = useSound()
+
+  // Interactive phone states
+  const [phoneStatus, setPhoneStatus] = useState<'sleep' | 'booting' | 'active'>('sleep')
+  const [activeApp, setActiveApp] = useState<'menu' | 'sentinel' | 'techzone' | 'agro'>('menu')
+  const [bootProgress, setBootProgress] = useState(0)
 
   // Load Hunyuan3D-2 generated smartphone model
   const { scene: phoneScene } = useGLTF('/models/phone.glb')
@@ -62,7 +69,6 @@ function HolographicPhoneCore() {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
         child.receiveShadow = true
-        // Apply premium dark chrome smartphone material
         const mat = new THREE.MeshPhysicalMaterial({
           color: new THREE.Color('#121217'),
           roughness: 0.08,
@@ -80,10 +86,30 @@ function HolographicPhoneCore() {
     })
   }, [phoneScene])
 
+  // Handle boot timer
+  useEffect(() => {
+    let interval: any
+    if (phoneStatus === 'booting') {
+      setBootProgress(0)
+      interval = setInterval(() => {
+        setBootProgress(prev => {
+          if (prev >= 1) {
+            clearInterval(interval)
+            setPhoneStatus('active')
+            setActiveApp('menu')
+            return 1
+          }
+          return prev + 0.1
+        })
+      }, 200)
+    }
+    return () => clearInterval(interval)
+  }, [phoneStatus])
+
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
 
-    // Pulse phone body reflections dynamically
+    // Pulse phone body reflections
     if (phoneMaterialRef.current) {
       phoneMaterialRef.current.emissiveIntensity = 0.2 + Math.sin(time * 1.5) * 0.15
     }
@@ -121,54 +147,272 @@ function HolographicPhoneCore() {
       }
     }
 
-    // 3. Pulse the main projection beam
+    // Animate silo rotation in AgroMarket app screen
+    if (siloRef.current) {
+      siloRef.current.rotation.y = time * 0.4
+    }
+
+    // Pulse the main projection beam
     if (projectBeamRef.current) {
       const pulse = 0.85 + Math.sin(time * 6.0) * 0.15
       projectBeamRef.current.scale.set(pulse, 1, pulse)
       const mat = projectBeamRef.current.material as THREE.MeshBasicMaterial
       mat.opacity = 0.05 + Math.sin(time * 5.0) * 0.02
     }
+
+    // Pulse radar ring inside Sentinel app
+    if (radarRef.current) {
+      const radarScale = 0.1 + (time % 1.5) * 0.6
+      radarRef.current.scale.set(radarScale, radarScale, 1)
+      const radarMat = radarRef.current.material as THREE.MeshBasicMaterial
+      radarMat.opacity = 0.8 * (1.0 - (time % 1.5) / 1.5)
+    }
   })
+
+  // Boot device trigger
+  const handleSleepClick = (e: any) => {
+    e.stopPropagation()
+    playBoot()
+    setPhoneStatus('booting')
+  }
 
   return (
     <group>
       {/* 📱 SMARTPHONE CHASSIS */}
       <group ref={phoneGroupRef}>
-        {/* Render the generated Pixal3D GLB smartphone model */}
         <primitive object={phoneScene} scale={[2.4, 2.4, 2.4]} position={[0, 0, -0.1]} rotation={[0, 0, 0]} />
         
-        {/* Screen Interface elements (wallpaper or static UI glowing components) */}
+        {/* SCREEN CANVAS AREA */}
         <group position={[0, 0, 0.057]}>
-          {/* Glow grid layout */}
-          <gridHelper args={[1.8, 10, '#1D9E75', '#161d1a']} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.001]} />
           
-          {/* Status indicators */}
-          <mesh position={[-0.7, 1.65, 0.001]}>
-            <planeGeometry args={[0.15, 0.03]} />
-            <meshBasicMaterial color="#7f7f8f" />
-          </mesh>
-          <mesh position={[0.7, 1.65, 0.001]}>
-            <planeGeometry args={[0.12, 0.04]} />
-            <meshBasicMaterial color="#1D9E75" />
-          </mesh>
-
-          {/* Home Screen App Grid (circular glowing badges) */}
-          {[-0.5, 0, 0.5].map((x, idx) => (
-            [0.8, 0.2, -0.4, -1.0].map((y, idy) => (
-              <mesh key={`${idx}-${idy}`} position={[x, y, 0.001]}>
-                <circleGeometry args={[0.12, 16]} />
-                <meshBasicMaterial 
-                  color={idx === 0 ? "#1D9E75" : idx === 1 ? "#7F77DD" : "#EF9F27"} 
-                  transparent 
-                  opacity={0.35} 
-                />
+          {/* --- PHONE STATE: SLEEP --- */}
+          {phoneStatus === 'sleep' && (
+            <mesh onClick={handleSleepClick} position={[0, 0, 0.005]}>
+              <planeGeometry args={[1.8, 3.6]} />
+              <meshBasicMaterial color="#020205" />
+              {/* Pulse tap indicator */}
+              <mesh position={[0, 0, 0.001]}>
+                <ringGeometry args={[0.2, 0.22, 32]} />
+                <meshBasicMaterial color="#1D9E75" transparent opacity={0.3} />
               </mesh>
-            ))
-          ))}
+            </mesh>
+          )}
+
+          {/* --- PHONE STATE: BOOTING --- */}
+          {phoneStatus === 'booting' && (
+            <group position={[0, 0, 0.005]}>
+              {/* Screen Base */}
+              <mesh>
+                <planeGeometry args={[1.8, 3.6]} />
+                <meshBasicMaterial color="#050508" />
+              </mesh>
+
+              {/* Progress Bar background */}
+              <mesh position={[0, -0.2, 0.01]}>
+                <planeGeometry args={[1.2, 0.06]} />
+                <meshBasicMaterial color="#1a1a25" />
+              </mesh>
+
+              {/* Dynamic Progress Bar */}
+              <mesh position={[-0.6 + (bootProgress * 0.6), -0.2, 0.015]} scale={[bootProgress, 1, 1]}>
+                <planeGeometry args={[1.2, 0.06]} />
+                <meshBasicMaterial color="#00FF66" />
+              </mesh>
+
+              {/* Micro diagnostic beeps/text boxes */}
+              <mesh position={[0, 0.4, 0.01]}>
+                <planeGeometry args={[1.0, 0.12]} />
+                <meshBasicMaterial color="#00FF66" transparent opacity={0.1} />
+              </mesh>
+              <mesh position={[0, 0.1, 0.01]}>
+                <planeGeometry args={[0.8, 0.08]} />
+                <meshBasicMaterial color="#7F77DD" transparent opacity={0.1} />
+              </mesh>
+            </group>
+          )}
+
+          {/* --- PHONE STATE: ACTIVE --- */}
+          {phoneStatus === 'active' && (
+            <group position={[0, 0, 0.001]}>
+              {/* Base active wallpaper */}
+              <mesh>
+                <planeGeometry args={[1.8, 3.6]} />
+                <meshBasicMaterial color="#07070F" />
+              </mesh>
+              <gridHelper args={[1.8, 10, '#1D9E75', '#11151b']} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0.002]} />
+
+              {/* APP VIEW: MENU */}
+              {activeApp === 'menu' && (
+                <group position={[0, 0, 0.01]}>
+                  {/* APP 1: SentinelOS (Red) */}
+                  <group position={[-0.45, 0.8, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('sentinel') }}>
+                    <mesh>
+                      <planeGeometry args={[0.35, 0.35]} />
+                      <meshBasicMaterial color="#FF3C00" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.35, 0.35)]} />
+                      <lineBasicMaterial attach="material" color="#FF3C00" />
+                    </lineSegments>
+                  </group>
+
+                  {/* APP 2: TechZone (Teal) */}
+                  <group position={[0.45, 0.8, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('techzone') }}>
+                    <mesh>
+                      <planeGeometry args={[0.35, 0.35]} />
+                      <meshBasicMaterial color="#00FF66" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.35, 0.35)]} />
+                      <lineBasicMaterial attach="material" color="#00FF66" />
+                    </lineSegments>
+                  </group>
+
+                  {/* APP 3: AgroMarket (Gold) */}
+                  <group position={[-0.45, 0.1, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('agro') }}>
+                    <mesh>
+                      <planeGeometry args={[0.35, 0.35]} />
+                      <meshBasicMaterial color="#EF9F27" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.35, 0.35)]} />
+                      <lineBasicMaterial attach="material" color="#EF9F27" />
+                    </lineSegments>
+                  </group>
+
+                  {/* APP 4: Sleep/Lock (White) */}
+                  <group position={[0.45, 0.1, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setPhoneStatus('sleep') }}>
+                    <mesh>
+                      <planeGeometry args={[0.35, 0.35]} />
+                      <meshBasicMaterial color="#ffffff" transparent opacity={0.15} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.35, 0.35)]} />
+                      <lineBasicMaterial attach="material" color="#ffffff" />
+                    </lineSegments>
+                  </group>
+                </group>
+              )}
+
+              {/* APP VIEW: SENTINELOS */}
+              {activeApp === 'sentinel' && (
+                <group position={[0, 0, 0.01]}>
+                  {/* Title Bar */}
+                  <mesh position={[0, 1.4, 0]}>
+                    <planeGeometry args={[1.5, 0.3]} />
+                    <meshBasicMaterial color="#FF3C00" transparent opacity={0.15} />
+                  </mesh>
+
+                  {/* Radar Scanning Ring */}
+                  <group position={[0, 0.3, 0.01]}>
+                    <mesh>
+                      <circleGeometry args={[0.5, 32]} />
+                      <meshBasicMaterial color="#FF3C00" transparent opacity={0.05} />
+                    </mesh>
+                    <mesh ref={radarRef}>
+                      <ringGeometry args={[0.01, 0.5, 32]} />
+                      <meshBasicMaterial color="#FF3C00" transparent />
+                    </mesh>
+                  </group>
+
+                  {/* Telemetry data boxes */}
+                  <mesh position={[0, -0.5, 0]}>
+                    <planeGeometry args={[1.4, 0.5]} />
+                    <meshBasicMaterial color="#1a0c0c" transparent opacity={0.7} />
+                  </mesh>
+
+                  {/* Back/Volver Button */}
+                  <group position={[0, -1.3, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('menu') }}>
+                    <mesh>
+                      <planeGeometry args={[1.0, 0.3]} />
+                      <meshBasicMaterial color="#555565" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.0, 0.3)]} />
+                      <lineBasicMaterial attach="material" color="#ffffff" />
+                    </lineSegments>
+                  </group>
+                </group>
+              )}
+
+              {/* APP VIEW: TECHZONE */}
+              {activeApp === 'techzone' && (
+                <group position={[0, 0, 0.01]}>
+                  {/* Title Bar */}
+                  <mesh position={[0, 1.4, 0]}>
+                    <planeGeometry args={[1.5, 0.3]} />
+                    <meshBasicMaterial color="#00FF66" transparent opacity={0.15} />
+                  </mesh>
+
+                  {/* Simulated cart items */}
+                  {[-0.2, 0.2, 0.6].map((y, idx) => (
+                    <mesh key={idx} position={[0, y, 0.01]}>
+                      <planeGeometry args={[1.4, 0.22]} />
+                      <meshBasicMaterial color="#092212" transparent opacity={0.6} />
+                    </mesh>
+                  ))}
+
+                  {/* Blinking sync indicator */}
+                  <mesh position={[0, -0.6, 0.01]}>
+                    <planeGeometry args={[1.0, 0.2]} />
+                    <meshBasicMaterial color="#00FF66" transparent opacity={0.08} />
+                  </mesh>
+
+                  {/* Back/Volver Button */}
+                  <group position={[0, -1.3, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('menu') }}>
+                    <mesh>
+                      <planeGeometry args={[1.0, 0.3]} />
+                      <meshBasicMaterial color="#555565" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.0, 0.3)]} />
+                      <lineBasicMaterial attach="material" color="#ffffff" />
+                    </lineSegments>
+                  </group>
+                </group>
+              )}
+
+              {/* APP VIEW: AGROMARKET */}
+              {activeApp === 'agro' && (
+                <group position={[0, 0, 0.01]}>
+                  {/* Title Bar */}
+                  <mesh position={[0, 1.4, 0]}>
+                    <planeGeometry args={[1.5, 0.3]} />
+                    <meshBasicMaterial color="#EF9F27" transparent opacity={0.15} />
+                  </mesh>
+
+                  {/* Wireframe Cylinder silo-simulator */}
+                  <mesh ref={siloRef} position={[0, 0.2, 0.01]} rotation={[0.4, 0, 0]}>
+                    <cylinderGeometry args={[0.3, 0.3, 0.8, 12, 4, true]} />
+                    <meshBasicMaterial color="#EF9F27" wireframe />
+                  </mesh>
+
+                  {/* Metric display box */}
+                  <mesh position={[0, -0.6, 0.01]}>
+                    <planeGeometry args={[1.4, 0.35]} />
+                    <meshBasicMaterial color="#201809" transparent opacity={0.7} />
+                  </mesh>
+
+                  {/* Back/Volver Button */}
+                  <group position={[0, -1.3, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('menu') }}>
+                    <mesh>
+                      <planeGeometry args={[1.0, 0.3]} />
+                      <meshBasicMaterial color="#555565" transparent opacity={0.2} />
+                    </mesh>
+                    <lineSegments>
+                      <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.0, 0.3)]} />
+                      <lineBasicMaterial attach="material" color="#ffffff" />
+                    </lineSegments>
+                  </group>
+                </group>
+              )}
+
+            </group>
+          )}
+
         </group>
 
-        {/* 📐 VOLUMETRIC PROJECTOR BEAM */}
-        {/* Conical light beam emerging from screen */}
+        {/* PROJECTOR BEAM */}
         <mesh ref={projectBeamRef} position={[0, 0, 0.7]} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[1.1, 0.7, 1.3, 32, 1, true]} />
           <meshBasicMaterial 
@@ -181,179 +425,101 @@ function HolographicPhoneCore() {
           />
         </mesh>
 
-        {/* 🚀 HOLOGRAPHIC PROJECTIONS (EMERGING LAYERS) */}
-        
-        {/* --- LAYER 1: WIREFRAME APP UX BLUEPRINT --- */}
-        <group ref={panel1Ref} position={[0, 0, 0.35]}>
-          {/* Transparent glassmorphic panel */}
-          <mesh>
-            <planeGeometry args={[1.5, 3.2]} />
-            <meshPhysicalMaterial 
-              color="#0b1b17" 
-              transparent 
-              opacity={0.2} 
-              roughness={0.2} 
-              transmission={0.8}
-              depthWrite={false}
-            />
-          </mesh>
-          {/* Glow Border */}
-          <lineSegments>
-            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.5, 3.2)]} />
-            <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
-          </lineSegments>
-
-          {/* UI Layout Blueprint Elements */}
-          {/* Top Header Card */}
-          <mesh position={[0, 1.2, 0.01]}>
-            <planeGeometry args={[1.2, 0.4]} />
-            <meshBasicMaterial color="#1D9E75" transparent opacity={0.2} />
-          </mesh>
-          <lineSegments position={[0, 1.2, 0.015]}>
-            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 0.4)]} />
-            <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
-          </lineSegments>
-          
-          {/* Mid Hero Section Grid */}
-          <mesh position={[0, 0.2, 0.01]}>
-            <planeGeometry args={[1.2, 1.0]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.03} />
-          </mesh>
-          <lineSegments position={[0, 0.2, 0.015]}>
-            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 1.0)]} />
-            <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.3} />
-          </lineSegments>
-          
-          {/* Circular Button wireframes */}
-          {[-0.4, 0, 0.4].map((x, i) => (
-            <group key={i} position={[x, -0.6, 0.01]}>
+        {/* HOLOGRAPHIC PROJECTIONS (EMERGING LAYERS - ONLY RENDERED ON ACTIVE MENU OR APPS) */}
+        {phoneStatus === 'active' && (
+          <>
+            {/* LAYER 1: BLUEPRINT */}
+            <group ref={panel1Ref} position={[0, 0, 0.35]}>
               <mesh>
-                <ringGeometry args={[0.11, 0.12, 32]} />
-                <meshBasicMaterial color="#EF9F27" transparent opacity={0.6} />
+                <planeGeometry args={[1.5, 3.2]} />
+                <meshPhysicalMaterial 
+                  color="#0b1b17" 
+                  transparent 
+                  opacity={0.2} 
+                  roughness={0.2} 
+                  transmission={0.8}
+                  depthWrite={false}
+                />
               </mesh>
+              <lineSegments>
+                <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.5, 3.2)]} />
+                <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+              </lineSegments>
+
+              {/* Wireframe widgets */}
+              <mesh position={[0, 1.2, 0.01]}>
+                <planeGeometry args={[1.2, 0.4]} />
+                <meshBasicMaterial color="#1D9E75" transparent opacity={0.2} />
+              </mesh>
+              <lineSegments position={[0, 1.2, 0.015]}>
+                <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 0.4)]} />
+                <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
+              </lineSegments>
+            </group>
+
+            {/* LAYER 2: CHART */}
+            <group ref={panel2Ref} position={[0, 0, 0.75]}>
               <mesh>
-                <circleGeometry args={[0.1, 16]} />
-                <meshBasicMaterial color="#EF9F27" transparent opacity={0.15} />
+                <planeGeometry args={[1.3, 2.8]} />
+                <meshPhysicalMaterial 
+                  color="#0f0f1d" 
+                  transparent 
+                  opacity={0.3} 
+                  roughness={0.1} 
+                  transmission={0.8}
+                  depthWrite={false}
+                />
+              </mesh>
+              <lineSegments>
+                <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.3, 2.8)]} />
+                <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+              </lineSegments>
+
+              <group position={[0, -0.3, 0.02]} rotation={[0.4, -0.2, 0]}>
+                {[-0.3, 0, 0.3].map((x, ix) => (
+                  [-0.3, 0, 0.3].map((y, iy) => (
+                    <HolographicBar
+                      key={`${ix}-${iy}`}
+                      position={[x, y, 0]}
+                      color={ix % 2 === 0 ? "#7F77DD" : "#1D9E75"}
+                      emissive={ix % 2 === 0 ? "#251240" : "#082d22"}
+                      index={ix * 3 + iy}
+                    />
+                  ))
+                ))}
+              </group>
+            </group>
+
+            {/* LAYER 3: 3D MODEL CORE */}
+            <group ref={panel3Ref} position={[0, 0, 1.25]}>
+              <mesh>
+                <ringGeometry args={[0.8, 0.82, 32]} />
+                <meshBasicMaterial color="#EF9F27" transparent opacity={0.4} side={THREE.DoubleSide} />
+              </mesh>
+              <group ref={coreGroupRef}>
+                <mesh castShadow>
+                  <icosahedronGeometry args={[0.42, 1]} />
+                  <meshPhysicalMaterial 
+                    color="#EF9F27" 
+                    metalness={0.9} 
+                    roughness={0.1}
+                    clearcoat={1.0}
+                    clearcoatRoughness={0.1}
+                    transmission={0.4}
+                    thickness={0.5}
+                    emissive="#382202"
+                  />
+                </mesh>
+              </group>
+              <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
+                <torusGeometry args={[0.65, 0.015, 8, 48]} />
+                <meshBasicMaterial color="#EF9F27" />
               </mesh>
             </group>
-          ))}
+          </>
+        )}
 
-          {/* Text lines (simulated) */}
-          {[-1.0, -1.2, -1.4].map((y, i) => (
-            <mesh key={i} position={[0, y, 0.01]}>
-              <planeGeometry args={[1.2, 0.05]} />
-              <meshBasicMaterial color="#1D9E75" transparent opacity={0.25} />
-            </mesh>
-          ))}
-        </group>
-
-        {/* --- LAYER 2: 3D DATA / APP ANALYTICS PANEL --- */}
-        <group ref={panel2Ref} position={[0, 0, 0.75]}>
-          {/* Transparent panel */}
-          <mesh>
-            <planeGeometry args={[1.3, 2.8]} />
-            <meshPhysicalMaterial 
-              color="#0f0f1d" 
-              transparent 
-              opacity={0.3} 
-              roughness={0.1} 
-              transmission={0.8}
-              depthWrite={false}
-            />
-          </mesh>
-          <lineSegments>
-            <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.3, 2.8)]} />
-            <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
-          </lineSegments>
-
-          {/* Dashboard 3D Bar Chart Emergence */}
-          <group position={[0, -0.3, 0.02]} rotation={[0.4, -0.2, 0]}>
-            {[-0.3, 0, 0.3].map((x, ix) => (
-              [-0.3, 0, 0.3].map((y, iy) => (
-                <HolographicBar
-                  key={`${ix}-${iy}`}
-                  position={[x, y, 0]}
-                  color={ix % 2 === 0 ? "#7F77DD" : "#1D9E75"}
-                  emissive={ix % 2 === 0 ? "#251240" : "#082d22"}
-                  index={ix * 3 + iy}
-                />
-              ))
-            ))}
-          </group>
-
-          {/* Small floating HUD UI metrics */}
-          <group position={[0, 0.8, 0.02]}>
-            <mesh position={[0, 0.2, 0]}>
-              <planeGeometry args={[1.0, 0.3]} />
-              <meshBasicMaterial color="#7F77DD" transparent opacity={0.15} />
-            </mesh>
-            <lineSegments position={[0, 0.2, 0.005]}>
-              <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.0, 0.3)]} />
-              <lineBasicMaterial attach="material" color="#7F77DD" transparent opacity={0.4} />
-            </lineSegments>
-            <mesh position={[-0.35, 0.2, 0.01]}>
-              <sphereGeometry args={[0.04, 16, 16]} />
-              <meshBasicMaterial color="#EF9F27" />
-            </mesh>
-          </group>
-        </group>
-
-        {/* --- LAYER 3: 3D OPTIMIZED MODEL CORE (THE BLENDER / PIXAL3D ASSET) --- */}
-        <group ref={panel3Ref} position={[0, 0, 1.25]}>
-          {/* Stylized wireframe backboard */}
-          <mesh>
-            <ringGeometry args={[0.8, 0.82, 32]} />
-            <meshBasicMaterial color="#EF9F27" transparent opacity={0.4} side={THREE.DoubleSide} />
-          </mesh>
-          <mesh>
-            <ringGeometry args={[0.9, 0.91, 6]} />
-            <meshBasicMaterial color="#7F77DD" transparent opacity={0.3} side={THREE.DoubleSide} />
-          </mesh>
-
-          {/* The 3D optimized model inside the hologram */}
-          <group ref={coreGroupRef}>
-            <mesh castShadow>
-              <icosahedronGeometry args={[0.42, 1]} />
-              <meshPhysicalMaterial 
-                color="#EF9F27" 
-                metalness={0.9} 
-                roughness={0.1}
-                clearcoat={1.0}
-                clearcoatRoughness={0.1}
-                transmission={0.4}
-                thickness={0.5}
-                emissive="#382202"
-              />
-            </mesh>
-            
-            <mesh>
-              <icosahedronGeometry args={[0.43, 1]} />
-              <meshBasicMaterial 
-                color="#ffffff" 
-                wireframe={true} 
-                transparent 
-                opacity={0.3}
-                blending={THREE.AdditiveBlending}
-              />
-            </mesh>
-          </group>
-
-          {/* Telemetry Ring orbiting the asset */}
-          <mesh ref={ringRef} rotation={[Math.PI / 3, 0, 0]}>
-            <torusGeometry args={[0.65, 0.015, 8, 48]} />
-            <meshBasicMaterial color="#EF9F27" />
-          </mesh>
-
-          {/* Small digital crosshair pointers */}
-          {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle, i) => (
-            <mesh key={i} position={[Math.cos(angle) * 0.65, Math.sin(angle) * 0.65, 0]}>
-              <sphereGeometry args={[0.025, 8, 8]} />
-              <meshBasicMaterial color="#1D9E75" />
-            </mesh>
-          ))}
-        </group>
-
-        {/* 🕸️ TELEMETRY CORNER LIGHT BEAMS */}
+        {/* CORNER CONNECTING BEAMS */}
         {useMemo(() => {
           const cScreen = [
             new THREE.Vector3(-0.94, -1.94, 0.06),
@@ -382,7 +548,7 @@ function HolographicPhoneCore() {
           )
         })}
 
-        {/* ✨ DATA PARTICLES EMERGING FROM THE PHONE */}
+        {/* SPARKLES */}
         <Sparkles count={45} scale={[1.6, 3.4, 1.2]} size={1.4} speed={0.9} color="#1D9E75" position={[0, 0, 0.7]} />
         <Sparkles count={25} scale={[1.4, 3.0, 1.2]} size={1.1} speed={1.2} color="#7F77DD" position={[0, 0, 0.7]} />
       </group>
@@ -400,14 +566,14 @@ export default function StudioLab() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block">
+        <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
           3D Studio Lab
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
           No solo programo interfaces —<br/>las diseño en 3D primero.
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          Combino la potencia de la IA generativa 3D de <strong>Pixal3D</strong> (DinoV3 y MoGe-2) con el modelado tradicional en <strong>Blender</strong>. Reconstruyo assets fotorrealistas en segundos y luego los optimizo poligonalmente para crear experiencias WebGL interactivas, fluidas y ultraligeras.
+          Combino la potencia de la IA generativa 3D de <strong>Pixal3D</strong> con el modelado tradicional en <strong>Blender</strong>. Reconstruyo assets fotorrealistas en segundos y luego los optimizo poligonalmente para crear experiencias WebGL interactivas, fluidas y ultraligeras.
         </p>
 
         <div className="grid lg:grid-cols-12 gap-8 items-center">
@@ -419,9 +585,9 @@ export default function StudioLab() {
             className="lg:col-span-6 h-[500px] bg-[var(--color-deep-space)]/40 border border-[var(--color-space-border)] rounded-xl relative overflow-hidden group"
           >
             
-            <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+            <div className="absolute top-4 left-4 z-20 flex items-center gap-2 select-none">
               <span className="flex h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-ping"></span>
-              <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">Render Virtual Interactivo (R3F)</span>
+              <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">EMULADOR MÓVIL HOLOGRÁFICO (INTERACTIVO)</span>
             </div>
 
             <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full cursor-grab active:cursor-grabbing">
@@ -439,8 +605,8 @@ export default function StudioLab() {
               <OrbitControls enableZoom={false} enablePan={false} enableDamping={true} dampingFactor={0.05} rotateSpeed={0.7} />
             </Canvas>
 
-            <div className="absolute bottom-4 right-4 z-20 text-right pointer-events-none">
-              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 block">INTERACT: CLICK & DRAG TO ROTATE</span>
+            <div className="absolute bottom-4 right-4 z-20 text-right pointer-events-none select-none">
+              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 block">TOCA EL TELÉFONO PARA ENCENDER · ARRASTRA PARA ROTAR</span>
             </div>
           </div>
 

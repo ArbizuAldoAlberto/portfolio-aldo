@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-space-black: #0A0A0F;
-  --color-deep-space: #111118;
-  --color-orbital-teal: #1D9E75;
-  --color-amber-gold: #EF9F27;
-  --color-electric-purple: #7F77DD;
-  --color-coral-burn: #D85A30;
-  --color-mist-gray: #C2C0B6;
-  --color-space-border: rgba(255, 255, 255, 0.08);
+  --color-space-black: var(--space-black);
+  --color-deep-space: var(--deep-space);
+  --color-orbital-teal: var(--orbital-teal);
+  --color-amber-gold: var(--amber-gold);
+  --color-electric-purple: var(--electric-purple);
+  --color-coral-burn: var(--coral-burn);
+  --color-mist-gray: var(--mist-gray);
+  --color-space-border: var(--space-border);
 
   --font-serif: var(--font-cormorant), serif;
   --font-mono: var(--font-jetbrains), monospace;
@@ -20,6 +20,52 @@
     color-scheme: dark;
     --mouse-x: 50%;
     --mouse-y: 50%;
+    
+    /* Default Colors (Founder Mode) */
+    --space-black: #0A0A0F;
+    --deep-space: #111118;
+    --orbital-teal: #1D9E75;
+    --amber-gold: #EF9F27;
+    --electric-purple: #7F77DD;
+    --coral-burn: #D85A30;
+    --mist-gray: #C2C0B6;
+    --space-border: rgba(255, 255, 255, 0.08);
+  }
+
+  /* DEV MODE Theme: Neon Hacker aesthetic */
+  html[data-persona="dev"] {
+    --space-black: #040407;
+    --deep-space: #09090E;
+    --orbital-teal: #00FF66; /* Neon Green */
+    --electric-purple: #00F0FF; /* Cyber Cyan */
+    --amber-gold: #FF007F; /* Neon Pink/Magenta */
+    --coral-burn: #FF3C00;
+    --mist-gray: #A2C0B6;
+    --space-border: rgba(0, 255, 102, 0.12);
+  }
+
+  /* FOUNDER MODE Theme: Gold, Purple, and Deep Space */
+  html[data-persona="founder"] {
+    --space-black: #0A0A0F;
+    --deep-space: #111118;
+    --orbital-teal: #1D9E75;
+    --amber-gold: #EF9F27;
+    --electric-purple: #7F77DD;
+    --coral-burn: #D85A30;
+    --mist-gray: #C2C0B6;
+    --space-border: rgba(255, 255, 255, 0.08);
+  }
+
+  /* GENTLEMAN MODE Theme: Monochrome Silver and White luxury */
+  html[data-persona="gentleman"] {
+    --space-black: #08080C;
+    --deep-space: #0F0F15;
+    --orbital-teal: #FFFFFF; /* Pure white details */
+    --electric-purple: #8B8B9B; /* Muted steel */
+    --amber-gold: #DFDFEF; /* Soft silver */
+    --coral-burn: #C5C5D5;
+    --mist-gray: #BFBFCF;
+    --space-border: rgba(255, 255, 255, 0.05);
   }
   
   body {
