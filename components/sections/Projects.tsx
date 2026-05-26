@@ -1,5 +1,6 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
 
@@ -101,82 +102,147 @@ const rawProjects = [
   }
 ]
 
-export default function Projects() {
+function ProjectCard({ project, index, total }: { project: typeof rawProjects[0], index: number, total: number }) {
   const { persona } = usePersona()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const details = project[persona] || project.founder
+
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'center center']
+  })
+
+  const width = useTransform(scrollYProgress, [0, 0.8], ['92%', '100%'])
+  const cardOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const cardY = useTransform(scrollYProgress, [0, 0.5], [60, 0])
 
   return (
-    <section id="projects" className="relative py-32 border-t border-[var(--color-space-border)]">
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        04
-      </div>
+    <motion.div
+      ref={cardRef}
+      style={{ width, opacity: cardOpacity, y: cardY }}
+      className="mx-auto orbital-glow"
+    >
+      <div className="glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 overflow-hidden">
+        {/* Decorative index */}
+        <motion.div
+          className="absolute top-6 right-8 font-serif text-6xl md:text-8xl text-white/[0.03] leading-none select-none pointer-events-none"
+        >
+          {String(index + 1).padStart(2, '0')}
+        </motion.div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
-          Proyectos
-        </span>
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">Misiones Completadas</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            {/* Project counter */}
+            <div className="flex items-center gap-3 mb-4">
+              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 tracking-widest">
+                {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
+              </span>
+              <div className="h-px flex-1 bg-[var(--color-space-border)]" />
+            </div>
 
-        <div className="space-y-12">
-          {rawProjects.map((p, i) => {
-            // Get content depending on persona selection
-            const details = p[persona] || p.founder
-
-            return (
+            <h3 className="font-serif text-3xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>
+            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold">{project.role}</div>
+            
+            <AnimatePresence mode="wait">
               <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="glass-surface p-8 md:p-12 relative group transition-all duration-500"
+                key={persona}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4 font-mono text-sm"
               >
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h3 className="font-serif text-3xl text-white mb-2">{p.title}</h3>
-                    <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold">{p.role}</div>
-                    
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={persona}
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        transition={{ duration: 0.2 }}
-                        className="space-y-4 font-mono text-sm"
-                      >
-                        <div>
-                          <span className="text-white block mb-1 font-bold">PROBLEMA:</span>
-                          <span className="text-[var(--color-mist-gray)]">{details.problem}</span>
-                        </div>
-                        <div>
-                          <span className="text-white block mb-1 font-bold">SOLUCIÓN:</span>
-                          <span className="text-[var(--color-mist-gray)]">{details.solution}</span>
-                        </div>
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                  
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <span className="font-mono text-white text-sm block mb-4 font-bold">STACK:</span>
-                      <div className="flex flex-wrap gap-2">
-                        {p.stack.map((tech, j) => (
-                          <span key={j} className="px-3 py-1 border border-[var(--color-space-border)] bg-[var(--color-deep-space)] font-space text-xs text-[var(--color-mist-gray)] hover:border-[var(--color-orbital-teal)] transition-colors">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="mt-8 flex gap-4">
-                      <a href={p.link} target="_blank" rel="noreferrer" className="btn-outline flex items-center gap-2 cursor-none">
-                        <ExternalLink size={16} /> Demo En Vivo
-                      </a>
-                    </div>
-                  </div>
+                <div>
+                  <span className="text-white block mb-1 font-bold">PROBLEMA:</span>
+                  <span className="text-[var(--color-mist-gray)]">{details.problem}</span>
+                </div>
+                <div>
+                  <span className="text-white block mb-1 font-bold">SOLUCIÓN:</span>
+                  <span className="text-[var(--color-mist-gray)]">{details.solution}</span>
                 </div>
               </motion.div>
-            )
-          })}
+            </AnimatePresence>
+          </div>
+          
+          <div className="flex flex-col justify-between">
+            <div>
+              <span className="font-mono text-white text-sm block mb-4 font-bold">STACK:</span>
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((tech, j) => (
+                  <motion.span
+                    key={j}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: j * 0.05, duration: 0.3 }}
+                    className="px-3 py-1 border border-[var(--color-space-border)] bg-[var(--color-deep-space)] font-space text-xs text-[var(--color-mist-gray)] hover:border-[var(--color-orbital-teal)] hover:text-white transition-all duration-200 cursor-default"
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+            
+            <div className="mt-8 flex gap-4">
+              <motion.a
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ x: 4 }}
+                className="btn-outline flex items-center gap-2 cursor-none group/link"
+              >
+                <ExternalLink size={16} className="group-hover/link:text-[var(--color-orbital-teal)] transition-colors" />
+                <span>Demo En Vivo</span>
+              </motion.a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+export default function Projects() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  })
+
+  const bgY = useTransform(scrollYProgress, [0, 1], [50, -80])
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
+
+  return (
+    <section id="projects" ref={sectionRef} className="relative py-32 border-t border-[var(--color-space-border)]">
+      <motion.div
+        style={{ y: bgY, opacity: bgOpacity }}
+        className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
+      >
+        04
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.span
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none"
+        >
+          Proyectos
+        </motion.span>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-4xl md:text-5xl font-serif font-bold text-white mb-16"
+        >
+          Misiones Completadas
+        </motion.h2>
+
+        <div className="space-y-8">
+          {rawProjects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} total={rawProjects.length} />
+          ))}
         </div>
       </div>
     </section>

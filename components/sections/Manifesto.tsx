@@ -1,10 +1,22 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import GlitchText from '../ui/GlitchText'
 import { usePersona } from '../theme/PersonaContext'
 
 export default function Manifesto() {
   const { persona } = usePersona()
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  })
+
+  // Parallax effects
+  const bgNumberY = useTransform(scrollYProgress, [0, 1], [50, -80])
+  const bgNumberOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
 
   // Dynamic manifesto details
   const getManifestoContent = () => {
@@ -57,17 +69,40 @@ export default function Manifesto() {
 
   const content = getManifestoContent()
 
+  const pillarVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.15,
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1] as const
+      }
+    })
+  }
+
   return (
-    <section id="manifesto" className="relative py-32 overflow-hidden border-t border-[var(--color-space-border)]">
-      {/* Huge Background Number */}
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
+    <section id="manifesto" ref={sectionRef} className="relative py-32 overflow-hidden border-t border-[var(--color-space-border)]">
+      {/* Huge Background Number with parallax */}
+      <motion.div
+        style={{ y: bgNumberY, opacity: bgNumberOpacity }}
+        className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
+      >
         02
-      </div>
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
+        <motion.span
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none"
+        >
           Manifesto
-        </span>
+        </motion.span>
         
         <AnimatePresence mode="wait">
           <motion.div
@@ -77,37 +112,55 @@ export default function Manifesto() {
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 max-w-3xl leading-tight">
+            {/* Title with word-by-word reveal */}
+            <motion.h2
+              ref={titleRef}
+              className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 max-w-3xl leading-tight"
+            >
               <GlitchText text={content.title} />
-            </h2>
+            </motion.h2>
             
-            <p className="font-mono text-lg text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="font-mono text-lg text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed"
+            >
               {content.body}
-            </p>
+            </motion.p>
 
+            {/* Pillar cards with stagger */}
             <div className="grid md:grid-cols-3 gap-6 mb-20">
-              <div className="glass-surface p-8">
-                <div className="text-[var(--color-orbital-teal)] font-space mb-4 font-bold">{content.p1Num}</div>
-                <h3 className="font-serif text-2xl text-white mb-3">{content.p1Title}</h3>
-                <p className="font-mono text-sm text-[var(--color-mist-gray)]">{content.p1Desc}</p>
-              </div>
-
-              <div className="glass-surface p-8">
-                <div className="text-[var(--color-orbital-teal)] font-space mb-4 font-bold">{content.p2Num}</div>
-                <h3 className="font-serif text-2xl text-white mb-3">{content.p2Title}</h3>
-                <p className="font-mono text-sm text-[var(--color-mist-gray)]">{content.p2Desc}</p>
-              </div>
-
-              <div className="glass-surface p-8">
-                <div className="text-[var(--color-orbital-teal)] font-space mb-4 font-bold">{content.p3Num}</div>
-                <h3 className="font-serif text-2xl text-white mb-3">{content.p3Title}</h3>
-                <p className="font-mono text-sm text-[var(--color-mist-gray)]">{content.p3Desc}</p>
-              </div>
+              {[
+                { num: content.p1Num, title: content.p1Title, desc: content.p1Desc },
+                { num: content.p2Num, title: content.p2Title, desc: content.p2Desc },
+                { num: content.p3Num, title: content.p3Title, desc: content.p3Desc }
+              ].map((pillar, i) => (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  variants={pillarVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-50px' }}
+                  whileHover={{ 
+                    y: -4, 
+                    transition: { duration: 0.3 },
+                    boxShadow: '0 12px 40px rgba(29, 158, 117, 0.08)'
+                  }}
+                  className="glass-surface p-8 group"
+                >
+                  <div className="text-[var(--color-orbital-teal)] font-space mb-4 font-bold text-lg group-hover:text-gradient transition-all">{pillar.num}</div>
+                  <h3 className="font-serif text-2xl text-white mb-3 group-hover:text-[var(--color-orbital-teal)] transition-colors duration-300">{pillar.title}</h3>
+                  <p className="font-mono text-sm text-[var(--color-mist-gray)]">{pillar.desc}</p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Timeline */}
+        {/* Timeline with pulse-on-enter */}
         <div className="space-y-6 border-l border-[var(--color-space-border)] pl-6 ml-4">
           {[
             { y: '2020', t: 'Especialista tecnológico en seguridad privada (Custodiar)' },
@@ -119,14 +172,21 @@ export default function Manifesto() {
           ].map((item, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="relative flex items-center"
+              viewport={{ once: true, margin: '-20px' }}
+              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] as const }}
+              className="relative flex items-center group"
             >
-              <div className="absolute -left-[31px] w-3 h-3 bg-[var(--color-space-black)] border border-[var(--color-orbital-teal)] rounded-full"></div>
-              <span className="font-space text-[var(--color-orbital-teal)] w-16 shrink-0 font-bold">{item.y}</span>
-              <span className="font-mono text-[var(--color-mist-gray)] text-sm">{item.t}</span>
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.08 + 0.2, type: 'spring', stiffness: 400 }}
+                className="absolute -left-[31px] w-3 h-3 bg-[var(--color-space-black)] border-2 border-[var(--color-orbital-teal)] rounded-full group-hover:bg-[var(--color-orbital-teal)] group-hover:shadow-[0_0_12px_rgba(29,158,117,0.5)] transition-all duration-300"
+              />
+              <span className="font-space text-[var(--color-orbital-teal)] w-16 shrink-0 font-bold group-hover:text-white transition-colors">{item.y}</span>
+              <span className="font-mono text-[var(--color-mist-gray)] text-sm group-hover:text-white transition-colors">{item.t}</span>
             </motion.div>
           ))}
         </div>

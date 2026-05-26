@@ -7,6 +7,8 @@ import { CursorProvider } from '../components/theme/CursorContext'
 import { PersonaProvider } from '../components/theme/PersonaContext'
 import { SoundProvider } from '../components/theme/SoundManager'
 import AudioToggle from '../components/ui/AudioToggle'
+import Navigation from '../components/ui/Navigation'
+import Preloader from '../components/ui/Preloader'
 import './globals.css'
 
 const cormorant = Cormorant_Garamond({ 
@@ -116,6 +118,8 @@ export default function RootLayout({
         <SoundProvider>
           <PersonaProvider>
             <CursorProvider>
+              <Preloader />
+              <Navigation />
               <NoiseOverlay />
               <CustomCursor />
               <SpotlightWrapper />
