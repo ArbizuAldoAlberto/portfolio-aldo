@@ -207,7 +207,7 @@ export default function NexusTelemetry() {
           Sistema Autónomo de Supervisión
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-3xl mb-12 leading-relaxed">
-          Este sitio web y todos los repositorios activos de Antigravity Studio están integrados localmente bajo la supervisión de <strong>NEXUS</strong>, un super-agente agéntico personalizado que coordina compilaciones, despliegues, seguridad perimetral y supervisión financiera automatizada.
+          Este sitio web y todos los repositorios activos de Arbizu Labs están integrados localmente bajo la supervisión de <strong>NEXUS</strong>, un super-agente agéntico personalizado que coordina compilaciones, despliegues, seguridad perimetral y supervisión financiera automatizada.
         </p>
 
         {/* Tab Selection */}

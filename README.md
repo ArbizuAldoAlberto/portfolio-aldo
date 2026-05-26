@@ -1,4 +1,4 @@
-# 🛸 Dark Orbital — Antigravity Studio Portfolio Showcase
+# 🛸 Dark Orbital — Arbizu Labs Portfolio Showcase
 
 ```text
    █████╗ ███╗   ██╗████████╗██╗ ██████╗ ██████╗  █████╗ ██╗   ██╗██╗████████╗██╗   ██╗
@@ -75,7 +75,7 @@ sh scripts/scan_security_gate.sh --project=dark-orbital
 *Nota: Este script se ejecuta automáticamente en el hook `prebuild` del `package.json`. Si hay una API Key expuesta en el código, el build fallará automáticamente protegiendo tu infraestructura.*
 
 ### 3. Simulador del Régimen de Riesgo TITAN
-Permite auditar el comportamiento del bot de trading cuantitativo integrado en la suite de automatizaciones de Antigravity Studio:
+Permite auditar el comportamiento del bot de trading cuantitativo integrado en la suite de automatizaciones de Arbizu Labs:
 ```bash
 python scripts/regime_detector.py
 ```
@@ -83,8 +83,8 @@ python scripts/regime_detector.py
 ---
 
 ## 📂 Integración con Obsidian (Segundo Cerebro)
-Este portfolio se conecta de forma lógica con **Antigravity-Vault** a través del nodo de control local `NEXUS.md`, garantizando que cada mejora en la infraestructura B2B, trading o branding se documente en tiempo real en la base de conocimiento digital del desarrollador.
+Este portfolio se conecta de forma lógica con **Arbizu Vault** a través del nodo de control local `NEXUS.md`, garantizando que cada mejora en la infraestructura B2B, trading o branding se documente en tiempo real en la base de conocimiento digital del desarrollador.
 
 ---
 
-*Aldo Arbizu × Antigravity Studio — San Carlos de Bolívar, Argentina (2026)*
+*Aldo Arbizu × Arbizu Labs — San Carlos de Bolívar, Argentina (2026)*

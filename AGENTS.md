@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # 🤖 Directrices del Agente NEXUS — Dark Orbital
 
-Este archivo define las reglas de comportamiento, ética y diseño para cualquier agente de IA que opere dentro del espacio de trabajo **Dark Orbital** de Antigravity Studio.
+Este archivo define las reglas de comportamiento, ética y diseño para cualquier agente de IA que opere dentro del espacio de trabajo **Dark Orbital** de Arbizu Labs.
 
 ---
 

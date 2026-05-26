@@ -164,7 +164,7 @@ export default function Manifesto() {
         <div className="space-y-6 border-l border-[var(--color-space-border)] pl-6 ml-4">
           {[
             { y: '2020', t: 'Especialista tecnológico en seguridad privada (Custodiar)' },
-            { y: '2022', t: 'Freelance fulltime — fundación de Antigravity Studio' },
+            { y: '2022', t: 'Freelance fulltime — fundación de Arbizu Labs' },
             { y: '2023', t: 'Fullstack MERN · Primer SaaS multi-tenant comercializado' },
             { y: '2024', t: 'Diplomatura Ciberseguridad UNGS · TechZone offline-first sync' },
             { y: '2025', t: 'Analista Maipu Seguridad · VigiTrack core architecture' },

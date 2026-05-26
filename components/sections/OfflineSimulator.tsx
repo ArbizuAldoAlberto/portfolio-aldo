@@ -17,7 +17,7 @@ export default function OfflineSimulator() {
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [syncedItems, setSyncedItems] = useState<QueueItem[]>([])
   const [logs, setLogs] = useState<string[]>([
-    'SYSTEM: Antigravity Offline-First Sync Core v1.2 initialized.',
+    'SYSTEM: Arbizu Labs Offline-First Sync Core v1.2 initialized.',
     'NETWORK: Connected to Firebase Realtime Database. Sync engine idle.'
   ])
 

@@ -30,12 +30,12 @@ const space = Space_Mono({
 
 export const metadata: Metadata = {
   title: 'Aldo Arbizu | Senior React Native Developer & Product Engineer — Hire Mobile Fullstack Expert',
-  description: 'Product Engineer y Desarrollador Senior React Native especializado en arquitecturas móviles Offline-First (SQLite WAL) y automatizaciones inteligentes B2B. Resiliencia de software para la continuidad de su negocio. Antigravity Studio.',
+  description: 'Product Engineer y Desarrollador Senior React Native especializado en arquitecturas móviles Offline-First (SQLite WAL) y automatizaciones inteligentes B2B. Resiliencia de software para la continuidad de su negocio. Arbizu Labs.',
   keywords: [
     'Aldo Arbizu', 'React Native Developer', 'Product Engineer', 'Offline-First', 'SQLite Expo',
     'Contratar React Native', 'Hire React Native Developer', 'SaaS Architect Argentina',
     'n8n automatización', 'Freelance Mobile Developer', 'Three.js Portfolio', 'Next.js 16',
-    'Antigravity Studio', 'Desarrollador Senior Mobile', 'Desarrollo Offline-First',
+    'Arbizu Labs', 'Desarrollador Senior Mobile', 'Desarrollo Offline-First',
     'B2B Software Development', 'Custom Mobile Apps', 'SaaS Developer Argentina',
     'Hire Fullstack Engineer', 'Contratar Desarrollador Mobile', 'Product Engineer B2B'
   ],
@@ -79,7 +79,7 @@ const jsonLd = {
   "jobTitle": "Product Engineer & Mobile Developer",
   "worksFor": {
     "@type": "Organization",
-    "name": "Antigravity Studio"
+    "name": "Arbizu Labs"
   },
   "sameAs": [
     "https://github.com/ArbizuAldoAlberto",

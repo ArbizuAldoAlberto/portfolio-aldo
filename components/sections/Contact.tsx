@@ -257,7 +257,7 @@ export default function Contact() {
               <h3 className="font-serif text-xl text-white mb-3">Aldo Arbizu</h3>
               <p className="font-mono text-xs text-[var(--color-mist-gray)]/60 leading-relaxed mb-4">
                 Product Engineer & Mobile Developer.<br/>
-                Antigravity Studio — San Carlos de Bolívar, AR.
+                Arbizu Labs — San Carlos de Bolívar, AR.
               </p>
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-pulse" />
@@ -311,7 +311,7 @@ export default function Contact() {
           {/* Bottom bar */}
           <div className="border-t border-[var(--color-space-border)] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="font-mono text-[10px] text-[var(--color-mist-gray)]/30">
-              © 2026 Aldo Arbizu × Antigravity Studio — aldoarbizu.com
+              © 2026 Aldo Arbizu × Arbizu Labs — aldoarbizu.com
             </span>
             <span className="font-mono text-[10px] text-[var(--color-mist-gray)]/20">
               Built with Next.js 16 · Three.js · Framer Motion · ♥

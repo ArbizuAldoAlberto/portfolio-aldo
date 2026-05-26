@@ -14,7 +14,7 @@ export async function sendEmail(formData: { name: string; email: string; message
 
   try {
     const data = await resend.emails.send({
-      from: 'Antigravity Studio <onboarding@resend.dev>',
+      from: 'Arbizu Labs <onboarding@resend.dev>',
       to: 'aldoarbizu.dev@gmail.com',
       subject: `🛸 Nuevo Lead de ${name} (Dark Orbital)`,
       html: `
@@ -27,7 +27,7 @@ export async function sendEmail(formData: { name: string; email: string; message
             <p style="white-space: pre-line; margin-bottom: 0; font-size: 13px; line-height: 1.5; color: #C2C0B6;">${message}</p>
           </div>
           <footer style="margin-top: 24px; font-size: 10px; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px; text-align: center;">
-            Antigravity Studio &bull; Dark Orbital Pipeline Dispatcher &bull; 2026
+            Arbizu Labs &bull; Dark Orbital Pipeline Dispatcher &bull; 2026
           </footer>
         </div>
       `

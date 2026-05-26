@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const bootSequence = [
-  { text: 'ANTIGRAVITY STUDIO', delay: 200, type: 'brand' },
+  { text: 'ARBIZU LABS', delay: 200, type: 'brand' },
   { text: 'Initializing kernel modules...', delay: 400, type: 'system' },
   { text: 'Loading PersonaContext [DEV|FOUNDER|GENTLEMAN]', delay: 350, type: 'info' },
   { text: 'Mounting React Three Fiber canvas pipeline', delay: 300, type: 'info' },
