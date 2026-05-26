@@ -23,46 +23,46 @@ export default function Manifesto() {
     switch (persona) {
       case 'dev':
         return {
-          title: 'Código limpio que sobrevive en producción real.',
-          body: 'Pasé años en seguridad física e informática. Sé lo que es que un servidor falle en medio de sótanos blindados u operaciones sin señal. Por eso me especialicé en sincronización incremental (SQLite WAL + Firebase) y blindaje contra OWASP Mobile Top 10.',
+          title: 'Código blindado diseñado para sobrevivir en producción real.',
+          body: 'Mi trayectoria técnica comenzó en la seguridad física y la ciberseguridad (UNGS). Entiendo la fragilidad de las conexiones móviles en sótanos de hormigón, patrullas perimetrales y terminales logísticas. Por eso me especialicé en estructurar kernels móviles en React Native (Expo Bare) con persistencia local robusta (SQLite en modo WAL + Zustand) y en blindar aplicaciones de extremo a extremo bajo los exigentes estándares de seguridad OWASP MASVS.',
           p1Num: '01',
-          p1Title: 'Offline-First Kernels',
-          p1Desc: 'Zustand + SQLite. Transacciones atómicas locales reconciliadas de forma incremental.',
+          p1Title: 'Local Sync Coherence',
+          p1Desc: 'Sincronización incremental bidireccional y manejo inmutable de colas de transacciones locales para evitar conflictos de base de datos.',
           p2Num: '02',
           p2Title: 'Security by Design',
-          p2Desc: 'SQLCipher local, SSL pinning, y auditorías estáticas automatizadas con DefenseClaw.',
+          p2Desc: 'Cifrado SQLCipher local, firmas criptográficas de telemetría y escaneos de código estáticos en pre-compilación.',
           p3Num: '03',
-          p3Title: 'Native Bare Mappings',
-          p3Desc: 'Puentes de Native Modules optimizados y optimización de recolector de basura JS.'
+          p3Title: 'Native Bridges & Performance',
+          p3Desc: 'Optimización a nivel de hilos Swift/Kotlin, y calibración de ciclos del recolector de basura de JavaScript para evitar lags.'
         }
       case 'gentleman':
         return {
-          title: 'La armonía entre la matemática del código y la sobriedad.',
-          body: 'El software no debe ser una acumulación tosca de librerías; es una arquitectura artesanal. Creo en el diseño sobrio, los detalles invisibles y el minimalismo intencional. Menos ruido visual se traduce directamente en claridad operativa.',
+          title: 'La unión invisible entre la matemática del código y la sobriedad estética.',
+          body: 'El software no es apilar dependencias ruidosas; es una disciplina de diseño artesanal. Creo en las interfaces limpias, el audio háptico procedural y las mallas 3D fluidas modeladas a medida. Diseñar es simplificar: quitar el exceso visual para revelar la elegancia técnica del producto. Cada línea de código responde a los más altos estándares estéticos y funcionales, entregando un producto del que nos sintamos orgullosos.',
           p1Num: '01',
           p1Title: 'Pureza Estructural',
-          p1Desc: 'Código limpio, modularizado y auto-documentado que se lee como un texto clásico.',
+          p1Desc: 'Código limpio, modular y auto-documentado que se lee con la claridad y precisión de un texto clásico.',
           p2Num: '02',
-          p2Title: 'Artesanía del Píxel',
-          p2Desc: 'Modelado interactivo en Blender y renders optimizados en WebGL para interfaces inolvidables.',
+          p2Title: 'Artesanía Digital 3D',
+          p2Desc: 'Modelado a medida en Blender y optimización WebGL para lograr interfaces interactivas fluidas que cargan al instante.',
           p3Num: '03',
-          p3Title: 'Ingeniería de Autor',
-          p3Desc: 'Cada producto digital se desarrolla como una firma única de diseño, elegancia e ingeniería.'
+          p3Title: 'Diseño de Autor',
+          p3Desc: 'Cada producto digital se firma como una obra singular de ingeniería, balance visual y respuesta sensorial.'
         }
       case 'founder':
       default:
         return {
-          title: 'Construyo software que sobrevive a la realidad del campo.',
-          body: 'Trabajé en seguridad privada. Vi cómo las apps fallaban sin señal en sótanos y áreas rurales. Así nació mi obsesión por las arquitecturas Offline-First. No hago prototipos de vitrina — hago software resiliente que funciona donde otros fallan.',
+          title: 'Construyo software diseñado para resistir las fallas del mundo real.',
+          body: 'Vengo del mundo de la seguridad privada (Maipu Seguridad, Custodiar) y ciberseguridad. En ese sector, si un sistema falla en un sótano o en un campo remoto, el impacto no es un bug molesto: es una vulnerabilidad real y una pérdida de dinero. Por eso me obsesioné con el desarrollo Offline-First y SQLite WAL. No construyo prototipos frágiles de escritorio; creo software resiliente que asegura que tus ventas sigan procesándose, tus empleados sigan reportando y tu negocio siga capturando valor, sin importar las condiciones de red.',
           p1Num: '01',
-          p1Title: 'Resiliencia Móvil',
-          p1Desc: 'Si no funciona sin internet, no funciona. Redux + SQLite sincronizado de forma inteligente.',
+          p1Title: 'Retorno y Continuidad',
+          p1Desc: 'Si tu aplicación falla cuando cae la señal celular, perdés dinero. Diseñamos con almacenamiento local atómico para asegurar que cada interacción cuente.',
           p2Num: '02',
-          p2Title: 'Security by Design',
-          p2Desc: 'Cumplimiento OWASP Mobile y auditoría estática automatizada en pre-commits.',
+          p2Title: 'Seguridad y Confianza',
+          p2Desc: 'Protegemos tus activos de información. Implementamos cifrado local y realizamos auditorías de seguridad automáticas (MARTA QA) previas a cada despliegue.',
           p3Num: '03',
-          p3Title: 'Product Vision',
-          p3Desc: 'No solo código: arquitectura comercial escalable, prototipado 3D y telemetría de negocio.'
+          p3Title: 'Visión de Negocio',
+          p3Desc: 'El código es el medio, no el fin. Diseñamos plataformas SaaS escalables preparadas para capturar leads, procesar cobros y generar valor real 24/7.'
         }
     }
   }

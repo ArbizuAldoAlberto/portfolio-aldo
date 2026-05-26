@@ -139,7 +139,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-5xl md:text-7xl font-serif font-bold text-white mb-6"
         >
-          Construyamos algo que importe.
+          Construyamos algo que impulse tu negocio.
         </motion.h2>
         
         <motion.div
@@ -147,10 +147,11 @@ export default function Contact() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="font-mono text-[var(--color-mist-gray)] mb-12"
+          className="font-mono text-[var(--color-mist-gray)] mb-12 leading-relaxed"
         >
-          Respondo en menos de 24 horas.<br/>
-          Zona horaria: Argentina (UTC-3)
+          ¿Tenés un proyecto en mente, una vacante senior o una idea disruptiva?<br/>
+          Coordinemos un café virtual o encontrémonos en La Plata, Buenos Aires.<br/>
+          Respondo en menos de 24 horas. Zona horaria: Argentina (UTC-3)
         </motion.div>
 
         <motion.div
@@ -310,7 +311,7 @@ export default function Contact() {
           {/* Bottom bar */}
           <div className="border-t border-[var(--color-space-border)] pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="font-mono text-[10px] text-[var(--color-mist-gray)]/30">
-              © 2026 Aldo Arbizu × Antigravity Studio — aldoarbizu.dev
+              © 2026 Aldo Arbizu × Antigravity Studio — aldoarbizu.com
             </span>
             <span className="font-mono text-[10px] text-[var(--color-mist-gray)]/20">
               Built with Next.js 16 · Three.js · Framer Motion · ♥

@@ -38,49 +38,49 @@ export default function Hero() {
     switch (persona) {
       case 'dev':
         return {
-          status: 'SISTEMA COMPILADO · NÚCLEOS LISTOS',
+          status: 'NÚCLEOS COMPILADOS · SISTEMA NOMINAL',
           badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Módulos de Núcleo Listos · Compilación Ok',
-          sub: 'Product Engineer · React Native Mobile · Fullstack Developer · Antigravity Studio',
-          c1Title: 'SQLite WAL Local Database Sync',
-          c1Desc: 'Sincronización incremental y resolución automática de conflictos bi-direccionales sin bloqueos de UI.',
-          c2Title: 'Expo Bare Workflow & native modules',
-          c2Desc: 'EAS Pipelines, optimización de bundles JS, e integraciones nativas Swift/Kotlin a nivel de hilo.',
-          c3Title: 'Dev-Ops Telemetry local integrations',
-          c3Desc: 'Automatización CI/CD con micro-scripts locales en caliente y monitoreo continuo de logs perimetrales.',
-          ctaPrimary: 'Auditar Código',
+          badgeText: '● Ingeniería de Software Senior · React Native & Fullstack',
+          sub: 'Product Engineer · Obsesionado por el código limpio, arquitecturas eficientes y estándares estrictos de ciberseguridad.',
+          c1Title: 'Local Sync Core (SQLite WAL + Zustand)',
+          c1Desc: 'Estructuración de datos atómicos y colas de reconciliación asíncronas bidireccionales de alta fiabilidad. Sincronización local transparente.',
+          c2Title: 'React Native (Expo Bare Workflow)',
+          c2Desc: 'EAS Pipelines, puentes nativos personalizados Swift/Kotlin, optimización de bundles JS y calibración fina del garbage collector.',
+          c3Title: 'Security Gates y Calidad de Código',
+          c3Desc: 'Integración continua con auditorías de seguridad automáticas (MARTA QA) y blindaje móvil bajo estándares OWASP MASVS.',
+          ctaPrimary: 'Ver Código',
           ctaSecondary: 'Socket Handoff'
         }
       case 'gentleman':
         return {
-          status: 'L’ART DE L’INGÉNIERIE',
+          status: 'LA ARTESANÍA DETRÁS DEL CÓDIGO',
           badgeColor: 'bg-white',
-          badgeText: '● L’art de l’ingénierie et de l’élégance',
-          sub: 'Créateur de Produits · Architecture Logicielle · Direction Esthétique',
-          c1Title: 'Simplicidad Estructural',
-          c1Desc: 'Diseñar para el intelecto. Reducir el ruido visual hasta que solo quede la esencia funcional del producto.',
-          c2Title: 'Experiencias Sensoriales',
-          c2Desc: 'El software concebido como obra de arte. Integración de WebGL fluido y audio háptico procedural.',
-          c3Title: 'Compromiso de Excelencia',
-          c3Desc: 'Cada línea de código y decisión de diseño responde a los más altos estándares globales de calidad estética.',
-          ctaPrimary: 'Galería de Misiones',
+          badgeText: '● El arte de simplificar y diseñar con elegancia',
+          sub: 'Creador de Productos · Arquitectura de Software Limpia · Dirección de Estética Interactiva',
+          c1Title: 'Elegancia Estructural',
+          c1Desc: 'Diseñar es quitar ruido. Creemos en el orden matemático, el código desacoplado y las interfaces pulidas donde cada píxel tiene un propósito de negocio.',
+          c2Title: 'Interfaces Sensoriales Inmersivas',
+          c2Desc: 'Bento grids elegantes, animaciones en Framer Motion, renders 3D WebGL de alto rendimiento y sutiles respuestas hápticas procedurales.',
+          c3Title: 'Ingeniería de Autor',
+          c3Desc: 'Cada desarrollo digital se trata como una pieza única. Cuidamos la experiencia de principio a fin, transmitiendo el respeto y valor que tu marca merece.',
+          ctaPrimary: 'Galería Estética',
           ctaSecondary: 'Agendar Diálogo'
         }
       case 'founder':
       default:
         return {
-          status: 'DISPONIBLE PARA PROYECTOS',
+          status: '¿BUSCÁS HACER CRECER TU NEGOCIO?',
           badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Disponible para proyectos — AR / Remote',
-          sub: 'Product Engineer · React Native Mobile · Fullstack Developer · Antigravity Studio',
-          c1Title: 'Arquitectura Resiliente (Offline-First)',
-          c1Desc: 'Garantiza el funcionamiento 24/7 sin conexión. Cero pérdida de datos para operaciones críticas en campo.',
-          c2Title: 'Ingeniería SaaS Multi-Tenant',
-          c2Desc: 'Escalabilidad comercial corporativa. Una sola base de código para servir a cientos de empresas de forma segura.',
-          c3Title: 'Diseño 3D & UX de Extremo a Extremo',
-          c3Desc: 'Interfaces que deslumbran y convierten. Desde la fase en Blender hasta el despliegue global de producción.',
-          ctaPrimary: 'Misiones Completadas',
-          ctaSecondary: 'Iniciar Handoff'
+          badgeText: '● Diseñando Soluciones con Retorno de Inversión (ROI)',
+          sub: 'Ingeniero de Producto · Creamos apps y plataformas comerciales de alto impacto que capturan valor y escalan sin fricciones.',
+          c1Title: 'Resiliencia de Facturación (Offline-First)',
+          c1Desc: 'Tu negocio no puede detenerse si se cae la red. Creamos sistemas móviles que siguen operando y cobrando sin internet, resguardando cada transacción.',
+          c2Title: 'Arquitecturas SaaS Robustas y Escalables',
+          c2Desc: 'Modelamos la base de tu software para crecer. Integraciones de pago ágiles con Stripe (fiat) y Base L2 (cripto de bajas tasas) para reducir comisiones.',
+          c3Title: 'Experiencia de Usuario 3D e Interactiva',
+          c3Desc: 'Tus clientes merecen una experiencia premium. Fusionamos WebGL, Blender y micro-interacciones para impresionar, fidelizar y aumentar la conversión.',
+          ctaPrimary: 'Ver Soluciones',
+          ctaSecondary: 'Agendar una Charla'
         }
     }
   }

@@ -6,10 +6,10 @@ import { useSound } from '../theme/SoundManager'
 import { Check, Cpu, CreditCard, RefreshCw, ShoppingCart } from 'lucide-react'
 
 const serviceOptions = [
-  { id: 'mobile', title: 'Mobile Apps (Offline-First)', price: 3000, desc: 'React Native & Expo. Sincronización robusta local SQLite/Firebase.' },
-  { id: 'saas', title: 'SaaS & Fullstack Architecture', price: 5000, desc: 'Arquitecturas Next.js multi-tenant escalables, Supabase y PostgreSQL.' },
-  { id: 'n8n', title: 'n8n Automation Workflows', price: 500, desc: 'Automatización de CRM de leads, bots de comunicación e integraciones IA.' },
-  { id: 'security', title: 'Security Audit & 3D Hardware', price: 1500, desc: 'Auditoría OWASP Mobile, contratos inteligentes y prototipado 3D.' }
+  { id: 'mobile', title: 'Mobile Apps (Offline-First)', price: 3000, desc: 'Diseño y desarrollo de apps móviles en React Native & Expo que funcionan sin conexión. Ideal para logística, agro o seguridad, donde la falta de señal detiene la facturación y causa pérdidas de clientes.' },
+  { id: 'saas', title: 'SaaS & Fullstack Architecture', price: 5000, desc: 'Desarrollo de plataformas web seguras con Next.js y PostgreSQL. Integramos pasarelas híbridas (Stripe para fiat + Base L2 para micropagos) para reducir comisiones operativas y automatizar tus suscripciones.' },
+  { id: 'n8n', title: 'Intelligent n8n Workflows', price: 500, desc: 'Automatización de procesos comerciales y administrativos. Conectamos tus herramientas preferidas con inteligencia artificial local para capturar prospectos, enviar presupuestos y responder consultas 24/7.' },
+  { id: 'security', title: 'Security Audit & WebGL 3D', price: 1500, desc: 'Protegemos tus activos auditando tus apps móviles bajo normas OWASP MASVS y asegurando smart contracts. Modelamos assets interactivos en Blender y WebGL para impresionar e incrementar la conversión de tu sitio.' }
 ]
 
 export default function Services() {

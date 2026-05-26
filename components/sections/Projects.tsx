@@ -3,101 +3,176 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
-
 const rawProjects = [
   {
     id: 'titanflow',
     title: 'TitanFlow',
-    role: 'SaaS Quant & Bot de Trading',
-    stack: ['Node.js', 'Express', 'Binance API', 'WebSockets', 'Python ML', 'Base L2'],
+    role: 'DeFi Copy Trading & Algorithmic Bot',
+    stack: ['Node.js', 'TypeScript', 'Ollama AI', 'CCXT', 'Solidity', 'Base L2'],
     link: 'https://titanflow.aldoarbizu.com',
     dev: {
-      problem: 'Latencia en la ejecución de APIs REST estándar y fugas de memoria en streams persistentes.',
-      solution: 'Bots con WebSockets de baja latencia reconectados en <200ms. Script Python ML local para detección de regímenes de mercado que reduce las llamadas en un 40%.'
+      problem: 'Fricción por deslizamiento (slippage) y latencia en APIs de futuros cripto en vivo.',
+      solution: 'Conexión de baja latencia mediante websockets robustos, oráculo de mitigación de Kelly ante slippage (>0.25%) e integraciones de análisis emocional con LLM local.'
     },
     founder: {
-      problem: 'Pérdidas de capital por latencia y mala gestión de margen en trading manual de criptoactivos.',
-      solution: 'Robots de trading autónomos con copia automática on-chain Base L2 (Quantum Vault 20% HWM), Retail API segura sin permisos de retiro, e Institutional VPS dedicado.'
+      problem: 'El riesgo de hackeo de API keys centralizadas en servidores y tarifas fijas elevadas de copy-trading.',
+      solution: 'Oráculo de claves cifrado localmente en extensión de navegador Web3, firmando órdenes de Binance mediante WebSockets locales. Bucle ERC-4626 en Base L2 con cobro High-Water Mark (20% fee) sin custodia directa.'
     },
     gentleman: {
-      problem: 'Interfaces caóticas de trading que provocan fatiga visual y decisiones impulsivas.',
-      solution: 'Plataforma de ejecución limpia, sin ruido de mercado. Un balance estético impecable entre la telemetría de datos numéricos y el diseño minimalista.'
+      problem: 'Consolas de trading ruidosas y caóticas que inducen al overtrading y causan fatiga visual.',
+      solution: 'Un panel de control sobrio con gradientes oscuros, trazando retornos acumulados netos y telemetría de balances purgada de ruidos de mercado.'
+    }
+  },
+  {
+    id: 'aureus',
+    title: 'Aureus',
+    role: 'Wealth OS & AI Financial Advisor',
+    stack: ['Next.js 16', 'TypeScript', 'Zustand', 'Recharts', 'Gemini API', 'Base L2'],
+    link: 'https://aureus.aldoarbizu.com',
+    dev: {
+      problem: 'Procesamiento y mitigación en tiempo real de sesgos cognitivos en los diálogos del inversor.',
+      solution: 'Algoritmo detector de sesgos cognitivos (WASM local) acoplado a Vercel AI SDK para calibrar las respuestas de streaming de la IA de forma asíncrona.'
+    },
+    founder: {
+      problem: 'Tarifas excesivas de asesoramiento patrimonial tradicional y falta de simulaciones financieras realistas.',
+      solution: 'Asesor financiero de élite Víctor Harland (Gemini) integrado a simulaciones dinámicas probabilísticas y micropagos en Base L2 ($0.20 USD) por consulta.'
+    },
+    gentleman: {
+      problem: 'Interfaces bancarias frías e impersonales que carecen de discreción y prestigio visual.',
+      solution: 'Un dashboard premium de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado, inspirado en la sobriedad de la banca suiza.'
     }
   },
   {
     id: 'techzone',
     title: 'TechZone',
-    role: 'POS & Omnichannel Hub',
-    stack: ['React', 'SQLite WAL', 'Supabase', 'Zustand', 'PostgreSQL', 'TailwindCSS'],
+    role: 'POS Retail & Omnichannel Gateway',
+    stack: ['React Native', 'Expo Bare', 'SQLite WAL', 'Zustand', 'Stripe Elements', 'Universal Cart'],
     link: 'https://techzone.aldoarbizu.com',
     dev: {
-      problem: 'Cortes de red que interrumpen escrituras SQL remotas y desincronizan esquemas locales.',
-      solution: 'SQLite local en modo WAL. Cola de sincronización incremental basada en triggers locales reconciliada bidireccionalmente con Supabase al restaurarse la señal.'
+      problem: 'Pérdidas de transacciones de compra en el cliente por caídas abruptas de conectividad.',
+      solution: 'Persistencia local Zustand AsyncStorage y encolamiento SQLite local en modo WAL con triggers diferenciales automáticos hacia base remota.'
     },
     founder: {
-      problem: 'Pérdida de facturación por cortes de internet en tiendas físicas y desincronización de inventarios multicanal.',
-      solution: 'Punto de venta offline-first con SQLite local WAL que sincroniza de forma incremental y reconcilia las transacciones con Supabase al retornar la señal.'
+      problem: 'Pérdidas de ventas en mostradores retail debido a internet inestable en locales físicos.',
+      solution: 'Punto de venta Offline-First (Store & Forward) con firmas QR de intención de cobro dual y checkout Universal Cart de Google Pay para agilizar el mostrador.'
     },
     gentleman: {
-      problem: 'Puntos de venta obsoletos y ruidosos que deterioran la experiencia de marca en tiendas de diseño.',
-      solution: 'Una interfaz limpia de catálogo y POS con micro-interacciones suaves en el carrito y transiciones fluidas durante la simulación de cobro.'
+      problem: 'Interfaces de catálogo lentas y toscas que interrumpen la fluidez del cliente al comprar.',
+      solution: 'Un catálogo minimalista con animaciones fluidas de adición al carrito, transiciones de suavizado de Bento Grid y tipografía refinada.'
     }
   },
   {
     id: 'sentinelos',
     title: 'SentinelOS',
-    role: 'SaaS de Seguridad Privada B2B',
-    stack: ['React Native', 'Expo EAS', 'SQLite', 'Node.js', 'PostgreSQL'],
+    role: 'Security Dispatch & Command Center',
+    stack: ['React Native', 'Expo EAS', 'SQLite', 'Redux Toolkit', 'Firebase RTDB', 'Lottie'],
     link: 'https://sentinelos.aldoarbizu.com',
     dev: {
-      problem: 'Pérdida de incidentes locales sin red y vulnerabilidades frente a la manipulación de coordenadas GPS.',
-      solution: 'Expo React Native Bare Workflow. Cifrado SQLite local mediante SQLCipher y firma criptográfica hash de lecturas NFC para mitigar spoofing.'
+      problem: 'Fraude en rondas mediante clonación de tags NFC (NFC spoofing) y caídas de reportes sin señal.',
+      solution: 'Validación geométrica en tiempo real mediante red neuronal TensorFlow Lite local que audita fotos tomadas al punto de control.'
     },
     founder: {
-      problem: 'Altos costos en hardware de control de ronda (bastones tradicionales) y pérdida de reportes de incidentes en sótanos o áreas offline.',
-      solution: 'Aplicación de seguridad móvil con marcación NFC y localización GPS sin coste de hardware dedicado, resiliencia offline SQLite y despacho SOS inmediato mediante Aegis.'
+      problem: 'Elevados costos de hardware para control de guardias y pérdida de comunicación en cocheras subterráneas.',
+      solution: 'Software móvil de rondas con SOS perimetral inteligente (Aegis) y red de socorro en malla (Mesh P2P) a través de Wi-Fi Direct/Bluetooth.'
     },
     gentleman: {
-      problem: 'Sistemas de control de seguridad militarizados con pantallas complejas e intimidantes para los vigilantes.',
-      solution: 'Layouts ergonómicos de alto contraste optimizados para visión nocturna, tipografía monoespaciada crisp y botones amplios de 56px para uso con guantes.'
+      problem: 'Pantallas de monitoreo sobrecargadas que ciegan o fatigan al personal en turnos nocturnos.',
+      solution: 'Esquema táctico de alto contraste con tipografía monoespaciada crisp y botones sobredimensionados de 56px ergonómicos para uso nocturno.'
+    }
+  },
+  {
+    id: 'aeroshot',
+    title: 'AeroShot',
+    role: 'Agricultural Drone Processing SaaS',
+    stack: ['React Native', 'Expo', 'SQLite', 'Animated', 'Jest', 'Expo Haptics'],
+    link: '#projects',
+    dev: {
+      problem: 'Transiciones de telemetría de vuelo bruscas en el renderizado móvil local.',
+      solution: 'Control de estados óptimo mediante Animated.spring local, amortiguando fluctuaciones de señal con caché SQLite e interfaz háptica.'
+    },
+    founder: {
+      problem: 'Pilotos de drones que pierden mapas de calor y reportes de parcelas debido a la nula conectividad en campos abiertos.',
+      solution: 'Procesamiento de imágenes y telemetría de parcelas Offline-First con sincronización diferida en segundo plano, optimizando EAS bundles.'
+    },
+    gentleman: {
+      problem: 'Visualizaciones de mapas toscas que restan profesionalidad a los informes de entrega a clientes.',
+      solution: 'Capas cartográficas con transiciones glassmorphic suaves, alertas de telemetría y micro-vibraciones hápticas de navegación precisa.'
     }
   },
   {
     id: 'agromarket',
     title: 'AgroMarket Pro',
-    role: 'Hub Federal de Agronegocios',
-    stack: ['React', 'TailwindCSS', 'HTML5 Canvas', 'Supabase', 'PostgreSQL'],
+    role: 'AgriTech Logistics & Marketplace',
+    stack: ['React', 'Zustand', 'Supabase', 'HTML5 Canvas', 'Gemini API', 'Universal Cart'],
     link: 'https://agromarket.aldoarbizu.com',
     dev: {
-      problem: 'Falta de APIs rurales y cálculo de volumen volumétrico tridimensional en el cliente móvil.',
-      solution: 'Motor matemático local en JavaScript que proyecta mallas poligonales en un canvas 2D, calculando volumen estimado de silobolsas sin llamadas a servidor.'
+      problem: 'Cálculo volumétrico tridimensional local en el cliente móvil pesado e impreciso.',
+      solution: 'Proyección de mallas poligonales locales en HTML5 Canvas 2D y análisis asíncrono con Gemini para compatibilidad fitotóxica.'
     },
     founder: {
-      problem: 'Brecha de conectividad rural y falta de herramientas de cubicación/auditoría rápida de silobolsas, peso de ganado y plagas.',
-      solution: 'Hub multirol interactivo (trabajadores, pools, fletes) con simulador AR/VR en cámara para estimar volumen de silobolsas, peso de novillos y plagas de soja.'
+      problem: 'Incertidumbre en la cubicación de silobolsas y procesos de remate engorrosos en zonas rurales.',
+      solution: 'Simulador AR para cubicación de silobolsas sin internet, pasarela inteligente Universal Cart y remates de hacienda con WebRTC libre de delay.'
     },
     gentleman: {
-      problem: 'La tosquedad habitual del software agropecuario tradicional argentino.',
-      solution: 'Rediseño conceptual completo: un dashboard agrícola con texturas oscuras y Bento Grid que dignifica el trabajo de campo y agiliza las misiones de transporte.'
+      problem: 'Interfaces agropecuarias rudimentarias y toscas que desalientan el uso diario.',
+      solution: 'Un panel premium con Bento Grid, texturas metálicas oscuras y contrastes de luz en ámbar que realzan la elegancia del campo.'
+    }
+  },
+  {
+    id: 'cannabis',
+    title: 'CannaSavias',
+    role: 'E-commerce & Legal Compliance SaaS',
+    stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
+    link: 'https://cannabis.aldoarbizu.com',
+    dev: {
+      problem: 'Fricción en la verificación del cumplimiento normativo legal de recetas REPROCANN en tiempo real.',
+      solution: 'Conexión y validación asíncrona con Gemini API para auditar los límites legales de stock y dosificaciones de prescripciones del cliente.'
+    },
+    founder: {
+      problem: 'Sanciones comerciales por sobrepasar límites de stock legal y procesos de checkout lentos en fitomedicina.',
+      solution: 'Plataforma e-commerce con checkout inteligente Universal Cart y auditoría automática REPROCANN, centrada en La Plata, Buenos Aires.'
+    },
+    gentleman: {
+      problem: 'Sitios web de farmacia cannábica toscos o informales que no transmiten rigurosidad médica.',
+      solution: 'Botica digital elegante con contrastes de verde esmeralda, micro-interacciones suaves en la compra y transiciones fluidas de selección.'
     }
   },
   {
     id: 'ecoconnect',
     title: 'EcoConnect',
-    role: 'SaaS ESG & Huella de Carbono',
-    stack: ['Next.js', 'React', 'TailwindCSS', 'Supabase', 'PostgreSQL', 'Ethers.js'],
+    role: 'ESG Registry & Carbon Platform',
+    stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'PostgreSQL', 'Ethers.js (Base L2)'],
     link: 'https://ecoconnect.aldoarbizu.com',
     dev: {
-      problem: 'Políticas de seguridad a nivel de fila (RLS) vulnerables ante joins complejos en Postgres.',
-      solution: 'Esquema estricto de Row Level Security con validación de tokens JWT on-chain Base L2 y acuñamiento de hashes de verificación usando Ethers.js.'
+      problem: 'Políticas de seguridad a nivel de fila (RLS) vulnerables ante consultas complejas de auditorías forestales.',
+      solution: 'Esquema estricto de RLS combinado con firmas criptográficas on-chain e inmutabilidad en Base L2 usando Ethers.js.'
     },
     founder: {
-      problem: 'Municipios y corporaciones con datos de compensación y consumo energético fragmentados y difíciles de auditar.',
-      solution: 'Auditoría ESG municipal con políticas RLS en Postgres y plataforma ciudadana de créditos de carbono con certificados SBT acuñados en Base L2.'
+      problem: 'Altas barreras de costo para pequeños municipios al auditar y emitir créditos de carbono verificados.',
+      solution: 'Estimación de biomasa mediante imágenes multiespectrales de satélite Sentinel-2 sin hardware inicial, y donaciones mediante Soulbound Tokens (SBT).'
     },
     gentleman: {
-      problem: 'Plataformas de ecología aburridas que no generan engagement ni transmiten seriedad institucional.',
-      solution: 'Un panel de telemetría de carbono de alta gama que utiliza gradientes verdes oscuros sutiles y mallas de datos limpias.'
+      problem: 'Plataformas de sostenibilidad y carbono áridas que parecen simples planillas de Excel.',
+      solution: 'Panel interactivo con gradientes forestales oscuros y modelo 3D del bosque municipal que crece según el impacto del ciudadano.'
+    }
+  },
+  {
+    id: 'pawhero',
+    title: 'PawHero',
+    role: 'Pet Tracking & NGO Donations',
+    stack: ['Next.js', 'React Native', 'SQLite', 'Base L2', 'Three.js', 'STL 3D Print'],
+    link: 'https://pawhero.aldoarbizu.com',
+    dev: {
+      problem: 'Validación y geolocalización asíncrona de mascotas perdidas sin consumo de APIs celulares de pago.',
+      solution: 'Red de rescate pasiva P2P. Las chapas QR impresas en 3D transmiten el GPS del lector de forma cifrada mediante WebSockets locales.'
+    },
+    founder: {
+      problem: 'Costos mensuales prohibitivos en collares GPS y desorganización de rescate animal en protectoras (SAPAB).',
+      solution: 'Chapas identificatorias QR descargables en STL para impresión 3D a costo cero de suscripción, e integraciones de donaciones mediante SBT.'
+    },
+    gentleman: {
+      problem: 'Placas de identificación de mascotas genéricas o interfaces lúdicas infantiles sin seriedad.',
+      solution: 'Perfiles de mascotas interactivos 3D con tipografía minimalista limpia y visualización de medallas SBT de bronce, plata y oro.'
     }
   }
 ]

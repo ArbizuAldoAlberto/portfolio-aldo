@@ -29,15 +29,18 @@ const space = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Aldo Arbizu | React Native Developer & Product Engineer — Argentina',
-  description: 'Freelance developer especializado en apps mobile Offline-First, automatización n8n y SaaS multi-tenant. Disponible para proyectos remotos en Latam y global. Antigravity Studio.',
+  title: 'Aldo Arbizu | Senior React Native Developer & Product Engineer — Hire Mobile Fullstack Expert',
+  description: 'Product Engineer y Desarrollador Senior React Native especializado en arquitecturas móviles Offline-First (SQLite WAL) y automatizaciones inteligentes B2B. Resiliencia de software para la continuidad de su negocio. Antigravity Studio.',
   keywords: [
     'Aldo Arbizu', 'React Native Developer', 'Product Engineer', 'Offline-First', 'SQLite Expo',
-    'n8n automatización', 'SaaS Multi-tenant', 'Desarrollador Argentina', 'Freelance Mobile Developer',
-    'Three.js Portfolio', 'Next.js 16', 'Antigravity Studio'
+    'Contratar React Native', 'Hire React Native Developer', 'SaaS Architect Argentina',
+    'n8n automatización', 'Freelance Mobile Developer', 'Three.js Portfolio', 'Next.js 16',
+    'Antigravity Studio', 'Desarrollador Senior Mobile', 'Desarrollo Offline-First',
+    'B2B Software Development', 'Custom Mobile Apps', 'SaaS Developer Argentina',
+    'Hire Fullstack Engineer', 'Contratar Desarrollador Mobile', 'Product Engineer B2B'
   ],
-  authors: [{ name: 'Aldo Arbizu', url: 'https://aldoarbizu.dev' }],
-  metadataBase: new URL('https://aldoarbizu.dev'),
+  authors: [{ name: 'Aldo Arbizu', url: 'https://aldoarbizu.com' }],
+  metadataBase: new URL('https://aldoarbizu.com'),
   alternates: {
     canonical: '/'
   },
@@ -55,8 +58,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Aldo Arbizu — Product Engineer & Mobile Developer',
-    description: 'Construyo software que funciona donde otros fallan. React Native · Firebase · n8n · SaaS Architecture.',
-    url: 'https://aldoarbizu.dev',
+    description: 'Construyo software resiliente que funciona en el mundo real. React Native · Firebase · n8n · SaaS Architecture.',
+    url: 'https://aldoarbizu.com',
     siteName: 'Aldo Arbizu Portfolio',
     type: 'website',
     locale: 'es_AR',
@@ -72,7 +75,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Aldo Alberto Arbizu",
-  "url": "https://aldoarbizu.dev",
+  "url": "https://aldoarbizu.com",
   "jobTitle": "Product Engineer & Mobile Developer",
   "worksFor": {
     "@type": "Organization",
@@ -84,14 +87,17 @@ const jsonLd = {
   ],
   "knowsAbout": [
     "React Native",
-    "Expo",
+    "Expo Bare Workflow",
     "Firebase",
-    "SQLite",
+    "SQLite WAL",
     "Next.js",
     "Three.js",
     "n8n Automation",
     "SaaS Architecture",
-    "Offline-First Systems"
+    "Offline-First Systems",
+    "Universal Commerce Protocol (UCP)",
+    "Base L2 Payment Rails",
+    "LangGraph Agentic Workflows"
   ],
   "address": {
     "@type": "PostalAddress",
