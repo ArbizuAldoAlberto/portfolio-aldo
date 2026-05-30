@@ -42,6 +42,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Aldo Arbizu', url: 'https://aldoarbizu.com' }],
   metadataBase: new URL('https://aldoarbizu.com'),
+  icons: {
+    icon: '/favicon-founder.svg',
+    shortcut: '/favicon-founder.svg',
+    apple: '/favicon-founder.svg',
+  },
   alternates: {
     canonical: '/'
   },

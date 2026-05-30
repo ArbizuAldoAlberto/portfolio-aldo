@@ -26,6 +26,31 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    if (!mounted) return
+    
+    // Find all links containing 'icon' in rel
+    let links = document.querySelectorAll("link[rel*='icon']")
+    
+    if (links.length === 0) {
+      const defaultLink = document.createElement('link')
+      defaultLink.rel = 'icon'
+      defaultLink.type = 'image/svg+xml'
+      document.head.appendChild(defaultLink)
+      links = document.querySelectorAll("link[rel*='icon']")
+    }
+
+    const iconPath = `/favicon-${persona}.svg`
+    
+    links.forEach(link => {
+      const htmlLink = link as HTMLLinkElement
+      htmlLink.href = iconPath
+      htmlLink.type = 'image/svg+xml'
+    })
+    
+    console.log(`[NEXUS TELEMETRY] Favicon updated dynamically: ${persona} (${iconPath})`)
+  }, [persona, mounted])
+
   const setPersona = (newPersona: PersonaType) => {
     setPersonaState(newPersona)
     localStorage.setItem('nexus_persona', newPersona)

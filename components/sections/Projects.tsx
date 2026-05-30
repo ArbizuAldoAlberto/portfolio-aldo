@@ -85,7 +85,7 @@ const rawProjects = [
     title: 'AeroShot',
     role: 'Agricultural Drone Processing SaaS',
     stack: ['React Native', 'Expo', 'SQLite', 'Animated', 'Jest', 'Expo Haptics'],
-    link: '#projects',
+    link: 'https://aeroshot.aldoarbizu.com',
     dev: {
       problem: 'Transiciones de telemetría de vuelo bruscas en el renderizado móvil local.',
       solution: 'Control de estados óptimo mediante Animated.spring local, amortiguando fluctuaciones de señal con caché SQLite e interfaz háptica.'
