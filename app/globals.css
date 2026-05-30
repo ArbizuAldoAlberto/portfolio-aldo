@@ -34,6 +34,10 @@
     --coral-burn: #D85A30;
     --mist-gray: #C2C0B6;
     --space-border: rgba(255, 255, 255, 0.08);
+
+    /* Dynamic Fonts (Founder Mode Default) */
+    --font-display-active: var(--font-cormorant), serif;
+    --font-body-active: var(--font-jetbrains), monospace;
   }
 
   /* DEV MODE Theme: Neon Hacker aesthetic */
@@ -46,6 +50,10 @@
     --coral-burn: #FF3C00;
     --mist-gray: #A2C0B6;
     --space-border: rgba(0, 255, 102, 0.12);
+
+    /* Hacker Terminal Fonts */
+    --font-display-active: var(--font-jetbrains), monospace;
+    --font-body-active: var(--font-space), monospace;
   }
 
   /* FOUNDER MODE Theme: Gold, Purple, and Deep Space */
@@ -58,6 +66,10 @@
     --coral-burn: #D85A30;
     --mist-gray: #C2C0B6;
     --space-border: rgba(255, 255, 255, 0.08);
+
+    /* Founder Mode Fonts */
+    --font-display-active: var(--font-cormorant), serif;
+    --font-body-active: var(--font-jetbrains), monospace;
   }
 
   /* GENTLEMAN MODE Theme: Monochrome Silver and White luxury */
@@ -70,10 +82,15 @@
     --coral-burn: #C5C5D5;
     --mist-gray: #BFBFCF;
     --space-border: rgba(255, 255, 255, 0.05);
+
+    /* Gentleman Luxury Fonts (Serif Editorial) */
+    --font-display-active: var(--font-cormorant), serif;
+    --font-body-active: var(--font-cormorant), serif;
   }
   
   body {
-    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased overflow-x-hidden relative;
+    font-family: var(--font-body-active);
+    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased overflow-x-hidden relative;
     /* Interactive Mouse Spotlight Background Overlay */
     background-image: 
       radial-gradient(
@@ -88,10 +105,49 @@
         transparent 100%
       );
     background-attachment: fixed;
+    transition: background-color 0.5s ease;
+  }
+
+  /* Cybernetic Grid Overlay for Dev Mode */
+  html[data-persona="dev"] body {
+    background-image: 
+      linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px),
+      radial-gradient(
+        circle 600px at var(--mouse-x) var(--mouse-y), 
+        rgba(0, 255, 102, 0.04) 0%, 
+        rgba(0, 240, 255, 0.025) 50%, 
+        transparent 100%
+      );
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+  }
+
+  /* Clean Minimal Overlay for Gentleman Mode */
+  html[data-persona="gentleman"] body {
+    background-image: 
+      radial-gradient(
+        circle 500px at var(--mouse-x) var(--mouse-y), 
+        rgba(255, 255, 255, 0.025) 0%, 
+        transparent 100%
+      );
+    background-size: 100% 100%;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-white tracking-tight;
+    font-family: var(--font-display-active);
+    @apply text-white tracking-tight;
+    transition: font-family 0.3s ease;
+  }
+
+  /* Monospace Uppercase Headings in Dev Mode */
+  html[data-persona="dev"] h1, 
+  html[data-persona="dev"] h2, 
+  html[data-persona="dev"] h3, 
+  html[data-persona="dev"] h4, 
+  html[data-persona="dev"] h5, 
+  html[data-persona="dev"] h6 {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   /* Custom Cosmic Scrollbar */

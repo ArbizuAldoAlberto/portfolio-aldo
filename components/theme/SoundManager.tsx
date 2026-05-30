@@ -20,6 +20,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   const osc1Ref = useRef<OscillatorNode | null>(null)
   const osc2Ref = useRef<OscillatorNode | null>(null)
   const ambientGainRef = useRef<GainNode | null>(null)
+  const targetGainRef = useRef<number>(0.04)
 
   // Initialize Audio Context on user interaction
   const initAudio = () => {
@@ -38,23 +39,54 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   }
 
   const startAmbientDrone = (ctx: AudioContext) => {
-    // We create a low drone (detuned triangle waves for a smooth retro-futurism feel)
+    // Get saved persona
+    const saved = localStorage.getItem('nexus_persona')
+    const persona = (saved && ['dev', 'founder', 'gentleman'].includes(saved)) ? saved : 'founder'
+
     const osc1 = ctx.createOscillator()
     const osc2 = ctx.createOscillator()
     const filter = ctx.createBiquadFilter()
     const gain = ctx.createGain()
 
-    osc1.type = 'triangle'
-    osc1.frequency.setValueAtTime(55, ctx.currentTime) // A1 note
+    let osc1Type: OscillatorType = 'triangle'
+    let osc2Type: OscillatorType = 'sawtooth'
+    let freq1 = 55
+    let freq2 = 55.3
+    let gainVal = 0.04
+
+    if (persona === 'dev') {
+      osc1Type = 'sawtooth'
+      osc2Type = 'sawtooth'
+      freq1 = 41.2 // E1
+      freq2 = 41.5
+      gainVal = 0.05
+    } else if (persona === 'gentleman') {
+      osc1Type = 'sine'
+      osc2Type = 'sine'
+      freq1 = 110 // A2
+      freq2 = 110.3
+      gainVal = 0.015
+    } else { // founder
+      osc1Type = 'triangle'
+      osc2Type = 'triangle'
+      freq1 = 55 // A1
+      freq2 = 55.3
+      gainVal = 0.04
+    }
+
+    targetGainRef.current = gainVal
+
+    osc1.type = osc1Type
+    osc1.frequency.setValueAtTime(freq1, ctx.currentTime)
     
-    osc2.type = 'sawtooth'
-    osc2.frequency.setValueAtTime(55.3, ctx.currentTime) // Detuned for chorus effect
+    osc2.type = osc2Type
+    osc2.frequency.setValueAtTime(freq2, ctx.currentTime)
     
     filter.type = 'lowpass'
     filter.frequency.setValueAtTime(120, ctx.currentTime)
     filter.Q.setValueAtTime(5, ctx.currentTime)
 
-    gain.gain.setValueAtTime(isMuted ? 0 : 0.05, ctx.currentTime)
+    gain.gain.setValueAtTime(isMuted ? 0 : gainVal, ctx.currentTime)
 
     // Connect nodes
     osc1.connect(filter)
@@ -80,6 +112,54 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     lfo.start()
   }
 
+  // Live updates to the drone when the persona switches in real time
+  const updateDronePersona = (persona: string) => {
+    if (!audioCtxRef.current || !osc1Ref.current || !osc2Ref.current || !ambientGainRef.current) return
+    const ctx = audioCtxRef.current
+    const now = ctx.currentTime
+
+    let osc1Type: OscillatorType = 'triangle'
+    let osc2Type: OscillatorType = 'sawtooth'
+    let freq1 = 55
+    let freq2 = 55.3
+    let gainVal = 0.04
+
+    if (persona === 'dev') {
+      osc1Type = 'sawtooth'
+      osc2Type = 'sawtooth'
+      freq1 = 41.2 // E1
+      freq2 = 41.5
+      gainVal = 0.05
+    } else if (persona === 'gentleman') {
+      osc1Type = 'sine'
+      osc2Type = 'sine'
+      freq1 = 110 // A2
+      freq2 = 110.3
+      gainVal = 0.015
+    } else { // founder
+      osc1Type = 'triangle'
+      osc2Type = 'triangle'
+      freq1 = 55 // A1
+      freq2 = 55.3
+      gainVal = 0.04
+    }
+
+    targetGainRef.current = gainVal
+
+    // Set osc types
+    osc1Ref.current.type = osc1Type
+    osc2Ref.current.type = osc2Type
+
+    // Transition frequencies smoothly
+    osc1Ref.current.frequency.exponentialRampToValueAtTime(freq1, now + 0.8)
+    osc2Ref.current.frequency.exponentialRampToValueAtTime(freq2, now + 0.8)
+
+    // Transition volume (gain) if not muted
+    if (!isMuted) {
+      ambientGainRef.current.gain.linearRampToValueAtTime(gainVal, now + 0.8)
+    }
+  }
+
   // Toggle Mute
   const toggleMute = () => {
     const nextMute = !isMuted
@@ -92,7 +172,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     } else {
       initAudio()
       if (ambientGainRef.current && audioCtxRef.current) {
-        ambientGainRef.current.gain.linearRampToValueAtTime(0.04, audioCtxRef.current.currentTime + 0.8)
+        ambientGainRef.current.gain.linearRampToValueAtTime(targetGainRef.current, audioCtxRef.current.currentTime + 0.8)
       }
     }
   }
@@ -207,7 +287,10 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   // Subscribe to custom event triggered by Persona Switcher
   useEffect(() => {
-    const handlePersonaChange = () => {
+    const handlePersonaChange = (e: Event) => {
+      const customEvent = e as CustomEvent
+      const newPersona = customEvent.detail
+      updateDronePersona(newPersona)
       playBoot()
     }
     window.addEventListener('persona-change', handlePersonaChange)
