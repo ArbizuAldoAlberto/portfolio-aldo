@@ -6,6 +6,7 @@ import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postpro
 import { BlendFunction } from 'postprocessing'
 import * as THREE from 'three'
 import { useCursor } from '../theme/CursorContext'
+import { usePersona } from '../theme/PersonaContext'
 
 interface BranchProps {
   from: THREE.Vector3
@@ -35,10 +36,18 @@ function CylinderBranch({ from, to, radiusStart, radiusEnd, color = "#121217" }:
 function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; time: number } }) {
   const meshRef = useRef<THREE.InstancedMesh>(null)
   const { pointer } = useThree()
+  const { persona } = usePersona()
   const particleCount = 150
   
   const particles = useMemo(() => {
     const arr = []
+    const colorsMap = {
+      dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
+      gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
+      founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+    }
+    const colors = colorsMap[persona] || colorsMap.founder
+
     for (let i = 0; i < particleCount; i++) {
       const orbitType = i % 2 === 0 ? 0 : 1
       const radius = orbitType === 0 ? 1.9 + Math.random() * 0.45 : 2.6 + Math.random() * 0.65
@@ -54,11 +63,11 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
         inclineX,
         inclineZ,
         orbitType,
-        baseColor: orbitType === 0 ? '#1D9E75' : '#7F77DD'
+        baseColor: orbitType === 0 ? colors.primary : colors.secondary
       })
     }
     return arr
-  }, [])
+  }, [persona])
 
   const tempObj = useMemo(() => new THREE.Object3D(), [])
   const colorObj = useMemo(() => new THREE.Color(), [])
@@ -76,6 +85,13 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
     const time = state.clock.getElapsedTime()
     const mouseIntensity = Math.abs(pointer.x) + Math.abs(pointer.y)
     const speedMultiplier = 1.0 + mouseIntensity * 1.8
+
+    const colorsMap = {
+      dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', hoverPrimary: '#a6ffc9', hoverSecondary: '#a6f8ff' },
+      gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', hoverPrimary: '#ffffff', hoverSecondary: '#d9d9e3' },
+      founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', hoverPrimary: '#55fcd0', hoverSecondary: '#bfaaff' },
+    }
+    const colors = colorsMap[persona] || colorsMap.founder
 
     particles.forEach((p, idx) => {
       let angle = time * p.speed * speedMultiplier + p.phase
@@ -113,11 +129,11 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
       
       if (meshRef.current && meshRef.current.instanceColor) {
         if (radialOffset > 0.05) {
-          colorObj.set('#EF9F27')
+          colorObj.set(colors.accent)
         } else {
           const distToMouse = basePos.distanceTo(new THREE.Vector3(pointer.x * 2.2, pointer.y * 2.2, 0))
           if (distToMouse < 1.4) {
-            colorObj.set(p.orbitType === 0 ? '#55fcd0' : '#bfaaff')
+            colorObj.set(p.orbitType === 0 ? colors.hoverPrimary : colors.hoverSecondary)
           } else {
             colorObj.set(p.baseColor)
           }
@@ -155,23 +171,32 @@ function CyberOrganicTree() {
   const lineGeometryRef = useRef<THREE.BufferGeometry>(null)
 
   const { pointer } = useThree()
+  const { persona } = usePersona()
 
   const treeMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
 
   // Load Hunyuan3D-2 generated model
   const { scene } = useGLTF('/models/tree.glb')
 
+  const colorsMap = useMemo(() => ({
+    dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
+    gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', emissive: '#8B8B9B' },
+    founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', emissive: '#104f38' },
+  }), [])
+
+  const currentColors = useMemo(() => colorsMap[persona] || colorsMap.founder, [persona, colorsMap])
+
   useEffect(() => {
     scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
         child.receiveShadow = true
-        // Apply cyber-organic dark bark material with emissive tech veins
+        // Apply cyber-organic dark bark material with emissive tech veins dynamically colored
         const mat = new THREE.MeshPhysicalMaterial({
           color: new THREE.Color('#0a0e12'),
           roughness: 0.65,
           metalness: 0.7,
-          emissive: new THREE.Color('#104f38'),
+          emissive: new THREE.Color(currentColors.emissive),
           emissiveIntensity: 0.8,
           clearcoat: 0.4,
           clearcoatRoughness: 0.3,
@@ -181,7 +206,7 @@ function CyberOrganicTree() {
         treeMaterialRef.current = mat
       }
     })
-  }, [scene])
+  }, [scene, currentColors])
 
   const nodeCount = 32
   const maxLines = 120
@@ -270,17 +295,18 @@ function CyberOrganicTree() {
   // 2. Generate data leaf nodes orbiting each branch tip
   const nodes = useMemo(() => {
     const arr = []
+    const palette = [currentColors.primary, currentColors.secondary, currentColors.accent]
     for (let i = 0; i < nodeCount; i++) {
       const radius = 0.35 + Math.random() * 0.45
       const speed = 0.25 + Math.random() * 0.35
       const phase = Math.random() * Math.PI * 2
       const inclinationX = (Math.random() - 0.5) * Math.PI * 0.5
       const inclinationZ = (Math.random() - 0.5) * Math.PI * 0.5
-      const color = i % 3 === 0 ? '#1D9E75' : i % 3 === 1 ? '#7F77DD' : '#EF9F27'
+      const color = palette[i % palette.length]
       arr.push({ radius, speed, phase, inclinationX, inclinationZ, color })
     }
     return arr
-  }, [])
+  }, [currentColors])
 
   const nodePositions = useRef<THREE.Vector3[]>(nodes.map(() => new THREE.Vector3()))
 
@@ -316,11 +342,11 @@ function CyberOrganicTree() {
     }
     if (packetsMeshRef.current) {
       for (let i = 0; i < packetCount; i++) {
-        packetsMeshRef.current.setColorAt(i, new THREE.Color('#EF9F27'))
+        packetsMeshRef.current.setColorAt(i, new THREE.Color(currentColors.accent))
       }
       packetsMeshRef.current.instanceColor!.needsUpdate = true
     }
-  }, [nodes, packetCount])
+  }, [nodes, packetCount, currentColors])
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime()
@@ -492,15 +518,15 @@ function CyberOrganicTree() {
         {/* Pulsing sap cyber rings around trunk */}
         <mesh ref={ring1Ref} position={[0.02, -1.8, 0]} rotation={[0.1, 0, 0.05]}>
           <torusGeometry args={[0.27, 0.008, 6, 24]} />
-          <meshBasicMaterial color="#1D9E75" transparent opacity={0.5} />
+          <meshBasicMaterial color={currentColors.primary} transparent opacity={0.5} />
         </mesh>
         <mesh ref={ring2Ref} position={[-0.05, -1.2, 0.05]} rotation={[0.1, 0, 0.05]}>
           <torusGeometry args={[0.23, 0.008, 6, 24]} />
-          <meshBasicMaterial color="#7F77DD" transparent opacity={0.5} />
+          <meshBasicMaterial color={currentColors.secondary} transparent opacity={0.5} />
         </mesh>
         <mesh ref={ring3Ref} position={[-0.15, -0.6, 0.1]} rotation={[0.1, 0, 0.05]}>
           <torusGeometry args={[0.19, 0.008, 6, 24]} />
-          <meshBasicMaterial color="#EF9F27" transparent opacity={0.5} />
+          <meshBasicMaterial color={currentColors.accent} transparent opacity={0.5} />
         </mesh>
       </group>
 
@@ -513,7 +539,7 @@ function CyberOrganicTree() {
       {/* ⚡ SAP DATA PACKETS */}
       <instancedMesh ref={packetsMeshRef} args={[null as any, null as any, packetCount]}>
         <sphereGeometry args={[1, 8, 8]} />
-        <meshBasicMaterial color="#EF9F27" />
+        <meshBasicMaterial color={currentColors.accent} />
       </instancedMesh>
 
       {/* 🕸️ VEIN CONNECTIONS (DIGITAL LEAF GRID) */}
@@ -525,7 +551,7 @@ function CyberOrganicTree() {
           />
         </bufferGeometry>
         <lineBasicMaterial
-          color="#1D9E75"
+          color={currentColors.primary}
           transparent
           opacity={0.35}
           depthWrite={false}
@@ -537,7 +563,7 @@ function CyberOrganicTree() {
       <mesh ref={pingRef} visible={false}>
         <torusGeometry args={[1.0, 0.015, 8, 64]} />
         <meshBasicMaterial
-          color="#1D9E75"
+          color={currentColors.primary}
           transparent
           opacity={0}
           depthWrite={false}
@@ -546,8 +572,8 @@ function CyberOrganicTree() {
       </mesh>
 
       {/* ✨ BIO-POLLEN SPARKLES */}
-      <Sparkles count={50} scale={4.5} size={1.8} speed={1.0} color="#1D9E75" />
-      <Sparkles count={25} scale={3.5} size={1.4} speed={1.3} color="#7F77DD" />
+      <Sparkles count={50} scale={4.5} size={1.8} speed={1.0} color={currentColors.primary} />
+      <Sparkles count={25} scale={3.5} size={1.4} speed={1.3} color={currentColors.secondary} />
 
       {/* 🌌 INTERACTIVE STAR ORBITS (UCP & ESG DATA RINGS) */}
       <InteractiveStarRings clickPing={pingState.current} />
@@ -557,6 +583,14 @@ function CyberOrganicTree() {
 
 export default function Hero3D() {
   const { setCursorState } = useCursor()
+  const { persona } = usePersona()
+
+  const colorsMap = {
+    dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
+    gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
+    founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+  }
+  const currentColors = colorsMap[persona] || colorsMap.founder
 
   return (
     <div 
@@ -571,9 +605,9 @@ export default function Hero3D() {
       >
         <ambientLight intensity={0.1} />
         
-        <pointLight position={[8, 8, 8]} color="#1D9E75" intensity={5} />
-        <pointLight position={[-8, -8, -8]} color="#7F77DD" intensity={4} />
-        <pointLight position={[0, 0, 4]} color="#EF9F27" intensity={2} />
+        <pointLight position={[8, 8, 8]} color={currentColors.primary} intensity={5} />
+        <pointLight position={[-8, -8, -8]} color={currentColors.secondary} intensity={4} />
+        <pointLight position={[0, 0, 4]} color={currentColors.accent} intensity={2} />
 
         <Suspense fallback={null}>
           <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>

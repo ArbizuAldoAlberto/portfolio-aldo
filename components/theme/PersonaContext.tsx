@@ -48,7 +48,15 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
       htmlLink.type = 'image/svg+xml'
     })
     
-    console.log(`[NEXUS TELEMETRY] Favicon updated dynamically: ${persona} (${iconPath})`)
+    // Update document title dynamically based on active persona (GAP PORT-1)
+    const titleMap = {
+      dev: '[ENGINEER] Aldo Arbizu | B2B Mobile & SaaS Architect',
+      founder: '[FOUNDER] Aldo Arbizu | ROI-Driven Product Engineer',
+      gentleman: 'Aldo Arbizu | Architectural & Aesthetic Software'
+    }
+    document.title = titleMap[persona] || 'Aldo Arbizu'
+    
+    console.log(`[NEXUS TELEMETRY] Persona updated dynamically: ${persona} (${iconPath})`)
   }, [persona, mounted])
 
   const setPersona = (newPersona: PersonaType) => {
