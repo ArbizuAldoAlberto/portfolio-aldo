@@ -174,6 +174,82 @@ const rawProjects = [
       problem: 'Identificadores genéricos o interfaces lúdicas sin seriedad.',
       solution: 'Perfiles interactivos 3D con tipografía minimalista y medallas SBT on-chain.'
     }
+  },
+  {
+    id: 'impresion3d',
+    title: 'Impresión 3D P2P',
+    role: 'Collaborative 3D Printing Platform',
+    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Web3 Escrow', 'STL 3D Print'],
+    link: 'https://impresion3d.aldoarbizu.com',
+    dev: {
+      problem: 'Complejidad y lentitud en la cotización manual de archivos de diseño STL.',
+      solution: 'IA Slicer integrado que analiza y cotiza mallas poligonales 3D localmente en el cliente.'
+    },
+    founder: {
+      problem: 'Comisiones elevadas en plataformas de manufactura y falta de confianza entre partes.',
+      solution: 'Escrow descentralizado seguro en Base L2 y red P2P de Makers con hardware verificado.'
+    },
+    gentleman: {
+      problem: 'Interfaces de manufactura 3D toscas e industriales que aburren al usuario.',
+      solution: 'Visualizador de mallas 3D premium e interactivo con diseño liquid glass moderno.'
+    }
+  },
+  {
+    id: 'habitat',
+    title: 'Hábitat',
+    role: 'Decentralized Direct Rentals & Land Control',
+    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Solidity (Base L2)', 'Gemini API'],
+    link: 'https://habitat.aldoarbizu.com',
+    dev: {
+      problem: 'Vulnerabilidades en el flujo de verificación y firma de contratos tradicionales.',
+      solution: 'Firmas criptográficas on-chain en Base L2 con verificación directa del inquilino.'
+    },
+    founder: {
+      problem: 'Intermediarios inmobiliarios costosos y especulación con tierras ociosas.',
+      solution: 'Contratos inteligentes autoejecutables y base de datos local para reconversión productiva.'
+    },
+    gentleman: {
+      problem: 'Procesos de alquiler fríos y complejos sin guías ni soporte dinámico.',
+      solution: 'Dashboard minimalista de reubicación y contratos con glassmorphism premium.'
+    }
+  },
+  {
+    id: 'marketingadvisor',
+    title: 'Smart Marketing Advisor',
+    role: 'AI Omnichannel Marketing Coach',
+    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Recharts analytics'],
+    link: 'https://marketingadvisor.aldoarbizu.com',
+    dev: {
+      problem: 'Baja velocidad en la generación y publicación de contenido promocional.',
+      solution: 'Generador de copys publicitarios ultrarrápido con LLM local y encolado en SQLite.'
+    },
+    founder: {
+      problem: 'Falta de analítica clara de retorno sobre inversión publicitaria para pymes.',
+      solution: 'Panel de control con métricas e informes automáticos en vivo para optimizar prospectos.'
+    },
+    gentleman: {
+      problem: 'Administradores de redes sociales sobrecargados de botones que fatigan la vista.',
+      solution: 'Bento Grid de control de marketing con tipografías elegantes Outfit e Inter.'
+    }
+  },
+  {
+    id: 'nomadhub',
+    title: 'NOMAD Tactical Hub',
+    role: 'Off-grid Resilient Survival System',
+    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Vigenère Cipher', 'Morse Encoder'],
+    link: 'https://nomadhub.aldoarbizu.com',
+    dev: {
+      problem: 'Dependencia de servidores centrales para cifrado y cálculos de radio en crisis.',
+      solution: 'Calculadoras RF locales para antenas dipolo y cifrado Vigenère sin conexión.'
+    },
+    founder: {
+      problem: 'Caída de infraestructura telefónica que incomunica a comunidades vulnerables.',
+      solution: 'Portal de Solidaridad Humana con mensajería simulada LoRa Mesh P2P y mapas GPS offline.'
+    },
+    gentleman: {
+      problem: 'Diseño militar clásico descuidado que resulta ilegible en condiciones nocturnas.',
+      solution: 'Estilo cyber-dark con alto contraste verde neón y volt cian para mayor legibilidad.'
+    }
   }
 ]
 
@@ -269,7 +345,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 <ExternalLink size={14} className="group-hover/link:text-[var(--color-orbital-teal)] transition-colors" />
                 <span>Demo En Vivo</span>
               </motion.a>
-              {project.stack.includes('React Native') && (
+              {(project.stack.includes('React Native') || project.stack.includes('Kotlin')) && (
                 <>
                   <motion.a
                     href={`${project.link}/downloads/${project.id}.apk`}
