@@ -296,12 +296,20 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener('persona-change', handlePersonaChange)
     return () => {
       window.removeEventListener('persona-change', handlePersonaChange)
-      
-      // Stop oscillators on cleanup
-      if (osc1Ref.current) osc1Ref.current.stop()
-      if (osc2Ref.current) osc2Ref.current.stop()
     }
-  }, [isMuted])
+  }, [])
+
+  // Stop oscillators ONLY on component unmount
+  useEffect(() => {
+    return () => {
+      if (osc1Ref.current) {
+        try { osc1Ref.current.stop() } catch (err) {}
+      }
+      if (osc2Ref.current) {
+        try { osc2Ref.current.stop() } catch (err) {}
+      }
+    }
+  }, [])
 
   return (
     <SoundContext.Provider value={{ isMuted, toggleMute, playTick, playClick, playBoot, playSuccess }}>

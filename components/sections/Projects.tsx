@@ -11,16 +11,16 @@ const rawProjects = [
     stack: ['Node.js', 'TypeScript', 'Ollama AI', 'CCXT', 'Solidity', 'Base L2'],
     link: 'https://titanflow.aldoarbizu.com',
     dev: {
-      problem: 'Fricción por deslizamiento (slippage) y latencia en APIs de futuros cripto en vivo.',
-      solution: 'Conexión de baja latencia mediante websockets robustos, oráculo de mitigación de Kelly ante slippage (>0.25%) e integraciones de análisis emocional con LLM local.'
+      problem: 'Fricción por deslizamiento (slippage) y latencia en APIs de futuros.',
+      solution: 'WebSockets concurrentes de baja latencia con oráculo de Kelly para control de slippage.'
     },
     founder: {
-      problem: 'El riesgo de hackeo de API keys centralizadas en servidores y tarifas fijas elevadas de copy-trading.',
-      solution: 'Oráculo de claves cifrado localmente en extensión de navegador Web3, firmando órdenes de Binance mediante WebSockets locales. Bucle ERC-4626 en Base L2 con cobro High-Water Mark (20% fee) sin custodia directa.'
+      problem: 'Tarifas elevadas de copy-trading y riesgo de custodia de API keys.',
+      solution: 'Contratos inteligentes en Base L2 (ERC-4626) con firma local de órdenes sin custodia.'
     },
     gentleman: {
-      problem: 'Consolas de trading ruidosas y caóticas que inducen al overtrading y causan fatiga visual.',
-      solution: 'Un panel de control sobrio con gradientes oscuros, trazando retornos acumulados netos y telemetría de balances purgada de ruidos de mercado.'
+      problem: 'Consolas de trading ruidosas que inducen al overtrading y fatiga visual.',
+      solution: 'Dashboard minimalista oscuro con gráficos netos y telemetría purgada.'
     }
   },
   {
@@ -30,16 +30,16 @@ const rawProjects = [
     stack: ['Next.js 16', 'TypeScript', 'Zustand', 'Recharts', 'Gemini API', 'Base L2'],
     link: 'https://aureus.aldoarbizu.com',
     dev: {
-      problem: 'Procesamiento y mitigación en tiempo real de sesgos cognitivos en los diálogos del inversor.',
-      solution: 'Algoritmo detector de sesgos cognitivos (WASM local) acoplado a Vercel AI SDK para calibrar las respuestas de streaming de la IA de forma asíncrona.'
+      problem: 'Procesamiento en tiempo real de sesgos cognitivos en los diálogos del inversor.',
+      solution: 'Detector de sesgos local con WASM acoplado al SDK de Vercel AI en streaming.'
     },
     founder: {
-      problem: 'Tarifas excesivas de asesoramiento patrimonial tradicional y falta de simulaciones financieras realistas.',
-      solution: 'Asesor financiero de élite Víctor Harland (Gemini) integrado a simulaciones dinámicas probabilísticas y micropagos en Base L2 ($0.20 USD) por consulta.'
+      problem: 'Costos elevados de asesoramiento patrimonial tradicional.',
+      solution: 'Asesor de IA premium integrado a simulaciones de ROI con micropagos de $0.20 USD.'
     },
     gentleman: {
-      problem: 'Interfaces bancarias frías e impersonales que carecen de discreción y prestigio visual.',
-      solution: 'Un dashboard premium de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado, inspirado en la sobriedad de la banca suiza.'
+      problem: 'Interfaces bancarias frías que carecen de discreción y prestigio visual.',
+      solution: 'Dashboard de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado.'
     }
   },
   {
@@ -49,16 +49,16 @@ const rawProjects = [
     stack: ['React Native', 'Expo Bare', 'SQLite WAL', 'Zustand', 'Stripe Elements', 'Universal Cart'],
     link: 'https://techzone.aldoarbizu.com',
     dev: {
-      problem: 'Pérdidas de transacciones de compra en el cliente por caídas abruptas de conectividad.',
-      solution: 'Persistencia local Zustand AsyncStorage y encolamiento SQLite local en modo WAL con triggers diferenciales automáticos hacia base remota.'
+      problem: 'Pérdidas de transacciones de venta por caídas abruptas de conectividad.',
+      solution: 'Encolamiento local atómico en SQLite WAL con triggers diferenciales automáticos.'
     },
     founder: {
-      problem: 'Pérdidas de ventas en mostradores retail debido a internet inestable en locales físicos.',
-      solution: 'Punto de venta Offline-First (Store & Forward) con firmas QR de intención de cobro dual y checkout Universal Cart de Google Pay para agilizar el mostrador.'
+      problem: 'Fuga de clientes en mostradores físicos debido a internet inestable.',
+      solution: 'Punto de venta Offline-First con firmas QR de cobro dual y checkout de Google Pay.'
     },
     gentleman: {
-      problem: 'Interfaces de catálogo lentas y toscas que interrumpen la fluidez del cliente al comprar.',
-      solution: 'Un catálogo minimalista con animaciones fluidas de adición al carrito, transiciones de suavizado de Bento Grid y tipografía refinada.'
+      problem: 'Interfaces de catálogo lentas que interrumpen la fluidez del cliente.',
+      solution: 'Catálogo premium interactivo con transiciones de Bento Grid y tipografía refinada.'
     }
   },
   {
@@ -68,16 +68,16 @@ const rawProjects = [
     stack: ['React Native', 'Expo EAS', 'SQLite', 'Redux Toolkit', 'Firebase RTDB', 'Lottie'],
     link: 'https://sentinelos.aldoarbizu.com',
     dev: {
-      problem: 'Fraude en rondas mediante clonación de tags NFC (NFC spoofing) y caídas de reportes sin señal.',
-      solution: 'Validación geométrica en tiempo real mediante red neuronal TensorFlow Lite local que audita fotos tomadas al punto de control.'
+      problem: 'Fraude por clonación de tags NFC de control de rondas.',
+      solution: 'Validación biométrica con red TensorFlow Lite local que audita fotos de control.'
     },
     founder: {
-      problem: 'Elevados costos de hardware para control de guardias y pérdida de comunicación en cocheras subterráneas.',
-      solution: 'Software móvil de rondas con SOS perimetral inteligente (Aegis) y red de socorro en malla (Mesh P2P) a través de Wi-Fi Direct/Bluetooth.'
+      problem: 'Elevados costos en bastones de patrulla y pérdida de señal en subterráneos.',
+      solution: 'App móvil con despacho SOS Aegis y comunicación en malla Mesh P2P local.'
     },
     gentleman: {
-      problem: 'Pantallas de monitoreo sobrecargadas que ciegan o fatigan al personal en turnos nocturnos.',
-      solution: 'Esquema táctico de alto contraste con tipografía monoespaciada crisp y botones sobredimensionados de 56px ergonómicos para uso nocturno.'
+      problem: 'Pantallas tácticas sobrecargadas que fatigan al operador nocturno.',
+      solution: 'Contraste ultra-alto con tipografía monoespaciada e interfaces optimizadas para la noche.'
     }
   },
   {
@@ -87,16 +87,16 @@ const rawProjects = [
     stack: ['React Native', 'Expo', 'SQLite', 'Animated', 'Jest', 'Expo Haptics'],
     link: 'https://aeroshot.aldoarbizu.com',
     dev: {
-      problem: 'Transiciones de telemetría de vuelo bruscas en el renderizado móvil local.',
-      solution: 'Control de estados óptimo mediante Animated.spring local, amortiguando fluctuaciones de señal con caché SQLite e interfaz háptica.'
+      problem: 'Transiciones de telemetría de vuelo bruscas en el renderizado móvil.',
+      solution: 'Control de estados fluido con Animated.spring y amortiguación de señal por hardware.'
     },
     founder: {
-      problem: 'Pilotos de drones que pierden mapas de calor y reportes de parcelas debido a la nula conectividad en campos abiertos.',
-      solution: 'Procesamiento de imágenes y telemetría de parcelas Offline-First con sincronización diferida en segundo plano, optimizando EAS bundles.'
+      problem: 'Pérdida de mapas de parcelas por nula señal en campos remotos.',
+      solution: 'Procesamiento de imágenes y telemetría de parcelas Offline-First con sync en background.'
     },
     gentleman: {
-      problem: 'Visualizaciones de mapas toscas que restan profesionalidad a los informes de entrega a clientes.',
-      solution: 'Capas cartográficas con transiciones glassmorphic suaves, alertas de telemetría y micro-vibraciones hápticas de navegación precisa.'
+      problem: 'Visualizaciones cartográficas toscas en informes de entrega.',
+      solution: 'Capas cartográficas con transiciones glassmorphic suaves e interfaz háptica precisa.'
     }
   },
   {
@@ -106,16 +106,16 @@ const rawProjects = [
     stack: ['React', 'Zustand', 'Supabase', 'HTML5 Canvas', 'Gemini API', 'Universal Cart'],
     link: 'https://agromarket.aldoarbizu.com',
     dev: {
-      problem: 'Cálculo volumétrico tridimensional local en el cliente móvil pesado e impreciso.',
-      solution: 'Proyección de mallas poligonales locales en HTML5 Canvas 2D y análisis asíncrono con Gemini para compatibilidad fitotóxica.'
+      problem: 'Cálculo volumétrico tridimensional local en el cliente móvil impreciso.',
+      solution: 'Proyección de mallas poligonales en Canvas 2D y auditoría fitotóxica con Gemini API.'
     },
     founder: {
-      problem: 'Incertidumbre en la cubicación de silobolsas y procesos de remate engorrosos en zonas rurales.',
-      solution: 'Simulador AR para cubicación de silobolsas sin internet, pasarela inteligente Universal Cart y remates de hacienda con WebRTC libre de delay.'
+      problem: 'Tasaciones de silobolsas y hacienda lentas y procesos de remate complejos.',
+      solution: 'Simulador AR para cubicación sin red y remates de hacienda con WebRTC en tiempo real.'
     },
     gentleman: {
-      problem: 'Interfaces agropecuarias rudimentarias y toscas que desalientan el uso diario.',
-      solution: 'Un panel premium con Bento Grid, texturas metálicas oscuras y contrastes de luz en ámbar que realzan la elegancia del campo.'
+      problem: 'Interfaces agrarias toscas que desalientan su adopción diaria.',
+      solution: 'Panel premium con Bento Grid, texturas oscuras y contrastes de luz ámbar.'
     }
   },
   {
@@ -125,16 +125,16 @@ const rawProjects = [
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
     link: 'https://cannabis.aldoarbizu.com',
     dev: {
-      problem: 'Fricción en la verificación del cumplimiento normativo legal de recetas REPROCANN en tiempo real.',
-      solution: 'Conexión y validación asíncrona con Gemini API para auditar los límites legales de stock y dosificaciones de prescripciones del cliente.'
+      problem: 'Fricción en la verificación manual de recetas REPROCANN legales.',
+      solution: 'Validación automatizada con Gemini API de stock y recetas en pasarela.'
     },
     founder: {
-      problem: 'Sanciones comerciales por sobrepasar límites de stock legal y procesos de checkout lentos en fitomedicina.',
-      solution: 'Plataforma e-commerce con checkout inteligente Universal Cart y auditoría automática REPROCANN, centrada en La Plata, Buenos Aires.'
+      problem: 'Riesgo de sanciones por exceder stock legal y checkouts complejos.',
+      solution: 'e-Commerce integrado a la base federal REPROCANN y checkout Universal Cart.'
     },
     gentleman: {
-      problem: 'Sitios web de farmacia cannábica toscos o informales que no transmiten rigurosidad médica.',
-      solution: 'Botica digital elegante con contrastes de verde esmeralda, micro-interacciones suaves en la compra y transiciones fluidas de selección.'
+      problem: 'Sitios cannábicos informales que no transmiten rigurosidad.',
+      solution: 'Boutique digital refinada con gradientes verde esmeralda y micro-interacciones.'
     }
   },
   {
@@ -144,16 +144,16 @@ const rawProjects = [
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'PostgreSQL', 'Ethers.js (Base L2)'],
     link: 'https://ecoconnect.aldoarbizu.com',
     dev: {
-      problem: 'Políticas de seguridad a nivel de fila (RLS) vulnerables ante consultas complejas de auditorías forestales.',
-      solution: 'Esquema estricto de RLS combinado con firmas criptográficas on-chain e inmutabilidad en Base L2 usando Ethers.js.'
+      problem: 'Políticas de seguridad RLS vulnerables ante consultas complejas de auditorías.',
+      solution: 'Esquema estricto de RLS y firmas criptográficas on-chain en Base L2.'
     },
     founder: {
-      problem: 'Altas barreras de costo para pequeños municipios al auditar y emitir créditos de carbono verificados.',
-      solution: 'Estimación de biomasa mediante imágenes multiespectrales de satélite Sentinel-2 sin hardware inicial, y donaciones mediante Soulbound Tokens (SBT).'
+      problem: 'Costos elevados de certificación y auditorías forestales para municipios.',
+      solution: 'Estimación de biomasa satelital Sentinel-2 y emisión de Soulbound Tokens (SBT).'
     },
     gentleman: {
-      problem: 'Plataformas de sostenibilidad y carbono áridas que parecen simples planillas de Excel.',
-      solution: 'Panel interactivo con gradientes forestales oscuros y modelo 3D del bosque municipal que crece según el impacto del ciudadano.'
+      problem: 'Interfaces de carbono frías que parecen hojas de cálculo de Excel.',
+      solution: 'Modelo 3D interactivo del bosque municipal que crece según tus donaciones.'
     }
   },
   {
@@ -163,16 +163,16 @@ const rawProjects = [
     stack: ['Next.js', 'React Native', 'SQLite', 'Base L2', 'Three.js', 'STL 3D Print'],
     link: 'https://pawhero.aldoarbizu.com',
     dev: {
-      problem: 'Validación y geolocalización asíncrona de mascotas perdidas sin consumo de APIs celulares de pago.',
-      solution: 'Red de rescate pasiva P2P. Las chapas QR impresas en 3D transmiten el GPS del lector de forma cifrada mediante WebSockets locales.'
+      problem: 'Geolocalización de mascotas perdidas sin costosas suscripciones celulares.',
+      solution: 'Chapas QR cifradas e interconectadas mediante WebSockets y red P2P.'
     },
     founder: {
-      problem: 'Costos mensuales prohibitivos en collares GPS y desorganización de rescate animal en protectoras (SAPAB).',
-      solution: 'Chapas identificatorias QR descargables en STL para impresión 3D a costo cero de suscripción, e integraciones de donaciones mediante SBT.'
+      problem: 'Costos prohibitivos en collares GPS y desorganización de ONGs.',
+      solution: 'Placas QR descargables en STL para impresión 3D a costo cero y donaciones SBT.'
     },
     gentleman: {
-      problem: 'Placas de identificación de mascotas genéricas o interfaces lúdicas infantiles sin seriedad.',
-      solution: 'Perfiles de mascotas interactivos 3D con tipografía minimalista limpia y visualización de medallas SBT de bronce, plata y oro.'
+      problem: 'Identificadores genéricos o interfaces lúdicas sin seriedad.',
+      solution: 'Perfiles interactivos 3D con tipografía minimalista y medallas SBT on-chain.'
     }
   }
 ]
@@ -258,17 +258,40 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               </div>
             </div>
             
-            <div className="mt-8 flex gap-4">
+            <div className="mt-8 flex flex-wrap gap-4">
               <motion.a
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ x: 4 }}
-                className="btn-outline flex items-center gap-2 cursor-none group/link"
+                whileHover={{ y: -2 }}
+                className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-lg text-xs transition-all"
               >
-                <ExternalLink size={16} className="group-hover/link:text-[var(--color-orbital-teal)] transition-colors" />
+                <ExternalLink size={14} className="group-hover/link:text-[var(--color-orbital-teal)] transition-colors" />
                 <span>Demo En Vivo</span>
               </motion.a>
+              {project.stack.includes('React Native') && (
+                <>
+                  <motion.a
+                    href={`${project.link}/downloads/${project.id}.apk`}
+                    download
+                    whileHover={{ y: -2 }}
+                    className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-green-500/50 rounded-lg text-xs transition-all"
+                  >
+                    <span className="text-green-500">🤖</span>
+                    <span>Android APK</span>
+                  </motion.a>
+                  <motion.a
+                    href="https://testflight.apple.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    whileHover={{ y: -2 }}
+                    className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-blue-500/50 rounded-lg text-xs transition-all"
+                  >
+                    <span className="text-blue-400">🍎</span>
+                    <span>iOS Beta</span>
+                  </motion.a>
+                </>
+              )}
             </div>
           </div>
         </div>

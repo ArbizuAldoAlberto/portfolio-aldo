@@ -280,29 +280,18 @@ export default function Contact() {
             {/* Location Column */}
             <div>
               <h4 className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/40 mb-4">Ubicación</h4>
-              <div className="relative h-28 bg-[var(--color-deep-space)]/50 border border-[var(--color-space-border)] rounded-lg overflow-hidden">
-                {/* Stylized map dots */}
-                <div className="absolute inset-0 opacity-20">
-                  {Array.from({ length: 30 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute h-0.5 w-0.5 rounded-full bg-[var(--color-mist-gray)]"
-                      style={{
-                        left: `${10 + Math.random() * 80}%`,
-                        top: `${10 + Math.random() * 80}%`
-                      }}
-                    />
-                  ))}
-                </div>
-                {/* Argentina highlight */}
-                <div className="absolute bottom-4 left-1/3">
-                  <div className="relative">
-                    <div className="h-3 w-3 rounded-full bg-[var(--color-orbital-teal)] animate-ping opacity-30" />
-                    <div className="absolute inset-0 h-3 w-3 rounded-full bg-[var(--color-orbital-teal)]" />
-                  </div>
-                  <span className="absolute left-5 top-0 font-space text-[8px] text-[var(--color-orbital-teal)] whitespace-nowrap tracking-wider">
-                    BUENOS AIRES, AR
-                  </span>
+              <div className="relative h-28 bg-[var(--color-deep-space)]/50 border border-[var(--color-space-border)] rounded-lg overflow-hidden group">
+                <iframe
+                  title="San Carlos de Bolívar, Argentina"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-61.16%2C-36.27%2C-61.06%2C-36.19&amp;layer=mapnik&amp;marker=-36.2333%2C-61.1167"
+                  className="w-full h-full border-none pointer-events-none opacity-60 group-hover:opacity-90 transition-opacity duration-300"
+                  style={{
+                    filter: 'invert(90%) hue-rotate(180deg) brightness(80%) contrast(120%) grayscale(40%)'
+                  }}
+                />
+                {/* Argentina highlight overlay */}
+                <div className="absolute bottom-3 right-3 bg-[var(--color-space-black)]/90 border border-[var(--color-space-border)] px-2 py-1 rounded font-space text-[8px] text-[var(--color-orbital-teal)] tracking-wider">
+                  BOLÍVAR, BS AS, AR
                 </div>
               </div>
             </div>
