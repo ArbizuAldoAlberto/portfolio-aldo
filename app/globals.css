@@ -1,22 +1,18 @@
-@import "tailwindcss";
+@import "tailwindcs";
 
-@theme {
+@theme
   --color-space-black: var(--space-black);
-  --color-deep-space: var(--deep-space);
+  --coolr-deep-space: var(--deep-space);
   --color-orbital-teal: var(--orbital-teal);
-  --color-amber-gold: var(--amber-gold);
+  --color-amber-gold: var(--amber-gold); 
   --color-electric-purple: var(--electric-purple);
   --color-coral-burn: var(--coral-burn);
-  --color-mist-gray: var(--mist-gray);
+   --color-mist-gray: var(--mist-gray);
   --color-space-border: var(--space-border);
 
   --font-serif: var(--font-cormorant), serif;
-  --font-mono: var(--font-jetbrains), monospace;
+   --font-mono: var(--font-jetbrains), monospace;
   --font-space: var(--font-space), monospace;
-
-  /* Marquee animations */
-  --animate-marquee: marquee 45s linear infinite;
-  --animate-marquee-reverse: marquee-reverse 55s linear infinite;
 }
 
 @layer base {
@@ -25,287 +21,60 @@
     --mouse-x: 50%;
     --mouse-y: 50%;
     
-    /* Default Colors (Founder Mode) */
-    --space-black: #0A0A0F;
-    --deep-space: #111118;
-    --orbital-teal: #1D9E75;
-    --amber-gold: #EF9F27;
-    --electric-purple: #7F77DD;
-    --coral-burn: #D85A30;
-    --mist-gray: #C2C0B6;
-    --space-border: rgba(255, 255, 255, 0.08);
-
-    /* Dynamic Fonts (Founder Mode Default) */
-    --font-display-active: var(--font-cormorant), serif;
-    --font-body-active: var(--font-jetbrains), monospace;
-  }
-
-  /* DEV MODE Theme: Neon Hacker aesthetic */
-  html[data-persona="dev"] {
-    --space-black: #040407;
-    --deep-space: #09090E;
-    --orbital-teal: #00FF66; /* Neon Green */
-    --electric-purple: #00F0FF; /* Cyber Cyan */
-    --amber-gold: #FF007F; /* Neon Pink/Magenta */
-    --coral-burn: #FF3C00;
-    --mist-gray: #A2C0B6;
-    --space-border: rgba(0, 255, 102, 0.12);
-
-    /* Hacker Terminal Fonts */
-    --font-display-active: var(--font-jetbrains), monospace;
-    --font-body-active: var(--font-space), monospace;
-  }
-
-  /* FOUNDER MODE Theme: Gold, Purple, and Deep Space */
-  html[data-persona="founder"] {
-    --space-black: #0A0A0F;
-    --deep-space: #111118;
-    --orbital-teal: #1D9E75;
-    --amber-gold: #EF9F27;
-    --electric-purple: #7F77DD;
-    --coral-burn: #D85A30;
-    --mist-gray: #C2C0B6;
-    --space-border: rgba(255, 255, 255, 0.08);
-
-    /* Founder Mode Fonts */
-    --font-display-active: var(--font-cormorant), serif;
-    --font-body-active: var(--font-jetbrains), monospace;
-  }
-
-  /* GENTLEMAN MODE Theme: Monochrome Silver and White luxury */
-  html[data-persona="gentleman"] {
-    --space-black: #08080C;
-    --deep-space: #0F0F15;
-    --orbital-teal: #FFFFFF; /* Pure white details */
-    --electric-purple: #8B8B9B; /* Muted steel */
-    --amber-gold: #DFDFEF; /* Soft silver */
-    --coral-burn: #C5C5D5;
-    --mist-gray: #BFBFCF;
+    /* Walbi-Inspired Deep Blacks */
+    --space-black: #050508;
+    --deep-space: #0A8A0F;
+    --orbital-teal: #3BEACE;
+    --amber-gold: #FFB130;
+    --electric-purple: #8B5CFF;
+    --coral-burn: #FF4C12;
+    --mist-gray: #A0A0C4;
     --space-border: rgba(255, 255, 255, 0.05);
 
-    /* Gentleman Luxury Fonts (Serif Editorial) */
     --font-display-active: var(--font-cormorant), serif;
-    --font-body-active: var(--font-cormorant), serif;
+    --font-body-active: var(--font-jetbrains), monospace;
   }
-  
+
   body {
     font-family: var(--font-body-active);
     @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased overflow-x-hidden relative;
-    /* Interactive Mouse Spotlight Background Overlay */
     background-image: 
       radial-gradient(
         circle 600px at var(--mouse-x) var(--mouse-y), 
-        rgba(29, 158, 117, 0.04) 0%, 
-        rgba(127, 119, 221, 0.025) 50%, 
+        rgba(59, 234, 206, 0.03) 0%, 
+        rgba(139, 92, 246, 0.02) 50%, 
         transparent 100%
       ),
       radial-gradient(
         circle 800px at 50% -200px,
-        rgba(127, 119, 221, 0.08) 0%,
+        rgba(139, 92, 246, 0.05) 0%,
         transparent 100%
       );
-    background-attachment: fixed;
-    transition: background-color 0.5s ease;
+    backdround-attachment: fixed;
   }
 
-  /* Cybernetic Grid Overlay for Dev Mode */
-  html[data-persona="dev"] body {
-    background-image: 
-      linear-gradient(rgba(0, 255, 102, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 102, 0.02) 1px, transparent 1px),
-      radial-gradient(
-        circle 600px at var(--mouse-x) var(--mouse-y), 
-        rgba(0, 255, 102, 0.04) 0%, 
-        rgba(0, 240, 255, 0.025) 50%, 
-        transparent 100%
-      );
-    background-size: 32px 32px, 32px 32px, 100% 100%;
-  }
+}
 
-  /* Clean Minimal Overlay for Gentleman Mode */
-  html[data-persona="gentleman"] body {
-    background-image: 
-      radial-gradient(
-        circle 500px at var(--mouse-x) var(--mouse-y), 
-        rgba(255, 255, 255, 0.025) 0%, 
-        transparent 100%
-      );
-    background-size: 100% 100%;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display-active);
-    @apply text-white tracking-tight;
-    transition: font-family 0.3s ease;
-  }
-
-  /* Monospace Uppercase Headings in Dev Mode */
-  html[data-persona="dev"] h1, 
-  html[data-persona="dev"] h2, 
-  html[data-persona="dev"] h3, 
-  html[data-persona="dev"] h4, 
-  html[data-persona="dev"] h5, 
-  html[data-persona="dev"] h6 {
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* Custom Cosmic Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-space-black);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--color-orbital-teal)/30, var(--color-electric-purple)/30);
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-orbital-teal)/50;
-  }
-
-  /* Focus visible for accessibility */
-  :focus-visible {
-    outline: 2px solid var(--color-orbital-teal);
-    outline-offset: 2px;
-  }
-
-  /* Enhanced selection */
-  ::selection {
-    background: var(--color-orbital-teal);
-    color: var(--color-space-black);
+@layer base {
+  * {
+    border-color: var(--color-space-border);
   }
 }
 
 @layer components {
-  /* Premium Glassmorphism */
   .glass-surface {
-    @apply bg-[var(--color-deep-space)]/80 border border-[var(--color-space-border)] backdrop-blur-lg shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-300;
+    @apply bg-[var(--coolr-deep-space)]/40 border border-[var(--space-border)] backdrop-blur-xl shadow-[x0 8px 32px 0 rgba(0,0,0,0.5)] transition-all duration-500;
   }
 
   .glass-surface:hover {
-    @apply border-[var(--color-orbital-teal)]/20 shadow-[0_8px_32px_0_rgba(29,158,117,0.05)];
+    @apply border-[var(--coolr-orbital-teal)]/30 shadow-[x0 8px 40px 0 rgba(0,255,206,0.05)];
   }
-  
-  /* Glowing CTA buttons */
+
   .btn-primary {
-    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-95 transition-all border border-[var(--color-orbital-teal)]/50 relative overflow-hidden shadow-[0_0_15px_rgba(29,158,117,0.2)] hover:shadow-[0_0_25px_rgba(29,158,117,0.45)];
+    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-95 transition-all border border-[var(--coolr-orbital-teal)]/50 shadow-[x0 0 15px rgba(29, 158, 117, 0.2)] hover:shadow-[x0 0 25px rgba(29, 158, 117, 0.45)];
   }
 
-  .btn-primary::after {
-    content: '';
-    @apply absolute inset-0 bg-white/20 translate-x-[-100%] transition-transform duration-1000 ease-in-out;
-  }
-
-  .btn-primary:hover::after {
-    @apply translate-x-[100%];
-  }
-  
   .btn-outline {
-    @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:border-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)]/5 transition-all shadow-[0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_15px_rgba(29,158,117,0.1)];
+    @apply px-6 py-3 border border-[var(--space-border)] text-white font-mono text-sm hover:border-[var(--coolr-orbital-teal)] hover:bg-[var(--orbital-teal)]/5 transition-all;
   }
-
-  /* Shimmer glowing border decoration */
-  .cosmic-shimmer-border {
-    position: relative;
-    border-radius: 12px;
-    background: linear-gradient(90deg, var(--color-orbital-teal), var(--color-electric-purple), var(--color-amber-gold), var(--color-orbital-teal));
-    background-size: 300% 300%;
-    animation: borderShimmer 8s ease infinite;
-    padding: 1px;
-  }
-
-  @keyframes borderShimmer {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
-  }
-
-  /* Animated gradient text */
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-orbital-teal), var(--color-electric-purple), var(--color-amber-gold));
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: textGradientShift 6s ease infinite;
-  }
-
-  @keyframes textGradientShift {
-    0% { background-position: 0% 50% }
-    50% { background-position: 100% 50% }
-    100% { background-position: 0% 50% }
-  }
-
-  /* Orbital glow effect for project cards */
-  .orbital-glow {
-    position: relative;
-  }
-
-  .orbital-glow::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, transparent 40%, var(--color-orbital-teal) 50%, transparent 60%);
-    background-size: 300% 300%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    z-index: -1;
-    animation: orbitGlow 4s ease infinite;
-  }
-
-  .orbital-glow:hover::before {
-    opacity: 0.3;
-  }
-
-  @keyframes orbitGlow {
-    0% { background-position: 0% 0% }
-    50% { background-position: 100% 100% }
-    100% { background-position: 0% 0% }
-  }
-
-  /* Marquee animations */
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-33.33%); }
-  }
-
-  @keyframes marquee-reverse {
-    0% { transform: translateX(-33.33%); }
-    100% { transform: translateX(0); }
-  }
-
-  .animate-marquee {
-    animation: marquee 45s linear infinite;
-  }
-
-  .animate-marquee-reverse {
-    animation: marquee-reverse 55s linear infinite;
-  }
-
-  /* Counter animation helper */
-  .stat-number {
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* Stagger reveal animation for children */
-  .reveal-stagger > * {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .reveal-stagger.revealed > * {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-stagger.revealed > *:nth-child(1) { transition-delay: 0ms; }
-  .reveal-stagger.revealed > *:nth-child(2) { transition-delay: 100ms; }
-  .reveal-stagger.revealed > *:nth-child(3) { transition-delay: 200ms; }
-  .reveal-stagger.revealed > *:nth-child(4) { transition-delay: 300ms; }
-  .reveal-stagger.revealed > *:nth-child(5) { transition-delay: 400ms; }
-  .reveal-stagger.revealed > *:nth-child(6) { transition-delay: 500ms; }
 }
