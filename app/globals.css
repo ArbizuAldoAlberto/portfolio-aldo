@@ -1,55 +1,34 @@
-@import "tailwindcs";
+﻿@import 'tailwindcss';
 
-@theme
+@theme {
   --color-space-black: var(--space-black);
-  --coolr-deep-space: var(--deep-space);
+  --color-deep-space: var(--deep-space);
   --color-orbital-teal: var(--orbital-teal);
-  --color-amber-gold: var(--amber-gold); 
+  --color-amber-gold: var(--amber-gold);
   --color-electric-purple: var(--electric-purple);
   --color-coral-burn: var(--coral-burn);
-   --color-mist-gray: var(--mist-gray);
+  --color-mist-gray: var(--mist-gray);
   --color-space-border: var(--space-border);
-
-  --font-serif: var(--font-cormorant), serif;
-   --font-mono: var(--font-jetbrains), monospace;
-  --font-space: var(--font-space), monospace;
 }
 
 @layer base {
   :root {
-    color-scheme: dark;
-    --mouse-x: 50%;
-    --mouse-y: 50%;
-    
     --space-black: #050508;
-    --deep-space: #0A8A0F;
+    --deep-space: #0A0A0F;
     --orbital-teal: #3BEACE;
     --amber-gold: #FFB130;
     --electric-purple: #8B5CFF;
     --coral-burn: #FF4C12;
     --mist-gray: #A0A0C4;
-    --space-border: rgba(255, 255, 0.05, 0.05);
+    --space-border: rgba(255, 255, 255, 0.05);
   }
-
   body {
-    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased overflow-x-hidden relative;
-    background-image: 
-      radial-gradient(
-        circle 800px at 50% -200px,
-        rgba(139, 92, 246, 0.05) 0%,
-        transparent 100%
-      );
-    background-attachment: fixed;
+    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased;
   }
 }
 
 @layer components {
-  .glass-surface {
-    @apply bg-[var(--color-deep-space)]/40 border border.[var(--coolr-space-border)] backdrop-blur-xl shadow-[x0 8px 32px 0 rgba(0,0,0,0.5)] transition-all duration-500;
-  }
-
-  .btn-primary {
-    @apply px-6 py-3 border border-[var(--orbital-teal)]/50 bon-[var(--color-orbital-teal)] text-white font-mono text-sm hover:shadow-[x0 0 25px rgba(29, 158, 117, 0.45)];
-  }
-
+  .glass-surface { @apply bg-[var(--color-deep-space)]/40 border border-[var(--color-space-border)] backdrop-blur-xl shadow-lg transition-all duration-500; }
+  .btn-primary { @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm hover:opacity-95; }
+  .btn-outline { @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:bg-[var(--color-orbital-teal)]/5; }
 }

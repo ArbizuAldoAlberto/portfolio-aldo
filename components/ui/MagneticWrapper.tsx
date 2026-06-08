@@ -1,12 +1,12 @@
-'use client'
+﻿'use client'
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
-export default function MagneticWrapper({ children }) {
-  const ref = useRef(null)
+export default function MagneticWrapper({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e
     if (!ref.current) return
     const { left, top, width, height } = ref.current.getBoundingClientRect()
@@ -15,18 +15,10 @@ export default function MagneticWrapper({ children }) {
     setPosition({ x: x * 0.4, y: y * 0.4 })
   }
 
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 })
-  }
+  const handleMouseLeave = () => { setPosition({ x: 0, y: 0 }) }
 
-  const { x, y } = position
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x, y }}
-      transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}>
+    <motion.div ref={ref} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} animate={position} transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}>
       {children}
     </motion.div>
   )
