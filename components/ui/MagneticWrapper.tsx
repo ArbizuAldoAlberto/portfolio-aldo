@@ -2,7 +2,12 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
-export default function MagneticWrapper({ children }: { children: React.ReactNode }) {
+interface MagneticWrapperProps {
+  children: React.ReactNode;
+  strength?: number;
+}
+
+export default function MagneticWrapper({ children, strength = 40 }: MagneticWrapperProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
@@ -12,7 +17,8 @@ export default function MagneticWrapper({ children }: { children: React.ReactNod
     const { left, top, width, height } = ref.current.getBoundingClientRect()
     const x = clientX - (left + width / 2)
     const y = clientY - (top + height / 2)
-    setPosition({ x: x * 0.4, y: y * 0.4 })
+    const factor = strength / 100
+    setPosition({ x: x * factor, y: y * factor })
   }
 
   const handleMouseLeave = () => { setPosition({ x: 0, y: 0 }) }
@@ -23,3 +29,4 @@ export default function MagneticWrapper({ children }: { children: React.ReactNod
     </motion.div>
   )
 }
+

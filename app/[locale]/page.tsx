@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect } from 'react'
 import Hero from '../../components/hero/Hero'
 import TechMarquee from '../../components/ui/TechMarquee'
@@ -26,7 +26,7 @@ export default function Home() {
       <SectionDivider variant='fade' />
       <Services />
       <SectionDivider variant='wave' flip />
-      <SudioLab />
+      <StudioLab />
       <SectionDivider variant='diagonal' flip />
       <CryptoLab />
       <SectionDivider variant='fade' />
