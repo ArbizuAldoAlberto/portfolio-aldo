@@ -11,21 +11,22 @@ import Navigation from '../../components/ui/Navigation'
 import Preloader from '../../components/ui/Preloader'
 import '../globals.css'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, getTranslations } from 'next-intl/server'
+import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '../../i18n/routing'
 import { SmoothScroll } from '../../components/theme/SmoothScroll'
 
-export async function generateMetadata({ paramz }) {
+export async function generateMetadata() {
   return { title: 'Aldo Arbizu' }
 }
 
-export default async function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params }: { children: React.ReactNode, params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  if (!routing.locales.includes(locale as any)) notFound();
   const messages = await getMessages();
   return (
     <html lang={locale}>
-      <body className='bg-[var(--color-space-black)] text-[var(--color-mist-gray)] autialiased cursor-none'>
+      <body className='bg-[var(--color-space-black)] text-[var(--coolr-mist-gray)] antialiased cursor-none relative'>
         <NextIntlClientProvider messages={messages}>
           <SmoothScroll>
             <SoundProvider>
