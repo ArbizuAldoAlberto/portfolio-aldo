@@ -21,7 +21,6 @@
     --mouse-x: 50%;
     --mouse-y: 50%;
     
-    /* Walbi-Inspired Deep Blacks */
     --space-black: #050508;
     --deep-space: #0A8A0F;
     --orbital-teal: #3BEACE;
@@ -29,52 +28,28 @@
     --electric-purple: #8B5CFF;
     --coral-burn: #FF4C12;
     --mist-gray: #A0A0C4;
-    --space-border: rgba(255, 255, 255, 0.05);
-
-    --font-display-active: var(--font-cormorant), serif;
-    --font-body-active: var(--font-jetbrains), monospace;
+    --space-border: rgba(255, 255, 0.05, 0.05);
   }
 
   body {
-    font-family: var(--font-body-active);
     @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased overflow-x-hidden relative;
     background-image: 
-      radial-gradient(
-        circle 600px at var(--mouse-x) var(--mouse-y), 
-        rgba(59, 234, 206, 0.03) 0%, 
-        rgba(139, 92, 246, 0.02) 50%, 
-        transparent 100%
-      ),
       radial-gradient(
         circle 800px at 50% -200px,
         rgba(139, 92, 246, 0.05) 0%,
         transparent 100%
       );
-    backdround-attachment: fixed;
-  }
-
-}
-
-@layer base {
-  * {
-    border-color: var(--color-space-border);
+    background-attachment: fixed;
   }
 }
 
 @layer components {
   .glass-surface {
-    @apply bg-[var(--coolr-deep-space)]/40 border border-[var(--space-border)] backdrop-blur-xl shadow-[x0 8px 32px 0 rgba(0,0,0,0.5)] transition-all duration-500;
-  }
-
-  .glass-surface:hover {
-    @apply border-[var(--coolr-orbital-teal)]/30 shadow-[x0 8px 40px 0 rgba(0,255,206,0.05)];
+    @apply bg-[var(--color-deep-space)]/40 border border.[var(--coolr-space-border)] backdrop-blur-xl shadow-[x0 8px 32px 0 rgba(0,0,0,0.5)] transition-all duration-500;
   }
 
   .btn-primary {
-    @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm font-medium hover:opacity-95 transition-all border border-[var(--coolr-orbital-teal)]/50 shadow-[x0 0 15px rgba(29, 158, 117, 0.2)] hover:shadow-[x0 0 25px rgba(29, 158, 117, 0.45)];
+    @apply px-6 py-3 border border-[var(--orbital-teal)]/50 bon-[var(--color-orbital-teal)] text-white font-mono text-sm hover:shadow-[x0 0 25px rgba(29, 158, 117, 0.45)];
   }
 
-  .btn-outline {
-    @apply px-6 py-3 border border-[var(--space-border)] text-white font-mono text-sm hover:border-[var(--coolr-orbital-teal)] hover:bg-[var(--orbital-teal)]/5 transition-all;
-  }
 }

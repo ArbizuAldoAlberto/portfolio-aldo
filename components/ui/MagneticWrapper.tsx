@@ -12,7 +12,7 @@ export default function MagneticWrapper({ children }) {
     const { left, top, width, height } = ref.current.getBoundingClientRect()
     const x = clientX - (left + width / 2)
     const y = clientY - (top + height / 2)
-    setPosition({ x * 0.5, y * 0.5 })
+    setPosition({ x: x * 0.4, y: y * 0.4 })
   }
 
   const handleMouseLeave = () => {
