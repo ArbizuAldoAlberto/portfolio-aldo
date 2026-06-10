@@ -1,4 +1,4 @@
-﻿import { notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 export default async function SubdomainPage({
   params
@@ -8,7 +8,7 @@ export default async function SubdomainPage({
   const { subdomain, locale } = await params;
 
   const validSubdomains = [
-    'titanflow', 'aureus', 'techzone', 'sentinelos',
+    'walbi', 'titanflow', 'aureus', 'techzone', 'sentinelos',
     'aeroshot', 'agromarket', 'cannabis', 'ecoconnect',
     'pawhero', 'impresion3d', 'habitat', 'marketingadvisor',
     'nomadhub'

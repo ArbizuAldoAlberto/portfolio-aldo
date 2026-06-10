@@ -5,6 +5,25 @@ import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
 const rawProjects = [
   {
+    id: 'walbi',
+    title: 'WALBI Web3 Protocol',
+    role: 'Crypto Trading Platform & AAA Aesthetic',
+    stack: ['Next.js 14', 'Framer Motion', 'WebGL / Three.js', 'Tailwind CSS', 'Glassmorphism'],
+    link: 'https://walbi.com',
+    dev: {
+      problem: 'Crear una estética Web3 premium inmersiva manteniendo rendimiento a 60 FPS.',
+      solution: 'Implementación de orbes SVG interactivos, filtros gaussianos dinámicos y mallas de micro-puntos con aceleración GPU.'
+    },
+    founder: {
+      problem: 'Diferenciar una plataforma de trading cripto en un mercado saturado con interfaces genéricas.',
+      solution: 'Diseño Dark-Glassmorphism exclusivo que proyecta lujo, seguridad y vanguardia tecnológica.'
+    },
+    gentleman: {
+      problem: 'Animaciones invasivas que distraen al trader de la acción de precio.',
+      solution: 'Fondos orgánicos sutiles con orbes de luz neón (`#7C3AED`, `#06B6D4`) y gradientes refinados.'
+    }
+  },
+  {
     id: 'titanflow',
     title: 'TitanFlow',
     role: 'DeFi Copy Trading & Algorithmic Bot',
