@@ -1,4 +1,4 @@
-﻿@import 'tailwindcss';
+@import 'tailwindcss';
 
 @theme {
   --color-space-black: var(--space-black);
@@ -31,4 +31,22 @@
   .glass-surface { @apply bg-[var(--color-deep-space)]/40 border border-[var(--color-space-border)] backdrop-blur-xl shadow-lg transition-all duration-500; }
   .btn-primary { @apply px-6 py-3 bg-[var(--color-orbital-teal)] text-white font-mono text-sm hover:opacity-95; }
   .btn-outline { @apply px-6 py-3 border border-[var(--color-space-border)] text-white font-mono text-sm hover:bg-[var(--color-orbital-teal)]/5; }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.33%); }
+}
+
+@keyframes marquee-reverse {
+    0% { transform: translateX(-33.33%); }
+    100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+    animation: marquee linear infinite;
+}
+
+.animate-marquee-reverse {
+    animation: marquee-reverse linear infinite;
 }
