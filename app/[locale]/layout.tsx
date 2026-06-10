@@ -1,8 +1,8 @@
-﻿import type { Metadata } from "next"
+import type { Metadata } from "next"
 import { Cormorant_Garamond, JetBrains_Mono, Space_Mono } from "next/font/google"
-import SpotlightWrapper from "../../components/theme/SpotlightWrapper"
-import NoiseOverlay from "../../components/theme/NoiseOverlay"
 import CustomCursor from "../../components/theme/CustomCursor"
+import PremiumBackground from "../../components/theme/PremiumBackground"
+import BackgroundEffects from "../../components/theme/BackgroundEffects"
 import { CursorProvider } from "../../components/theme/CursorContext"
 import { PersonaProvider } from "../../components/theme/PersonaContext"
 import { SoundProvider } from "../../components/theme/SoundManager"
@@ -96,9 +96,9 @@ export default async function RootLayout({ children, params }: { children: React
                 <CursorProvider>
                   <Preloader />
                   <Navigation />
-                  <NoiseOverlay />
                   <CustomCursor />
-                  <SpotlightWrapper />
+                  <PremiumBackground />
+                  <BackgroundEffects />
                   <AudioToggle />
                   {children}
                 </CursorProvider>
