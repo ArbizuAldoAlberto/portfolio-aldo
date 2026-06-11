@@ -1,29 +1,54 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@source "../app";
+@source "../components";
 
 @theme {
-  --color-space-black: var(--space-black);
-  --color-deep-space: var(--deep-space);
-  --color-orbital-teal: var(--orbital-teal);
-  --color-amber-gold: var(--amber-gold);
-  --color-electric-purple: var(--electric-purple);
-  --color-coral-burn: var(--coral-burn);
-  --color-mist-gray: var(--mist-gray);
-  --color-space-border: var(--space-border);
+  --color-space-black: #050508;
+  --color-deep-space: #0A0A0F;
+  --color-orbital-teal: #3BEACE;
+  --color-amber-gold: #FFB130;
+  --color-electric-purple: #8B5CFF;
+  --color-coral-burn: #FF4C12;
+  --color-mist-gray: #A0A0C4;
+  --color-space-border: rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
-  :root {
-    --space-black: #050508;
-    --deep-space: #0A0A0F;
-    --orbital-teal: #3BEACE;
-    --amber-gold: #FFB130;
-    --electric-purple: #8B5CFF;
-    --coral-burn: #FF4C12;
-    --mist-gray: #A0A0C4;
-    --space-border: rgba(255, 255, 255, 0.05);
+  :root, :root[data-persona="founder"] {
+    --color-space-black: #050508;
+    --color-deep-space: #0A0A0F;
+    --color-orbital-teal: #3BEACE;
+    --color-amber-gold: #FFB130;
+    --color-electric-purple: #8B5CFF;
+    --color-coral-burn: #FF4C12;
+    --color-mist-gray: #A0A0C4;
+    --color-space-border: rgba(255, 255, 255, 0.05);
   }
+
+  :root[data-persona="dev"] {
+    --color-space-black: #050505;
+    --color-deep-space: #0F0F0F;
+    --color-orbital-teal: #10B981; /* Emerald Green */
+    --color-amber-gold: #F59E0B;
+    --color-electric-purple: #3B82F6; /* Tech Blue */
+    --color-coral-burn: #EF4444;
+    --color-mist-gray: #A1A1AA;
+    --color-space-border: rgba(16, 185, 129, 0.1);
+  }
+
+  :root[data-persona="gentleman"] {
+    --color-space-black: #0A0908;
+    --color-deep-space: #141311;
+    --color-orbital-teal: #D4AF37; /* Premium Gold */
+    --color-amber-gold: #FCD34D;
+    --color-electric-purple: #92400E; /* Bronze */
+    --color-coral-burn: #991B1B;
+    --color-mist-gray: #D6D3D1;
+    --color-space-border: rgba(212, 175, 55, 0.08);
+  }
+
   body {
-    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased;
+    @apply bg-[var(--color-space-black)] text-[var(--color-mist-gray)] antialiased transition-colors duration-700;
   }
 }
 

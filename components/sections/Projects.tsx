@@ -5,25 +5,6 @@ import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
 const rawProjects = [
   {
-    id: 'walbi',
-    title: 'WALBI Web3 Protocol',
-    role: 'Crypto Trading Platform & AAA Aesthetic',
-    stack: ['Next.js 14', 'Framer Motion', 'WebGL / Three.js', 'Tailwind CSS', 'Glassmorphism'],
-    link: 'https://walbi.com',
-    dev: {
-      problem: 'Crear una estética Web3 premium inmersiva manteniendo rendimiento a 60 FPS.',
-      solution: 'Implementación de orbes SVG interactivos, filtros gaussianos dinámicos y mallas de micro-puntos con aceleración GPU.'
-    },
-    founder: {
-      problem: 'Diferenciar una plataforma de trading cripto en un mercado saturado con interfaces genéricas.',
-      solution: 'Diseño Dark-Glassmorphism exclusivo que proyecta lujo, seguridad y vanguardia tecnológica.'
-    },
-    gentleman: {
-      problem: 'Animaciones invasivas que distraen al trader de la acción de precio.',
-      solution: 'Fondos orgánicos sutiles con orbes de luz neón (`#7C3AED`, `#06B6D4`) y gradientes refinados.'
-    }
-  },
-  {
     id: 'titanflow',
     title: 'TitanFlow',
     role: 'DeFi Copy Trading & Algorithmic Bot',
@@ -286,28 +267,39 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
   const cardOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
   const cardY = useTransform(scrollYProgress, [0, 0.5], [60, 0])
 
+  // WALBI AESTHETIC CLASSES
+  const isFounder = persona === 'founder';
+  const cardClasses = isFounder 
+    ? "glass-surface p-8 md:p-12 relative group transition-all duration-500 overflow-hidden bg-black/40 backdrop-blur-2xl border border-white/5 hover:border-[#7C3AED]/50 hover:bg-[#050508]/80 shadow-[inset_0_0_80px_rgba(124,58,237,0.03)] hover:shadow-[0_0_50px_rgba(124,58,237,0.1)] rounded-2xl"
+    : "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 overflow-hidden rounded-none";
+
   return (
     <motion.div
       ref={cardRef}
       style={{ width, opacity: cardOpacity, y: cardY }}
-      className="mx-auto orbital-glow"
+      className={`mx-auto ${isFounder ? 'drop-shadow-2xl' : 'orbital-glow'}`}
     >
-      <div className="glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 overflow-hidden">
+      <div className={cardClasses}>
         {/* Decorative index */}
         <motion.div
-          className="absolute top-6 right-8 font-serif text-6xl md:text-8xl text-white/[0.03] leading-none select-none pointer-events-none"
+          className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isFounder ? 'text-white/[0.02] group-hover:text-[#06B6D4]/10' : 'text-white/[0.03]'}`}
         >
           {String(index + 1).padStart(2, '0')}
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        {/* Walbi top accent line */}
+        {isFounder && (
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        )}
+
+        <div className="grid md:grid-cols-2 gap-8 relative z-10">
           <div>
             {/* Project counter */}
             <div className="flex items-center gap-3 mb-4">
-              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 tracking-widest">
+              <span className={`font-space text-[9px] tracking-widest ${isFounder ? 'text-[#06B6D4]/60' : 'text-[var(--color-mist-gray)]/40'}`}>
                 {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
               </span>
-              <div className="h-px flex-1 bg-[var(--color-space-border)]" />
+              <div className={`h-px flex-1 ${isFounder ? 'bg-gradient-to-r from-[#06B6D4]/20 to-transparent' : 'bg-[var(--color-space-border)]'}`} />
             </div>
 
             <h3 className="font-serif text-3xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>

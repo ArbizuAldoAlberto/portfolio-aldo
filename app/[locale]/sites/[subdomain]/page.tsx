@@ -8,7 +8,7 @@ export default async function SubdomainPage({
   const { subdomain, locale } = await params;
 
   const validSubdomains = [
-    'walbi', 'titanflow', 'aureus', 'techzone', 'sentinelos',
+    'titanflow', 'aureus', 'techzone', 'sentinelos',
     'aeroshot', 'agromarket', 'cannabis', 'ecoconnect',
     'pawhero', 'impresion3d', 'habitat', 'marketingadvisor',
     'nomadhub'
