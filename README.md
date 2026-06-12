@@ -23,12 +23,14 @@ El sitio web está construido utilizando tecnologías de última generación par
     *   **React 19** & **Next.js 16 (App Router)** utilizando **Turbopack** para hot-reloading instantáneo y compilaciones ultra-eficientes.
     *   **Framer Motion** para transiciones fluidas y micro-interacciones de nivel Awwwards-grade.
     *   **Lucide React** para iconografía minimalista y limpia.
-2.  **Visuales 3D Inmersivos (Capa Aeroespacial):**
+2.  **Visuales 3D Inmersivos (Capa Aeroespacial) & Estética Premium:**
     *   **React Three Fiber (R3F)** & **Three.js** para renderizado 3D interactivo y sistemas de partículas orbitantes.
     *   **React Three Postprocessing** aplicando efectos de Bloom y aberración cromática con baja huella de rendimiento.
-3.  **Backend & Automatizaciones:**
+    *   **Glassmorphism (Founder Mode)**: Estética ultra-premium basada en la paleta HSL *Walbi*, implementando `backdrop-blur-2xl` extremo, sombras internas, y bordes translúcidos de neón para máxima jerarquía visual B2B.
+3.  **Backend, Enrutamiento & Automatizaciones:**
     *   **Resend API** integrado mediante Next.js Server Actions seguros para captación de leads sin exponer tokens en el cliente.
     *   **NEXUS Telemetry Console:** Terminal integrada que expone métricas cognitivas, distribución de habilidades y simulación de auditorías de infraestructura.
+    *   **Multi-Tenant Subdomain Routing:** Gestión de red de 13 proyectos mediante un sistema dual: En desarrollo local, se utiliza `middleware.ts` para reescribir cabeceras `Host`. En producción, el despliegue cuenta con un clúster proxy inverso `vhost_router.js` que direcciona el tráfico a paneles estáticos offline-first o proxys dinámicos sin tocar la capa de presentación de Next.js.
 
 ---
 
