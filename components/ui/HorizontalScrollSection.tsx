@@ -55,15 +55,11 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
   })
   const progressWidth = useTransform(smoothProgress, [0, 1], ['0%', '100%'])
 
-  if (isMobile) {
-    return (
-      <div className={`w-full flex flex-col gap-12 ${className}`}>
-        {children}
-      </div>
-    )
-  }
-
-  return (
+  return isMobile ? (
+    <div className={`w-full flex flex-col gap-12 ${className}`}>
+      {children}
+    </div>
+  ) : (
     <div ref={targetRef} style={{ height: `calc(${scrollRange}px + 100vh)` }} className="relative">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div ref={containerRef} style={{ x }} className={`flex gap-8 px-16 ${className}`}>
