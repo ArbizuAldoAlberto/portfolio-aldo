@@ -1,8 +1,6 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-
-const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#@$%&'
 
 interface GlitchTextProps {
   text: string
@@ -13,6 +11,8 @@ interface GlitchTextProps {
   as?: React.ElementType
   scrambleOnHover?: boolean
 }
+
+const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'
 
 export default function GlitchText({
   text,
@@ -25,44 +25,49 @@ export default function GlitchText({
 }: GlitchTextProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const [displayText, setDisplayText] = useState(
-    triggerOnView ? text.replace(/[a-zA-Z0-9]/g, '▓') : text.replace(/[a-zA-Z0-9]/g, '-')
-  )
-  const [isHovered, setIsHovered] = useState(false)
-  const [hasAnimated, setHasAnimated] = useState(!triggerOnView)
+  const [displayText, setDisplayText] = useState(text.replace(/[a-zA-Z0-9]/g, '▒'))
+  const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
     if (triggerOnView && !isInView) return
-    if (hasAnimated && !isHovered) return
+    if (hasAnimated) return
 
-    let iteration = 0
-    const maxIterations = text.length * 3
+    let timeout: NodeJS.Timeout
+    let interval: NodeJS.Timeout
 
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        text
-          .split('')
-          .map((char, index) => {
-            if (char === ' ') return ' '
-            if (index < iteration / 3) {
-              return text[index]
-            }
-            return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
-          })
-          .join('')
-      )
+    timeout = setTimeout(() => {
+      let iteration = 0
+      const maxIterations = text.length
 
-      iteration += 1
+      interval = setInterval(() => {
+        setDisplayText((prev) =>
+          text
+            .split('')
+            .map((char, index) => {
+              if (char === ' ') return ' '
+              if (index < iteration) {
+                return text[index]
+              }
+              return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+            })
+            .join('')
+        )
 
-      if (iteration >= maxIterations) {
-        clearInterval(interval)
-        setDisplayText(text)
-        setHasAnimated(true)
-      }
-    }, speed)
+        iteration += 0.5 // faster reveal
 
-    return () => clearInterval(interval)
-  }, [text, delay, isHovered, isInView, triggerOnView, hasAnimated, speed])
+        if (iteration >= maxIterations) {
+          clearInterval(interval)
+          setDisplayText(text)
+          setHasAnimated(true)
+        }
+      }, 30) // fast speed
+    }, delay * 1000)
+
+    return () => {
+      clearTimeout(timeout)
+      clearInterval(interval)
+    }
+  }, [text, delay, isInView, triggerOnView, hasAnimated])
 
   const TagComponent = motion[Tag as keyof typeof motion] as React.ElementType
 
@@ -70,11 +75,9 @@ export default function GlitchText({
     <TagComponent
       ref={ref as any}
       className={`inline-block ${className}`}
-      onMouseEnter={() => scrambleOnHover && setIsHovered(true)}
-      onMouseLeave={() => scrambleOnHover && setIsHovered(false)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{ duration: 0.3, delay }}
       aria-label={text}
       role="text"
     >
