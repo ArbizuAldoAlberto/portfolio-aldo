@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import GlitchText from '../ui/GlitchText'
+import RevealText from '../ui/RevealText'
 import { usePersona } from '../theme/PersonaContext'
 
 export default function Manifesto() {
@@ -115,9 +116,11 @@ export default function Manifesto() {
             {/* Title with word-by-word reveal */}
             <motion.h2
               ref={titleRef}
-              className="text-4xl md:text-6xl font-serif font-bold text-white mb-8 max-w-3xl leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-8 max-w-4xl leading-tight"
             >
-              <GlitchText text={content.title} />
+              <RevealText direction="up" delay={0.1} blur={true}>
+                {content.title}
+              </RevealText>
             </motion.h2>
             
             <motion.p

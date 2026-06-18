@@ -44,7 +44,11 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
     mass: 0.1
   })
 
-  const x = useTransform(smoothProgress, [0, 1], [0, -scrollRange])
+  // Dynamic transform evaluating the current scrollRange state
+  const x = useTransform(smoothProgress, (value) => {
+    return value * -scrollRange
+  })
+  const progressWidth = useTransform(smoothProgress, [0, 1], ['0%', '100%'])
 
   if (isMobile) {
     return (
@@ -54,7 +58,6 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
     )
   }
 
-  // Multiply by a factor to allow enough vertical scrolling distance
   return (
     <div ref={targetRef} style={{ height: `${scrollRange + window.innerHeight}px` }} className="relative">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
@@ -66,7 +69,7 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-64 h-[2px] bg-[var(--color-space-border)] overflow-hidden rounded-full">
           <motion.div 
             className="h-full bg-gradient-to-r from-[var(--color-orbital-teal)] to-[var(--color-electric-purple)] rounded-full" 
-            style={{ width: useTransform(smoothProgress, [0, 1], ['0%', '100%']) }} 
+            style={{ width: progressWidth }} 
           />
         </div>
       </div>

@@ -64,10 +64,10 @@ export default function GlitchText({
     return () => clearInterval(interval)
   }, [text, delay, isHovered, isInView, triggerOnView, hasAnimated, speed])
 
-  const MotionTag = motion(Tag as any)
+  const TagComponent = motion[Tag as keyof typeof motion] as React.ElementType
 
   return (
-    <MotionTag
+    <TagComponent
       ref={ref as any}
       className={`inline-block ${className}`}
       onMouseEnter={() => scrambleOnHover && setIsHovered(true)}

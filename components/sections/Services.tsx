@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import GlitchText from '../ui/GlitchText'
+import RevealText from '../ui/RevealText'
 import { useSound } from '../theme/SoundManager'
 import { Check, Cpu, CreditCard, RefreshCw, ShoppingCart, User, Mail, Send, X } from 'lucide-react'
 import { submitLead } from '../../lib/lead-actions'
@@ -94,8 +95,10 @@ export default function Services() {
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
           Servicios
         </span>
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-16">
-          <GlitchText text="Misiones & Presupuestos" />
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-16">
+          <RevealText direction="up" delay={0.1} blur={true}>
+            Misiones & Presupuestos
+          </RevealText>
         </h2>
 
         {/* BENTO SELECTORS */}

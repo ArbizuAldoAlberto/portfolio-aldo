@@ -108,10 +108,17 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] opacity-30 pointer-events-none rounded-2xl" />
 
           {/* Floating Switcher Dock */}
-          <motion.div variants={itemVariants} className="mb-6 flex justify-between items-center border-b border-[var(--color-space-border)] pb-4">
-            <span className="font-space text-[9px] uppercase tracking-widest text-[var(--color-mist-gray)]/40 font-bold select-none">
-              NEXUS PERSONA TUNER
-            </span>
+          <motion.div variants={itemVariants} className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-[var(--color-space-border)] pb-4 gap-4 md:gap-0">
+            <div className="flex flex-col gap-1">
+              <span className="font-space text-[9px] uppercase tracking-widest text-white font-bold select-none">
+                NEXUS PERSONA TUNER
+              </span>
+              <span className="font-mono text-[9px] text-[var(--color-orbital-teal)] uppercase tracking-widest select-none transition-colors">
+                {persona === 'dev' ? 'Enfoque técnico, bases de datos y arquitectura' : 
+                 persona === 'founder' ? 'Enfoque comercial, SaaS y métricas de negocio' : 
+                 'Diseño minimalista y narrativa elegante'}
+              </span>
+            </div>
             <PersonaSwitcher />
           </motion.div>
 

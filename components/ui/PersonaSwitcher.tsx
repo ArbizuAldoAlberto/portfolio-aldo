@@ -67,10 +67,6 @@ export default function PersonaSwitcher() {
         })}
       </div>
       
-      {/* Mini Description Tooltip */}
-      <div className="h-4 font-mono text-[9px] text-[var(--color-mist-gray)]/40 uppercase tracking-widest text-center select-none">
-        {profiles.find(p => p.id === persona)?.desc}
-      </div>
     </div>
   )
 }
