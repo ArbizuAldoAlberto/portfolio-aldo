@@ -11,7 +11,12 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
   const targetRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollRange, setScrollRange] = useState(0)
+  const scrollRangeRef = useRef(0)
   const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    scrollRangeRef.current = scrollRange
+  }, [scrollRange])
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,9 +49,9 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
     mass: 0.1
   })
 
-  // Dynamic transform evaluating the current scrollRange state
+  // Dynamic transform evaluating the current scrollRangeRef state
   const x = useTransform(smoothProgress, (value) => {
-    return value * -scrollRange
+    return value * -scrollRangeRef.current
   })
   const progressWidth = useTransform(smoothProgress, [0, 1], ['0%', '100%'])
 

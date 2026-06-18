@@ -395,7 +395,7 @@ export default function Projects() {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
 
   return (
-    <section id="projects" ref={sectionRef} className="relative pt-32 pb-0 border-t border-[var(--color-space-border)] overflow-hidden">
+    <section id="projects" ref={sectionRef} className="relative pt-32 pb-0 border-t border-[var(--color-space-border)]">
       <motion.div
         style={{ y: bgY, opacity: bgOpacity }}
         className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
