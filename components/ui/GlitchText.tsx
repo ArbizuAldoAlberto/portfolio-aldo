@@ -35,42 +35,36 @@ export default function GlitchText({
     if (triggerOnView && !isInView) return
     if (hasAnimated) return
 
-    let timeout: NodeJS.Timeout
-    let interval: NodeJS.Timeout
-
-    timeout = setTimeout(() => {
+    const initTimer = setTimeout(() => {
       let iteration = 0
-      const maxIterations = text.length
+      
+      const interval = setInterval(() => {
+        setDisplayText(prev => {
+          return safeText.split('').map((char, index) => {
+            // Si el caracter ya se descifró o es un espacio, mantenerlo
+            if (index < iteration || char === ' ') {
+              return safeText[index]
+            }
+            // De lo contrario, mostrar un caracter glitch
+            return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+          }).join('')
+        })
 
-      interval = setInterval(() => {
-        setDisplayText((prev) =>
-          safeText
-            .split('')
-            .map((char, index) => {
-              if (char === ' ') return ' '
-              if (index < iteration) {
-                return safeText[index]
-              }
-              return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
-            })
-            .join('')
-        )
-
-        iteration += 0.5 // faster reveal
-
-        if (iteration >= maxIterations) {
+        // Aceleramos la iteración saltando de a 2 caracteres para que sea más rápido
+        iteration += 2
+        
+        if (iteration >= safeText.length + 2) {
           clearInterval(interval)
           setDisplayText(safeText)
           setHasAnimated(true)
         }
-      }, 30) // fast speed
+      }, 25) // Intervalo muy rápido (25ms) para que sea instantáneo y fluido
+
+      return () => clearInterval(interval)
     }, delay * 1000)
 
-    return () => {
-      clearTimeout(timeout)
-      clearInterval(interval)
-    }
-  }, [text, delay, isInView, triggerOnView, hasAnimated])
+    return () => clearTimeout(initTimer)
+  }, [safeText, delay, isInView, triggerOnView, hasAnimated])
 
   const TagComponent = motion[Tag as keyof typeof motion] as React.ElementType
 

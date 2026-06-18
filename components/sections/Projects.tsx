@@ -268,10 +268,6 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`w-[85vw] md:w-[65vw] lg:w-[50vw] max-w-4xl shrink-0 mx-auto ${isFounder ? 'drop-shadow-2xl' : 'orbital-glow'} h-full flex`}
     >
       <div className={`flex-1 ${cardClasses}`}>
