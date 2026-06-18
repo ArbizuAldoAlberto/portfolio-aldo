@@ -42,11 +42,11 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
   const particles = useMemo(() => {
     const arr = []
     const colorsMap = {
-      dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
-      gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
-      founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+      engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
+      'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
+      security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
     }
-    const colors = colorsMap[persona] || colorsMap.founder
+    const colors = colorsMap[persona] || colorsMap.engineer
 
     for (let i = 0; i < particleCount; i++) {
       const orbitType = i % 2 === 0 ? 0 : 1
@@ -87,11 +87,11 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
     const speedMultiplier = 1.0 + mouseIntensity * 1.8
 
     const colorsMap = {
-      dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', hoverPrimary: '#a6ffc9', hoverSecondary: '#a6f8ff' },
-      gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', hoverPrimary: '#ffffff', hoverSecondary: '#d9d9e3' },
-      founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', hoverPrimary: '#55fcd0', hoverSecondary: '#bfaaff' },
+      engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', hoverPrimary: '#a6ffc9', hoverSecondary: '#a6f8ff' },
+      'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', hoverPrimary: '#ffffff', hoverSecondary: '#d9d9e3' },
+      security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', hoverPrimary: '#55fcd0', hoverSecondary: '#bfaaff' },
     }
-    const colors = colorsMap[persona] || colorsMap.founder
+    const colors = colorsMap[persona] || colorsMap.engineer
 
     particles.forEach((p, idx) => {
       let angle = time * p.speed * speedMultiplier + p.phase
@@ -179,12 +179,12 @@ function CyberOrganicTree() {
   const { scene } = useGLTF('/models/tree.glb')
 
   const colorsMap = useMemo(() => ({
-    dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
-    gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', emissive: '#8B8B9B' },
-    founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', emissive: '#104f38' },
+    engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
+    'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', emissive: '#8B8B9B' },
+    security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', emissive: '#104f38' },
   }), [])
 
-  const currentColors = useMemo(() => colorsMap[persona] || colorsMap.founder, [persona, colorsMap])
+  const currentColors = useMemo(() => colorsMap[persona] || colorsMap.engineer, [persona, colorsMap])
 
   useEffect(() => {
     scene.traverse((child) => {
@@ -586,11 +586,11 @@ export default function Hero3D() {
   const { persona } = usePersona()
 
   const colorsMap = {
-    dev: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
-    gentleman: { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
-    founder: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+    engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
+    'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
+    security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
   }
-  const currentColors = colorsMap[persona] || colorsMap.founder
+  const currentColors = colorsMap[persona] || colorsMap.engineer
 
   return (
     <div 

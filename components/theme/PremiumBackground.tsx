@@ -56,7 +56,7 @@ export default function PremiumBackground() {
         </defs>
 
         {/* --- DYNAMIC BACKGROUND CONTENT BASED ON PERSONA --- */}
-        {persona === 'founder' && (
+        {persona === 'security' && (
           <g>
             <motion.circle
               cx="20%" cy="30%" r="35%"
@@ -76,7 +76,7 @@ export default function PremiumBackground() {
           </g>
         )}
 
-        {persona === 'dev' && (
+        {persona === 'engineer' && (
           <g>
             <motion.circle
               cx="10%" cy="80%" r="30%"
@@ -96,7 +96,7 @@ export default function PremiumBackground() {
           </g>
         )}
 
-        {persona === 'gentleman' && (
+        {persona === 'agtech' && (
           <g>
             <motion.circle
               cx="50%" cy="50%" r="50%"
@@ -117,7 +117,7 @@ export default function PremiumBackground() {
       </svg>
 
       {/* Noise layer: Present in all, but slightly more visible in Gentleman */}
-      <div className={`absolute inset-0 pointer-events-none mix-blend-overlay bg-[url('https://res.cloudinary.com/dvw9p9s7v/image/upload/v1676644261/noise_ovz3jx.png')] transition-opacity duration-1000 ${persona === 'gentleman' ? 'opacity-[0.06]' : 'opacity-[0.03]'}`} />
+      <div className={`absolute inset-0 pointer-events-none mix-blend-overlay bg-[url('https://res.cloudinary.com/dvw9p9s7v/image/upload/v1676644261/noise_ovz3jx.png')] transition-opacity duration-1000 ${persona === 'agtech' ? 'opacity-[0.06]' : 'opacity-[0.03]'}`} />
     </div>
   );
 }

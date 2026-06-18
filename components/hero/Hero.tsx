@@ -38,51 +38,51 @@ export default function Hero() {
 
   const getPersonaContent = () => {
     switch (persona) {
-      case 'dev':
+      case 'engineer':
         return {
-          status: 'NÚCLEOS COMPILADOS · SISTEMA NOMINAL',
+          status: 'OFFLINE-FIRST ENGINEER · MOBILE SYSTEMS',
           badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Ingeniería de Software Senior · React Native & Fullstack',
-          sub: 'Product Engineer · Obsesionado por el código limpio, arquitecturas eficientes y estándares estrictos de ciberseguridad.',
-          c1Title: 'Local Sync Core (SQLite WAL + Zustand)',
-          c1Desc: 'Estructuración de datos atómicos y colas de reconciliación asíncronas bidireccionales de alta fiabilidad.',
+          badgeText: '● Ingeniero Especialista · React Native & Local Sync',
+          sub: 'Product Engineer · Rescato apps que fallan sin conexión. Especialista en sincronización atómica y bases de datos locales.',
+          c1Title: 'Local Sync Core (SQLite WAL + WatermelonDB)',
+          c1Desc: 'Arquitecturas que persisten y sincronizan datos en background, garantizando cero pérdida operativa sin red.',
           c2Title: 'React Native (Expo Bare Workflow)',
-          c2Desc: 'EAS Pipelines, puentes nativos personalizados Swift/Kotlin, optimización de bundles JS y calibración fina del garbage collector.',
-          c3Title: 'Security Gates y Calidad de Código',
-          c3Desc: 'Integración continua con auditorías de seguridad automáticas (MARTA QA) y blindaje móvil bajo estándares OWASP MASVS.',
-          ctaPrimary: 'Ver Código',
-          ctaSecondary: 'Socket Handoff'
+          c2Desc: 'Integración nativa profunda, optimización de bundles JS y resolución de cuellos de botella en el bridge.',
+          c3Title: 'State Management & Conflict Resolution',
+          c3Desc: 'Manejo de estado complejo (Zustand/Redux) y resolución criptográfica de conflictos de sincronización.',
+          ctaPrimary: 'Ver Soluciones',
+          ctaSecondary: 'Agendar Auditoría'
         }
-      case 'gentleman':
+      case 'agtech':
         return {
-          status: 'LA ARTESANÍA DETRÁS DEL CÓDIGO',
-          badgeColor: 'bg-white',
-          badgeText: '● El arte de simplificar y diseñar con elegancia',
-          sub: 'Creador de Productos · Arquitectura de Software Limpia · Dirección de Estética Interactiva',
-          c1Title: 'Elegancia Estructural',
-          c1Desc: 'Diseñar es quitar ruido. Creemos en el orden matemático, el código desacoplado y las interfaces pulidas.',
-          c2Title: 'Interfaces Sensoriales Inmersivas',
-          c2Desc: 'Bento grids elegantes, animaciones en Framer Motion, renders 3D WebGL de alto rendimiento y sutiles respuestas hápticas.',
-          c3Title: 'Ingeniería de Autor',
-          c3Desc: 'Cada desarrollo digital se trata como una pieza única. Cuidamos la experiencia de principio a fin.',
-          ctaPrimary: 'Galería Estética',
-          ctaSecondary: 'Agendar Diálogo'
+          status: 'FIELD OPERATIONS · AGTECH & LOGISTICS',
+          badgeColor: 'bg-green-500',
+          badgeText: '● Ingeniero de Campo · Drones & Hard-Tech',
+          sub: 'Especialista en soluciones tácticas para el Agro y la Logística. Software que sobrevive en zonas muertas de conectividad.',
+          c1Title: 'Hardware & Drone Integrations',
+          c1Desc: 'Conexión de telemetría de vuelo, procesamiento de imágenes satelitales y protocolos IoT en terreno.',
+          c2Title: 'Mesh Networks & Offline Maps',
+          c2Desc: 'Implementación de mapas vectoriales sin conexión (Mapbox) y redes de mensajería P2P (Bluetooth/LoRa).',
+          c3Title: 'Topografía & Cubicación 3D',
+          c3Desc: 'Cálculos volumétricos on-device y renderizado WebGL/Three.js para tasaciones en el campo.',
+          ctaPrimary: 'Explorar Casos',
+          ctaSecondary: 'Consultar Viabilidad'
         }
-      case 'founder':
+      case 'security':
       default:
         return {
-          status: '¿BUSCÁS HACER CRECER TU NEGOCIO?',
-          badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Diseñando Soluciones con Retorno de Inversión (ROI)',
-          sub: 'Ingeniero de Producto · Creamos apps y plataformas comerciales de alto impacto que capturan valor y escalan sin fricciones.',
-          c1Title: 'Resiliencia de Facturación (Offline-First)',
-          c1Desc: 'Tu negocio no puede detenerse si se cae la red. Creamos sistemas móviles que siguen operando y cobrando sin internet.',
-          c2Title: 'Arquitecturas SaaS Robustas y Escalables',
-          c2Desc: 'Modelamos la base de tu software para crecer. Integraciones de pago ágiles con Stripe (fiat) y Base L2 (cripto).',
-          c3Title: 'Experiencia de Usuario 3D e Interactiva',
-          c3Desc: 'Tus clientes merecen una experiencia premium. Fusionamos WebGL, Blender y micro-interacciones para impresionar.',
-          ctaPrimary: 'Ver Soluciones',
-          ctaSecondary: 'Agendar una Charla'
+          status: 'B2B SECURITY SPECIALIST · OPS & COMPLIANCE',
+          badgeColor: 'bg-red-500',
+          badgeText: '● Especialista en Seguridad · Ciberseguridad B2B',
+          sub: 'Consultor en Ciberseguridad Física y Digital. Detecto fugas de información y fraude en sistemas de control corporativo.',
+          c1Title: 'Mobile Security Audits (OWASP)',
+          c1Desc: 'Detección de vulnerabilidades en apps de control de rondas, prevención de clonación GPS/QR y escalada de privilegios.',
+          c2Title: 'Biometría & ML On-Device',
+          c2Desc: 'Implementación de TensorFlow Lite para validación de identidad sin depender de servidores externos.',
+          c3Title: 'Strict RLS & Data Sovereignty',
+          c3Desc: 'Políticas de seguridad a nivel de fila (Supabase/PostgreSQL) para blindaje de auditorías corporativas.',
+          ctaPrimary: 'Solicitar Auditoría',
+          ctaSecondary: 'Ver Reportes'
         }
     }
   }
@@ -114,9 +114,9 @@ export default function Hero() {
                 NEXUS PERSONA TUNER
               </span>
               <span className="font-mono text-[9px] text-[var(--color-orbital-teal)] uppercase tracking-widest select-none transition-colors">
-                {persona === 'dev' ? 'Enfoque técnico, bases de datos y arquitectura' : 
-                 persona === 'founder' ? 'Enfoque comercial, SaaS y métricas de negocio' : 
-                 'Diseño minimalista y narrativa elegante'}
+                {persona === 'engineer' ? 'Offline-first, React Native & Bases de datos locales' : 
+                 persona === 'security' ? 'Ciberseguridad B2B, OWASP Mobile & Auditorías' : 
+                 'AgTech, Hardware en terreno & Logística offline'}
               </span>
             </div>
             <PersonaSwitcher />

@@ -8,7 +8,7 @@ export default function BackgroundEffects() {
   return (
     <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none transition-colors duration-700 bg-[var(--color-space-black)]">
       <AnimatePresence mode="wait">
-        {persona === 'founder' && (
+        {persona === 'security' && (
           <motion.div
             key="founder-effects"
             initial={{ opacity: 0 }}
@@ -35,7 +35,7 @@ export default function BackgroundEffects() {
           </motion.div>
         )}
 
-        {persona === 'dev' && (
+        {persona === 'engineer' && (
           <motion.div
             key="dev-effects"
             initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ export default function BackgroundEffects() {
           </motion.div>
         )}
 
-        {persona === 'gentleman' && (
+        {persona === 'agtech' && (
           <motion.div
             key="gentleman-effects"
             initial={{ opacity: 0 }}

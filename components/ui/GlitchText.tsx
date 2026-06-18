@@ -66,7 +66,7 @@ export default function GlitchText({
     return () => clearTimeout(initTimer)
   }, [safeText, delay, isInView, triggerOnView, hasAnimated])
 
-  const TagComponent = motion[Tag as keyof typeof motion] as React.ElementType
+  const TagComponent = motion[Tag as keyof typeof motion] as any
 
   return (
     <TagComponent

@@ -22,7 +22,7 @@ export default function Manifesto() {
   // Dynamic manifesto details
   const getManifestoContent = () => {
     switch (persona) {
-      case 'dev':
+      case 'engineer':
         return {
           title: 'Código blindado diseñado para sobrevivir en producción real.',
           body: 'Mi trayectoria técnica comenzó en la seguridad física y la ciberseguridad (UNGS). Entiendo la fragilidad de las conexiones móviles en sótanos de hormigón, patrullas perimetrales y terminales logísticas. Por eso me especialicé en estructurar kernels móviles en React Native (Expo Bare) con persistencia local robusta (SQLite en modo WAL + Zustand) y en blindar aplicaciones de extremo a extremo bajo los exigentes estándares de seguridad OWASP MASVS.',
@@ -36,7 +36,7 @@ export default function Manifesto() {
           p3Title: 'Native Bridges & Performance',
           p3Desc: 'Optimización a nivel de hilos Swift/Kotlin, y calibración de ciclos del recolector de basura de JavaScript para evitar lags.'
         }
-      case 'gentleman':
+      case 'agtech':
         return {
           title: 'La unión invisible entre la matemática del código y la sobriedad estética.',
           body: 'El software no es apilar dependencias ruidosas; es una disciplina de diseño artesanal. Creo en las interfaces limpias, el audio háptico procedural y las mallas 3D fluidas modeladas a medida. Diseñar es simplificar: quitar el exceso visual para revelar la elegancia técnica del producto. Cada línea de código responde a los más altos estándares estéticos y funcionales, entregando un producto del que nos sintamos orgullosos.',
@@ -50,7 +50,7 @@ export default function Manifesto() {
           p3Title: 'Diseño de Autor',
           p3Desc: 'Cada producto digital se firma como una obra singular de ingeniería, balance visual y respuesta sensorial.'
         }
-      case 'founder':
+      case 'security':
       default:
         return {
           title: 'Construyo software diseñado para resistir las fallas del mundo real.',

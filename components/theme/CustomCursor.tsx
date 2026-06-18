@@ -33,9 +33,9 @@ export default function CustomCursor() {
   }, [cursorX, cursorY, isVisible]);
 
   const glowColor =
-    persona === "dev"
+    persona === "engineer"
       ? "rgba(59, 234, 206, 0.4)"
-      : persona === "gentleman"
+      : persona === "agtech"
         ? "rgba(255, 255, 255, 0.3)"
         : "rgba(255, 177, 48, 0.3)";
 

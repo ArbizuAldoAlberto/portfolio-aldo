@@ -2,7 +2,7 @@
 import { usePersona, PersonaType } from '../theme/PersonaContext'
 import { useSound } from '../theme/SoundManager'
 import { motion } from 'framer-motion'
-import { Cpu, Users, Eye, LucideIcon } from 'lucide-react'
+import { Cpu, Shield, Compass, LucideIcon } from 'lucide-react'
 
 export default function PersonaSwitcher() {
   const { persona, setPersona } = usePersona()
@@ -10,22 +10,22 @@ export default function PersonaSwitcher() {
 
   const profiles: { id: PersonaType; label: string; icon: LucideIcon; desc: string }[] = [
     { 
-      id: 'founder', 
-      label: 'FOUNDER', 
-      icon: Users,
-      desc: 'Enfoque comercial, SaaS y métricas de negocio'
-    },
-    { 
-      id: 'dev', 
+      id: 'engineer', 
       label: 'ENGINEER', 
       icon: Cpu,
-      desc: 'Enfoque técnico, bases de datos y arquitectura'
+      desc: 'React Native, Offline-first, Local DB sync'
     },
     { 
-      id: 'gentleman', 
-      label: 'GENTLEMAN', 
-      icon: Eye,
-      desc: 'Diseño minimalista y narrativa elegante'
+      id: 'security', 
+      label: 'SECURITY', 
+      icon: Shield,
+      desc: 'B2B Security, OWASP Mobile, RLS audits'
+    },
+    { 
+      id: 'agtech', 
+      label: 'AGTECH', 
+      icon: Compass,
+      desc: 'AgTech, Logística remota, Hardware y Drones'
     }
   ]
 
