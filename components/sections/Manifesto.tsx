@@ -24,6 +24,7 @@ export default function Manifesto() {
     switch (persona) {
       case 'engineer':
         return {
+          sectionLabel: 'Stack & Visión',
           title: 'Código blindado diseñado para sobrevivir en producción real.',
           body: 'Mi trayectoria técnica comenzó en la seguridad física y la ciberseguridad (UNGS). Entiendo la fragilidad de las conexiones móviles en sótanos de hormigón, patrullas perimetrales y terminales logísticas. Por eso me especialicé en estructurar kernels móviles en React Native (Expo Bare) con persistencia local robusta (SQLite en modo WAL + Zustand) y en blindar aplicaciones de extremo a extremo bajo los exigentes estándares de seguridad OWASP MASVS.',
           p1Num: '01',
@@ -38,6 +39,7 @@ export default function Manifesto() {
         }
       case 'agtech':
         return {
+          sectionLabel: 'Operaciones de Campo',
           title: 'La unión invisible entre la matemática del código y la sobriedad estética.',
           body: 'El software no es apilar dependencias ruidosas; es una disciplina de diseño artesanal. Creo en las interfaces limpias, el audio háptico procedural y las mallas 3D fluidas modeladas a medida. Diseñar es simplificar: quitar el exceso visual para revelar la elegancia técnica del producto. Cada línea de código responde a los más altos estándares estéticos y funcionales, entregando un producto del que nos sintamos orgullosos.',
           p1Num: '01',
@@ -53,6 +55,7 @@ export default function Manifesto() {
       case 'security':
       default:
         return {
+          sectionLabel: 'Clearance & Protocolo',
           title: 'Construyo software diseñado para resistir las fallas del mundo real.',
           body: 'Vengo del mundo de la seguridad privada (Maipu Seguridad, Custodiar) y ciberseguridad. En ese sector, si un sistema falla en un sótano o en un campo remoto, el impacto no es un bug molesto: es una vulnerabilidad real y una pérdida de dinero. Por eso me obsesioné con el desarrollo Offline-First y SQLite WAL. No construyo prototipos frágiles de escritorio; creo software resiliente que asegura que tus ventas sigan procesándose, tus empleados sigan reportando y tu negocio siga capturando valor, sin importar las condiciones de red.',
           p1Num: '01',
@@ -102,7 +105,7 @@ export default function Manifesto() {
           transition={{ duration: 0.5 }}
           className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none"
         >
-          Manifesto
+          {content.sectionLabel}
         </motion.span>
         
         <AnimatePresence mode="wait">

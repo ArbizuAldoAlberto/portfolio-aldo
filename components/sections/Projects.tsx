@@ -13,6 +13,7 @@ const rawProjects = [
     role: 'DeFi Copy Trading & Algorithmic Bot',
     stack: ['Node.js', 'TypeScript', 'Ollama AI', 'CCXT', 'Solidity', 'Base L2'],
     link: 'https://titanflow.aldoarbizu.com',
+    featuredIn: ['engineer'],
     engineer: {
       problem: 'Fricción por deslizamiento (slippage) y latencia en APIs de futuros.',
       solution: 'WebSockets concurrentes de baja latencia con oráculo de Kelly para control de slippage.'
@@ -32,6 +33,7 @@ const rawProjects = [
     role: 'Wealth OS & AI Financial Advisor',
     stack: ['Next.js 16', 'TypeScript', 'Zustand', 'Recharts', 'Gemini API', 'Base L2'],
     link: 'https://aureus.aldoarbizu.com',
+    featuredIn: ['security', 'engineer'],
     engineer: {
       problem: 'Procesamiento en tiempo real de sesgos cognitivos en los diálogos del inversor.',
       solution: 'Detector de sesgos local con WASM acoplado al SDK de Vercel AI en streaming.'
@@ -51,6 +53,7 @@ const rawProjects = [
     role: 'POS Retail & Omnichannel Gateway',
     stack: ['React Native', 'Expo Bare', 'SQLite WAL', 'Zustand', 'Stripe Elements', 'Universal Cart'],
     link: 'https://techzone.aldoarbizu.com',
+    featuredIn: ['engineer', 'security'],
     engineer: {
       problem: 'Pérdidas de transacciones de venta por caídas abruptas de conectividad.',
       solution: 'Encolamiento local atómico en SQLite WAL con triggers diferenciales automáticos.'
@@ -70,6 +73,7 @@ const rawProjects = [
     role: 'Security Dispatch & Command Center',
     stack: ['React Native', 'Expo EAS', 'SQLite', 'Redux Toolkit', 'Firebase RTDB', 'Lottie'],
     link: 'https://sentinelos.aldoarbizu.com',
+    featuredIn: ['security'],
     engineer: {
       problem: 'Fraude por clonación de tags NFC de control de rondas.',
       solution: 'Validación biométrica con red TensorFlow Lite local que audita fotos de control.'
@@ -89,6 +93,7 @@ const rawProjects = [
     role: 'Agricultural Drone Processing SaaS',
     stack: ['React Native', 'Expo', 'SQLite', 'Animated', 'Jest', 'Expo Haptics'],
     link: 'https://aeroshot.aldoarbizu.com',
+    featuredIn: ['agtech'],
     engineer: {
       problem: 'Transiciones de telemetría de vuelo bruscas en el renderizado móvil.',
       solution: 'Control de estados fluido con Animated.spring y amortiguación de señal por hardware.'
@@ -108,6 +113,7 @@ const rawProjects = [
     role: 'AgriTech Logistics & Marketplace',
     stack: ['React', 'Zustand', 'Supabase', 'HTML5 Canvas', 'Gemini API', 'Universal Cart'],
     link: 'https://agromarket.aldoarbizu.com',
+    featuredIn: ['agtech'],
     engineer: {
       problem: 'Cálculo volumétrico tridimensional local en el cliente móvil impreciso.',
       solution: 'Proyección de mallas poligonales en Canvas 2D y auditoría fitotóxica con Gemini API.'
@@ -127,6 +133,7 @@ const rawProjects = [
     role: 'E-commerce & Legal Compliance SaaS',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
     link: 'https://cannabis.aldoarbizu.com',
+    featuredIn: ['security', 'agtech'],
     engineer: {
       problem: 'Fricción en la verificación manual de recetas REPROCANN legales.',
       solution: 'Validación automatizada con Gemini API de stock y recetas en pasarela.'
@@ -146,6 +153,7 @@ const rawProjects = [
     role: 'ESG Registry & Carbon Platform',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'PostgreSQL', 'Ethers.js (Base L2)'],
     link: 'https://ecoconnect.aldoarbizu.com',
+    featuredIn: ['agtech', 'security'],
     engineer: {
       problem: 'Políticas de seguridad RLS vulnerables ante consultas complejas de auditorías.',
       solution: 'Esquema estricto de RLS y firmas criptográficas on-chain en Base L2.'
@@ -165,6 +173,7 @@ const rawProjects = [
     role: 'Pet Tracking & NGO Donations',
     stack: ['Next.js', 'React Native', 'SQLite', 'Base L2', 'Three.js', 'STL 3D Print'],
     link: 'https://pawhero.aldoarbizu.com',
+    featuredIn: ['agtech'],
     engineer: {
       problem: 'Geolocalización de mascotas perdidas sin costosas suscripciones celulares.',
       solution: 'Chapas QR cifradas e interconectadas mediante WebSockets y red P2P.'
@@ -184,6 +193,7 @@ const rawProjects = [
     role: 'Collaborative 3D Printing Platform',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Web3 Escrow', 'STL 3D Print'],
     link: 'https://impresion3d.aldoarbizu.com',
+    featuredIn: ['engineer', 'security'],
     engineer: {
       problem: 'Complejidad y lentitud en la cotización manual de archivos de diseño STL.',
       solution: 'IA Slicer integrado que analiza y cotiza mallas poligonales 3D localmente en el cliente.'
@@ -203,6 +213,7 @@ const rawProjects = [
     role: 'Decentralized Direct Rentals & Land Control',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Solidity (Base L2)', 'Gemini API'],
     link: 'https://habitat.aldoarbizu.com',
+    featuredIn: ['security', 'agtech'],
     engineer: {
       problem: 'Vulnerabilidades en el flujo de verificación y firma de contratos tradicionales.',
       solution: 'Firmas criptográficas on-chain en Base L2 con verificación directa del inquilino.'
@@ -222,6 +233,7 @@ const rawProjects = [
     role: 'AI Omnichannel Marketing Coach',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Recharts analytics'],
     link: 'https://marketingadvisor.aldoarbizu.com',
+    featuredIn: ['engineer'],
     engineer: {
       problem: 'Baja velocidad en la generación y publicación de contenido promocional.',
       solution: 'Generador de copys publicitarios ultrarrápido con LLM local y encolado en SQLite.'
@@ -241,6 +253,7 @@ const rawProjects = [
     role: 'Off-grid Resilient Survival System',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Vigenère Cipher', 'Morse Encoder'],
     link: 'https://nomadhub.aldoarbizu.com',
+    featuredIn: ['agtech', 'security', 'engineer'],
     engineer: {
       problem: 'Dependencia de servidores centrales para cifrado y cálculos de radio en crisis.',
       solution: 'Calculadoras RF locales para antenas dipolo y cifrado Vigenère sin conexión.'
@@ -256,15 +269,35 @@ const rawProjects = [
   }
 ]
 
-function ProjectCard({ project, index, total }: { project: typeof rawProjects[0], index: number, total: number }) {
+
+function ProjectCard({ project, index, total }: { project: typeof rawProjects[0] & { featuredIn?: string[] }, index: number, total: number }) {
   const { persona } = usePersona()
   const details = (project as any)[persona] || (project as any).engineer
 
-  // WALBI AESTHETIC CLASSES
   const isSecurity = persona === 'security';
-  const cardClasses = isSecurity
-    ? "glass-surface p-8 md:p-12 relative group transition-all duration-500 overflow-hidden bg-black/40 backdrop-blur-2xl border border-white/5 hover:border-[#7C3AED]/50 hover:bg-[#050508]/80 shadow-[inset_0_0_80px_rgba(124,58,237,0.03)] hover:shadow-[0_0_50px_rgba(124,58,237,0.1)] rounded-2xl h-full flex flex-col"
-    : "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 hover:shadow-[0_0_30px_rgba(29,158,117,0.15)] overflow-hidden rounded-none h-full flex flex-col";
+  const isEngineer = persona === 'engineer';
+  const isAgtech = persona === 'agtech';
+  const isFeatured = project.featuredIn?.includes(persona);
+
+  let cardClasses = "";
+  if (isSecurity) {
+    cardClasses = "glass-surface p-8 md:p-12 relative group transition-all duration-500 overflow-hidden bg-black/40 backdrop-blur-2xl border border-white/5 hover:border-[#7C3AED]/50 hover:bg-[#050508]/80 shadow-[inset_0_0_80px_rgba(124,58,237,0.03)] hover:shadow-[0_0_50px_rgba(124,58,237,0.1)] rounded-2xl h-full flex flex-col";
+  } else if (isAgtech) {
+    cardClasses = "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[#B45309]/30 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] overflow-hidden rounded-2xl h-full flex flex-col";
+  } else {
+    cardClasses = "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 hover:shadow-[0_0_30px_rgba(29,158,117,0.15)] overflow-hidden rounded-2xl h-full flex flex-col";
+  }
+
+  const getTechGlowClass = (tech: string) => {
+    const engineerTech = ['Node.js', 'TypeScript', 'React Native', 'Expo Bare', 'SQLite WAL', 'Zustand', 'Kotlin', 'Jetpack Compose'];
+    const securityTech = ['Base L2', 'Supabase', 'Solidity', 'Room SQLite', 'Ethers.js (Base L2)', 'Web3 Escrow'];
+    const agtechTech = ['Three.js', 'HTML5 Canvas', 'Lottie', 'STL 3D Print', 'Animated', 'Mapbox', 'IoT'];
+
+    if (isEngineer && engineerTech.includes(tech)) return 'border-[#06B6D4] text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] bg-[#06B6D4]/10';
+    if (isSecurity && securityTech.includes(tech)) return 'border-[#7C3AED] text-white shadow-[0_0_15px_rgba(124,58,237,0.4)] bg-[#7C3AED]/10';
+    if (isAgtech && agtechTech.includes(tech)) return 'border-[#D4AF37] text-white shadow-[0_0_15px_rgba(212,175,55,0.4)] bg-[#D4AF37]/10';
+    return 'border-[var(--color-space-border)] text-[var(--color-mist-gray)] hover:border-white/20';
+  }
 
   return (
     <motion.div
@@ -274,31 +307,37 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`w-full mx-auto ${isSecurity ? 'drop-shadow-2xl' : 'orbital-glow'} h-full flex`}
     >
-      <div className={`flex-1 ${cardClasses}`}>
-        {/* Decorative index */}
+      <div className={`flex-1 ${cardClasses} ${isFeatured ? 'border-t-2 border-t-[var(--color-orbital-teal)]' : ''}`} style={isFeatured ? { borderTopColor: isSecurity ? '#7C3AED' : isAgtech ? '#D4AF37' : '#06B6D4' } : {}}>
         <div
-          className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isSecurity ? 'text-white/[0.02] group-hover:text-[#06B6D4]/10' : 'text-white/[0.03]'}`}
+          className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isSecurity ? 'text-white/[0.02] group-hover:text-[#7C3AED]/10' : isAgtech ? 'text-white/[0.02] group-hover:text-[#D4AF37]/10' : 'text-white/[0.03] group-hover:text-[#06B6D4]/10'}`}
         >
           {String(index + 1).padStart(2, '0')}
         </div>
 
-        {/* Walbi top accent line */}
         {isSecurity && (
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        )}
+        {isAgtech && (
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         )}
 
         <div className="flex flex-col relative z-10 flex-1 h-full">
           <div>
-            {/* Project counter */}
             <div className="flex items-center gap-3 mb-4">
-              <span className={`font-space text-[9px] tracking-widest ${isSecurity ? 'text-[#06B6D4]/60' : 'text-[var(--color-mist-gray)]/40'}`}>
+              <span className={`font-space text-[9px] tracking-widest ${isSecurity ? 'text-[#7C3AED]/60' : isAgtech ? 'text-[#D4AF37]/60' : 'text-[#06B6D4]/60'}`}>
                 {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
               </span>
-              <div className={`h-px flex-1 ${isSecurity ? 'bg-gradient-to-r from-[#06B6D4]/20 to-transparent' : 'bg-[var(--color-space-border)]'}`} />
+              <div className={`h-px flex-1 ${isSecurity ? 'bg-gradient-to-r from-[#7C3AED]/20 to-transparent' : isAgtech ? 'bg-gradient-to-r from-[#D4AF37]/20 to-transparent' : 'bg-gradient-to-r from-[#06B6D4]/20 to-transparent'}`} />
+              
+              {isFeatured && (
+                <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#7C3AED] text-[#7C3AED] shadow-[0_0_10px_rgba(124,58,237,0.2)]' : isAgtech ? 'border-[#D4AF37] text-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.2)]' : 'border-[#06B6D4] text-[#06B6D4] shadow-[0_0_10px_rgba(6,182,212,0.2)]'}`}>
+                  ⭐ RELEVANTE
+                </span>
+              )}
             </div>
 
             <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>
-            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold">{project.role}</div>
+            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: isSecurity ? '#7C3AED' : isAgtech ? '#D4AF37' : '#06B6D4' }}>{project.role}</div>
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -328,7 +367,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 {project.stack.map((tech, j) => (
                   <span
                     key={j}
-                    className="px-3 py-1 border border-[var(--color-space-border)] bg-[var(--color-deep-space)] font-space text-xs text-[var(--color-mist-gray)] hover:border-[var(--color-orbital-teal)] hover:text-white transition-all duration-200 cursor-default"
+                    className={`px-3 py-1 border font-space text-xs transition-all duration-300 cursor-default rounded-sm ${getTechGlowClass(tech)}`}
                   >
                     {tech}
                   </span>
@@ -376,9 +415,30 @@ export default function Projects() {
     target: sectionRef,
     offset: ['start end', 'end start']
   })
+  
+  const { persona } = usePersona()
 
   const bgY = useTransform(scrollYProgress, [0, 1], [50, -80])
   const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
+
+  // Sort projects: featured projects for active persona come first
+  const sortedProjects = [...rawProjects].sort((a, b) => {
+    const aFeatured = (a as any).featuredIn?.includes(persona) ? 1 : 0;
+    const bFeatured = (b as any).featuredIn?.includes(persona) ? 1 : 0;
+    return bFeatured - aFeatured;
+  });
+
+  const getTitles = () => {
+    if (persona === 'security') {
+      return { small: "Auditorías Completadas", large1: "Casos de", large2: "Estudio" };
+    }
+    if (persona === 'agtech') {
+      return { small: "Sistemas Desplegados", large1: "Operaciones", large2: "de Campo" };
+    }
+    return { small: "Despliegues", large1: "Arquitectura", large2: "& Repositorios" };
+  }
+  const titles = getTitles();
+
 
   return (
     <section id="projects" ref={sectionRef} className="pt-32 pb-32 relative bg-[var(--color-space-black)]">
@@ -390,18 +450,22 @@ export default function Projects() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 mb-16">
-        <GlitchText delay={0.1} text="Proyectos" className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none" />
+        <GlitchText delay={0.1} text={titles.small} className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none" />
         <div className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
-          <GlitchText delay={0.2} text="Misiones" /><br />
-          <GlitchText delay={0.3} text="Completadas" />
+          <GlitchText delay={0.2} text={titles.large1} /><br />
+          <GlitchText delay={0.3} text={titles.large2} />
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10">
-          {rawProjects.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} total={rawProjects.length} />
-          ))}
+      <div className="w-full relative z-20">
+        <div className="project-carousel flex overflow-x-auto gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 pb-12 snap-x snap-mandatory scroll-smooth w-full">
+          <AnimatePresence mode="popLayout">
+            {sortedProjects.map((p, i) => (
+              <div key={p.id} className="snap-center shrink-0 w-[85vw] md:w-[65vw] lg:w-[45vw] h-auto">
+                <ProjectCard project={p as any} index={i} total={rawProjects.length} />
+              </div>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </section>
