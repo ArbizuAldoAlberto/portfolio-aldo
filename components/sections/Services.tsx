@@ -96,9 +96,9 @@ export default function Services() {
           Servicios
         </span>
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-16">
-          <RevealText direction="up" delay={0.1} blur={true}>
-            Misiones & Presupuestos
-          </RevealText>
+          <GlitchText delay={0.1}>
+            Servicios & Presupuestos
+          </GlitchText>
         </h2>
 
         {/* BENTO SELECTORS */}

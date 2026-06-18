@@ -118,9 +118,9 @@ export default function Manifesto() {
               ref={titleRef}
               className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-8 max-w-4xl leading-tight"
             >
-              <RevealText direction="up" delay={0.1} blur={true}>
+              <GlitchText delay={0.1}>
                 {content.title}
-              </RevealText>
+              </GlitchText>
             </motion.h2>
             
             <motion.p

@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
 import HorizontalScrollSection from '../ui/HorizontalScrollSection'
-import RevealText from '../ui/RevealText'
+import GlitchText from '../ui/GlitchText'
 import MagneticButton from '../ui/MagneticButton'
 const rawProjects = [
   {
@@ -395,7 +395,7 @@ export default function Projects() {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
 
   return (
-    <section id="projects" ref={sectionRef} className="relative pt-32 pb-0 border-t border-[var(--color-space-border)]">
+    <section id="projects" ref={sectionRef} className="pt-32 pb-0 relative bg-[var(--color-space-black)]">
       <motion.div
         style={{ y: bgY, opacity: bgOpacity }}
         className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
@@ -404,12 +404,11 @@ export default function Projects() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 mb-8 md:mb-16">
-        <RevealText direction="up" delay={0.1} className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
-          Proyectos
-        </RevealText>
-        <RevealText direction="up" delay={0.2} blur={true} className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
-          Misiones<br />Completadas
-        </RevealText>
+        <GlitchText delay={0.1} text="Proyectos" className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none" />
+        <div className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+          <GlitchText delay={0.2} text="Misiones" /><br />
+          <GlitchText delay={0.3} text="Completadas" />
+        </div>
       </div>
 
       <HorizontalScrollSection className="pb-16 pt-4">
