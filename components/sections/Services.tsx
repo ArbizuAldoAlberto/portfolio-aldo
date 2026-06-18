@@ -3,19 +3,26 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import GlitchText from '../ui/GlitchText'
 import { useSound } from '../theme/SoundManager'
-import { Check, Cpu, CreditCard, RefreshCw, ShoppingCart } from 'lucide-react'
+import { Check, Cpu, CreditCard, RefreshCw, ShoppingCart, User, Mail, Send, X } from 'lucide-react'
+import { submitLead } from '../../lib/lead-actions'
+import { trackUcpCheckout } from '../../lib/analytics'
 
 const serviceOptions = [
-  { id: 'mobile', title: 'Mobile Apps (Offline-First)', price: 3000, desc: 'Diseño y desarrollo de apps móviles en React Native & Expo que funcionan sin conexión. Ideal para logística, agro o seguridad, donde la falta de señal detiene la facturación y causa pérdidas de clientes.' },
-  { id: 'saas', title: 'SaaS & Fullstack Architecture', price: 5000, desc: 'Desarrollo de plataformas web seguras con Next.js y PostgreSQL. Integramos pasarelas híbridas (Stripe para fiat + Base L2 para micropagos) para reducir comisiones operativas y automatizar tus suscripciones.' },
-  { id: 'n8n', title: 'Intelligent n8n Workflows', price: 500, desc: 'Automatización de procesos comerciales y administrativos. Conectamos tus herramientas preferidas con inteligencia artificial local para capturar prospectos, enviar presupuestos y responder consultas 24/7.' },
-  { id: 'security', title: 'Security Audit & WebGL 3D', price: 1500, desc: 'Protegemos tus activos auditando tus apps móviles bajo normas OWASP MASVS y asegurando smart contracts. Modelamos assets interactivos en Blender y WebGL para impresionar e incrementar la conversión de tu sitio.' }
+  { id: 'mobile', title: 'Mobile Apps (Offline-First)', price: 3000, desc: 'Diseño y desarrollo de apps móviles en React Native & Expo que funcionan sin conexión. Ideal para logística, agro o seguridad.' },
+  { id: 'saas', title: 'SaaS & Fullstack Architecture', price: 5000, desc: 'Desarrollo web seguro con Next.js y PostgreSQL. Integración híbrida Stripe/Base L2 para pagos.' },
+  { id: 'n8n', title: 'Intelligent n8n Workflows', price: 500, desc: 'Automatización comercial con n8n para capturar leads y automatizar tareas repetitivas 24/7.' },
+  { id: 'security', title: 'Security Audit & WebGL 3D', price: 1500, desc: 'Auditoría bajo normas OWASP MASVS y modelado 3D interactivo en React Three Fiber.' }
 ]
 
 export default function Services() {
   const { playTick, playClick, playSuccess } = useSound()
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [checkoutStep, setCheckoutStep] = useState<'idle' | 'linking' | 'processing' | 'done'>('idle')
+  const [showLeadModal, setShowLeadModal] = useState(false)
+
+  // Modal form states
+  const [loading, setLoading] = useState(false)
+  const [leadStatus, setLeadStatus] = useState<{ success: boolean; message: string } | null>(null)
 
   const toggleService = (id: string) => {
     playTick()
@@ -41,23 +48,40 @@ export default function Services() {
     playSuccess()
     setCheckoutStep('done')
     
-    // Create pre-filled message
-    const selectedNames = selectedServices.map(id => serviceOptions.find(o => o.id === id)?.title).join(', ')
-    const leadMessage = `Hola Aldo, acabo de cotizar un proyecto en tu estimador interactivo. Seleccioné: ${selectedNames} por un valor estimado de USD ${total}. Me interesa avanzar en una cotización oficial de desarrollo.`
-    
-    sessionStorage.setItem('prefilled_lead', leadMessage)
-    
-    // Dispatch custom event to notify contact form
-    const event = new CustomEvent('ucp-checkout-success', { detail: leadMessage })
-    window.dispatchEvent(event)
+    // Telemetry tracking
+    const selectedNames = selectedServices.map(id => serviceOptions.find(o => o.id === id)?.title).filter(Boolean) as string[];
+    trackUcpCheckout(total, selectedNames);
 
+    // Instead of scrolling to contact, show lead capture modal
     setTimeout(() => {
-      const contactSection = document.getElementById('contact')
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' })
-      }
       setCheckoutStep('idle')
+      setShowLeadModal(true)
     }, 1200)
+  }
+
+  const handleModalSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setLeadStatus(null)
+    
+    const formData = new FormData(e.currentTarget)
+    // Inject custom data
+    formData.append('source', 'ucp_checkout')
+    formData.append('services', selectedServices.map(id => serviceOptions.find(o => o.id === id)?.title).join(', '))
+    formData.append('total', total.toString())
+
+    const result = await submitLead(null, formData)
+    setLeadStatus(result)
+    setLoading(false)
+
+    if (result.success) {
+      // Auto close after 3 seconds
+      setTimeout(() => {
+        setShowLeadModal(false)
+        setLeadStatus(null)
+        setSelectedServices([]) // Reset selection
+      }, 3000)
+    }
   }
 
   return (
@@ -131,7 +155,7 @@ export default function Services() {
               </div>
 
               <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                Selecciona uno o más módulos de desarrollo arriba. Simula la pasarela de pago para transferir la telemetría del presupuesto directamente al formulario de contacto.
+                Selecciona uno o más módulos de desarrollo. Simula el checkout para generar la propuesta técnica vinculante a tus necesidades.
               </p>
             </div>
 
@@ -139,7 +163,7 @@ export default function Services() {
             <div className="md:col-span-5 flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 
-                {/* IDLE: Checkout Button */}
+                {/* IDLE */}
                 {checkoutStep === 'idle' && (
                   <motion.button
                     key="idle"
@@ -149,16 +173,14 @@ export default function Services() {
                     onClick={handleCheckout}
                     disabled={selectedServices.length === 0}
                     className="w-full btn-primary py-4 px-6 rounded-lg flex items-center justify-center gap-3 cursor-none disabled:opacity-40 disabled:cursor-not-allowed text-xs font-space tracking-widest font-bold border border-green-500/20"
-                    style={{
-                      boxShadow: selectedServices.length > 0 ? '0 0 20px rgba(0, 255, 102, 0.2)' : 'none'
-                    }}
+                    style={{ boxShadow: selectedServices.length > 0 ? '0 0 20px rgba(0, 255, 102, 0.2)' : 'none' }}
                   >
                     <ShoppingCart size={14} className="text-black" />
                     <span>GOOGLE UCP CHECKOUT</span>
                   </motion.button>
                 )}
 
-                {/* LINKING: Cryptographic Handshake */}
+                {/* LINKING */}
                 {checkoutStep === 'linking' && (
                   <motion.div
                     key="linking"
@@ -169,11 +191,10 @@ export default function Services() {
                   >
                     <RefreshCw size={20} className="text-[var(--color-amber-gold)] animate-spin" />
                     <span className="text-[var(--color-amber-gold)] font-bold tracking-widest uppercase">ENLAZANDO WALLET CRYPTO...</span>
-                    <span className="text-[var(--color-mist-gray)]/60">Resolviendo claims UCP del nodo</span>
                   </motion.div>
                 )}
 
-                {/* PROCESSING: Transaction confirmation */}
+                {/* PROCESSING */}
                 {checkoutStep === 'processing' && (
                   <motion.div
                     key="processing"
@@ -184,11 +205,10 @@ export default function Services() {
                   >
                     <CreditCard size={20} className="text-green-400 animate-pulse" />
                     <span className="text-green-400 font-bold tracking-widest uppercase">PROCESANDO PAGO UCP...</span>
-                    <span className="text-[var(--color-mist-gray)]/60">Generando hash de transacción</span>
                   </motion.div>
                 )}
 
-                {/* DONE: Complete */}
+                {/* DONE */}
                 {checkoutStep === 'done' && (
                   <motion.div
                     key="done"
@@ -198,13 +218,10 @@ export default function Services() {
                     className="w-full p-4 border border-green-500 bg-green-500 text-black rounded-lg flex flex-col items-center justify-center gap-2 font-mono text-[10px]"
                   >
                     <span className="font-bold tracking-widest uppercase text-xs">PAGO PROCESADO OK!</span>
-                    <span>Transfiriendo datos de lead...</span>
                   </motion.div>
                 )}
-
               </AnimatePresence>
             </div>
-
           </div>
         </div>
 
@@ -226,6 +243,92 @@ export default function Services() {
           </div>
         </div>
       </div>
+
+      {/* LEAD CAPTURE MODAL */}
+      <AnimatePresence>
+        {showLeadModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="glass-surface w-full max-w-md p-8 border-t-4 border-t-[var(--color-orbital-teal)] relative"
+            >
+              <button 
+                onClick={() => setShowLeadModal(false)}
+                className="absolute top-4 right-4 text-[var(--color-mist-gray)] hover:text-white transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="text-center mb-8">
+                <Check className="mx-auto text-[var(--color-orbital-teal)] mb-4" size={40} />
+                <h3 className="font-serif text-2xl text-white mb-2">Checkout Completado</h3>
+                <p className="font-mono text-xs text-[var(--color-mist-gray)]">
+                  Ingresa tus datos para recibir la propuesta técnica formal sobre el presupuesto de USD {total.toLocaleString()}.
+                </p>
+              </div>
+
+              <form onSubmit={handleModalSubmit} className="space-y-4">
+                <input type="text" name="bot-field" className="hidden" tabIndex={-1} autoComplete="off" />
+                
+                <div className="space-y-2 group">
+                  <label htmlFor="modal-name" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
+                    <User size={12} />
+                    Nombre <span className="text-[var(--color-orbital-teal)]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="modal-name"
+                    name="name"
+                    required
+                    disabled={loading}
+                    className="w-full bg-black/50 border border-[var(--color-space-border)] rounded-md px-4 py-3 font-mono text-sm text-white focus:outline-none focus:border-[var(--color-orbital-teal)] focus:ring-1 focus:ring-[var(--color-orbital-teal)] transition-all"
+                  />
+                </div>
+
+                <div className="space-y-2 group">
+                  <label htmlFor="modal-email" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
+                    <Mail size={12} />
+                    Email Corporativo <span className="text-[var(--color-orbital-teal)]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="modal-email"
+                    name="email"
+                    required
+                    disabled={loading}
+                    className="w-full bg-black/50 border border-[var(--color-space-border)] rounded-md px-4 py-3 font-mono text-sm text-white focus:outline-none focus:border-[var(--color-orbital-teal)] focus:ring-1 focus:ring-[var(--color-orbital-teal)] transition-all"
+                  />
+                </div>
+
+                {leadStatus && (
+                  <div className={`p-3 rounded border text-xs font-mono text-center ${leadStatus.success ? 'bg-green-950/20 border-green-500/20 text-green-400' : 'bg-red-950/20 border-red-500/20 text-red-400'}`}>
+                    {leadStatus.message}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full btn-primary py-3 rounded flex justify-center items-center gap-2 font-space tracking-widest text-xs font-bold transition-all relative overflow-hidden group mt-4"
+                >
+                  <div className="absolute inset-0 bg-[var(--color-orbital-teal)] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10 flex items-center gap-2 group-hover:text-black">
+                    {loading ? <RefreshCw size={14} className="animate-spin" /> : <Send size={14} />}
+                    <span>SOLICITAR PROPUESTA</span>
+                  </span>
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

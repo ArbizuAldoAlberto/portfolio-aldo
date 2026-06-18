@@ -1,69 +1,84 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
 
-const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#_'
+const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#@$%&'
 
 interface GlitchTextProps {
   text: string
   className?: string
   delay?: number
+  speed?: number
+  triggerOnView?: boolean
+  as?: React.ElementType
+  scrambleOnHover?: boolean
 }
 
-export default function GlitchText({ text, className = '', delay = 0 }: GlitchTextProps) {
-  const [displayText, setDisplayText] = useState(text.replace(/[a-zA-Z0-9]/g, '-'))
+export default function GlitchText({
+  text,
+  className = '',
+  delay = 0,
+  speed = 35,
+  triggerOnView = false,
+  as: Tag = 'span',
+  scrambleOnHover = true
+}: GlitchTextProps) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const [displayText, setDisplayText] = useState(
+    triggerOnView ? text.replace(/[a-zA-Z0-9]/g, '▓') : text.replace(/[a-zA-Z0-9]/g, '-')
+  )
   const [isHovered, setIsHovered] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(!triggerOnView)
 
   useEffect(() => {
+    if (triggerOnView && !isInView) return
+    if (hasAnimated && !isHovered) return
+
     let iteration = 0
-    let interval: NodeJS.Timeout
+    const maxIterations = text.length * 3
 
-    const startGlitch = () => {
-      clearInterval(interval)
-      interval = setInterval(() => {
-        setDisplayText((prev) =>
-          text
-            .split('')
-            .map((char, index) => {
-              if (char === ' ') return ' '
-              if (index < iteration) {
-                return text[index]
-              }
-              return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
-            })
-            .join('')
-        )
+    const interval = setInterval(() => {
+      setDisplayText((prev) =>
+        text
+          .split('')
+          .map((char, index) => {
+            if (char === ' ') return ' '
+            if (index < iteration / 3) {
+              return text[index]
+            }
+            return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+          })
+          .join('')
+      )
 
-        if (iteration >= text.length) {
-          clearInterval(interval)
-        }
-        iteration += 1 / 3
-      }, 30)
-    }
+      iteration += 1
 
-    const initialTimeout = setTimeout(startGlitch, delay * 1000)
+      if (iteration >= maxIterations) {
+        clearInterval(interval)
+        setDisplayText(text)
+        setHasAnimated(true)
+      }
+    }, speed)
 
-    if (isHovered) {
-      iteration = 0
-      startGlitch()
-    }
+    return () => clearInterval(interval)
+  }, [text, delay, isHovered, isInView, triggerOnView, hasAnimated, speed])
 
-    return () => {
-      clearInterval(interval)
-      clearTimeout(initialTimeout)
-    }
-  }, [text, delay, isHovered])
+  const MotionTag = motion(Tag as any)
 
   return (
-    <motion.span
+    <MotionTag
+      ref={ref as any}
       className={`inline-block ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => scrambleOnHover && setIsHovered(true)}
+      onMouseLeave={() => scrambleOnHover && setIsHovered(false)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay }}
+      aria-label={text}
+      role="text"
     >
-      {displayText}
-    </motion.span>
+      <span aria-hidden="true">{displayText}</span>
+    </MotionTag>
   )
 }

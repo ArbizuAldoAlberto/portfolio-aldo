@@ -3,6 +3,9 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { usePersona } from '../theme/PersonaContext'
+import HorizontalScrollSection from '../ui/HorizontalScrollSection'
+import RevealText from '../ui/RevealText'
+import MagneticButton from '../ui/MagneticButton'
 const rawProjects = [
   {
     id: 'titanflow',
@@ -255,45 +258,37 @@ const rawProjects = [
 
 function ProjectCard({ project, index, total }: { project: typeof rawProjects[0], index: number, total: number }) {
   const { persona } = usePersona()
-  const cardRef = useRef<HTMLDivElement>(null)
   const details = project[persona] || project.founder
-
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ['start end', 'center center']
-  })
-
-  const width = useTransform(scrollYProgress, [0, 0.8], ['92%', '100%'])
-  const cardOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
-  const cardY = useTransform(scrollYProgress, [0, 0.5], [60, 0])
 
   // WALBI AESTHETIC CLASSES
   const isFounder = persona === 'founder';
-  const cardClasses = isFounder 
-    ? "glass-surface p-8 md:p-12 relative group transition-all duration-500 overflow-hidden bg-black/40 backdrop-blur-2xl border border-white/5 hover:border-[#7C3AED]/50 hover:bg-[#050508]/80 shadow-[inset_0_0_80px_rgba(124,58,237,0.03)] hover:shadow-[0_0_50px_rgba(124,58,237,0.1)] rounded-2xl"
-    : "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 overflow-hidden rounded-none";
+  const cardClasses = isFounder
+    ? "glass-surface p-8 md:p-12 relative group transition-all duration-500 overflow-hidden bg-black/40 backdrop-blur-2xl border border-white/5 hover:border-[#7C3AED]/50 hover:bg-[#050508]/80 shadow-[inset_0_0_80px_rgba(124,58,237,0.03)] hover:shadow-[0_0_50px_rgba(124,58,237,0.1)] rounded-2xl h-full flex flex-col"
+    : "glass-surface p-8 md:p-12 relative group transition-all duration-500 hover:border-[var(--color-orbital-teal)]/30 hover:shadow-[0_0_30px_rgba(29,158,117,0.15)] overflow-hidden rounded-none h-full flex flex-col";
 
   return (
     <motion.div
-      ref={cardRef}
-      style={{ width, opacity: cardOpacity, y: cardY }}
-      className={`mx-auto ${isFounder ? 'drop-shadow-2xl' : 'orbital-glow'}`}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className={`w-[85vw] md:w-[65vw] lg:w-[50vw] max-w-4xl shrink-0 mx-auto ${isFounder ? 'drop-shadow-2xl' : 'orbital-glow'} h-full flex`}
     >
-      <div className={cardClasses}>
+      <div className={`flex-1 ${cardClasses}`}>
         {/* Decorative index */}
-        <motion.div
+        <div
           className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isFounder ? 'text-white/[0.02] group-hover:text-[#06B6D4]/10' : 'text-white/[0.03]'}`}
         >
           {String(index + 1).padStart(2, '0')}
-        </motion.div>
+        </div>
 
         {/* Walbi top accent line */}
         {isFounder && (
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
         )}
 
-        <div className="grid md:grid-cols-2 gap-8 relative z-10">
-          <div>
+        <div className="grid md:grid-cols-2 gap-8 relative z-10 flex-1">
+          <div className="flex flex-col">
             {/* Project counter */}
             <div className="flex items-center gap-3 mb-4">
               <span className={`font-space text-[9px] tracking-widest ${isFounder ? 'text-[#06B6D4]/60' : 'text-[var(--color-mist-gray)]/40'}`}>
@@ -302,9 +297,9 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               <div className={`h-px flex-1 ${isFounder ? 'bg-gradient-to-r from-[#06B6D4]/20 to-transparent' : 'bg-[var(--color-space-border)]'}`} />
             </div>
 
-            <h3 className="font-serif text-3xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>
+            <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>
             <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold">{project.role}</div>
-            
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={persona}
@@ -312,7 +307,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.2 }}
-                className="space-y-4 font-mono text-sm"
+                className="space-y-4 font-mono text-sm mt-auto"
               >
                 <div>
                   <span className="text-white block mb-1 font-bold">PROBLEMA:</span>
@@ -325,7 +320,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               </motion.div>
             </AnimatePresence>
           </div>
-          
+
           <div className="flex flex-col justify-between">
             <div>
               <span className="font-mono text-white text-sm block mb-4 font-bold">STACK:</span>
@@ -344,39 +339,41 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 ))}
               </div>
             </div>
-            
-            <div className="mt-8 flex flex-wrap gap-4">
-              <motion.a
+
+            <div className="mt-8 pt-8 border-t border-white/5 flex flex-wrap gap-4 mt-auto">
+              <MagneticButton
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -2 }}
-                className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-lg text-xs transition-all"
+                variant="outline"
+                className="group/link flex-1 md:flex-none justify-center"
               >
-                <ExternalLink size={14} className="group-hover/link:text-[var(--color-orbital-teal)] transition-colors" />
+                <ExternalLink size={14} className="group-hover/link:text-black transition-colors" />
                 <span>Demo En Vivo</span>
-              </motion.a>
+              </MagneticButton>
+              
               {(project.stack.includes('React Native') || project.stack.includes('Kotlin')) && (
                 <>
-                  <motion.a
+                  <MagneticButton
                     href={`${project.link}/downloads/${project.id}.apk`}
-                    download
-                    whileHover={{ y: -2 }}
-                    className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-green-500/50 rounded-lg text-xs transition-all"
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outline"
+                    className="group/link"
                   >
-                    <span className="text-green-500">🤖</span>
+                    <span className="text-green-500 group-hover/link:text-black transition-colors">🤖</span>
                     <span>Android APK</span>
-                  </motion.a>
-                  <motion.a
+                  </MagneticButton>
+                  <MagneticButton
                     href="https://testflight.apple.com"
                     target="_blank"
                     rel="noreferrer"
-                    whileHover={{ y: -2 }}
-                    className="btn-outline flex items-center gap-2 cursor-none group/link px-4 py-2 border border-white/10 hover:border-blue-500/50 rounded-lg text-xs transition-all"
+                    variant="outline"
+                    className="group/link"
                   >
-                    <span className="text-blue-400">🍎</span>
+                    <span className="text-blue-400 group-hover/link:text-black transition-colors">🍎</span>
                     <span>iOS Beta</span>
-                  </motion.a>
+                  </MagneticButton>
                 </>
               )}
             </div>
@@ -398,7 +395,7 @@ export default function Projects() {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-32 border-t border-[var(--color-space-border)]">
+    <section id="projects" ref={sectionRef} className="relative pt-32 pb-0 border-t border-[var(--color-space-border)] overflow-hidden">
       <motion.div
         style={{ y: bgY, opacity: bgOpacity }}
         className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
@@ -406,30 +403,20 @@ export default function Projects() {
         04
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.span
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none"
-        >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 mb-8 md:mb-16">
+        <RevealText direction="up" delay={0.1} className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
           Proyectos
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-serif font-bold text-white mb-16"
-        >
-          Misiones Completadas
-        </motion.h2>
-
-        <div className="space-y-8">
-          {rawProjects.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} total={rawProjects.length} />
-          ))}
-        </div>
+        </RevealText>
+        <RevealText direction="up" delay={0.2} blur={true} className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+          Misiones<br />Completadas
+        </RevealText>
       </div>
+
+      <HorizontalScrollSection className="pb-16 pt-4">
+        {rawProjects.map((p, i) => (
+          <ProjectCard key={p.id} project={p} index={i} total={rawProjects.length} />
+        ))}
+      </HorizontalScrollSection>
     </section>
   )
 }

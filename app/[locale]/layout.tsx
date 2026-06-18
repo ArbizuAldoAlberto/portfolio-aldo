@@ -15,7 +15,10 @@ import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { routing } from "../../i18n/routing"
 import { SmoothScroll } from "../../components/theme/SmoothScroll"
-
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
+import Script from 'next/script'
+import SpotlightWrapper from "../../components/theme/SpotlightWrapper"
 const cormorant = Cormorant_Garamond({ 
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
@@ -34,6 +37,12 @@ const space = Space_Mono({
 })
 
 export const metadata: Metadata = {
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Arbizu Labs',
+  },
   title: "Aldo Arbizu | B2B Mobile & SaaS Architect — Senior React Native & Offline-First Expert",
   description: "Desarrollador Senior React Native y Product Engineer. Especialista en arquitecturas móviles Offline-First (SQLite WAL), automatizaciones de negocio con n8n, y cobros seguros (Stripe Elements / Web3 Base L2). Soluciones de software de grado comercial de Arbizu Labs.",
   keywords: [
@@ -89,6 +98,22 @@ export default async function RootLayout({ children, params }: { children: React
   return (
     <html lang={locale} className={`${cormorant.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`}>
       <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 cursor-none relative">
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <NextIntlClientProvider messages={messages}>
           <SmoothScroll>
             <SoundProvider>
@@ -100,12 +125,27 @@ export default async function RootLayout({ children, params }: { children: React
                   <PremiumBackground />
                   <BackgroundEffects />
                   <AudioToggle />
+                  <SpotlightWrapper />
                   {children}
                 </CursorProvider>
               </PersonaProvider>
             </SoundProvider>
           </SmoothScroll>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
+        
+        <Script id="service-worker-registration" strategy="lazyOnload">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch((err) => {
+                  console.log('SW registration failed: ', err);
+                });
+              });
+            }
+          `}
+        </Script>
       </body>
     </html>
   )

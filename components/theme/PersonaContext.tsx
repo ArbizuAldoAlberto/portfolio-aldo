@@ -1,5 +1,6 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { trackPersonaChange } from '../../lib/analytics'
 
 export type PersonaType = 'dev' | 'founder' | 'gentleman'
 
@@ -67,6 +68,8 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
     // Trigger custom event for audio tick feedback if SoundManager is active
     const event = new CustomEvent('persona-change', { detail: newPersona })
     window.dispatchEvent(event)
+
+    trackPersonaChange(newPersona)
   }
 
   return (

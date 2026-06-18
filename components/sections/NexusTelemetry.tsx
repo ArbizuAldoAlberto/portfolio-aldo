@@ -1,8 +1,11 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert, Play, RefreshCw, AlertCircle, Coins, Workflow, Brain, Search } from 'lucide-react'
+import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert, Play, RefreshCw, AlertCircle, Coins, Workflow, Brain, Search, BookOpen } from 'lucide-react'
 import { useCursor } from '../theme/CursorContext'
+import RealTimeActivity from './RealTimeActivity'
+import { getAllArticles, Article } from '../../lib/telemetry-loader'
+import Link from 'next/link'
 
 interface ConsoleLog {
   text: string
@@ -11,7 +14,12 @@ interface ConsoleLog {
 
 export default function NexusTelemetry() {
   const { setCursorState } = useCursor()
-  const [activeTab, setActiveTab] = useState<'status' | 'skills' | 'terminal'>('status')
+  const [activeTab, setActiveTab] = useState<'status' | 'skills' | 'terminal' | 'reports'>('status')
+  const [articles, setArticles] = useState<Article[]>([])
+
+  useEffect(() => {
+    getAllArticles().then(setArticles).catch(console.error)
+  }, [])
   const [terminalLogs, setTerminalLogs] = useState<ConsoleLog[]>([
     { text: 'NEXUS v1.1.0-supreme initialized on local nodes.', type: 'system' },
     { text: 'COGNITIVE LAYER: Connected to local Obsidian Brain Vault.', type: 'info' },
@@ -213,9 +221,10 @@ export default function NexusTelemetry() {
         {/* Tab Selection */}
         <div className="flex border-b border-[var(--color-space-border)] mb-8 font-space text-xs">
           {[
-            { id: 'status', label: 'Estatus del Sistema', icon: Brain },
+            { id: 'status', label: 'Estatus en Vivo', icon: Brain, live: true },
             { id: 'skills', label: 'Distribución de Habilidades', icon: Layers },
-            { id: 'terminal', label: 'Terminal Interactiva', icon: TerminalIcon }
+            { id: 'terminal', label: 'Terminal Interactiva', icon: TerminalIcon },
+            { id: 'reports', label: 'Telemetry Reports', icon: BookOpen, live: true }
           ].map(tab => {
             const Icon = tab.icon
             return (
@@ -230,6 +239,11 @@ export default function NexusTelemetry() {
               >
                 <Icon size={14} />
                 <span>{tab.label}</span>
+                {tab.live && (
+                  <span className="flex h-1.5 w-1.5 rounded-full bg-green-500 relative ml-1">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  </span>
+                )}
               </button>
             )
           })}
@@ -246,138 +260,8 @@ export default function NexusTelemetry() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="grid md:grid-cols-12 gap-6"
               >
-                {/* System Status Bento Card */}
-                <div className="md:col-span-7 glass-surface p-8 border-l-4 border-l-[var(--color-orbital-teal)] flex flex-col justify-between">
-                  <div>
-                    <div className="flex justify-between items-start mb-6">
-                      <div>
-                        <h3 className="font-serif text-2xl text-white">NEXUS Core Integration</h3>
-                        <span className="font-mono text-xs text-[var(--color-mist-gray)]/50">Node: Local-Host-AR</span>
-                      </div>
-                      <span className="flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/10 text-green-400 font-space text-[10px] font-bold tracking-wider">
-                        <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                        ONLINE
-                      </span>
-                    </div>
-
-                    <div className="grid sm:grid-cols-2 gap-6 font-mono text-xs mb-8">
-                      <div className="space-y-3">
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">IA Engine:</span>
-                          <span className="text-white font-bold">Gemini 2.5 Pro</span>
-                        </div>
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">Integrity Status:</span>
-                          <span className="text-green-400 font-bold">152/152 Checks [PASS]</span>
-                        </div>
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">Active Skills:</span>
-                          <span className="text-white font-bold">77 Registered</span>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">Security Gate:</span>
-                          <span className="text-[var(--color-orbital-teal)] font-bold">DefenseClaw Enabled</span>
-                        </div>
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">Obsidian Vault:</span>
-                          <span className="text-white font-bold">Synced (WikiLinks)</span>
-                        </div>
-                        <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                          <span className="text-[var(--color-mist-gray)]">n8n Flows:</span>
-                          <span className="text-white font-bold">5 Webhooks Online</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-[var(--color-space-black)]/50 border border-[var(--color-space-border)] p-4 rounded font-mono text-xs text-[var(--color-mist-gray)]">
-                    <span className="text-[var(--color-orbital-teal)] font-bold">COGNITIVE_ENGRAM:</span> "Supervisor agéntico en modo Dios. Sincronización continua de conocimiento entre la bóveda de Obsidian y los flujos de CI/CD locales."
-                  </div>
-                </div>
-
-                {/* Career-Ops Radar Bento Card */}
-                <div className="md:col-span-5 glass-surface p-8 border-l-4 border-l-[var(--color-coral-burn)] flex flex-col justify-between">
-                  <div>
-                    <div className="flex justify-between items-start mb-6">
-                      <div>
-                        <h3 className="font-serif text-2xl text-white">Career-Ops Radar</h3>
-                        <span className="font-mono text-xs text-[var(--color-mist-gray)]/50">Scanner: Greenhouse & Lever</span>
-                      </div>
-                      <span className="flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-coral-burn)]/20 bg-[var(--color-coral-burn)]/10 text-[var(--color-coral-burn)] font-space text-[10px] font-bold tracking-wider">
-                        ACTIVE
-                      </span>
-                    </div>
-
-                    <div className="space-y-3 font-mono text-xs mb-8">
-                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                        <span className="text-[var(--color-mist-gray)]">Keyword Filters:</span>
-                        <span className="text-white font-bold">[Mobile, AI, React, Product]</span>
-                      </div>
-                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                        <span className="text-[var(--color-mist-gray)]">Location Policy:</span>
-                        <span className="text-white font-bold">Remote (US/LATAM/ARG)</span>
-                      </div>
-                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                        <span className="text-[var(--color-mist-gray)]">Active Pipeline:</span>
-                        <span className="text-green-400 font-bold">14 Positions / 3 Interviews</span>
-                      </div>
-                      <div className="flex justify-between border-b border-[var(--color-space-border)]/50 pb-2">
-                        <span className="text-[var(--color-mist-gray)]">Ethical Strategy:</span>
-                        <span className="text-white">Quality Over Quantity</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-[var(--color-space-black)]/50 border border-[var(--color-space-border)] p-4 rounded font-mono text-xs text-[var(--color-mist-gray)]">
-                    <span className="text-[var(--color-coral-burn)] font-bold">RADAR_TELEMETRY:</span> "Escaneo directo sin consumo de tokens. De-duplicación automática vía scan-history.tsv."
-                  </div>
-                </div>
-
-                {/* Row 2: Subsystems */}
-                {/* TITAN status */}
-                <div className="md:col-span-6 glass-surface p-6 border-l-4 border-l-[var(--color-amber-gold)] flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2 text-white font-serif font-bold text-lg">
-                        <Coins size={18} className="text-[var(--color-amber-gold)]" />
-                        <span>TITAN Supervisor</span>
-                      </div>
-                      <span className="font-space text-[9px] text-[var(--color-amber-gold)] uppercase tracking-wider font-bold">ALPHA MODE</span>
-                    </div>
-                    <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed mb-4">
-                      Bot de trading cuantitativo en régimen de momentum. Kelly sizing calibrado y monitoreo de riesgo on-chain.
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60 border-t border-[var(--color-space-border)]/30 pt-3">
-                    <span>Win Rate: 68.4%</span>
-                    <span>Regimen: ADX &gt; 28</span>
-                  </div>
-                </div>
-
-                {/* n8n integration */}
-                <div className="md:col-span-6 glass-surface p-6 border-l-4 border-l-[var(--color-electric-purple)] flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2 text-white font-serif font-bold text-lg">
-                        <Workflow size={18} className="text-[var(--color-electric-purple)]" />
-                        <span>n8n Workflows</span>
-                      </div>
-                      <span className="font-space text-[9px] text-[var(--color-electric-purple)] uppercase tracking-wider font-bold">ONLINE</span>
-                    </div>
-                    <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed mb-4">
-                      Automatización de CRM de leads, notificaciones de facturación de Stripe y reportes de telemetría a canales en caliente.
-                    </p>
-                  </div>
-                  <div className="flex justify-between items-center text-[10px] font-mono text-[var(--color-mist-gray)]/60 border-t border-[var(--color-space-border)]/30 pt-3">
-                    <span>Tasks: 18 triggers/day</span>
-                    <span>State: Nominales</span>
-                  </div>
-                </div>
+                <RealTimeActivity />
               </motion.div>
             )}
 
@@ -550,6 +434,48 @@ export default function NexusTelemetry() {
                     {!isRunningScript && <span className="h-4 w-2 bg-white animate-pulse"></span>}
                   </div>
                 </div>
+              </motion.div>
+            )}
+
+            {/* TAB: REPORTS */}
+            {activeTab === 'reports' && (
+              <motion.div
+                key="reports"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {articles.slice(0, 3).map((article) => (
+                  <Link href={`/telemetry/${article.meta.slug}`} key={article.meta.slug} className="glass-surface p-6 hover:border-[var(--color-orbital-teal)]/30 transition-all group flex flex-col h-full cursor-pointer">
+                    <div className="flex justify-between items-start mb-4">
+                      <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/60">
+                        {article.meta.category}
+                      </span>
+                      {article.meta.leadMagnet && (
+                        <span className="h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-pulse"></span>
+                      )}
+                    </div>
+                    <h4 className="font-serif text-xl text-white mb-3 group-hover:text-[var(--color-orbital-teal)] transition-colors">
+                      {article.meta.title}
+                    </h4>
+                    <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed mb-6 flex-grow">
+                      {article.meta.description}
+                    </p>
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-[var(--color-space-border)]">
+                      <span className="font-mono text-[10px] text-[var(--color-mist-gray)] uppercase">{article.meta.date}</span>
+                      <span className="font-space text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
+                        LEER REPORTE &rarr;
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+                
+                {articles.length === 0 && (
+                  <div className="col-span-full py-12 text-center text-[var(--color-mist-gray)] font-mono text-sm">
+                    Cargando reportes desde la bóveda local...
+                  </div>
+                )}
               </motion.div>
             )}
 

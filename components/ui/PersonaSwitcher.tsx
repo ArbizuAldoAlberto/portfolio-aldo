@@ -2,13 +2,13 @@
 import { usePersona, PersonaType } from '../theme/PersonaContext'
 import { useSound } from '../theme/SoundManager'
 import { motion } from 'framer-motion'
-import { Cpu, Users, Eye } from 'lucide-react'
+import { Cpu, Users, Eye, LucideIcon } from 'lucide-react'
 
 export default function PersonaSwitcher() {
   const { persona, setPersona } = usePersona()
   const { playTick, playClick } = useSound()
 
-  const profiles: { id: PersonaType; label: string; icon: any; desc: string }[] = [
+  const profiles: { id: PersonaType; label: string; icon: LucideIcon; desc: string }[] = [
     { 
       id: 'founder', 
       label: 'FOUNDER', 
@@ -40,6 +40,8 @@ export default function PersonaSwitcher() {
           return (
             <button
               key={profile.id}
+              aria-label={`Switch to ${profile.label} persona`}
+              aria-current={isActive ? 'true' : 'false'}
               onClick={() => {
                 playClick()
                 setPersona(profile.id)
@@ -52,18 +54,8 @@ export default function PersonaSwitcher() {
               {isActive && (
                 <motion.div
                   layoutId="active-persona"
-                  className="absolute inset-0 bg-[var(--color-orbital-teal)] rounded-full shadow-[0_0_15px_rgba(29,158,117,0.3)]"
+                  className="absolute inset-0 bg-[var(--color-orbital-teal)] rounded-full shadow-[0_0_15px_var(--color-space-border)]"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  style={{
-                    backgroundColor: 
-                      persona === 'dev' ? '#00FF66' : 
-                      persona === 'founder' ? '#1D9E75' : 
-                      '#FFFFFF',
-                    boxShadow: 
-                      persona === 'dev' ? '0 0 15px rgba(0, 255, 102, 0.4)' : 
-                      persona === 'founder' ? '0 0 15px rgba(29, 158, 117, 0.3)' : 
-                      '0 0 15px rgba(255, 255, 255, 0.3)'
-                  }}
                 />
               )}
               <span className="relative z-10 flex items-center gap-1.5">

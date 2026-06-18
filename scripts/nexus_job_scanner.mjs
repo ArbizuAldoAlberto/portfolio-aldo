@@ -48,9 +48,13 @@ let config = {
 
 if (existsSync(PORTALS_PATH)) {
   try {
-    config = JSON.parse(readFileSync(PORTALS_PATH, 'utf-8'));
+    const parsed = JSON.parse(readFileSync(PORTALS_PATH, 'utf-8'));
+    if (!parsed.portals || !Array.isArray(parsed.portals)) throw new Error("Estructura portals inválida");
+    if (!parsed.title_filter || !parsed.title_filter.positive || !parsed.title_filter.negative) throw new Error("Estructura title_filter inválida");
+    if (!parsed.location_filter || !parsed.location_filter.allow || !parsed.location_filter.block) throw new Error("Estructura location_filter inválida");
+    config = parsed;
   } catch (err) {
-    console.error(`⚠️ Error al leer ${PORTALS_PATH}, usando configuración por defecto.`);
+    console.error(`⚠️ Error al leer/validar ${PORTALS_PATH} (${err.message}), usando configuración por defecto.`);
   }
 } else {
   writeFileSync(PORTALS_PATH, JSON.stringify(config, null, 2), 'utf-8');
