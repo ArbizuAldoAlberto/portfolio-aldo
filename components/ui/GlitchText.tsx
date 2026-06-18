@@ -15,7 +15,7 @@ interface GlitchTextProps {
 const GLITCH_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?'
 
 export default function GlitchText({
-  text,
+  text = '',
   className = '',
   delay = 0,
   speed = 35,
@@ -25,7 +25,10 @@ export default function GlitchText({
 }: GlitchTextProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const [displayText, setDisplayText] = useState(text.replace(/[a-zA-Z0-9]/g, '▒'))
+  
+  // Safe default for text to avoid .replace crashes
+  const safeText = text || ''
+  const [displayText, setDisplayText] = useState(safeText.replace(/[a-zA-Z0-9]/g, '▒'))
   const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
@@ -41,12 +44,12 @@ export default function GlitchText({
 
       interval = setInterval(() => {
         setDisplayText((prev) =>
-          text
+          safeText
             .split('')
             .map((char, index) => {
               if (char === ' ') return ' '
               if (index < iteration) {
-                return text[index]
+                return safeText[index]
               }
               return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
             })
@@ -57,7 +60,7 @@ export default function GlitchText({
 
         if (iteration >= maxIterations) {
           clearInterval(interval)
-          setDisplayText(text)
+          setDisplayText(safeText)
           setHasAnimated(true)
         }
       }, 30) // fast speed
