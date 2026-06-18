@@ -60,12 +60,14 @@ export default function PremiumBackground() {
           <g>
             <motion.circle
               cx="20%" cy="30%" r="35%"
+              initial={{ cx: "20%", cy: "30%", scale: 1 }}
               fill="url(#grad-purple)" filter="url(#glow-blur)"
               animate={{ cx: ["20%", "25%", "20%"], cy: ["30%", "40%", "30%"], scale: [1, 1.1, 1] }}
               transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.circle
               cx="85%" cy="70%" r="40%"
+              initial={{ cx: "85%", cy: "70%", scale: 1 }}
               fill="url(#grad-cyan)" filter="url(#glow-blur)"
               animate={{ cx: ["85%", "75%", "85%"], cy: ["70%", "60%", "70%"], scale: [1, 1.05, 1] }}
               transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
@@ -78,12 +80,14 @@ export default function PremiumBackground() {
           <g>
             <motion.circle
               cx="10%" cy="80%" r="30%"
+              initial={{ cx: "10%", opacity: 0.5 }}
               fill="url(#grad-emerald)" filter="url(#glow-blur)"
               animate={{ cx: ["10%", "15%", "10%"], opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.circle
               cx="90%" cy="10%" r="35%"
+              initial={{ cx: "90%", opacity: 0.3 }}
               fill="url(#grad-blue)" filter="url(#glow-blur)"
               animate={{ cx: ["90%", "85%", "90%"], opacity: [0.3, 0.7, 0.3] }}
               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
@@ -96,12 +100,14 @@ export default function PremiumBackground() {
           <g>
             <motion.circle
               cx="50%" cy="50%" r="50%"
+              initial={{ scale: 1, opacity: 0.6 }}
               fill="url(#grad-gold)" filter="url(#glow-blur)"
               animate={{ scale: [1, 1.05, 1], opacity: [0.6, 0.8, 0.6] }}
               transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.circle
               cx="20%" cy="20%" r="40%"
+              initial={{ scale: 1, opacity: 0.4 }}
               fill="url(#grad-amber)" filter="url(#glow-blur)"
               animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.6, 0.4] }}
               transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}

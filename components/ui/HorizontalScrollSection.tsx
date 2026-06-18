@@ -59,7 +59,7 @@ export default function HorizontalScrollSection({ children, className = '' }: Ho
   }
 
   return (
-    <div ref={targetRef} style={{ height: `${scrollRange + window.innerHeight}px` }} className="relative">
+    <div ref={targetRef} style={{ height: `calc(${scrollRange}px + 100vh)` }} className="relative">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div ref={containerRef} style={{ x }} className={`flex gap-8 px-16 ${className}`}>
           {children}

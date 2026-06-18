@@ -79,6 +79,6 @@ export default function GlitchText({
       role="text"
     >
       <span aria-hidden="true">{displayText}</span>
-    </MotionTag>
+    </TagComponent>
   )
 }
