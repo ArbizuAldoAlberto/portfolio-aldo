@@ -51,9 +51,9 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
     
     // Update document title dynamically based on active persona (GAP PORT-1)
     const titleMap = {
-      engineer: '[ARCHITECT] Aldo Arbizu | Offline-First & React Native',
-      security: '[SECURITY] Aldo Arbizu | B2B Operations Auditor',
-      'agtech': '[FIELD-ENG] Aldo Arbizu | AgTech & Logistics Systems'
+      engineer: 'Aldo Arbizu | Offline-First & React Native',
+      security: 'Aldo Arbizu | B2B Operations Auditor',
+      'agtech': 'Aldo Arbizu | Field Operations & Logistics Systems'
     }
     document.title = titleMap[persona] || 'Aldo Arbizu'
     

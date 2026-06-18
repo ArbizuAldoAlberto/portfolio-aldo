@@ -57,7 +57,7 @@ export default function Hero() {
       case 'agtech':
         return {
           status: 'FIELD OPERATIONS · AGTECH & LOGISTICS',
-          badgeColor: 'bg-green-500',
+          badgeColor: 'bg-[var(--color-orbital-teal)]',
           badgeText: '● Ingeniero de Campo · Drones & Hard-Tech',
           sub: 'Especialista en soluciones tácticas para el Agro y la Logística. Software que sobrevive en zonas muertas de conectividad.',
           c1Title: 'Hardware & Drone Integrations',
@@ -74,7 +74,7 @@ export default function Hero() {
       default:
         return {
           status: 'B2B SECURITY SPECIALIST · OPS & COMPLIANCE',
-          badgeColor: 'bg-red-500',
+          badgeColor: 'bg-[var(--color-orbital-teal)]',
           badgeText: '● Especialista en Seguridad · Ciberseguridad B2B',
           sub: 'Consultor en Ciberseguridad Física y Digital. Detecto fugas de información y fraude en sistemas de control corporativo.',
           c1Title: 'Mobile Security Audits (OWASP)',
@@ -125,7 +125,7 @@ export default function Hero() {
             <PersonaSwitcher />
           </motion.div>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             <motion.div
               key={persona}
               initial={{ opacity: 0, y: 15 }}

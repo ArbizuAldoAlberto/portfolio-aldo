@@ -14,37 +14,37 @@
 }
 
 @layer base {
-  :root, :root[data-persona="founder"] {
+  :root, :root[data-persona="engineer"] {
     --color-space-black: #050508;
     --color-deep-space: #0A0A0F;
-    --color-orbital-teal: #3BEACE;
+    --color-orbital-teal: #3BEACE; /* Cyan/Teal for Hacker/Engineer */
     --color-amber-gold: #FFB130;
     --color-electric-purple: #8B5CFF;
     --color-coral-burn: #FF4C12;
     --color-mist-gray: #A0A0C4;
-    --color-space-border: rgba(255, 255, 255, 0.05);
+    --color-space-border: rgba(59, 234, 206, 0.15); /* Tinted border */
   }
 
-  :root[data-persona="dev"] {
-    --color-space-black: #050505;
-    --color-deep-space: #0F0F0F;
-    --color-orbital-teal: #10B981; /* Emerald Green */
+  :root[data-persona="security"] {
+    --color-space-black: #030005; /* Deep purple black */
+    --color-deep-space: #0B0014;
+    --color-orbital-teal: #EF4444; /* Hacker Red */
     --color-amber-gold: #F59E0B;
-    --color-electric-purple: #3B82F6; /* Tech Blue */
-    --color-coral-burn: #EF4444;
-    --color-mist-gray: #A1A1AA;
-    --color-space-border: rgba(16, 185, 129, 0.1);
+    --color-electric-purple: #DC2626; /* Darker red */
+    --color-coral-burn: #991B1B;
+    --color-mist-gray: #A090B0;
+    --color-space-border: rgba(239, 68, 68, 0.15);
   }
 
-  :root[data-persona="gentleman"] {
-    --color-space-black: #0A0908;
-    --color-deep-space: #141311;
-    --color-orbital-teal: #D4AF37; /* Premium Gold */
-    --color-amber-gold: #FCD34D;
-    --color-electric-purple: #92400E; /* Bronze */
-    --color-coral-burn: #991B1B;
-    --color-mist-gray: #D6D3D1;
-    --color-space-border: rgba(212, 175, 55, 0.08);
+  :root[data-persona="agtech"] {
+    --color-space-black: #060502; /* Deep earth/gold black */
+    --color-deep-space: #0C0A04;
+    --color-orbital-teal: #84CC16; /* Drone Lime Green */
+    --color-amber-gold: #D4AF37;
+    --color-electric-purple: #FCD34D;
+    --color-coral-burn: #B45309;
+    --color-mist-gray: #B0A080;
+    --color-space-border: rgba(132, 204, 22, 0.15);
   }
 
   body {
@@ -78,17 +78,20 @@
 
 /* Premium Horizontal Scrollbar */
 .project-carousel::-webkit-scrollbar {
-  height: 6px;
+  height: 14px;
 }
 .project-carousel::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 10px;
-  margin: 0 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .project-carousel::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  border: 2px solid #050508; /* creates padding effect inside the track */
 }
 .project-carousel::-webkit-scrollbar-thumb:hover {
   background: var(--color-orbital-teal);
+  cursor: pointer;
 }
