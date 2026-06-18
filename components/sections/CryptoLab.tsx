@@ -9,7 +9,7 @@ export default function CryptoLab() {
   const [prices, setPrices] = useState<any>({})
   
   useEffect(() => {
-    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${COINS.join(',')}&vs_currencies=usd&include_24hr_change=true`
+    const url = `/api/price?ids=${COINS.join(',')}`
     
     const fallbackPrices = {
       'hedera-hashgraph': { usd: 0.2354, usd_24h_change: 2.45 },

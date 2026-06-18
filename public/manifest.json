@@ -1,0 +1,16 @@
+{
+  "name": "Aldo Arbizu Portfolio",
+  "short_name": "Arbizu",
+  "description": "B2B Mobile & SaaS Architect",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#050508",
+  "icons": [
+    {
+      "src": "/favicon-founder.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
