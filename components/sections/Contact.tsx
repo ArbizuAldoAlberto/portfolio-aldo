@@ -1,13 +1,53 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Send, Terminal, Building, User, ArrowRight, CheckCircle2, AlertCircle, RefreshCw, MessageSquare } from 'lucide-react';
+import { Mail, Send, Terminal, Building, User, ArrowRight, CheckCircle2, AlertCircle, RefreshCw, MessageSquare, Calendar } from 'lucide-react';
+import { usePersona } from '../theme/PersonaContext';
 import { submitLead } from '../../lib/lead-actions';
 import { trackEvent } from '../../lib/analytics';
 
 export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
+  const { persona } = usePersona();
+
+  const getPersonaContent = () => {
+    switch (persona) {
+      case 'engineer':
+        return {
+          title: 'Inicializar Protocolo de Review.',
+          desc: 'NEXUS procesará tu solicitud de manera inmediata. Si estás buscando escalar tus operaciones con automatización, integrar infraestructura o construir una aplicación React Native/Offline-first resiliente.',
+          bullets: ['Arquitectura de grado empresarial', 'Desarrollo Ágil y Bi-Semanal', 'Refactorización y optimización de CI/CD'],
+          btnText: 'ENVIAR MENSAJE',
+          btnSub: 'ENVIANDO MENSAJE...',
+          labelMessage: 'Parámetros del Sistema / Misión',
+          placeMessage: 'Describe los requerimientos técnicos y alcance del sistema...'
+        }
+      case 'agtech':
+        return {
+          title: 'Evaluación de Terreno.',
+          desc: 'Si necesitas integrar sensores IoT, optimizar rutas de recolección, o implementar mapas offline topográficos y sistemas de drones, la central procesará tu solicitud de viabilidad.',
+          bullets: ['Análisis de viabilidad táctica', 'Integración de Hardware en zonas muertas', 'Sistemas GIS y telemetría'],
+          btnText: 'ENVIAR MENSAJE',
+          btnSub: 'ENVIANDO MENSAJE...',
+          labelMessage: 'Detalles de la Operación / Terreno',
+          placeMessage: 'Describe las hectáreas, equipos o desafío logístico...'
+        }
+      case 'security':
+      default:
+        return {
+          title: 'Auditoría de Sistemas B2B.',
+          desc: 'Si detectas cuellos de botella en el control corporativo, o sospechas de vulnerabilidades en las aplicaciones de tus guardias o validadores de identidad, enviaremos un reporte inicial.',
+          bullets: ['Testeo de vulnerabilidades (OWASP)', 'Control estricto RLS y Soberanía', 'Despliegue On-Premise blindado'],
+          btnText: 'ENVIAR MENSAJE',
+          btnSub: 'ENVIANDO MENSAJE...',
+          labelMessage: 'Superficie de Ataque / Vector',
+          placeMessage: 'Describe la infraestructura o vulnerabilidad sospechada...'
+        }
+    }
+  }
+
+  const content = getPersonaContent();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,7 +82,7 @@ export default function Contact() {
         </div>
         
         <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-16">
-          Inicia la Sincronización.
+          {content.title}
         </h2>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -51,22 +91,16 @@ export default function Contact() {
           <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-12">
             <div className="space-y-6">
               <p className="font-mono text-sm text-[var(--color-mist-gray)] leading-relaxed">
-                NEXUS procesará tu solicitud de manera inmediata. Si estás buscando escalar tus operaciones con automatización, integrar infraestructura descentralizada o construir una aplicación móvil resiliente, estoy disponible para misiones complejas.
+                {content.desc}
               </p>
               
               <ul className="space-y-4 font-mono text-xs text-[var(--color-mist-gray)]">
-                <li className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-[var(--color-orbital-teal)]" />
-                  <span>Arquitectura de grado empresarial</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-[var(--color-orbital-teal)]" />
-                  <span>Desarrollo Ágil y Bi-Semanal</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-[var(--color-orbital-teal)]" />
-                  <span>Auditoría de seguridad integrada</span>
-                </li>
+                {content.bullets.map((bullet, idx) => (
+                  <li key={idx} className="flex items-center gap-3">
+                    <CheckCircle2 size={16} className="text-[var(--color-orbital-teal)]" />
+                    <span>{bullet}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -142,7 +176,7 @@ export default function Contact() {
               <div className="space-y-2 group">
                 <label htmlFor="message" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                   <Terminal size={12} />
-                  Parámetros de la Misión <span className="text-[var(--color-orbital-teal)]">*</span>
+                  {content.labelMessage} <span className="text-[var(--color-orbital-teal)]">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -151,7 +185,7 @@ export default function Contact() {
                   rows={4}
                   disabled={loading}
                   className="w-full bg-black/50 border border-[var(--color-space-border)] rounded-md px-4 py-3 font-mono text-sm text-white focus:outline-none focus:border-[var(--color-orbital-teal)] focus:ring-1 focus:ring-[var(--color-orbital-teal)] transition-all resize-none disabled:opacity-50"
-                  placeholder="Describe los objetivos y alcance del proyecto..."
+                  placeholder={content.placeMessage}
                 ></textarea>
               </div>
 
@@ -184,17 +218,35 @@ export default function Contact() {
                   {loading ? (
                     <>
                       <RefreshCw size={16} className="animate-spin" />
-                      <span>ENVIANDO TELEMETRÍA...</span>
+                      <span>{content.btnSub}</span>
                     </>
                   ) : (
                     <>
                       <Send size={16} />
-                      <span>INICIAR TRANSMISIÓN</span>
+                      <span>{content.btnText}</span>
                     </>
                   )}
                 </span>
               </button>
             </form>
+
+            {/* Separador Calendly / Cal.com */}
+            <div className="relative z-10 mt-10">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[var(--color-space-border)] to-transparent" />
+                <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/50">¿Prefieres hablar directamente?</span>
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[var(--color-space-border)] to-transparent" />
+              </div>
+              <a 
+                href="https://cal.com/placeholder" 
+                target="_blank" 
+                rel="noreferrer"
+                className="w-full btn-outline py-4 px-6 rounded-md flex items-center justify-center gap-3 font-space tracking-widest text-xs font-bold transition-all border border-[var(--color-space-border)] hover:border-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)]/5 text-[var(--color-mist-gray)] hover:text-white group"
+              >
+                <Calendar size={16} className="text-[var(--color-orbital-teal)] group-hover:scale-110 transition-transform" />
+                <span>Agendar Llamada en Cal.com</span>
+              </a>
+            </div>
           </div>
 
         </div>

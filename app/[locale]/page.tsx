@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useEffect } from 'react'
 import Hero from '../../components/hero/Hero'
 import TechMarquee from '../../components/ui/TechMarquee'
@@ -10,6 +10,7 @@ import Projects from '../../components/sections/Projects'
 import StudioLab from '../../components/sections/StudioLab'
 import CryptoLab from '../../components/sections/CryptoLab'
 import NexusTelemetry from '../../components/sections/NexusTelemetry'
+import Arsenal from '../../components/sections/Arsenal'
 import Contact from '../../components/sections/Contact'
 
 export default function Home() {
@@ -32,6 +33,8 @@ export default function Home() {
       <SectionDivider variant='fade' />
       <NexusTelemetry />
       <SectionDivider variant='wave' />
+      <Arsenal />
+      <SectionDivider variant='fade' />
       <Contact />
     </main>
   )

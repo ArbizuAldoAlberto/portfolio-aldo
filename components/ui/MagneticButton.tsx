@@ -42,7 +42,7 @@ export default function MagneticButton({
     setIsHovered(false)
   }
 
-  const baseClasses = "relative overflow-hidden inline-flex items-center justify-center transition-colors duration-300 group cursor-none"
+  const baseClasses = "relative overflow-hidden inline-flex items-center justify-center transition-colors duration-300 group"
   
   const variants = {
     primary: "bg-[var(--color-orbital-teal)] text-black px-6 py-3 rounded-xl font-bold border border-transparent",

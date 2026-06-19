@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { useCursor } from "./CursorContext";
 import { usePersona } from "./PersonaContext";
+import { useIsTouchDevice } from "../../hooks/useIsTouchDevice";
 
 export default function CustomCursor() {
   const { cursorState } = useCursor();
@@ -32,12 +33,17 @@ export default function CustomCursor() {
     return () => window.removeEventListener("mousemove", moveCursor);
   }, [cursorX, cursorY, isVisible]);
 
+  const isTouch = useIsTouchDevice();
+
   const glowColor =
     persona === "engineer"
       ? "rgba(59, 234, 206, 0.4)"
       : persona === "agtech"
         ? "rgba(255, 255, 255, 0.3)"
         : "rgba(255, 177, 48, 0.3)";
+
+  // Si es un dispositivo táctil, no renderizamos el cursor en absoluto
+  if (isTouch) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999]">

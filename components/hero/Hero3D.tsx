@@ -193,14 +193,17 @@ function CyberOrganicTree() {
         child.receiveShadow = true
         // Apply cyber-organic dark bark material with emissive tech veins dynamically colored
         const mat = new THREE.MeshPhysicalMaterial({
-          color: new THREE.Color('#0a0e12'),
-          roughness: 0.65,
-          metalness: 0.7,
+          color: new THREE.Color(persona === 'security' ? '#020205' : '#0a0e12'),
+          roughness: persona === 'agtech' ? 0.3 : 0.65,
+          metalness: persona === 'agtech' ? 0.9 : 0.7,
           emissive: new THREE.Color(currentColors.emissive),
-          emissiveIntensity: 0.8,
-          clearcoat: 0.4,
+          emissiveIntensity: persona === 'security' ? 1.5 : 0.8,
+          clearcoat: persona === 'agtech' ? 0.8 : 0.4,
           clearcoatRoughness: 0.3,
           envMapIntensity: 1.5,
+          wireframe: persona === 'engineer',
+          transparent: persona === 'security',
+          opacity: persona === 'security' ? 0.85 : 1.0,
         })
         child.material = mat
         treeMaterialRef.current = mat

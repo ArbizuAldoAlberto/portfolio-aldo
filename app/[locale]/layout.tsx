@@ -97,7 +97,7 @@ export default async function RootLayout({ children, params }: { children: React
   const messages = await getMessages();
   return (
     <html lang={locale} className={`${cormorant.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 cursor-none relative" suppressHydrationWarning>
+      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 relative" suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script

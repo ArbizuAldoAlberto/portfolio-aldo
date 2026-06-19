@@ -173,7 +173,7 @@ export default function Services() {
                     exit={{ opacity: 0, y: -10 }}
                     onClick={handleCheckout}
                     disabled={selectedServices.length === 0}
-                    className="w-full btn-primary py-4 px-6 rounded-lg flex items-center justify-center gap-3 cursor-none disabled:opacity-40 disabled:cursor-not-allowed text-xs font-space tracking-widest font-bold border border-green-500/20"
+                    className="w-full btn-primary py-4 px-6 rounded-lg flex items-center justify-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed text-xs font-space tracking-widest font-bold border border-green-500/20"
                     style={{ boxShadow: selectedServices.length > 0 ? '0 0 20px rgba(0, 255, 102, 0.2)' : 'none' }}
                   >
                     <ShoppingCart size={14} className="text-black" />

@@ -95,3 +95,13 @@
   background: var(--color-orbital-teal);
   cursor: pointer;
 }
+
+/* SMART CURSOR CSS - Only hide native cursor on fine pointer devices */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, input, textarea, select, label {
+    cursor: none !important;
+  }
+}
