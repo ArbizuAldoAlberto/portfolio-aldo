@@ -194,23 +194,22 @@ export default function Hero() {
               </motion.p>
 
               {/* ACTION BUTTONS */}
-              <motion.div variants={itemVariants} className="flex flex-wrap gap-4 relative z-50 mt-10">
-                <MagneticWrapper strength={30}>
-                  <a href="#projects" className="btn-primary flex items-center gap-2">
+              <motion.div variants={itemVariants} className="flex flex-col md:flex-row flex-wrap gap-4 relative z-50 mt-10">
+                <MagneticWrapper strength={30} className="w-full md:w-auto">
+                  <a href="#projects" className="btn-primary flex items-center justify-center gap-2 w-full md:w-auto">
                     <span>{content.ctaPrimary}</span>
                     <span className="font-sans text-xs">→</span>
                   </a>
                 </MagneticWrapper>
 
-                <MagneticWrapper strength={20}>
-                  <a href="#contact" className="btn-outline bg-black/40 backdrop-blur-sm">
+                <MagneticWrapper strength={20} className="w-full md:w-auto">
+                  <a href="#contact" className="btn-outline bg-black/40 backdrop-blur-sm flex justify-center w-full md:w-auto">
                     {content.ctaSecondary}
                   </a>
                 </MagneticWrapper>
 
-                {/* DYNAMIC CV DOWNLOAD BUTTON */}
-                <MagneticWrapper strength={20}>
-                  <a href={`/cv/${content.cvName}`} download className="btn-outline border-[var(--color-orbital-teal)]/30 hover:border-white text-[var(--color-mist-gray)] hover:text-white transition-colors bg-black/40 backdrop-blur-sm flex items-center gap-2">
+                <MagneticWrapper strength={20} className="w-full md:w-auto">
+                  <a href={`/cv/${content.cvName}`} download className="btn-outline border-[var(--color-orbital-teal)]/30 hover:border-white text-[var(--color-mist-gray)] hover:text-white transition-colors bg-black/40 backdrop-blur-sm flex items-center justify-center gap-2 w-full md:w-auto">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                     <span className="font-bold">Descargar CV</span>
                   </a>

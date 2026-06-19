@@ -375,13 +375,13 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               </div>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-[var(--color-space-border)] flex flex-wrap gap-4">
+            <div className="mt-8 pt-8 border-t border-[var(--color-space-border)] flex flex-col md:flex-row gap-4">
               <MagneticButton
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
-                className="group/link flex-1 md:flex-none justify-center"
+                className="group/link w-full md:w-auto justify-center"
               >
                 <ExternalLink size={14} className="group-hover/link:text-black transition-colors" />
                 <span>Demo En Vivo</span>
@@ -394,7 +394,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                     target="_blank"
                     rel="noreferrer"
                     variant="outline"
-                    className="group/link flex-1 md:flex-none justify-center"
+                    className="group/link w-full md:w-auto justify-center"
                   >
                     <span className="text-green-500 group-hover/link:text-black transition-colors">🤖</span>
                     <span>Android APK</span>

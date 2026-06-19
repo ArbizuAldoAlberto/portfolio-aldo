@@ -28,12 +28,20 @@ export default function Navigation() {
 
   return (
     <nav className='fixed top-4 right-4 z-[100] flex gap-2'>
+      {pathname !== '/' && (
+        <Link href="/" className='px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-full text-[var(--color-mist-gray)] hover:text-white transition-all text-xs font-space tracking-widest flex items-center gap-2'>
+          <Home size={12} className="text-[var(--color-orbital-teal)]" />
+          <span className="hidden sm:inline">INICIO</span>
+        </Link>
+      )}
       <Link href="/telemetry" className='px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-full text-[var(--color-mist-gray)] hover:text-white transition-all text-xs font-space tracking-widest flex items-center gap-2'>
         <BookOpen size={12} className="text-[var(--color-orbital-teal)]" />
-        TELEMETRY
+        <span className="hidden sm:inline">TELEMETRY</span>
       </Link>
-      <button onClick={toggleLanguage} className='p-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-white/30 rounded-full text-white text-xs transition-all'>
-        {locale.toUpperCase()}
+      <button onClick={toggleLanguage} className='px-3 py-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-white/30 rounded-full text-white text-xs transition-all font-space tracking-widest flex items-center gap-1'>
+        <span className={locale === 'es' ? 'text-[var(--color-orbital-teal)] font-bold' : 'text-[var(--color-mist-gray)]/50'}>ES</span>
+        <span className="text-[var(--color-space-border)]">/</span>
+        <span className={locale === 'en' ? 'text-[var(--color-orbital-teal)] font-bold' : 'text-[var(--color-mist-gray)]/50'}>EN</span>
       </button>
     </nav>
   );
