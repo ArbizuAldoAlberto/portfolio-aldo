@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Wifi, WifiOff, Database, RefreshCw, Send, AlertTriangle, ShieldAlert, ShoppingCart, Cpu } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 
 interface QueueItem {
   id: string
@@ -14,7 +14,7 @@ interface QueueItem {
 }
 
 export default function OfflineSimulator() {
-  const locale = useLocale()
+  const t = useTranslations('OfflineSimulator')
   const [isConnected, setIsConnected] = useState(true)
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [syncedItems, setSyncedItems] = useState<QueueItem[]>([])
@@ -112,15 +112,13 @@ export default function OfflineSimulator() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block">
-          {locale === 'en' ? 'INTERACTIVE LAB' : 'LABORATORIO INTERACTIVO'}
+          {t('sectionLabel')}
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          Offline First Live Simulator
+          {t('title')}
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          {locale === 'en' 
-            ? 'Experience how my mobile resilience architectures work in the real field. Toggle network state, trigger actions, and watch background synchronization in real-time.' 
-            : 'Experimenta cómo funcionan mis arquitecturas de resiliencia móvil en el campo real. Togglea el estado de red, dispara acciones de seguridad o compras, y observa la sincronización en vivo con Firebase en segundo plano.'}
+          {t('desc')}
         </p>
 
         <div className="grid lg:grid-cols-12 gap-8 items-stretch">
@@ -133,7 +131,7 @@ export default function OfflineSimulator() {
 
             <div>
               <div className="flex justify-between items-center mb-8 border-b border-[var(--color-space-border)] pb-6">
-                <span className="font-space text-xs text-[var(--color-mist-gray)] uppercase tracking-wider">Estado de Red</span>
+                <span className="font-space text-xs text-[var(--color-mist-gray)] uppercase tracking-wider">{t('controls.networkState')}</span>
                 
                 <button 
                   onClick={() => setIsConnected(!isConnected)}
@@ -151,7 +149,7 @@ export default function OfflineSimulator() {
               </div>
 
               <div className="space-y-4 mb-8">
-                <h3 className="font-serif text-lg text-white mb-4">Simular disparadores de App</h3>
+                <h3 className="font-serif text-lg text-white mb-4">{t('controls.simulateTriggers')}</h3>
                 
                 <button 
                   onClick={() => simulateAction('gps_spoof')}
@@ -160,8 +158,8 @@ export default function OfflineSimulator() {
                   <div className="flex items-center gap-3">
                     <ShieldAlert size={20} className="text-red-500 group-hover:scale-110 transition-transform" />
                     <div>
-                      <div className="font-mono text-sm text-white font-medium">GPS Spoofing Alert</div>
-                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">SentinelOS Cheating Detector</div>
+                      <div className="font-mono text-sm text-white font-medium">{t('controls.gpsAlert')}</div>
+                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">{t('controls.gpsDesc')}</div>
                     </div>
                   </div>
                   <Send size={14} className="text-[var(--color-mist-gray)]" />
@@ -174,8 +172,8 @@ export default function OfflineSimulator() {
                   <div className="flex items-center gap-3">
                     <ShoppingCart size={20} className="text-[var(--color-orbital-teal)] group-hover:scale-110 transition-transform" />
                     <div>
-                      <div className="font-mono text-sm text-white font-medium">Add Cart Item</div>
-                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">TechZone Store Sync</div>
+                      <div className="font-mono text-sm text-white font-medium">{t('controls.cartItem')}</div>
+                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">{t('controls.cartDesc')}</div>
                     </div>
                   </div>
                   <Send size={14} className="text-[var(--color-mist-gray)]" />
@@ -188,8 +186,8 @@ export default function OfflineSimulator() {
                   <div className="flex items-center gap-3">
                     <AlertTriangle size={20} className="text-[var(--color-amber-gold)] group-hover:scale-110 transition-transform" />
                     <div>
-                      <div className="font-mono text-sm text-white font-medium">Panic Alarm Event</div>
-                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">VigiTrack Emergency Sync</div>
+                      <div className="font-mono text-sm text-white font-medium">{t('controls.panicAlarm')}</div>
+                      <div className="font-space text-[10px] text-[var(--color-mist-gray)]/60">{t('controls.panicDesc')}</div>
                     </div>
                   </div>
                   <Send size={14} className="text-[var(--color-mist-gray)]" />
@@ -198,7 +196,7 @@ export default function OfflineSimulator() {
             </div>
 
             <div className="border-t border-[var(--color-space-border)] pt-6">
-              <span className="font-space text-[10px] text-[var(--color-mist-gray)]/50 block mb-2">TELEMETRÍA LOCAL CORE:</span>
+              <span className="font-space text-[10px] text-[var(--color-mist-gray)]/50 block mb-2">{t('controls.telemetryTitle')}</span>
               <div className="bg-black/40 p-4 font-mono text-[10px] text-[var(--color-mist-gray)] overflow-y-auto h-32 space-y-1">
                 {logs.map((log, index) => (
                   <div key={index} className={
@@ -223,17 +221,17 @@ export default function OfflineSimulator() {
               <div>
                 <div className="flex items-center gap-2 border-b border-[var(--color-space-border)] pb-4 mb-4">
                   <Database size={18} className="text-[var(--color-orbital-teal)]" />
-                  <span className="font-space text-xs text-white uppercase tracking-widest font-bold">Base de Datos Local SQLite</span>
+                  <span className="font-space text-xs text-white uppercase tracking-widest font-bold">{t('sqlite.title')}</span>
                 </div>
                 
                 <div className="overflow-x-auto min-h-[140px]">
                   <table className="w-full font-mono text-xs text-left">
                     <thead>
                       <tr className="border-b border-[var(--color-space-border)]/50 text-[var(--color-mist-gray)]/60">
-                        <th className="py-2 px-3">Item ID</th>
-                        <th className="py-2 px-3">Módulo</th>
-                        <th className="py-2 px-3">Operación</th>
-                        <th className="py-2 px-3">Payload Simulado</th>
+                        <th className="py-2 px-3">{t('sqlite.col1')}</th>
+                        <th className="py-2 px-3">{t('sqlite.col2')}</th>
+                        <th className="py-2 px-3">{t('sqlite.col3')}</th>
+                        <th className="py-2 px-3">{t('sqlite.col4')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -241,7 +239,7 @@ export default function OfflineSimulator() {
                         {queue.length === 0 ? (
                           <tr>
                             <td colSpan={4} className="py-8 text-center text-[var(--color-mist-gray)]/40 italic">
-                              SQLite Sync Queue está limpia. No hay registros pendientes de red.
+                              {t('sqlite.empty')}
                             </td>
                           </tr>
                         ) : (
@@ -287,17 +285,17 @@ export default function OfflineSimulator() {
               <div>
                 <div className="flex items-center gap-2 border-b border-[var(--color-space-border)] pb-4 mb-4">
                   <RefreshCw size={18} className="text-[var(--color-electric-purple)] animate-spin" style={{ animationDuration: '6s' }} />
-                  <span className="font-space text-xs text-white uppercase tracking-widest font-bold">Servidor Cloud Firebase RTDB</span>
+                  <span className="font-space text-xs text-white uppercase tracking-widest font-bold">{t('firebase.title')}</span>
                 </div>
                 
                 <div className="overflow-x-auto min-h-[140px]">
                   <table className="w-full font-mono text-xs text-left">
                     <thead>
                       <tr className="border-b border-[var(--color-space-border)]/50 text-[var(--color-mist-gray)]/60">
-                        <th className="py-2 px-3">Push ID</th>
-                        <th className="py-2 px-3">Módulo</th>
-                        <th className="py-2 px-3">Ubicación DB</th>
-                        <th className="py-2 px-3">Estado de Sync</th>
+                        <th className="py-2 px-3">{t('firebase.col1')}</th>
+                        <th className="py-2 px-3">{t('firebase.col2')}</th>
+                        <th className="py-2 px-3">{t('firebase.col3')}</th>
+                        <th className="py-2 px-3">{t('firebase.col4')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -305,7 +303,7 @@ export default function OfflineSimulator() {
                         {syncedItems.length === 0 ? (
                           <tr>
                             <td colSpan={4} className="py-8 text-center text-[var(--color-mist-gray)]/40 italic">
-                              Esperando flujos de sincronización de datos...
+                              {t('firebase.empty')}
                             </td>
                           </tr>
                         ) : (
@@ -322,7 +320,7 @@ export default function OfflineSimulator() {
                               <td className="py-2 px-3">
                                 <span className="flex items-center gap-1.5 text-green-400 font-medium">
                                   <span className="h-1.5 w-1.5 rounded-full bg-green-400"></span>
-                                  Sincronizado
+                                  {t('firebase.synced')}
                                 </span>
                               </td>
                             </motion.tr>

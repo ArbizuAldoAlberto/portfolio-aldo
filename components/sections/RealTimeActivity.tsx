@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { GitCommit, Code2, Rocket, Folders, Star, GitFork, AlertCircle, CheckCircle2, Clock, TerminalSquare } from 'lucide-react'
 import { getRecentCommits, getTopLanguages, getContributionStreak, getRepoStats } from '../../lib/github-api'
-import { getDeployments, getProjectStats } from '../../lib/vercel-api'
 
 export default function RealTimeActivity() {
   const [loading, setLoading] = useState(true)
@@ -14,13 +13,11 @@ export default function RealTimeActivity() {
     let isMounted = true
     async function loadData() {
       try {
-        const [commitsRes, langsRes, streakRes, statsRes, depRes, vercelStatsRes] = await Promise.all([
+        const [commitsRes, langsRes, streakRes, statsRes] = await Promise.all([
           getRecentCommits(githubUser, 5),
           getTopLanguages(githubUser),
           getContributionStreak(githubUser),
-          getRepoStats(githubUser),
-          getDeployments(3),
-          getProjectStats()
+          getRepoStats(githubUser)
         ])
         
         if (isMounted) {
@@ -28,9 +25,7 @@ export default function RealTimeActivity() {
             commits: commitsRes,
             langs: langsRes,
             streak: streakRes,
-            repoStats: statsRes,
-            vercelDeps: depRes,
-            vercelStats: vercelStatsRes
+            repoStats: statsRes
           })
           setLoading(false)
         }
@@ -73,8 +68,7 @@ export default function RealTimeActivity() {
       <div className="grid md:grid-cols-12 gap-6 animate-pulse" aria-live="polite" aria-busy="true">
         <div className="md:col-span-7 h-64 glass-surface rounded-lg bg-white/5 border-l-4 border-l-[var(--color-orbital-teal)]/30"></div>
         <div className="md:col-span-5 h-64 glass-surface rounded-lg bg-white/5 border-l-4 border-l-[var(--color-electric-purple)]/30"></div>
-        <div className="md:col-span-6 h-48 glass-surface rounded-lg bg-white/5 border-l-4 border-l-white/30"></div>
-        <div className="md:col-span-6 h-48 glass-surface rounded-lg bg-white/5 border-l-4 border-l-[var(--color-amber-gold)]/30"></div>
+        <div className="md:col-span-12 h-48 glass-surface rounded-lg bg-white/5 border-l-4 border-l-[var(--color-amber-gold)]/30"></div>
       </div>
     )
   }
@@ -165,56 +159,16 @@ export default function RealTimeActivity() {
         </div>
       </motion.div>
 
-      {/* Card 3: Vercel Deployments */}
-      <motion.div variants={itemVariants} className="md:col-span-6 glass-surface p-6 md:p-8 border-l-4 border-l-white hover:border-l-white/80 transition-colors">
-        <div className="flex justify-between items-start mb-6 border-b border-[var(--color-space-border)]/50 pb-4">
-          <div className="flex items-center gap-3">
-            <Rocket size={20} className="text-white" />
-            <h3 className="font-serif text-2xl text-white">Vercel Deployments</h3>
-          </div>
-        </div>
 
-        <div className="space-y-4">
-          {data.vercelDeps.available ? (
-            data.vercelDeps.deployments.length > 0 ? (
-              data.vercelDeps.deployments.map((dep: any, i: number) => (
-                <div key={i} className="flex justify-between items-center bg-white/5 border border-white/10 p-3 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    {dep.state === 'READY' ? <CheckCircle2 size={14} className="text-green-400" /> : 
-                     dep.state === 'ERROR' ? <AlertCircle size={14} className="text-red-400" /> : 
-                     <Clock size={14} className="text-yellow-400 animate-spin-slow" />}
-                    <div>
-                      <span className="font-mono text-xs text-white block">{dep.name}</span>
-                      <a href={dep.url} target="_blank" rel="noreferrer" className="text-[9px] font-space text-[var(--color-mist-gray)]/60 hover:text-white transition-colors">
-                        {dep.url.replace('https://', '')}
-                      </a>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-mono text-[var(--color-mist-gray)]/50">{timeAgo(dep.created)}</span>
-                </div>
-              ))
-            ) : (
-              <span className="text-xs font-mono text-[var(--color-mist-gray)]">No hay despliegues recientes.</span>
-            )
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 border border-dashed border-[var(--color-space-border)] rounded-lg">
-              <TerminalSquare size={20} className="text-[var(--color-mist-gray)]/50 mb-2" />
-              <span className="font-mono text-[10px] text-[var(--color-mist-gray)]/60 text-center uppercase tracking-widest">
-                Configura VERCEL_API_TOKEN<br/>para ver despliegues en vivo
-              </span>
-            </div>
-          )}
-        </div>
-      </motion.div>
 
       {/* Card 4: Repo Stats */}
-      <motion.div variants={itemVariants} className="md:col-span-6 glass-surface p-6 md:p-8 border-l-4 border-l-[var(--color-amber-gold)] flex flex-col hover:border-l-[var(--color-amber-gold)]/80 transition-colors">
+      <motion.div variants={itemVariants} className="md:col-span-12 glass-surface p-6 md:p-8 border-l-4 border-l-[var(--color-amber-gold)] flex flex-col hover:border-l-[var(--color-amber-gold)]/80 transition-colors">
         <div className="flex items-center gap-3 mb-6 border-b border-[var(--color-space-border)]/50 pb-4">
           <Folders size={20} className="text-[var(--color-amber-gold)]" />
           <h3 className="font-serif text-2xl text-white">Repository Stats</h3>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 flex-1">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
           <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-2 text-[var(--color-mist-gray)]">
               <Folders size={14} />

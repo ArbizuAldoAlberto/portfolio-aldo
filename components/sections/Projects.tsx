@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { usePersona } from '../theme/PersonaContext'
 import HorizontalScrollSection from '../ui/HorizontalScrollSection'
 import GlitchText from '../ui/GlitchText'
@@ -272,7 +273,14 @@ const rawProjects = [
 
 function ProjectCard({ project, index, total }: { project: typeof rawProjects[0] & { featuredIn?: string[] }, index: number, total: number }) {
   const { persona } = usePersona()
-  const details = (project as any)[persona] || (project as any).engineer
+  const t = useTranslations('Projects')
+  
+  const projectId = project.id as keyof typeof rawProjects
+  // we access the translation for this specific project
+  // the project details will depend on the persona, if not exists fallback to engineer
+  const targetPersona = project[persona as keyof typeof project] ? persona : 'engineer'
+  const problem = t(`projects.${project.id}.${targetPersona}.problem`)
+  const solution = t(`projects.${project.id}.${targetPersona}.solution`)
 
   const isSecurity = persona === 'security';
   const isEngineer = persona === 'engineer';
@@ -331,13 +339,13 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               
               {isFeatured && (
                 <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#EF4444] text-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.2)]' : isAgtech ? 'border-[#84CC16] text-[#84CC16] shadow-[0_0_10px_rgba(132,204,22,0.2)]' : 'border-[#3BEACE] text-[#3BEACE] shadow-[0_0_10px_rgba(59,234,206,0.2)]'}`}>
-                  ⭐ RELEVANTE
+                  {t('labels.featured')}
                 </span>
               )}
             </div>
 
-            <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{project.title}</h3>
-            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: isSecurity ? '#EF4444' : isAgtech ? '#84CC16' : '#3BEACE' }}>{project.role}</div>
+            <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{t(`projects.${project.id}.title`)}</h3>
+            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: isSecurity ? '#EF4444' : isAgtech ? '#84CC16' : '#3BEACE' }}>{t(`projects.${project.id}.role`)}</div>
 
             <AnimatePresence mode="wait">
               <motion.div
@@ -349,12 +357,12 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 className="space-y-4 font-mono text-sm mb-8"
               >
                 <div>
-                  <span className="text-white block mb-1 font-bold">PROBLEMA:</span>
-                  <span className="text-[var(--color-mist-gray)]">{details.problem}</span>
+                  <span className="text-white block mb-1 font-bold">{t('labels.problem')}</span>
+                  <span className="text-[var(--color-mist-gray)]">{problem}</span>
                 </div>
                 <div>
-                  <span className="text-white block mb-1 font-bold">SOLUCIÓN:</span>
-                  <span className="text-[var(--color-mist-gray)]">{details.solution}</span>
+                  <span className="text-white block mb-1 font-bold">{t('labels.solution')}</span>
+                  <span className="text-[var(--color-mist-gray)]">{solution}</span>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -362,7 +370,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
 
           <div className="flex flex-col justify-between mt-auto">
             <div>
-              <span className="font-mono text-white text-sm block mb-4 font-bold">STACK:</span>
+              <span className="font-mono text-white text-sm block mb-4 font-bold">{t('labels.stack')}</span>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech, j) => (
                   <span
@@ -384,7 +392,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                 className="group/link w-full md:w-auto justify-center"
               >
                 <ExternalLink size={14} className="group-hover/link:text-black transition-colors" />
-                <span>Demo En Vivo</span>
+                <span>{t('labels.demo')}</span>
               </MagneticButton>
               
               {(project.stack.includes('React Native') || project.stack.includes('Kotlin')) && (
@@ -397,7 +405,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                     className="group/link w-full md:w-auto justify-center"
                   >
                     <span className="text-green-500 group-hover/link:text-black transition-colors">🤖</span>
-                    <span>Android APK</span>
+                    <span>{t('labels.apk')}</span>
                   </MagneticButton>
                 </>
               )}
@@ -417,6 +425,7 @@ export default function Projects() {
   })
   
   const { persona } = usePersona()
+  const t = useTranslations('Projects')
 
   const bgY = useTransform(scrollYProgress, [0, 1], [50, -80])
   const bgOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 0.05, 0.05, 0])
@@ -430,12 +439,12 @@ export default function Projects() {
 
   const getTitles = () => {
     if (persona === 'security') {
-      return { small: "Auditorías Completadas", large1: "Casos de", large2: "Estudio" };
+      return { small: t('security.small'), large1: t('security.large1'), large2: t('security.large2') };
     }
     if (persona === 'agtech') {
-      return { small: "Sistemas Desplegados", large1: "Operaciones", large2: "de Campo" };
+      return { small: t('agtech.small'), large1: t('agtech.large1'), large2: t('agtech.large2') };
     }
-    return { small: "Despliegues", large1: "Arquitectura", large2: "& Repositorios" };
+    return { small: t('engineer.small'), large1: t('engineer.large1'), large2: t('engineer.large2') };
   }
   const titles = getTitles();
 
@@ -452,8 +461,8 @@ export default function Projects() {
         </div>
       </div>
 
-      <div className="w-full relative z-20">
-        <div className="project-carousel flex overflow-x-auto gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 pb-12 snap-x snap-mandatory scroll-smooth w-full">
+      <div className="w-full relative z-20 overflow-visible">
+        <div className="project-carousel custom-scrollbar flex overflow-x-auto gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 pb-12 snap-x snap-mandatory scroll-smooth w-full">
           <AnimatePresence mode="popLayout">
             {sortedProjects.map((p, i) => (
               <div key={p.id} className="snap-center shrink-0 w-[85vw] md:w-[65vw] lg:w-[45vw] h-auto">

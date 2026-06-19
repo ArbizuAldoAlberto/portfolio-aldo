@@ -7,6 +7,7 @@ import { useSound } from '../theme/SoundManager'
 import { Check, Cpu, CreditCard, RefreshCw, ShoppingCart, User, Mail, Send, X } from 'lucide-react'
 import { submitLead } from '../../lib/lead-actions'
 import { trackUcpCheckout } from '../../lib/analytics'
+import { useTranslations } from 'next-intl'
 
 const serviceOptions = [
   { id: 'mobile', title: 'Mobile Apps (Offline-First)', price: 3000, desc: 'Diseño y desarrollo de apps móviles en React Native & Expo que funcionan sin conexión. Ideal para logística, agro o seguridad.' },
@@ -16,6 +17,7 @@ const serviceOptions = [
 ]
 
 export default function Services() {
+  const t = useTranslations('Services')
   const { playTick, playClick, playSuccess } = useSound()
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [checkoutStep, setCheckoutStep] = useState<'idle' | 'linking' | 'processing' | 'done'>('idle')
@@ -91,10 +93,10 @@ export default function Services() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
-          Servicios
+          {t('sectionLabel')}
         </span>
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-16">
-          <GlitchText delay={0.1} text="Servicios & Presupuestos" />
+          <GlitchText delay={0.1} text={t('title')} />
         </h2>
 
         {/* BENTO SELECTORS */}
@@ -125,8 +127,8 @@ export default function Services() {
                   </div>
                 </div>
 
-                <h3 className="font-serif text-2xl text-white mb-4 transition-colors group-hover:text-[var(--color-orbital-teal)]">{svc.title}</h3>
-                <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed h-16">{svc.desc}</p>
+                <h3 className="font-serif text-2xl text-white mb-4 transition-colors group-hover:text-[var(--color-orbital-teal)]">{t(`options.${svc.id}.title`)}</h3>
+                <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed h-16">{t(`options.${svc.id}.desc`)}</p>
               </div>
             )
           })}
@@ -143,18 +145,18 @@ export default function Services() {
             {/* Total Display */}
             <div className="md:col-span-7 space-y-4">
               <span className="font-space text-[10px] text-[var(--color-amber-gold)] uppercase tracking-wider font-bold block">
-                Presupuesto de Misión Estimado
+                {t('budget.title')}
               </span>
               
               <div className="flex items-baseline gap-2">
                 <span className="font-mono text-4xl md:text-5xl font-bold text-white transition-all">
                   USD {total.toLocaleString()}
                 </span>
-                <span className="font-space text-xs text-[var(--color-mist-gray)]/50">Base cotizada</span>
+                <span className="font-space text-xs text-[var(--color-mist-gray)]/50">{t('budget.base')}</span>
               </div>
 
               <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                Selecciona uno o más módulos de desarrollo. Simula el checkout para generar la propuesta técnica vinculante a tus necesidades.
+                {t('budget.desc')}
               </p>
             </div>
 
@@ -175,7 +177,7 @@ export default function Services() {
                     style={{ boxShadow: selectedServices.length > 0 ? '0 0 20px rgba(0, 255, 102, 0.2)' : 'none' }}
                   >
                     <ShoppingCart size={14} className="text-black" />
-                    <span>GOOGLE UCP CHECKOUT</span>
+                    <span>{t('budget.btnIdle')}</span>
                   </motion.button>
                 )}
 
@@ -189,7 +191,7 @@ export default function Services() {
                     className="w-full p-4 border border-[var(--color-space-border)] bg-black/80 rounded-lg flex flex-col items-center justify-center gap-3 font-mono text-[10px]"
                   >
                     <RefreshCw size={20} className="text-[var(--color-amber-gold)] animate-spin" />
-                    <span className="text-[var(--color-amber-gold)] font-bold tracking-widest uppercase">ENLAZANDO WALLET CRYPTO...</span>
+                    <span className="text-[var(--color-amber-gold)] font-bold tracking-widest uppercase">{t('budget.btnLinking')}</span>
                   </motion.div>
                 )}
 
@@ -203,7 +205,7 @@ export default function Services() {
                     className="w-full p-4 border border-green-500/20 bg-green-950/20 rounded-lg flex flex-col items-center justify-center gap-3 font-mono text-[10px]"
                   >
                     <CreditCard size={20} className="text-green-400 animate-pulse" />
-                    <span className="text-green-400 font-bold tracking-widest uppercase">PROCESANDO PAGO UCP...</span>
+                    <span className="text-green-400 font-bold tracking-widest uppercase">{t('budget.btnProcessing')}</span>
                   </motion.div>
                 )}
 
@@ -216,7 +218,7 @@ export default function Services() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="w-full p-4 border border-green-500 bg-green-500 text-black rounded-lg flex flex-col items-center justify-center gap-2 font-mono text-[10px]"
                   >
-                    <span className="font-bold tracking-widest uppercase text-xs">PAGO PROCESADO OK!</span>
+                    <span className="font-bold tracking-widest uppercase text-xs">{t('budget.btnDone')}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -228,11 +230,11 @@ export default function Services() {
         <div className="border-t border-[var(--color-space-border)] pt-16">
           <div className="flex flex-wrap justify-between items-center gap-4 text-center md:text-left">
             {[
-              { s: '01 Brief', d: 'Respuesta en 48h' },
-              { s: '02 Propuesta', d: 'Esquema en 72h' },
-              { s: '03 Dev Sprint', d: 'Entregables bi-semanales' },
-              { s: '04 Deploy', d: 'Expo EAS / Vercel Edge' },
-              { s: '05 Soporte', d: 'Mantenimiento continuo' }
+              { s: t('process.step1'), d: t('process.step1Desc') },
+              { s: t('process.step2'), d: t('process.step2Desc') },
+              { s: t('process.step3'), d: t('process.step3Desc') },
+              { s: t('process.step4'), d: t('process.step4Desc') },
+              { s: t('process.step5'), d: t('process.step5Desc') }
             ].map((step, i) => (
               <div key={i} className="flex-1 min-w-[120px]">
                 <div className="font-space text-white text-sm mb-2 font-bold">{step.s}</div>
@@ -267,9 +269,9 @@ export default function Services() {
 
               <div className="text-center mb-8">
                 <Check className="mx-auto text-[var(--color-orbital-teal)] mb-4" size={40} />
-                <h3 className="font-serif text-2xl text-white mb-2">Checkout Completado</h3>
+                <h3 className="font-serif text-2xl text-white mb-2">{t('modal.title')}</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)]">
-                  Ingresa tus datos para recibir la propuesta técnica formal sobre el presupuesto de USD {total.toLocaleString()}.
+                  {t('modal.desc')} USD {total.toLocaleString()}.
                 </p>
               </div>
 
@@ -279,7 +281,7 @@ export default function Services() {
                 <div className="space-y-2 group">
                   <label htmlFor="modal-name" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                     <User size={12} />
-                    Nombre <span className="text-[var(--color-orbital-teal)]">*</span>
+                    {t('modal.nameLabel')} <span className="text-[var(--color-orbital-teal)]">*</span>
                   </label>
                   <input
                     type="text"
@@ -294,7 +296,7 @@ export default function Services() {
                 <div className="space-y-2 group">
                   <label htmlFor="modal-email" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                     <Mail size={12} />
-                    Email Corporativo <span className="text-[var(--color-orbital-teal)]">*</span>
+                    {t('modal.emailLabel')} <span className="text-[var(--color-orbital-teal)]">*</span>
                   </label>
                   <input
                     type="email"
@@ -320,7 +322,7 @@ export default function Services() {
                   <div className="absolute inset-0 bg-[var(--color-orbital-teal)] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   <span className="relative z-10 flex items-center gap-2 group-hover:text-black">
                     {loading ? <RefreshCw size={14} className="animate-spin" /> : <Send size={14} />}
-                    <span>SOLICITAR PROPUESTA</span>
+                    <span>{t('modal.btn')}</span>
                   </span>
                 </button>
               </form>

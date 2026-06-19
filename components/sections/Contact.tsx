@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Send, Terminal, Building, User, ArrowRight, CheckCircle2, AlertCircle, RefreshCw, MessageSquare, Calendar } from 'lucide-react';
 import { usePersona } from '../theme/PersonaContext';
+import { useTranslations } from 'next-intl';
 import { submitLead } from '../../lib/lead-actions';
 import { trackEvent } from '../../lib/analytics';
 
@@ -10,39 +11,52 @@ export default function Contact() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
   const { persona } = usePersona();
+  const t = useTranslations('Contact');
 
   const getPersonaContent = () => {
     switch (persona) {
       case 'engineer':
         return {
-          title: 'Inicializar Protocolo de Review.',
-          desc: 'NEXUS procesará tu solicitud de manera inmediata. Si estás buscando escalar tus operaciones con automatización, integrar infraestructura o construir una aplicación React Native/Offline-first resiliente.',
-          bullets: ['Arquitectura de grado empresarial', 'Desarrollo Ágil y Bi-Semanal', 'Refactorización y optimización de CI/CD'],
-          btnText: 'ENVIAR MENSAJE',
-          btnSub: 'ENVIANDO MENSAJE...',
-          labelMessage: 'Parámetros del Sistema / Misión',
-          placeMessage: 'Describe los requerimientos técnicos y alcance del sistema...'
+          title: t('personas.engineer.title'),
+          desc: t('personas.engineer.desc'),
+          bullets: [
+            t('personas.engineer.bullets.0'),
+            t('personas.engineer.bullets.1'),
+            t('personas.engineer.bullets.2')
+          ],
+          btnText: t('personas.engineer.btnText'),
+          btnSub: t('personas.engineer.btnSub'),
+          labelMessage: t('personas.engineer.labelMessage'),
+          placeMessage: t('personas.engineer.placeMessage')
         }
       case 'agtech':
         return {
-          title: 'Evaluación de Terreno.',
-          desc: 'Si necesitas integrar sensores IoT, optimizar rutas de recolección, o implementar mapas offline topográficos y sistemas de drones, la central procesará tu solicitud de viabilidad.',
-          bullets: ['Análisis de viabilidad táctica', 'Integración de Hardware en zonas muertas', 'Sistemas GIS y telemetría'],
-          btnText: 'ENVIAR MENSAJE',
-          btnSub: 'ENVIANDO MENSAJE...',
-          labelMessage: 'Detalles de la Operación / Terreno',
-          placeMessage: 'Describe las hectáreas, equipos o desafío logístico...'
+          title: t('personas.agtech.title'),
+          desc: t('personas.agtech.desc'),
+          bullets: [
+            t('personas.agtech.bullets.0'),
+            t('personas.agtech.bullets.1'),
+            t('personas.agtech.bullets.2')
+          ],
+          btnText: t('personas.agtech.btnText'),
+          btnSub: t('personas.agtech.btnSub'),
+          labelMessage: t('personas.agtech.labelMessage'),
+          placeMessage: t('personas.agtech.placeMessage')
         }
       case 'security':
       default:
         return {
-          title: 'Auditoría de Sistemas B2B.',
-          desc: 'Si detectas cuellos de botella en el control corporativo, o sospechas de vulnerabilidades en las aplicaciones de tus guardias o validadores de identidad, enviaremos un reporte inicial.',
-          bullets: ['Testeo de vulnerabilidades (OWASP)', 'Control estricto RLS y Soberanía', 'Despliegue On-Premise blindado'],
-          btnText: 'ENVIAR MENSAJE',
-          btnSub: 'ENVIANDO MENSAJE...',
-          labelMessage: 'Superficie de Ataque / Vector',
-          placeMessage: 'Describe la infraestructura o vulnerabilidad sospechada...'
+          title: t('personas.security.title'),
+          desc: t('personas.security.desc'),
+          bullets: [
+            t('personas.security.bullets.0'),
+            t('personas.security.bullets.1'),
+            t('personas.security.bullets.2')
+          ],
+          btnText: t('personas.security.btnText'),
+          btnSub: t('personas.security.btnSub'),
+          labelMessage: t('personas.security.labelMessage'),
+          placeMessage: t('personas.security.placeMessage')
         }
     }
   }
@@ -75,7 +89,7 @@ export default function Contact() {
         <div className="flex items-center gap-3 mb-4">
           <Terminal size={14} className="text-[var(--color-orbital-teal)]" />
           <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm block">
-            Canal de Transmisión
+            {t('sectionLabel')}
           </span>
         </div>
         
@@ -103,7 +117,7 @@ export default function Contact() {
             </div>
 
             <div className="glass-surface p-6 border-l-4 border-l-[var(--color-electric-purple)] hover:border-l-[var(--color-orbital-teal)] transition-colors">
-              <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/50 block mb-2">Conexión Directa (Bypass)</span>
+              <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/50 block mb-2">{t('directContact')}</span>
               <a href="mailto:aldo@arbizulabs.com" className="font-mono text-white hover:text-[var(--color-orbital-teal)] transition-colors flex items-center gap-2 group">
                 <Mail size={16} />
                 <span>aldo@arbizulabs.com</span>
@@ -126,7 +140,7 @@ export default function Contact() {
                 <div className="space-y-2 group">
                   <label htmlFor="name" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                     <User size={12} />
-                    Nombre / Callsign <span className="text-[var(--color-orbital-teal)]">*</span>
+                    {t('form.name')} <span className="text-[var(--color-orbital-teal)]">*</span>
                   </label>
                   <input
                     type="text"
@@ -142,7 +156,7 @@ export default function Contact() {
                 <div className="space-y-2 group">
                   <label htmlFor="email" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                     <Mail size={12} />
-                    Email de Transmisión <span className="text-[var(--color-orbital-teal)]">*</span>
+                    {t('form.email')} <span className="text-[var(--color-orbital-teal)]">*</span>
                   </label>
                   <input
                     type="email"
@@ -159,7 +173,7 @@ export default function Contact() {
               <div className="space-y-2 group">
                 <label htmlFor="company" className="flex items-center gap-2 font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)] group-focus-within:text-[var(--color-orbital-teal)] transition-colors">
                   <Building size={12} />
-                  Corporación (Opcional)
+                  {t('form.company')}
                 </label>
                 <input
                   type="text"
@@ -232,17 +246,17 @@ export default function Contact() {
             <div className="relative z-10 mt-10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[var(--color-space-border)] to-transparent" />
-                <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/50">¿Prefieres hablar directamente?</span>
+                <span className="font-space text-[10px] uppercase tracking-widest text-[var(--color-mist-gray)]/50">{t('form.orPhone')}</span>
                 <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[var(--color-space-border)] to-transparent" />
               </div>
               <a 
-                href="https://cal.com/placeholder" 
+                href="https://cal.com/aldo-arbizu" 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-full btn-outline py-4 px-6 rounded-md flex items-center justify-center gap-3 font-space tracking-widest text-xs font-bold transition-all border border-[var(--color-space-border)] hover:border-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)]/5 text-[var(--color-mist-gray)] hover:text-white group"
               >
                 <Calendar size={16} className="text-[var(--color-orbital-teal)] group-hover:scale-110 transition-transform" />
-                <span>Agendar Llamada en Cal.com</span>
+                <span>{t('form.callBtn')}</span>
               </a>
             </div>
           </div>

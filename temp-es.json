@@ -1,0 +1,237 @@
+{
+  "Projects": {
+    "security": {
+      "small": "Auditorías Completadas",
+      "large1": "Casos de",
+      "large2": "Estudio"
+    },
+    "agtech": {
+      "small": "Sistemas Desplegados",
+      "large1": "Operaciones",
+      "large2": "de Campo"
+    },
+    "engineer": {
+      "small": "Despliegues",
+      "large1": "Arquitectura",
+      "large2": "& Repositorios"
+    },
+    "labels": {
+      "featured": "⭐ RELEVANTE",
+      "problem": "PROBLEMA:",
+      "solution": "SOLUCIÓN:",
+      "stack": "STACK:",
+      "demo": "Demo En Vivo",
+      "apk": "Android APK"
+    },
+    "projects": {
+      "titanflow": {
+        "title": "TitanFlow",
+        "role": "DeFi Copy Trading & Algorithmic Bot",
+        "engineer": {
+          "problem": "Fricción por deslizamiento (slippage) y latencia en APIs de futuros.",
+          "solution": "WebSockets concurrentes de baja latencia con oráculo de Kelly para control de slippage."
+        },
+        "security": {
+          "problem": "Tarifas elevadas de copy-trading y riesgo de custodia de API keys.",
+          "solution": "Contratos inteligentes en Base L2 (ERC-4626) con firma local de órdenes sin custodia."
+        },
+        "agtech": {
+          "problem": "Consolas de trading ruidosas que inducen al overtrading y fatiga visual.",
+          "solution": "Dashboard minimalista oscuro con gráficos netos y telemetría purgada."
+        }
+      },
+      "aureus": {
+        "title": "Aureus",
+        "role": "Wealth OS & AI Financial Advisor",
+        "engineer": {
+          "problem": "Procesamiento en tiempo real de sesgos cognitivos en los diálogos del inversor.",
+          "solution": "Detector de sesgos local con WASM acoplado al SDK de Vercel AI en streaming."
+        },
+        "security": {
+          "problem": "Costos elevados de asesoramiento patrimonial tradicional.",
+          "solution": "Asesor de IA premium integrado a simulaciones de ROI con micropagos de $0.20 USD."
+        },
+        "agtech": {
+          "problem": "Interfaces bancarias frías que carecen de discreción y prestigio visual.",
+          "solution": "Dashboard de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado."
+        }
+      },
+      "techzone": {
+        "title": "TechZone",
+        "role": "POS Retail & Omnichannel Gateway",
+        "engineer": {
+          "problem": "Pérdidas de transacciones de venta por caídas abruptas de conectividad.",
+          "solution": "Encolamiento local atómico en SQLite WAL con triggers diferenciales automáticos."
+        },
+        "security": {
+          "problem": "Fuga de clientes en mostradores físicos debido a internet inestable.",
+          "solution": "Punto de venta Offline-First con firmas QR de cobro dual y checkout de Google Pay."
+        },
+        "agtech": {
+          "problem": "Interfaces de catálogo lentas que interrumpen la fluidez del cliente.",
+          "solution": "Catálogo premium interactivo con transiciones de Bento Grid y tipografía refinada."
+        }
+      },
+      "sentinelos": {
+        "title": "SentinelOS",
+        "role": "Security Dispatch & Command Center",
+        "engineer": {
+          "problem": "Fraude por clonación de tags NFC de control de rondas.",
+          "solution": "Validación biométrica con red TensorFlow Lite local que audita fotos de control."
+        },
+        "security": {
+          "problem": "Elevados costos en bastones de patrulla y pérdida de señal en subterráneos.",
+          "solution": "App móvil con despacho SOS Aegis y comunicación en malla Mesh P2P local."
+        },
+        "agtech": {
+          "problem": "Pantallas tácticas sobrecargadas que fatigan al operador nocturno.",
+          "solution": "Contraste ultra-alto con tipografía monoespaciada e interfaces optimizadas para la noche."
+        }
+      },
+      "aeroshot": {
+        "title": "AeroShot",
+        "role": "Agricultural Drone Processing SaaS",
+        "engineer": {
+          "problem": "Transiciones de telemetría de vuelo bruscas en el renderizado móvil.",
+          "solution": "Control de estados fluido con Animated.spring y amortiguación de señal por hardware."
+        },
+        "security": {
+          "problem": "Pérdida de mapas de parcelas por nula señal en campos remotos.",
+          "solution": "Procesamiento de imágenes y telemetría de parcelas Offline-First con sync en background."
+        },
+        "agtech": {
+          "problem": "Visualizaciones cartográficas toscas en informes de entrega.",
+          "solution": "Capas cartográficas con transiciones glassmorphic suaves e interfaz háptica precisa."
+        }
+      },
+      "agromarket": {
+        "title": "AgroMarket Pro",
+        "role": "AgriTech Logistics & Marketplace",
+        "engineer": {
+          "problem": "Cálculo volumétrico tridimensional local en el cliente móvil impreciso.",
+          "solution": "Proyección de mallas poligonales en Canvas 2D y auditoría fitotóxica con Gemini API."
+        },
+        "security": {
+          "problem": "Tasaciones de silobolsas y hacienda lentas y procesos de remate complejos.",
+          "solution": "Simulador AR para cubicación sin red y remates de hacienda con WebRTC en tiempo real."
+        },
+        "agtech": {
+          "problem": "Interfaces agrarias toscas que desalientan su adopción diaria.",
+          "solution": "Panel premium con Bento Grid, texturas oscuras y contrastes de luz ámbar."
+        }
+      },
+      "cannabis": {
+        "title": "CannaSavias",
+        "role": "E-commerce & Legal Compliance SaaS",
+        "engineer": {
+          "problem": "Fricción en la verificación manual de recetas REPROCANN legales.",
+          "solution": "Validación automatizada con Gemini API de stock y recetas en pasarela."
+        },
+        "security": {
+          "problem": "Riesgo de sanciones por exceder stock legal y checkouts complejos.",
+          "solution": "e-Commerce integrado a la base federal REPROCANN y checkout Universal Cart."
+        },
+        "agtech": {
+          "problem": "Sitios cannábicos informales que no transmiten rigurosidad.",
+          "solution": "Boutique digital refinada con gradientes verde esmeralda y micro-interacciones."
+        }
+      },
+      "ecoconnect": {
+        "title": "EcoConnect",
+        "role": "ESG Registry & Carbon Platform",
+        "engineer": {
+          "problem": "Políticas de seguridad RLS vulnerables ante consultas complejas de auditorías.",
+          "solution": "Esquema estricto de RLS y firmas criptográficas on-chain en Base L2."
+        },
+        "security": {
+          "problem": "Costos elevados de certificación y auditorías forestales para municipios.",
+          "solution": "Estimación de biomasa satelital Sentinel-2 y emisión de Soulbound Tokens (SBT)."
+        },
+        "agtech": {
+          "problem": "Interfaces de carbono frías que parecen hojas de cálculo de Excel.",
+          "solution": "Modelo 3D interactivo del bosque municipal que crece según tus donaciones."
+        }
+      },
+      "pawhero": {
+        "title": "PawHero",
+        "role": "Pet Tracking & NGO Donations",
+        "engineer": {
+          "problem": "Geolocalización de mascotas perdidas sin costosas suscripciones celulares.",
+          "solution": "Chapas QR cifradas e interconectadas mediante WebSockets y red P2P."
+        },
+        "security": {
+          "problem": "Costos prohibitivos en collares GPS y desorganización de ONGs.",
+          "solution": "Placas QR descargables en STL para impresión 3D a costo cero y donaciones SBT."
+        },
+        "agtech": {
+          "problem": "Identificadores genéricos o interfaces lúdicas sin seriedad.",
+          "solution": "Perfiles interactivos 3D con tipografía minimalista y medallas SBT on-chain."
+        }
+      },
+      "impresion3d": {
+        "title": "Impresión 3D P2P",
+        "role": "Collaborative 3D Printing Platform",
+        "engineer": {
+          "problem": "Complejidad y lentitud en la cotización manual de archivos de diseño STL.",
+          "solution": "IA Slicer integrado que analiza y cotiza mallas poligonales 3D localmente en el cliente."
+        },
+        "security": {
+          "problem": "Comisiones elevadas en plataformas de manufactura y falta de confianza entre partes.",
+          "solution": "Escrow descentralizado seguro en Base L2 y red P2P de Makers con hardware verificado."
+        },
+        "agtech": {
+          "problem": "Interfaces de manufactura 3D toscas e industriales que aburren al usuario.",
+          "solution": "Visualizador de mallas 3D premium e interactivo con diseño liquid glass moderno."
+        }
+      },
+      "habitat": {
+        "title": "Hábitat",
+        "role": "Decentralized Direct Rentals & Land Control",
+        "engineer": {
+          "problem": "Vulnerabilidades en el flujo de verificación y firma de contratos tradicionales.",
+          "solution": "Firmas criptográficas on-chain en Base L2 con verificación directa del inquilino."
+        },
+        "security": {
+          "problem": "Intermediarios inmobiliarios costosos y especulación con tierras ociosas.",
+          "solution": "Contratos inteligentes autoejecutables y base de datos local para reconversión productiva."
+        },
+        "agtech": {
+          "problem": "Procesos de alquiler fríos y complejos sin guías ni soporte dinámico.",
+          "solution": "Dashboard minimalista de reubicación y contratos con glassmorphism premium."
+        }
+      },
+      "marketingadvisor": {
+        "title": "Smart Marketing Advisor",
+        "role": "AI Omnichannel Marketing Coach",
+        "engineer": {
+          "problem": "Baja velocidad en la generación y publicación de contenido promocional.",
+          "solution": "Generador de copys publicitarios ultrarrápido con LLM local y encolado en SQLite."
+        },
+        "security": {
+          "problem": "Falta de analítica clara de retorno sobre inversión publicitaria para pymes.",
+          "solution": "Panel de control con métricas e informes automáticos en vivo para optimizar prospectos."
+        },
+        "agtech": {
+          "problem": "Administradores de redes sociales sobrecargados de botones que fatigan la vista.",
+          "solution": "Bento Grid de control de marketing con tipografías elegantes Outfit e Inter."
+        }
+      },
+      "nomadhub": {
+        "title": "NOMAD Tactical Hub",
+        "role": "Off-grid Resilient Survival System",
+        "engineer": {
+          "problem": "Dependencia de servidores centrales para cifrado y cálculos de radio en crisis.",
+          "solution": "Calculadoras RF locales para antenas dipolo y cifrado Vigenère sin conexión."
+        },
+        "security": {
+          "problem": "Caída de infraestructura telefónica que incomunica a comunidades vulnerables.",
+          "solution": "Portal de Solidaridad Humana con mensajería simulada LoRa Mesh P2P y mapas GPS offline."
+        },
+        "agtech": {
+          "problem": "Diseño militar clásico descuidado que resulta ilegible en condiciones nocturnas.",
+          "solution": "Estilo cyber-dark con alto contraste verde neón y volt cian para mayor legibilidad."
+        }
+      }
+    }
+  }
+}

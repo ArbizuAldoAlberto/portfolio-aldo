@@ -5,7 +5,7 @@ import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert,
 import { useCursor } from '../theme/CursorContext'
 import RealTimeActivity from './RealTimeActivity'
 import { getAllArticles, Article } from '../../lib/telemetry-loader'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 interface ConsoleLog {
@@ -14,7 +14,7 @@ interface ConsoleLog {
 }
 
 export default function NexusTelemetry() {
-  const locale = useLocale()
+  const t = useTranslations('NexusTelemetry')
   const { setCursorState } = useCursor()
   const [activeTab, setActiveTab] = useState<'status' | 'skills' | 'terminal' | 'reports'>('status')
   const [articles, setArticles] = useState<Article[]>([])
@@ -207,26 +207,24 @@ export default function NexusTelemetry() {
         <div className="flex items-center gap-3 mb-4">
           <span className="h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-ping"></span>
           <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm block">
-            NEXUS AUTONOMOUS NODE
+            {t('sectionLabel')}
           </span>
         </div>
 
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          {locale === 'en' ? 'Autonomous Supervision System' : 'Sistema Autónomo de Supervisión'}
+          {t('title')}
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          {locale === 'en' 
-            ? 'My personal node monitors global infrastructure, markets, and server states in real-time. This is the telemetry engine powering my architectures.' 
-            : 'Mi nodo personal monitorea la infraestructura global, mercados y estados de servidores en tiempo real. Este es el motor de telemetría que impulsa mis arquitecturas.'}
+          {t('desc')}
         </p>
 
         {/* Tab Selection */}
         <div className="flex border-b border-[var(--color-space-border)] mb-8 font-space text-xs">
           {[
-            { id: 'status', label: 'Estatus en Vivo', icon: Brain, live: true },
-            { id: 'skills', label: 'Distribución de Habilidades', icon: Layers },
-            { id: 'terminal', label: 'Terminal Interactiva', icon: TerminalIcon },
-            { id: 'reports', label: 'Telemetry Reports', icon: BookOpen, live: true }
+            { id: 'status', label: t('tabs.status'), icon: Brain, live: true },
+            { id: 'skills', label: t('tabs.skills'), icon: Layers },
+            { id: 'terminal', label: t('tabs.terminal'), icon: TerminalIcon },
+            { id: 'reports', label: t('tabs.reports'), icon: BookOpen, live: true }
           ].map(tab => {
             const Icon = tab.icon
             return (
@@ -277,12 +275,12 @@ export default function NexusTelemetry() {
                 className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {[
-                  { title: 'System Design', rate: 95, icon: Cpu, desc: 'Diseño y optimización de infraestructuras distribuidas y APIs escalables basadas en blueprints industriales.' },
-                  { title: 'UI-UX Pro Max', rate: 92, icon: Layers, desc: 'Patrones estéticos avanzados, Bento grids, diseño HSL responsivo y micro-interacciones de Awwwards-grade.' },
-                  { title: '3D Assets & Pixal3D', rate: 90, icon: RefreshCw, desc: 'Flujo completo de assets 3D: reconstrucción generativa con Pixal3D (DinoV3/MoGe-2), optimización en Blender y renderizado en React Three Fiber.' },
-                  { title: 'AI Pipelines & Career-Ops', rate: 96, icon: Search, desc: 'Despliegue y mantenimiento de pipelines de búsqueda laboral, desduplicación de Greenhouse/Lever APIs y filtrado ético sin consumo de tokens.' },
-                  { title: 'n8n & automation', rate: 95, icon: Workflow, desc: 'Flujos bidireccionales complejos, ETLs de datos, notificaciones cruzadas y bots de comunicación eficientes.' },
-                  { title: 'Security by Design', rate: 90, icon: ShieldAlert, desc: 'Modelado de amenazas, auditoría estática anti-secrets, escaneo OWASP Mobile y reglas estrictas de bases de datos.' }
+                  { title: t('skills.sysDesign.title'), rate: 95, icon: Cpu, desc: t('skills.sysDesign.desc') },
+                  { title: t('skills.uiux.title'), rate: 92, icon: Layers, desc: t('skills.uiux.desc') },
+                  { title: t('skills.assets3d.title'), rate: 90, icon: RefreshCw, desc: t('skills.assets3d.desc') },
+                  { title: t('skills.aiOps.title'), rate: 96, icon: Search, desc: t('skills.aiOps.desc') },
+                  { title: t('skills.n8n.title'), rate: 95, icon: Workflow, desc: t('skills.n8n.desc') },
+                  { title: t('skills.security.title'), rate: 90, icon: ShieldAlert, desc: t('skills.security.desc') }
                 ].map((skill, index) => {
                   const Icon = skill.icon
                   return (
@@ -320,9 +318,9 @@ export default function NexusTelemetry() {
                 {/* Control Panel: 4 cols */}
                 <div className="lg:col-span-4 flex flex-col justify-between glass-surface p-6">
                   <div>
-                    <h3 className="font-serif text-xl text-white mb-2">Simular Scripts de Agente</h3>
+                    <h3 className="font-serif text-xl text-white mb-2">{t('terminal.title')}</h3>
                     <p className="font-mono text-xs text-[var(--color-mist-gray)] mb-6 leading-relaxed">
-                      Ejecutá los scripts del supervisor agéntico para observar cómo audita, valida y sincroniza el ecosistema en tiempo real.
+                      {t('terminal.desc')}
                     </p>
                     
                     <div className="space-y-3">
@@ -423,7 +421,7 @@ export default function NexusTelemetry() {
                     {isRunningScript && (
                       <div className="flex items-center gap-2 text-white animate-pulse">
                         <RefreshCw size={12} className="animate-spin" />
-                        <span>Ejecutando script de telemetría...</span>
+                        <span>{t('terminal.running')}</span>
                       </div>
                     )}
                     
@@ -467,7 +465,7 @@ export default function NexusTelemetry() {
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-[var(--color-space-border)]">
                       <span className="font-mono text-[10px] text-[var(--color-mist-gray)] uppercase">{article.meta.date}</span>
                       <span className="font-space text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
-                        LEER REPORTE &rarr;
+                        {t('reports.readBtn')}
                       </span>
                     </div>
                   </Link>
@@ -475,7 +473,7 @@ export default function NexusTelemetry() {
                 
                 {articles.length === 0 && (
                   <div className="col-span-full py-12 text-center text-[var(--color-mist-gray)] font-mono text-sm">
-                    Cargando reportes desde la bóveda local...
+                    {t('reports.loading')}
                   </div>
                 )}
               </motion.div>

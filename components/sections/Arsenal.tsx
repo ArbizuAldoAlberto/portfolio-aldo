@@ -3,59 +3,62 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePersona } from '../theme/PersonaContext';
 import { Shield, Database, Smartphone, Cpu, Plane, Activity, Layers } from 'lucide-react';
 
-const arsenalData = [
-  {
-    id: 'mobile',
-    title: 'Mobile & Offline-First',
-    icon: Smartphone,
-    tech: ['React Native', 'Expo Bare', 'SQLite WAL', 'WatermelonDB'],
-    affinity: ['engineer', 'agtech'],
-    desc: 'Aplicaciones nativas optimizadas para persistencia criptográfica en zonas sin conexión.',
-  },
-  {
-    id: 'cyber',
-    title: 'Ciberseguridad B2B',
-    icon: Shield,
-    tech: ['OWASP Mobile', 'RLS Supabase', 'Vigenère Cipher', 'JWT/Auth'],
-    affinity: ['security'],
-    desc: 'Auditoría física y lógica. Políticas de seguridad corporativa y encriptación P2P.',
-  },
-  {
-    id: 'hardware',
-    title: 'Prototipado & 3D',
-    icon: Cpu,
-    tech: ['Blender 3D', 'Hellbot Magna 2', 'IoT', 'Raspberry'],
-    affinity: ['agtech', 'engineer'],
-    desc: 'Diseño paramétrico e impresión 3D en resina/filamento de repuestos no comerciales.',
-  },
-  {
-    id: 'drones',
-    title: 'Telemetría & Drones',
-    icon: Plane,
-    tech: ['UAV Piloting', 'Mapbox Offline', 'GIS', 'Mesh Networks'],
-    affinity: ['agtech', 'security'],
-    desc: 'Mapeo satelital, despliegue táctico en terreno ciego y cubicación volumétrica.',
-  },
-  {
-    id: 'backend',
-    title: 'Backend & Cloud',
-    icon: Database,
-    tech: ['Node.js', 'PostgreSQL', 'Docker', 'Firebase Claims'],
-    affinity: ['engineer', 'security'],
-    desc: 'Arquitecturas descentralizadas multi-tenant con blindaje de extremo a extremo.',
-  },
-  {
-    id: 'automation',
-    title: 'Automatización IA',
-    icon: Activity,
-    tech: ['n8n', 'Claude API', 'OpenAI', 'Python/Scripts'],
-    affinity: ['engineer', 'agtech', 'security'],
-    desc: 'Pipelines autónomos locales que reducen la carga operativa corporativa en un 40%.',
-  }
-];
+import { useTranslations } from 'next-intl';
 
 export default function Arsenal() {
   const { persona } = usePersona();
+  const t = useTranslations('Arsenal');
+
+  const arsenalData = [
+    {
+      id: 'mobile',
+      title: t('cards.mobile.title'),
+      icon: Smartphone,
+      tech: ['React Native', 'Expo Bare', 'SQLite WAL', 'WatermelonDB'],
+      affinity: ['engineer', 'agtech'],
+      desc: t('cards.mobile.desc'),
+    },
+    {
+      id: 'cyber',
+      title: t('cards.cyber.title'),
+      icon: Shield,
+      tech: ['OWASP Mobile', 'RLS Supabase', 'Vigenère Cipher', 'JWT/Auth'],
+      affinity: ['security'],
+      desc: t('cards.cyber.desc'),
+    },
+    {
+      id: 'hardware',
+      title: t('cards.hardware.title'),
+      icon: Cpu,
+      tech: ['Blender 3D', 'Hellbot Magna 2', 'IoT', 'Raspberry'],
+      affinity: ['agtech', 'engineer'],
+      desc: t('cards.hardware.desc'),
+    },
+    {
+      id: 'drones',
+      title: t('cards.drones.title'),
+      icon: Plane,
+      tech: ['UAV Piloting', 'Mapbox Offline', 'GIS', 'Mesh Networks'],
+      affinity: ['agtech', 'security'],
+      desc: t('cards.drones.desc'),
+    },
+    {
+      id: 'backend',
+      title: t('cards.backend.title'),
+      icon: Database,
+      tech: ['Node.js', 'PostgreSQL', 'Docker', 'Firebase Claims'],
+      affinity: ['engineer', 'security'],
+      desc: t('cards.backend.desc'),
+    },
+    {
+      id: 'automation',
+      title: t('cards.automation.title'),
+      icon: Activity,
+      tech: ['n8n', 'Claude API', 'OpenAI', 'Python/Scripts'],
+      affinity: ['engineer', 'agtech', 'security'],
+      desc: t('cards.automation.desc'),
+    }
+  ];
 
   const getPersonaColors = () => {
     switch (persona) {
@@ -86,7 +89,7 @@ export default function Arsenal() {
         <div className="flex items-center gap-3 mb-16">
           <Layers size={16} style={{ color: activeColor }} className="transition-colors duration-500" />
           <span className="font-space uppercase tracking-widest text-xs text-[var(--color-mist-gray)] flex items-center">
-            Arsenal Táctico // 
+            {t('sectionLabel')}
             <motion.span 
               key={persona}
               initial={{ opacity: 0, y: 5 }}
@@ -94,7 +97,7 @@ export default function Arsenal() {
               style={{ color: activeColor }} 
               className="ml-2 font-bold"
             >
-              NIVEL {persona === 'security' ? 'ALFA' : persona === 'agtech' ? 'TERRENO' : 'SISTEMA'}
+              {persona === 'security' ? t('levelAlpha') : persona === 'agtech' ? t('levelTerrain') : t('levelSystem')}
             </motion.span>
           </span>
         </div>
@@ -131,7 +134,7 @@ export default function Arsenal() {
                     </div>
                     {isAffinity && (
                       <span className="font-space text-[9px] font-bold tracking-widest px-2 py-1 rounded-sm uppercase" style={{ backgroundColor: `${activeColor}20`, color: activeColor }}>
-                        PRIMARIO
+                        {t('primary')}
                       </span>
                     )}
                   </div>

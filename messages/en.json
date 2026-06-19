@@ -1,1 +1,566 @@
-{ "Metadata": { "title": "Aldo Arbizu | B2B Mobile & SaaS Architect", "description": "Senior React Native Developer and Product Engineer.", "ogTitle": "Aldo Arbizu", "ogDescription": "Offline-First Specialist", "twitterTitle": "Aldo Arbizu", "twitterDescription": "Resilient software" }, "Navigation": { "hero": "Home", "manifesto": "Manifesto", "offline-simulator": "Lab", "services": "Services", "projects": "Projects", "studio-lab": "Studio", "crypto": "Crypto", "nexus-telemetry": "NEXUS", "contact": "Contact" } }
+{
+  "Metadata": {
+    "title": "Aldo Arbizu | B2B Mobile & SaaS Architect",
+    "description": "Senior React Native Developer and Product Engineer.",
+    "ogTitle": "Aldo Arbizu",
+    "ogDescription": "Offline-First Specialist",
+    "twitterTitle": "Aldo Arbizu",
+    "twitterDescription": "Resilient software"
+  },
+  "Navigation": {
+    "hero": "Home",
+    "manifesto": "Manifesto",
+    "offline-simulator": "Lab",
+    "services": "Services",
+    "projects": "Projects",
+    "studio-lab": "Studio",
+    "crypto": "Crypto",
+    "nexus-telemetry": "NEXUS",
+    "contact": "Contact"
+  },
+  "Manifesto": {
+    "engineer": {
+      "sectionLabel": "Stack & Vision",
+      "title": "Armored code designed to survive in real production.",
+      "body": "My technical background started in physical security and cybersecurity (UNGS). I understand the fragility of mobile connections in concrete basements, perimeter patrols, and logistics terminals. That's why I specialized in structuring mobile kernels in React Native (Expo Bare) with robust local persistence (SQLite in WAL mode + Zustand) and shielding end-to-end applications under strict OWASP MASVS security standards.",
+      "p1Num": "01",
+      "p1Title": "Local Sync Coherence",
+      "p1Desc": "Bidirectional incremental synchronization and immutable local transaction queue management to prevent database conflicts.",
+      "p2Num": "02",
+      "p2Title": "Security by Design",
+      "p2Desc": "Local SQLCipher encryption, cryptographic telemetry signatures, and static code scans at pre-compilation.",
+      "p3Num": "03",
+      "p3Title": "Native Bridges & Performance",
+      "p3Desc": "Optimization at the Swift/Kotlin thread level, and calibration of JavaScript garbage collector cycles to prevent lag."
+    },
+    "agtech": {
+      "sectionLabel": "Field Operations",
+      "title": "The invisible union between the mathematics of code and aesthetic sobriety.",
+      "body": "Software is not about stacking noisy dependencies; it is a discipline of artisanal design. I believe in clean interfaces, procedural haptic audio, and custom-modeled fluid 3D meshes. To design is to simplify: removing visual excess to reveal the technical elegance of the product. Every line of code meets the highest aesthetic and functional standards, delivering a product we are proud of.",
+      "p1Num": "01",
+      "p1Title": "Structural Purity",
+      "p1Desc": "Clean, modular, and self-documented code that reads with the clarity and precision of a classic text.",
+      "p2Num": "02",
+      "p2Title": "3D Digital Craftsmanship",
+      "p2Desc": "Custom modeling in Blender and WebGL optimization to achieve fluid interactive interfaces that load instantly.",
+      "p3Num": "03",
+      "p3Title": "Signature Design",
+      "p3Desc": "Each digital product is signed as a unique work of engineering, visual balance, and sensory response."
+    },
+    "security": {
+      "sectionLabel": "Clearance & Protocol",
+      "title": "I build software designed to withstand real-world failures.",
+      "body": "I come from the private security and cybersecurity world. In that sector, if a system fails in a basement or a remote field, the impact is not a minor bug: it's a real vulnerability and a financial loss. That's why I obsessed over Offline-First development and SQLite WAL. I don't build fragile desktop prototypes; I create resilient software that ensures your sales keep processing, your employees keep reporting, and your business keeps capturing value, regardless of network conditions.",
+      "p1Num": "01",
+      "p1Title": "Return & Continuity",
+      "p1Desc": "If your app crashes when cell signal drops, you lose money. We design with atomic local storage to ensure every interaction counts.",
+      "p2Num": "02",
+      "p2Title": "Security & Trust",
+      "p2Desc": "We protect your information assets. We implement local encryption and perform automatic security audits (MARTA QA) before every deployment.",
+      "p3Num": "03",
+      "p3Title": "Business Vision",
+      "p3Desc": "Code is the means, not the end. We design scalable SaaS platforms ready to capture leads, process payments, and generate real value 24/7."
+    },
+    "timeline": {
+      "item1": "Technological specialist in private security (Custodiar)",
+      "item2": "Fulltime freelance — founded Arbizu Labs",
+      "item3": "Fullstack MERN · First commercialized multi-tenant SaaS",
+      "item4": "Cybersecurity Diploma UNGS · TechZone offline-first sync",
+      "item5": "Analyst at Maipu Seguridad · VigiTrack core architecture",
+      "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration"
+    }
+  },
+  "OfflineSimulator": {
+    "sectionLabel": "INTERACTIVE LAB",
+    "title": "Offline First Live Simulator",
+    "desc": "Experience how my mobile resilience architectures work in the real field. Toggle network state, trigger actions, and watch background synchronization in real-time.",
+    "controls": {
+      "networkState": "Network State",
+      "simulateTriggers": "Simulate App Triggers",
+      "gpsAlert": "GPS Spoofing Alert",
+      "gpsDesc": "SentinelOS Cheating Detector",
+      "cartItem": "Add Cart Item",
+      "cartDesc": "TechZone Store Sync",
+      "panicAlarm": "Panic Alarm Event",
+      "panicDesc": "VigiTrack Emergency Sync",
+      "telemetryTitle": "LOCAL CORE TELEMETRY:"
+    },
+    "sqlite": {
+      "title": "SQLite Local Database",
+      "col1": "Item ID",
+      "col2": "Module",
+      "col3": "Operation",
+      "col4": "Simulated Payload",
+      "empty": "SQLite Sync Queue is clean. No pending network records."
+    },
+    "firebase": {
+      "title": "Cloud Server Firebase RTDB",
+      "col1": "Push ID",
+      "col2": "Module",
+      "col3": "DB Location",
+      "col4": "Sync State",
+      "empty": "Waiting for data sync streams...",
+      "synced": "Synced"
+    }
+  },
+  "Services": {
+    "sectionLabel": "Services",
+    "title": "Services & Budgets",
+    "options": {
+      "mobile": {
+        "title": "Mobile Apps (Offline-First)",
+        "desc": "Design and development of mobile apps in React Native & Expo that work offline. Ideal for logistics, agtech or security."
+      },
+      "saas": {
+        "title": "SaaS & Fullstack Architecture",
+        "desc": "Secure web development with Next.js and PostgreSQL. Hybrid Stripe/Base L2 integration for payments."
+      },
+      "n8n": {
+        "title": "Intelligent n8n Workflows",
+        "desc": "Business automation with n8n to capture leads and automate repetitive tasks 24/7."
+      },
+      "security": {
+        "title": "Security Audit & WebGL 3D",
+        "desc": "Auditing under OWASP MASVS standards and interactive 3D modeling in React Three Fiber."
+      }
+    },
+    "budget": {
+      "title": "Estimated Mission Budget",
+      "base": "Base quoted",
+      "desc": "Select one or more development modules. Simulate checkout to generate a binding technical proposal tailored to your needs.",
+      "btnIdle": "GOOGLE UCP CHECKOUT",
+      "btnLinking": "LINKING CRYPTO WALLET...",
+      "btnProcessing": "PROCESSING UCP PAYMENT...",
+      "btnDone": "PAYMENT PROCESSED OK!"
+    },
+    "process": {
+      "step1": "01 Brief",
+      "step1Desc": "48h response",
+      "step2": "02 Proposal",
+      "step2Desc": "Schema in 72h",
+      "step3": "03 Dev Sprint",
+      "step3Desc": "Bi-weekly deliverables",
+      "step4": "04 Deploy",
+      "step4Desc": "Expo EAS / Vercel Edge",
+      "step5": "05 Support",
+      "step5Desc": "Continuous maintenance"
+    },
+    "modal": {
+      "title": "Checkout Completed",
+      "desc": "Enter your details to receive the formal technical proposal for the budget of USD",
+      "nameLabel": "Name",
+      "emailLabel": "Corporate Email",
+      "btn": "REQUEST PROPOSAL"
+    }
+  },
+  "StudioLab": {
+    "sectionLabel": "STUDIO LAB",
+    "titleLine1": "I don't just code interfaces —",
+    "titleLine2": "I design them in 3D first.",
+    "desc": "I combine the power of <strong>Pixal3D</strong> generative AI with traditional <strong>Blender</strong> modeling. I reconstruct photorealistic assets in seconds and then polygonally optimize them to create interactive, fluid, and ultra-lightweight WebGL experiences.",
+    "emulator": "HOLOGRAPHIC MOBILE EMULATOR (INTERACTIVE)",
+    "emulatorHint": "TAP PHONE TO BOOT · DRAG TO ROTATE",
+    "features": {
+      "mobile": {
+        "title": "Mobile Prototyping",
+        "desc": "Three-dimensional modeling of rugged phones and screens to validate the ergonomics of large touch buttons (56px) ideal for industrial use with gloves."
+      },
+      "textures": {
+        "title": "Material Textures",
+        "desc": "Realistic, reflective physical materials in Blender to simulate the texture of premium touch interfaces and high-end mobile hardware."
+      },
+      "lighting": {
+        "title": "Environment Composition",
+        "desc": "Detailed study of lighting and dynamic HDRI shadows that project a sense of cinematic depth before writing a single line of frontend code."
+      },
+      "reconstruction": {
+        "title": "Pixal3D Reconstruction",
+        "desc": "Automated generation of high-density 3D meshes with Pixal3D, followed by controlled retopology in Blender and Draco compression for instant web integrations."
+      }
+    },
+    "pipelineLabel": "AI-ASSISTED 3D PIPELINE:",
+    "pipelineDesc": "\"The synergy between neural generation with Pixal3D and optimization in Blender redefines development times. Complex assets that previously took days are now reconstructed and polished in minutes.\""
+  },
+  "CryptoLab": {
+    "sectionLabel": "CRYPTO & ASSETS LAB",
+    "titleLine1": "I don't just invest in crypto —",
+    "titleLine2": "I build the tools I use.",
+    "liveData": "[Live data via CoinGecko]",
+    "features": {
+      "defi": {
+        "title": "DeFi Integration",
+        "desc": "Smart contracts, Wallet connect, token gating. Connecting traditional Web2 with Web3."
+      },
+      "bots": {
+        "title": "n8n Alerts & Bots",
+        "desc": "Automated workflows for on-chain data monitoring and Discord/Telegram notifications."
+      }
+    }
+  },
+  "NexusTelemetry": {
+    "sectionLabel": "NEXUS AUTONOMOUS NODE",
+    "title": "Autonomous Supervision System",
+    "desc": "My personal node monitors global infrastructure, markets, and server states in real-time. This is the telemetry engine powering my architectures.",
+    "tabs": {
+      "status": "Live Status",
+      "skills": "Skills Distribution",
+      "terminal": "Interactive Terminal",
+      "reports": "Telemetry Reports"
+    },
+    "skills": {
+      "sysDesign": {
+        "title": "System Design",
+        "desc": "Design and optimization of distributed infrastructures and scalable APIs based on industrial blueprints."
+      },
+      "uiux": {
+        "title": "UI-UX Pro Max",
+        "desc": "Advanced aesthetic patterns, Bento grids, responsive HSL design, and Awwwards-grade micro-interactions."
+      },
+      "assets3d": {
+        "title": "3D Assets & Pixal3D",
+        "desc": "Full 3D assets workflow: generative reconstruction with Pixal3D (DinoV3/MoGe-2), Blender optimization, and React Three Fiber rendering."
+      },
+      "aiOps": {
+        "title": "AI Pipelines & Career-Ops",
+        "desc": "Deployment and maintenance of job search pipelines, Greenhouse/Lever API deduplication, and ethical filtering without token consumption."
+      },
+      "n8n": {
+        "title": "n8n & Automation",
+        "desc": "Complex bidirectional flows, data ETLs, cross-notifications, and efficient communication bots."
+      },
+      "security": {
+        "title": "Security by Design",
+        "desc": "Threat modeling, anti-secrets static auditing, OWASP Mobile scanning, and strict database rules."
+      }
+    },
+    "terminal": {
+      "title": "Simulate Agent Scripts",
+      "desc": "Run the agentic supervisor scripts to observe how it audits, validates, and synchronizes the ecosystem in real-time.",
+      "running": "Executing telemetry script..."
+    },
+    "reports": {
+      "readBtn": "READ REPORT →",
+      "loading": "Loading reports from local vault..."
+    }
+  },
+  "Arsenal": {
+    "sectionLabel": "Tactical Arsenal //",
+    "levelAlpha": "LEVEL ALPHA",
+    "levelTerrain": "LEVEL TERRAIN",
+    "levelSystem": "LEVEL SYSTEM",
+    "primary": "PRIMARY",
+    "cards": {
+      "mobile": {
+        "title": "Mobile & Offline-First",
+        "desc": "Native apps optimized for cryptographic persistence in offline zones."
+      },
+      "cyber": {
+        "title": "B2B Cybersecurity",
+        "desc": "Physical and logical auditing. Corporate security policies and P2P encryption."
+      },
+      "hardware": {
+        "title": "Prototyping & 3D",
+        "desc": "Parametric design and 3D printing in resin/filament of non-commercial parts."
+      },
+      "drones": {
+        "title": "Telemetry & Drones",
+        "desc": "Satellite mapping, tactical deployment in blind terrain, and volumetric calculation."
+      },
+      "backend": {
+        "title": "Backend & Cloud",
+        "desc": "Decentralized multi-tenant architectures with end-to-end shielding."
+      },
+      "automation": {
+        "title": "AI Automation",
+        "desc": "Local autonomous pipelines that reduce corporate operational load by 40%."
+      }
+    }
+  },
+  "Contact": {
+    "sectionLabel": "Transmission Channel",
+    "directContact": "Direct Connection (Bypass)",
+    "form": {
+      "name": "Name / Callsign",
+      "email": "Transmission Email",
+      "company": "Corporation (Optional)",
+      "orPhone": "Prefer to talk directly?",
+      "callBtn": "Schedule Call on Cal.com"
+    },
+    "personas": {
+      "engineer": {
+        "title": "Initialize Review Protocol.",
+        "desc": "NEXUS will process your request immediately. If you are looking to scale your operations with automation, integrate infrastructure, or build a resilient React Native/Offline-first application.",
+        "bullets": [
+          "Enterprise-grade architecture",
+          "Agile Bi-Weekly Development",
+          "CI/CD Refactoring and Optimization"
+        ],
+        "btnText": "SEND MESSAGE",
+        "btnSub": "SENDING MESSAGE...",
+        "labelMessage": "System / Mission Parameters",
+        "placeMessage": "Describe technical requirements and system scope..."
+      },
+      "agtech": {
+        "title": "Terrain Evaluation.",
+        "desc": "If you need to integrate IoT sensors, optimize harvest routes, or implement topographical offline maps and drone systems, HQ will process your feasibility request.",
+        "bullets": [
+          "Tactical feasibility analysis",
+          "Hardware integration in dead zones",
+          "GIS and telemetry systems"
+        ],
+        "btnText": "SEND MESSAGE",
+        "btnSub": "SENDING MESSAGE...",
+        "labelMessage": "Operation / Terrain Details",
+        "placeMessage": "Describe the acreage, equipment or logistical challenge..."
+      },
+      "security": {
+        "title": "B2B Systems Audit.",
+        "desc": "If you detect bottlenecks in corporate control, or suspect vulnerabilities in your guards' or identity validators' applications, we will send an initial report.",
+        "bullets": [
+          "Vulnerability testing (OWASP)",
+          "Strict RLS control and Sovereignty",
+          "Shielded On-Premise deployment"
+        ],
+        "btnText": "SEND MESSAGE",
+        "btnSub": "SENDING MESSAGE...",
+        "labelMessage": "Attack Surface / Vector",
+        "placeMessage": "Describe the infrastructure or suspected vulnerability..."
+      }
+    }
+  },
+  "Projects": {
+    "security": {
+      "small": "Completed Audits",
+      "large1": "Case",
+      "large2": "Studies"
+    },
+    "agtech": {
+      "small": "Deployed Systems",
+      "large1": "Field",
+      "large2": "Operations"
+    },
+    "engineer": {
+      "small": "Deployments",
+      "large1": "Architecture",
+      "large2": "& Repositories"
+    },
+    "labels": {
+      "featured": "⭐ RELEVANT",
+      "problem": "PROBLEM:",
+      "solution": "SOLUTION:",
+      "stack": "STACK:",
+      "demo": "Live Demo",
+      "apk": "Android APK"
+    },
+    "projects": {
+      "titanflow": {
+        "title": "TitanFlow",
+        "role": "DeFi Copy Trading & Algorithmic Bot",
+        "engineer": {
+          "problem": "Friction due to slippage and latency in futures APIs.",
+          "solution": "Low-latency concurrent WebSockets with Kelly oracle for slippage control."
+        },
+        "security": {
+          "problem": "High copy-trading fees and API keys custody risk.",
+          "solution": "Smart contracts on Base L2 (ERC-4626) with non-custodial local order signing."
+        },
+        "agtech": {
+          "problem": "Noisy trading consoles that induce overtrading and visual fatigue.",
+          "solution": "Minimalist dark dashboard with clean charts and purged telemetry."
+        }
+      },
+      "aureus": {
+        "title": "Aureus",
+        "role": "Wealth OS & AI Financial Advisor",
+        "engineer": {
+          "problem": "Real-time processing of cognitive biases in investor dialogues.",
+          "solution": "Local bias detector with WASM coupled with streaming Vercel AI SDK."
+        },
+        "security": {
+          "problem": "High costs of traditional wealth advisory.",
+          "solution": "Premium AI advisor integrated into ROI simulations with $0.20 USD micropayments."
+        },
+        "agtech": {
+          "problem": "Cold banking interfaces lacking discretion and visual prestige.",
+          "solution": "Wealth management dashboard with dark glassmorphism and brushed gold accents."
+        }
+      },
+      "techzone": {
+        "title": "TechZone",
+        "role": "POS Retail & Omnichannel Gateway",
+        "engineer": {
+          "problem": "Loss of sales transactions due to abrupt connectivity drops.",
+          "solution": "Atomic local queuing in SQLite WAL with automatic differential triggers."
+        },
+        "security": {
+          "problem": "Customer churn at physical counters due to unstable internet.",
+          "solution": "Offline-First POS with dual QR charging signatures and Google Pay checkout."
+        },
+        "agtech": {
+          "problem": "Slow catalog interfaces that interrupt customer flow.",
+          "solution": "Premium interactive catalog with Bento Grid transitions and refined typography."
+        }
+      },
+      "sentinelos": {
+        "title": "SentinelOS",
+        "role": "Security Dispatch & Command Center",
+        "engineer": {
+          "problem": "Fraud through cloning of NFC tags for patrol rounds.",
+          "solution": "Biometric validation with local TensorFlow Lite network auditing control photos."
+        },
+        "security": {
+          "problem": "High costs of patrol batons and signal loss in subways.",
+          "solution": "Mobile app with Aegis SOS dispatch and local P2P Mesh communication."
+        },
+        "agtech": {
+          "problem": "Overloaded tactical screens that fatigue the night operator.",
+          "solution": "Ultra-high contrast with monospaced typography and night-optimized interfaces."
+        }
+      },
+      "aeroshot": {
+        "title": "AeroShot",
+        "role": "Agricultural Drone Processing SaaS",
+        "engineer": {
+          "problem": "Abrupt flight telemetry transitions in mobile rendering.",
+          "solution": "Fluid state control with Animated.spring and hardware signal damping."
+        },
+        "security": {
+          "problem": "Loss of parcel maps due to zero signal in remote fields.",
+          "solution": "Offline-First image processing and parcel telemetry with background sync."
+        },
+        "agtech": {
+          "problem": "Clunky cartographic visualizations in delivery reports.",
+          "solution": "Cartographic layers with smooth glassmorphic transitions and precise haptic interface."
+        }
+      },
+      "agromarket": {
+        "title": "AgroMarket Pro",
+        "role": "AgriTech Logistics & Marketplace",
+        "engineer": {
+          "problem": "Imprecise local 3D volumetric calculation on the mobile client.",
+          "solution": "Projection of polygonal meshes in 2D Canvas and phytotoxic audit with Gemini API."
+        },
+        "security": {
+          "problem": "Slow silobag and livestock appraisals and complex auction processes.",
+          "solution": "AR simulator for offline calculation and livestock auctions with real-time WebRTC."
+        },
+        "agtech": {
+          "problem": "Clunky agrarian interfaces that discourage daily adoption.",
+          "solution": "Premium dashboard with Bento Grid, dark textures, and amber light contrasts."
+        }
+      },
+      "cannabis": {
+        "title": "CannaSavias",
+        "role": "E-commerce & Legal Compliance SaaS",
+        "engineer": {
+          "problem": "Friction in manual verification of legal REPROCANN prescriptions.",
+          "solution": "Automated validation of stock and prescriptions at checkout using Gemini API."
+        },
+        "security": {
+          "problem": "Risk of penalties for exceeding legal stock and complex checkouts.",
+          "solution": "e-Commerce integrated with federal REPROCANN database and Universal Cart checkout."
+        },
+        "agtech": {
+          "problem": "Informal cannabis sites that do not convey rigor.",
+          "solution": "Refined digital boutique with emerald green gradients and micro-interactions."
+        }
+      },
+      "ecoconnect": {
+        "title": "EcoConnect",
+        "role": "ESG Registry & Carbon Platform",
+        "engineer": {
+          "problem": "Vulnerable RLS security policies during complex audit queries.",
+          "solution": "Strict RLS schema and on-chain cryptographic signatures on Base L2."
+        },
+        "security": {
+          "problem": "High costs of certification and forestry audits for municipalities.",
+          "solution": "Sentinel-2 satellite biomass estimation and Soulbound Tokens (SBT) issuance."
+        },
+        "agtech": {
+          "problem": "Cold carbon interfaces that look like Excel spreadsheets.",
+          "solution": "Interactive 3D model of the municipal forest that grows with donations."
+        }
+      },
+      "pawhero": {
+        "title": "PawHero",
+        "role": "Pet Tracking & NGO Donations",
+        "engineer": {
+          "problem": "Geolocation of lost pets without expensive cellular subscriptions.",
+          "solution": "Encrypted QR tags interconnected via WebSockets and P2P network."
+        },
+        "security": {
+          "problem": "Prohibitive costs for GPS collars and NGO disorganization.",
+          "solution": "Downloadable QR plates in STL for zero-cost 3D printing and SBT donations."
+        },
+        "agtech": {
+          "problem": "Generic identifiers or playful interfaces lacking seriousness.",
+          "solution": "Interactive 3D profiles with minimalist typography and on-chain SBT medals."
+        }
+      },
+      "impresion3d": {
+        "title": "Impresión 3D P2P",
+        "role": "Collaborative 3D Printing Platform",
+        "engineer": {
+          "problem": "Complexity and slowness in manual quoting of STL design files.",
+          "solution": "Integrated AI Slicer that analyzes and quotes 3D polygonal meshes locally."
+        },
+        "security": {
+          "problem": "High fees on manufacturing platforms and lack of trust between parties.",
+          "solution": "Secure decentralized escrow on Base L2 and P2P network of verified Makers."
+        },
+        "agtech": {
+          "problem": "Clunky industrial 3D manufacturing interfaces that bore users.",
+          "solution": "Premium interactive 3D mesh viewer with modern liquid glass design."
+        }
+      },
+      "habitat": {
+        "title": "Hábitat",
+        "role": "Decentralized Direct Rentals & Land Control",
+        "engineer": {
+          "problem": "Vulnerabilities in the verification and signing flow of traditional contracts.",
+          "solution": "On-chain cryptographic signatures on Base L2 with direct tenant verification."
+        },
+        "security": {
+          "problem": "Expensive real estate intermediaries and speculation with idle land.",
+          "solution": "Self-executing smart contracts and local database for productive reconversion."
+        },
+        "agtech": {
+          "problem": "Cold and complex rental processes without guides or dynamic support.",
+          "solution": "Minimalist relocation and contract dashboard with premium glassmorphism."
+        }
+      },
+      "marketingadvisor": {
+        "title": "Smart Marketing Advisor",
+        "role": "AI Omnichannel Marketing Coach",
+        "engineer": {
+          "problem": "Low speed in the generation and publication of promotional content.",
+          "solution": "Ultra-fast ad copy generator with local LLM and SQLite queuing."
+        },
+        "security": {
+          "problem": "Lack of clear ROI analytics for SMEs.",
+          "solution": "Dashboard with real-time automatic metrics and reports to optimize prospects."
+        },
+        "agtech": {
+          "problem": "Overloaded social media managers fatigued by buttons.",
+          "solution": "Marketing control Bento Grid with elegant Outfit and Inter typography."
+        }
+      },
+      "nomadhub": {
+        "title": "NOMAD Tactical Hub",
+        "role": "Off-grid Resilient Survival System",
+        "engineer": {
+          "problem": "Dependence on central servers for encryption and radio calculations in crises.",
+          "solution": "Local RF calculators for dipole antennas and offline Vigenère encryption."
+        },
+        "security": {
+          "problem": "Collapse of telephone infrastructure cutting off vulnerable communities.",
+          "solution": "Human Solidarity Portal with simulated LoRa Mesh P2P messaging and offline GPS maps."
+        },
+        "agtech": {
+          "problem": "Classic careless military design that is unreadable in night conditions.",
+          "solution": "Cyber-dark style with high contrast neon green and cyan volt for readability."
+        }
+      }
+    }
+  }
+}

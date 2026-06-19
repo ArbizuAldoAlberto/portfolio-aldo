@@ -4,7 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Float, Sparkles, useGLTF } from '@react-three/drei'
 import { motion, useInView } from 'framer-motion'
 import { Camera, Image, Layers, Smartphone } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { useCursor } from '../theme/CursorContext'
 import { useSound } from '../theme/SoundManager'
 import * as THREE from 'three'
@@ -559,7 +559,7 @@ function HolographicPhoneCore() {
 
 export default function StudioLab() {
   const { setCursorState } = useCursor()
-  const locale = useLocale()
+  const t = useTranslations('StudioLab')
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { margin: "200px 0px" })
 
@@ -569,13 +569,13 @@ export default function StudioLab() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
-          STUDIO LAB
+          {t('sectionLabel')}
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          {locale === 'en' ? 'I don\'t just code interfaces —' : 'No solo programo interfaces —'}<br/>{locale === 'en' ? 'I design them in 3D first.' : 'las diseño en 3D primero.'}
+          {t('titleLine1')}<br/>{t('titleLine2')}
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          Combino la potencia de la IA generativa 3D de <strong>Pixal3D</strong> con el modelado tradicional en <strong>Blender</strong>. Reconstruyo assets fotorrealistas en segundos y luego los optimizo poligonalmente para crear experiencias WebGL interactivas, fluidas y ultraligeras.
+          {t.rich('desc', { strong: (chunks) => <strong>{chunks}</strong> })}
         </p>
 
         <div className="grid lg:grid-cols-12 gap-8 items-center">
@@ -590,7 +590,7 @@ export default function StudioLab() {
             
             <div className="absolute top-4 left-4 z-20 flex items-center gap-2 select-none">
               <span className="flex h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-ping"></span>
-              <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">EMULADOR MÓVIL HOLOGRÁFICO (INTERACTIVO)</span>
+              <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">{t('emulator')}</span>
             </div>
 
             <Canvas frameloop={isInView ? 'always' : 'never'} camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full cursor-grab active:cursor-grabbing">
@@ -609,7 +609,7 @@ export default function StudioLab() {
             </Canvas>
 
             <div className="absolute bottom-4 right-4 z-20 text-right pointer-events-none select-none">
-              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 block">TOCA EL TELÉFONO PARA ENCENDER · ARRASTRA PARA ROTAR</span>
+              <span className="font-space text-[9px] text-[var(--color-mist-gray)]/40 block">{t('emulatorHint')}</span>
             </div>
           </div>
 
@@ -627,9 +627,9 @@ export default function StudioLab() {
                 <div className="p-3 bg-[var(--color-orbital-teal)]/10 text-[var(--color-orbital-teal)] rounded-lg w-fit mb-4">
                   <Smartphone size={20} />
                 </div>
-                <h3 className="font-serif text-lg text-white mb-2">Prototipado Mobile</h3>
+                <h3 className="font-serif text-lg text-white mb-2">{t('features.mobile.title')}</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                  Modelado tridimensional de teléfonos robustos y pantallas para validar la ergonomía de botones táctiles amplios (56px) idóneos para uso industrial con guantes.
+                  {t('features.mobile.desc')}
                 </p>
               </motion.div>
 
@@ -643,9 +643,9 @@ export default function StudioLab() {
                 <div className="p-3 bg-[var(--color-electric-purple)]/10 text-[var(--color-electric-purple)] rounded-lg w-fit mb-4">
                   <Layers size={20} />
                 </div>
-                <h3 className="font-serif text-lg text-white mb-2">Texturas Materialistas</h3>
+                <h3 className="font-serif text-lg text-white mb-2">{t('features.textures.title')}</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                  Materiales físicos realistas y reflexivos en Blender para simular la textura de interfaces táctiles premium y hardware móvil de alta gama.
+                  {t('features.textures.desc')}
                 </p>
               </motion.div>
 
@@ -659,9 +659,9 @@ export default function StudioLab() {
                 <div className="p-3 bg-[var(--color-coral-burn)]/10 text-[var(--color-coral-burn)] rounded-lg w-fit mb-4">
                   <Camera size={20} />
                 </div>
-                <h3 className="font-serif text-lg text-white mb-2">Composición del Entorno</h3>
+                <h3 className="font-serif text-lg text-white mb-2">{t('features.lighting.title')}</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                  Estudio detallado de iluminación y sombras dinámicas HDRI que proyectan una sensación de profundidad cinemática antes de escribir una línea de código frontend.
+                  {t('features.lighting.desc')}
                 </p>
               </motion.div>
 
@@ -675,18 +675,18 @@ export default function StudioLab() {
                 <div className="p-3 bg-[var(--color-amber-gold)]/10 text-[var(--color-amber-gold)] rounded-lg w-fit mb-4">
                   <Image size={20} />
                 </div>
-                <h3 className="font-serif text-lg text-white mb-2">Reconstrucción Pixal3D</h3>
+                <h3 className="font-serif text-lg text-white mb-2">{t('features.reconstruction.title')}</h3>
                 <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                  Generación automatizada de mallas 3D de alta densidad con Pixal3D, seguida de una retopología controlada en Blender y compresión Draco para integraciones web instantáneas.
+                  {t('features.reconstruction.desc')}
                 </p>
               </motion.div>
 
             </div>
 
             <div className="glass-surface p-6 border-l-4 border-l-[var(--color-orbital-teal)]">
-              <span className="font-mono text-xs text-white block mb-1">IA-ASSISTED 3D PIPELINE:</span>
+              <span className="font-mono text-xs text-white block mb-1">{t('pipelineLabel')}</span>
               <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">
-                "La sinergia entre la generación neuronal con Pixal3D y la optimización en Blender redefine los tiempos de desarrollo. Assets complejos que antes tomaban días, ahora se reconstruyen y pulen en minutos."
+                {t('pipelineDesc')}
               </p>
             </div>
 

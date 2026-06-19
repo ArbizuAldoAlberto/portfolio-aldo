@@ -2,7 +2,8 @@ import { getAllArticles } from '../../../lib/telemetry-loader';
 import ArticleCard from '../../../components/ui/ArticleCard';
 import GlitchText from '../../../components/ui/GlitchText';
 import RevealText from '../../../components/ui/RevealText';
-import { Radar } from 'lucide-react';
+import { Radar, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Telemetry Reports | Aldo Arbizu',
@@ -32,6 +33,10 @@ export default async function TelemetryIndex({ params }: { params: Promise<{ loc
         
         {/* Header */}
         <div className="mb-16">
+          <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs text-[var(--color-mist-gray)] hover:text-white transition-colors mb-8 group">
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            {locale === 'en' ? 'Return to Home' : 'Volver a Inicio'}
+          </Link>
           <div className="flex items-center gap-3 mb-4">
             <Radar size={16} className="text-[var(--color-orbital-teal)] animate-pulse" />
             <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm">
