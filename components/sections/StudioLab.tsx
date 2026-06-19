@@ -2,7 +2,7 @@
 import { useRef, useMemo, useEffect, useState, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Float, Sparkles, useGLTF } from '@react-three/drei'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { Camera, Image, Layers, Smartphone } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useCursor } from '../theme/CursorContext'
@@ -560,6 +560,8 @@ function HolographicPhoneCore() {
 export default function StudioLab() {
   const { setCursorState } = useCursor()
   const locale = useLocale()
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { margin: "200px 0px" })
 
   return (
     <section id="studio-lab" className="relative py-32 border-t border-[var(--color-space-border)] bg-[var(--color-space-black)]">
@@ -580,6 +582,7 @@ export default function StudioLab() {
           
           {/* THREE.JS CANVAS: 6 cols */}
           <div 
+            ref={containerRef}
             onMouseEnter={() => setCursorState('drag')}
             onMouseLeave={() => setCursorState('default')}
             className="lg:col-span-6 h-[500px] bg-[var(--color-deep-space)]/40 border border-[var(--color-space-border)] rounded-xl relative overflow-hidden group"
@@ -590,7 +593,7 @@ export default function StudioLab() {
               <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">EMULADOR MÓVIL HOLOGRÁFICO (INTERACTIVO)</span>
             </div>
 
-            <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full cursor-grab active:cursor-grabbing">
+            <Canvas frameloop={isInView ? 'always' : 'never'} camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full cursor-grab active:cursor-grabbing">
               <ambientLight intensity={0.4} />
               <pointLight position={[10, 10, 10]} color="#1D9E75" intensity={1.8} />
               <pointLight position={[-10, -5, -5]} color="#7F77DD" intensity={1.2} />

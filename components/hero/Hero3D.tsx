@@ -1,5 +1,6 @@
 'use client'
 import { useRef, useMemo, useEffect, Suspense } from 'react'
+import { useInView } from 'framer-motion'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Float, Sparkles, MeshDistortMaterial, useGLTF } from '@react-three/drei'
 import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
@@ -587,6 +588,8 @@ function CyberOrganicTree() {
 export default function Hero3D() {
   const { setCursorState } = useCursor()
   const { persona } = usePersona()
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { margin: "200px 0px" })
 
   const colorsMap = {
     engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
@@ -597,11 +600,13 @@ export default function Hero3D() {
 
   return (
     <div 
+      ref={containerRef}
       onMouseEnter={() => setCursorState('drag')}
       onMouseLeave={() => setCursorState('default')}
       className="w-full h-full"
     >
       <Canvas 
+        frameloop={isInView ? 'always' : 'never'}
         camera={{ position: [0, 0, 6], fov: 42 }} 
         className="w-full h-full pointer-events-auto"
         gl={{ antialias: false, powerPreference: "high-performance" }}

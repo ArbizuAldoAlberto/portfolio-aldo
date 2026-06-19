@@ -1,5 +1,5 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import MagneticWrapper from '../ui/MagneticWrapper'
 import GlitchText from '../ui/GlitchText'
@@ -125,12 +125,9 @@ export default function Hero() {
             <PersonaSwitcher />
           </motion.div>
 
-          <AnimatePresence mode="popLayout">
             <motion.div
-              key={persona}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
             >
               {/* PULSING STATUS BADGE */}
@@ -216,7 +213,6 @@ export default function Hero() {
                 </MagneticWrapper>
               </motion.div>
             </motion.div>
-          </AnimatePresence>
         </motion.div>
       </div>
     </section>
