@@ -14,6 +14,8 @@ import Arsenal from '../../components/sections/Arsenal'
 import Contact from '../../components/sections/Contact'
 
 export default function Home() {
+  const { persona } = usePersona()
+
   return (
     <main className='min-h-screen'>
       <Hero />
@@ -23,16 +25,38 @@ export default function Home() {
       <SectionDivider variant='wave' />
       <Projects />
       <SectionDivider variant='diagonal' />
-      <OfflineSimulator />
-      <SectionDivider variant='fade' />
+      
+      {persona === 'engineer' && (
+        <>
+          <OfflineSimulator />
+          <SectionDivider variant='fade' />
+        </>
+      )}
+
       <Services />
       <SectionDivider variant='wave' flip />
-      <StudioLab />
-      <SectionDivider variant='diagonal' flip />
-      <CryptoLab />
-      <SectionDivider variant='fade' />
-      <NexusTelemetry />
-      <SectionDivider variant='wave' />
+
+      {persona !== 'security' && (
+        <>
+          <StudioLab />
+          <SectionDivider variant='diagonal' flip />
+        </>
+      )}
+
+      {(persona === 'security' || persona === 'engineer') && (
+        <>
+          <CryptoLab />
+          <SectionDivider variant='fade' />
+        </>
+      )}
+
+      {(persona === 'security' || persona === 'engineer') && (
+        <>
+          <NexusTelemetry />
+          <SectionDivider variant='wave' />
+        </>
+      )}
+
       <Arsenal />
       <SectionDivider variant='fade' />
       <Contact />

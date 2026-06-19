@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Wifi, WifiOff, Database, RefreshCw, Send, AlertTriangle, ShieldAlert, ShoppingCart, Cpu } from 'lucide-react'
+import { useLocale } from 'next-intl'
 
 interface QueueItem {
   id: string
@@ -13,6 +14,7 @@ interface QueueItem {
 }
 
 export default function OfflineSimulator() {
+  const locale = useLocale()
   const [isConnected, setIsConnected] = useState(true)
   const [queue, setQueue] = useState<QueueItem[]>([])
   const [syncedItems, setSyncedItems] = useState<QueueItem[]>([])
@@ -106,19 +108,19 @@ export default function OfflineSimulator() {
 
   return (
     <section id="offline-simulator" className="relative py-32 border-t border-[var(--color-space-border)] bg-[var(--color-space-black)]">
-      <div className="absolute top-0 left-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        02.5
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block">
-          Laboratorio Interactivo
+          {locale === 'en' ? 'INTERACTIVE LAB' : 'LABORATORIO INTERACTIVO'}
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          Offline-First Live Simulator
+          Offline First Live Simulator
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
-          Experimenta cómo funcionan mis arquitecturas de resiliencia móvil en el campo real. Togglea el estado de red, dispara acciones de seguridad o compras, y observa la sincronización en vivo con Firebase en segundo plano.
+          {locale === 'en' 
+            ? 'Experience how my mobile resilience architectures work in the real field. Toggle network state, trigger actions, and watch background synchronization in real-time.' 
+            : 'Experimenta cómo funcionan mis arquitecturas de resiliencia móvil en el campo real. Togglea el estado de red, dispara acciones de seguridad o compras, y observa la sincronización en vivo con Firebase en segundo plano.'}
         </p>
 
         <div className="grid lg:grid-cols-12 gap-8 items-stretch">

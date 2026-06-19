@@ -87,9 +87,7 @@ export default function Services() {
 
   return (
     <section id="services" className="relative py-32 bg-[var(--color-deep-space)]/30 border-t border-[var(--color-space-border)]">
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        03
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">

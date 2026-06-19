@@ -442,12 +442,7 @@ export default function Projects() {
 
   return (
     <section id="projects" ref={sectionRef} className="pt-32 pb-32 relative bg-[var(--color-space-black)]">
-      <motion.div
-        style={{ y: bgY, opacity: bgOpacity }}
-        className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
-      >
-        04
-      </motion.div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 mb-16">
         <GlitchText delay={0.1} text={titles.small} className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none" />

@@ -5,6 +5,7 @@ import { Terminal as TerminalIcon, Cpu, Layers, Wifi, CheckCircle2, ShieldAlert,
 import { useCursor } from '../theme/CursorContext'
 import RealTimeActivity from './RealTimeActivity'
 import { getAllArticles, Article } from '../../lib/telemetry-loader'
+import { useLocale } from 'next-intl'
 import Link from 'next/link'
 
 interface ConsoleLog {
@@ -13,6 +14,7 @@ interface ConsoleLog {
 }
 
 export default function NexusTelemetry() {
+  const locale = useLocale()
   const { setCursorState } = useCursor()
   const [activeTab, setActiveTab] = useState<'status' | 'skills' | 'terminal' | 'reports'>('status')
   const [articles, setArticles] = useState<Article[]>([])
@@ -199,23 +201,23 @@ export default function NexusTelemetry() {
 
   return (
     <section id="nexus-telemetry" className="relative py-32 border-t border-[var(--color-space-border)] bg-[var(--color-space-black)]">
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        07
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex items-center gap-3 mb-4">
           <span className="h-2 w-2 rounded-full bg-[var(--color-orbital-teal)] animate-ping"></span>
           <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm block">
-            NEXUS Autonomous Node
+            NEXUS AUTONOMOUS NODE
           </span>
         </div>
 
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          Sistema Autónomo de Supervisión
+          {locale === 'en' ? 'Autonomous Supervision System' : 'Sistema Autónomo de Supervisión'}
         </h2>
-        <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-3xl mb-12 leading-relaxed">
-          Este sitio web y todos los repositorios activos de Arbizu Labs están integrados localmente bajo la supervisión de <strong>NEXUS</strong>, un super-agente agéntico personalizado que coordina compilaciones, despliegues, seguridad perimetral y supervisión financiera automatizada.
+        <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
+          {locale === 'en' 
+            ? 'My personal node monitors global infrastructure, markets, and server states in real-time. This is the telemetry engine powering my architectures.' 
+            : 'Mi nodo personal monitorea la infraestructura global, mercados y estados de servidores en tiempo real. Este es el motor de telemetría que impulsa mis arquitecturas.'}
         </p>
 
         {/* Tab Selection */}

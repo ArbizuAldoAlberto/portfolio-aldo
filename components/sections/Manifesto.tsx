@@ -89,14 +89,7 @@ export default function Manifesto() {
 
   return (
     <section id="manifesto" ref={sectionRef} className="relative py-32 overflow-hidden border-t border-[var(--color-space-border)]">
-      {/* Huge Background Number with parallax */}
-      <motion.div
-        style={{ y: bgNumberY, opacity: bgNumberOpacity }}
-        className="absolute top-0 right-10 text-[200px] font-serif leading-none pointer-events-none text-white select-none"
-      >
-        02
-      </motion.div>
-
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.span
           initial={{ opacity: 0, x: -20 }}

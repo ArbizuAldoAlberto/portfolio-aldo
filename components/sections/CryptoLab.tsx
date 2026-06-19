@@ -1,11 +1,13 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLocale } from 'next-intl'
 
 const COINS = ['hedera-hashgraph', 'tron', 'the-graph']
 const SYMBOLS: Record<string, string> = { 'hedera-hashgraph': 'HBAR', 'tron': 'TRX', 'the-graph': 'GRT' }
 
 export default function CryptoLab() {
+  const locale = useLocale()
   const [prices, setPrices] = useState<any>({})
   
   useEffect(() => {
@@ -43,16 +45,14 @@ export default function CryptoLab() {
 
   return (
     <section id="crypto" className="relative py-32 bg-[var(--color-deep-space)]/30 border-t border-[var(--color-space-border)]">
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        06
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block">
-          Crypto & Assets Lab
+          CRYPTO & ASSETS LAB
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          No solo invierto en cripto —<br/>construyo las herramientas que uso.
+          {locale === 'en' ? 'I don\'t just invest in crypto —' : 'No solo invierto en cripto —'}<br/>{locale === 'en' ? 'I build the tools I use.' : 'construyo las herramientas que uso.'}
         </h2>
 
         {/* Live Widget */}

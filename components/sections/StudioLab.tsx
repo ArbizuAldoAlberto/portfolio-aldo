@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Float, Sparkles, useGLTF } from '@react-three/drei'
 import { motion } from 'framer-motion'
 import { Camera, Image, Layers, Smartphone } from 'lucide-react'
+import { useLocale } from 'next-intl'
 import { useCursor } from '../theme/CursorContext'
 import { useSound } from '../theme/SoundManager'
 import * as THREE from 'three'
@@ -452,7 +453,7 @@ function HolographicPhoneCore() {
                 <meshBasicMaterial color="#1D9E75" transparent opacity={0.2} />
               </mesh>
               <lineSegments position={[0, 1.2, 0.015]}>
-                <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 0.4)]} />
+                <edgesGeometry attach="geometry" args={[1.2, 0.4]} />
                 <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
               </lineSegments>
             </group>
@@ -558,19 +559,18 @@ function HolographicPhoneCore() {
 
 export default function StudioLab() {
   const { setCursorState } = useCursor()
+  const locale = useLocale()
 
   return (
     <section id="studio-lab" className="relative py-32 border-t border-[var(--color-space-border)] bg-[var(--color-space-black)]">
-      <div className="absolute top-0 right-10 text-[200px] font-serif opacity-5 leading-none pointer-events-none text-white select-none">
-        05
-      </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <span className="font-space text-[var(--color-mist-gray)] uppercase tracking-widest text-sm mb-4 block select-none">
-          3D Studio Lab
+          STUDIO LAB
         </span>
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
-          No solo programo interfaces —<br/>las diseño en 3D primero.
+          {locale === 'en' ? 'I don\'t just code interfaces —' : 'No solo programo interfaces —'}<br/>{locale === 'en' ? 'I design them in 3D first.' : 'las diseño en 3D primero.'}
         </h2>
         <p className="font-mono text-sm text-[var(--color-mist-gray)] max-w-2xl mb-16 leading-relaxed">
           Combino la potencia de la IA generativa 3D de <strong>Pixal3D</strong> con el modelado tradicional en <strong>Blender</strong>. Reconstruyo assets fotorrealistas en segundos y luego los optimizo poligonalmente para crear experiencias WebGL interactivas, fluidas y ultraligeras.
