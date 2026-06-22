@@ -31,7 +31,8 @@ El sitio web está construido utilizando tecnologías de última generación par
     *   **Resend API** integrado mediante Next.js Server Actions seguros para captación de leads sin exponer tokens en el cliente.
     *   **NEXUS Telemetry Console & Titan Flow:** Terminal y módulo cuantitativo integrados que exponen métricas cognitivas y de mercado en tiempo real, obteniendo data bursátil viva a través de *Graceful Degradation* con **CoinGecko API**.
     *   **Arquitectura de Red (VPS & Cloudflare Zero Trust):** Gestión de tráfico nativa exponiendo contenedores Docker (`-p 3001:3000`) directamente hacia `cloudflared.service`. Se elude Nginx y la gestión de certificados locales para delegar la seguridad perimetral a Cloudflare Tunnels, resolviendo conflictos de proxy (`502 Bad Gateway`).
-    *   **Multi-Tenant Subdomain Routing:** Gestión de red para múltiples proyectos. En desarrollo local, se utiliza `middleware.ts` para reescribir cabeceras `Host`. En producción, el despliegue cuenta con un clúster proxy inverso `vhost_router.js` que direcciona el tráfico dinámico sin tocar la capa de presentación.
+    *   **Internacionalización (i18n):** Soporte multi-idioma nativo (Inglés, Español y Chino Mandarín) utilizando `next-intl` con enrutamiento dinámico `/[locale]`.
+    *   **CI/CD Pipeline Autónomo:** Despliegue gestionado a través de **GitHub Actions** (`deploy.yml`). El VPS se actualiza, reconstruye Docker y re-lanza el contenedor en cada push a `main`, sin intervención manual (basado en Github Secrets para SSH).
 
 ---
 
@@ -73,7 +74,7 @@ python scripts/validate_deerflow.py
 ### 2. Compuerta de Seguridad Perimetral (Static Security Scan)
 Escanea de forma estática los archivos del código fuente en busca de secretos expuestos antes de realizar cualquier commit o build de producción. 
 ```bash
-sh scripts/scan_security_gate.sh --project=dark-orbital
+node scripts/scan_security_gate.js
 ```
 *Nota: Este script se ejecuta automáticamente en el hook `prebuild` del `package.json`. Si hay una API Key expuesta en el código, el build fallará automáticamente protegiendo tu infraestructura.*
 
