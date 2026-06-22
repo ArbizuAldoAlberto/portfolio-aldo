@@ -1,0 +1,64 @@
+name: Deploy Dark Orbital to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build & Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔒 Security Scan (Aegis Rule)
+        run: |
+          # Solo escanea si existe el script de seguridad en esa ruta.
+          if [ -f "scripts/scan_security_gate.sh" ]; then
+            sh scripts/scan_security_gate.sh --project=dark-orbital
+          else
+            echo "Security scanner not found, skipping."
+          fi
+
+      - name: 📦 Create Deployment Archive
+        run: |
+          # Excluimos directorios pesados y .git para transferencia rápida
+          tar -czf deploy-bundle.tar.gz --exclude='.git' --exclude='node_modules' --exclude='.next' --exclude='dark-orbital-*.tar' .
+
+      - name: 🚀 Transfer to VPS (SCP)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: "deploy-bundle.tar.gz"
+          target: "~/portfolio/"
+
+      - name: ⚙️ Rebuild & Relaunch Container (SSH)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            cd ~/portfolio/
+            
+            # Descomprimir el nuevo bundle sobreescribiendo archivos (pero manteniendo el .env.local intacto si no estaba en el bundle)
+            tar -xzf deploy-bundle.tar.gz
+            rm deploy-bundle.tar.gz
+            
+            echo "Building new Docker image..."
+            docker build --no-cache -t dark-orbital-prod .
+            
+            echo "Stopping old container..."
+            docker rm -f dark-orbital-app || true
+            
+            echo "Starting new container on port 3001 (Cloudflare Tunnel Target)..."
+            docker run -d --name dark-orbital-app --restart unless-stopped -p 3001:3000 --env-file .env.local dark-orbital-prod
+            
+            echo "Deployment successful! NEXUS is operational."

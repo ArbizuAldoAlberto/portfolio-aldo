@@ -29,8 +29,9 @@ El sitio web está construido utilizando tecnologías de última generación par
     *   **Glassmorphism (Founder Mode)**: Estética ultra-premium basada en la paleta HSL *Walbi*, implementando `backdrop-blur-2xl` extremo, sombras internas, y bordes translúcidos de neón para máxima jerarquía visual B2B.
 3.  **Backend, Enrutamiento & Automatizaciones:**
     *   **Resend API** integrado mediante Next.js Server Actions seguros para captación de leads sin exponer tokens en el cliente.
-    *   **NEXUS Telemetry Console:** Terminal integrada que expone métricas cognitivas, distribución de habilidades y simulación de auditorías de infraestructura.
-    *   **Multi-Tenant Subdomain Routing:** Gestión de red de 13 proyectos mediante un sistema dual: En desarrollo local, se utiliza `middleware.ts` para reescribir cabeceras `Host`. En producción, el despliegue cuenta con un clúster proxy inverso `vhost_router.js` que direcciona el tráfico a paneles estáticos offline-first o proxys dinámicos sin tocar la capa de presentación de Next.js.
+    *   **NEXUS Telemetry Console & Titan Flow:** Terminal y módulo cuantitativo integrados que exponen métricas cognitivas y de mercado en tiempo real, obteniendo data bursátil viva a través de *Graceful Degradation* con **CoinGecko API**.
+    *   **Arquitectura de Red (VPS & Cloudflare Zero Trust):** Gestión de tráfico nativa exponiendo contenedores Docker (`-p 3001:3000`) directamente hacia `cloudflared.service`. Se elude Nginx y la gestión de certificados locales para delegar la seguridad perimetral a Cloudflare Tunnels, resolviendo conflictos de proxy (`502 Bad Gateway`).
+    *   **Multi-Tenant Subdomain Routing:** Gestión de red para múltiples proyectos. En desarrollo local, se utiliza `middleware.ts` para reescribir cabeceras `Host`. En producción, el despliegue cuenta con un clúster proxy inverso `vhost_router.js` que direcciona el tráfico dinámico sin tocar la capa de presentación.
 
 ---
 

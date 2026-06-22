@@ -1,10 +1,11 @@
 'use client'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import MagneticWrapper from '../ui/MagneticWrapper'
 import GlitchText from '../ui/GlitchText'
 import { usePersona } from '../theme/PersonaContext'
 import PersonaSwitcher from '../ui/PersonaSwitcher'
+import { useTranslations } from 'next-intl'
 
 const Hero3D = dynamic(() => import('./Hero3D'), { ssr: false })
 
@@ -34,59 +35,44 @@ const itemVariants = {
 }
 
 export default function Hero() {
-  const { persona } = usePersona()
+  const { persona, setPersona } = usePersona()
+  const t = useTranslations('Hero')
+
+  const personasList = ['engineer', 'security', 'agtech']
+  
+  const handleDragEnd = (event: any, info: any) => {
+    // Only trigger on intentional swipes
+    if (Math.abs(info.offset.x) > 50) {
+      const currentIndex = personasList.indexOf(persona)
+      if (info.offset.x < -50) {
+        // Swipe left -> next persona
+        const nextIdx = (currentIndex + 1) % personasList.length
+        setPersona(personasList[nextIdx] as any)
+      } else if (info.offset.x > 50) {
+        // Swipe right -> prev persona
+        const prevIdx = (currentIndex - 1 + personasList.length) % personasList.length
+        setPersona(personasList[prevIdx] as any)
+      }
+    }
+  }
 
   const getPersonaContent = () => {
-    switch (persona) {
-      case 'engineer':
-        return {
-          status: 'OFFLINE-FIRST ENGINEER · MOBILE SYSTEMS',
-          badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Ingeniero Especialista · React Native & Local Sync',
-          sub: 'Product Engineer · Rescato apps que fallan sin conexión. Especialista en sincronización atómica y bases de datos locales.',
-          c1Title: 'Local Sync Core (SQLite WAL + WatermelonDB)',
-          c1Desc: 'Arquitecturas que persisten y sincronizan datos en background, garantizando cero pérdida operativa sin red.',
-          c2Title: 'React Native (Expo Bare Workflow)',
-          c2Desc: 'Integración nativa profunda, optimización de bundles JS y resolución de cuellos de botella en el bridge.',
-          c3Title: 'State Management & Conflict Resolution',
-          c3Desc: 'Manejo de estado complejo (Zustand/Redux) y resolución criptográfica de conflictos de sincronización.',
-          ctaPrimary: 'Agendar Llamada',
-          ctaSecondary: 'Agendar Code Review',
-          cvName: 'CV_Aldo_Arbizu_Software_Engineer.pdf'
-        }
-      case 'agtech':
-        return {
-          status: 'FIELD OPERATIONS · AGTECH & LOGISTICS',
-          badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Ingeniero de Campo · Drones & Hard-Tech',
-          sub: 'Especialista en soluciones tácticas para el Agro y la Logística. Software que sobrevive en zonas muertas de conectividad.',
-          c1Title: 'Hardware & Drone Integrations',
-          c1Desc: 'Conexión de telemetría de vuelo, procesamiento de imágenes satelitales y protocolos IoT en terreno.',
-          c2Title: 'Mesh Networks & Offline Maps',
-          c2Desc: 'Implementación de mapas vectoriales sin conexión (Mapbox) y redes de mensajería P2P (Bluetooth/LoRa).',
-          c3Title: 'Topografía & Cubicación 3D',
-          c3Desc: 'Cálculos volumétricos on-device y renderizado WebGL/Three.js para tasaciones en el campo.',
-          ctaPrimary: 'Agendar Llamada',
-          ctaSecondary: 'Consultar Viabilidad',
-          cvName: 'CV_Aldo_Arbizu_AgTech.pdf'
-        }
-      case 'security':
-      default:
-        return {
-          status: 'B2B SECURITY SPECIALIST · OPS & COMPLIANCE',
-          badgeColor: 'bg-[var(--color-orbital-teal)]',
-          badgeText: '● Especialista en Seguridad · Ciberseguridad B2B',
-          sub: 'Consultor en Ciberseguridad Física y Digital. Detecto fugas de información y fraude en sistemas de control corporativo.',
-          c1Title: 'Mobile Security Audits (OWASP)',
-          c1Desc: 'Detección de vulnerabilidades en apps de control de rondas, prevención de clonación GPS/QR y escalada de privilegios.',
-          c2Title: 'Biometría & ML On-Device',
-          c2Desc: 'Implementación de TensorFlow Lite para validación de identidad sin depender de servidores externos.',
-          c3Title: 'Strict RLS & Data Sovereignty',
-          c3Desc: 'Políticas de seguridad a nivel de fila (Supabase/PostgreSQL) para blindaje de auditorías corporativas.',
-          ctaPrimary: 'Agendar Llamada',
-          ctaSecondary: 'Ver Reportes',
-          cvName: 'CV_Aldo_Arbizu_Cybersecurity.pdf'
-        }
+    return {
+      status: t(`${persona}.status`),
+      badgeColor: 'bg-[var(--color-orbital-teal)]',
+      badgeText: t(`${persona}.badgeText`),
+      sub: t(`${persona}.sub`),
+      c1Title: t(`${persona}.c1Title`),
+      c1Desc: t(`${persona}.c1Desc`),
+      c2Title: t(`${persona}.c2Title`),
+      c2Desc: t(`${persona}.c2Desc`),
+      c3Title: t(`${persona}.c3Title`),
+      c3Desc: t(`${persona}.c3Desc`),
+      ctaPrimary: t(`${persona}.ctaPrimary`),
+      ctaSecondary: t(`${persona}.ctaSecondary`),
+      cvName: persona === 'engineer' ? 'CV_Aldo_Arbizu_Software_Engineer.md' : 
+              persona === 'agtech' ? 'CV_Aldo_Arbizu_AgTech.md' : 
+              'CV_Aldo_Arbizu_Cybersecurity.md'
     }
   }
 
@@ -117,18 +103,24 @@ export default function Hero() {
                 NEXUS PERSONA TUNER
               </span>
               <span className="font-mono text-[9px] text-[var(--color-orbital-teal)] uppercase tracking-widest select-none transition-colors">
-                {persona === 'engineer' ? 'Offline-first, React Native & Bases de datos locales' : 
-                 persona === 'security' ? 'Ciberseguridad B2B, OWASP Mobile & Auditorías' : 
-                 'AgTech, Hardware en terreno & Logística offline'}
+                {t(`personaLabels.${persona}`)}
               </span>
             </div>
             <PersonaSwitcher />
           </motion.div>
 
+          <AnimatePresence mode="wait">
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              key={persona}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -15, filter: 'blur(10px)' }}
               transition={{ duration: 0.3 }}
+              className="touch-pan-y cursor-grab active:cursor-grabbing"
             >
               {/* PULSING STATUS BADGE */}
               <motion.div variants={itemVariants} className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[var(--color-space-border)] bg-[var(--color-space-black)]/70 mb-8 w-fit shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
@@ -208,11 +200,12 @@ export default function Hero() {
                 <MagneticWrapper strength={20} className="w-full md:w-auto">
                   <a href={`/cv/${content.cvName}`} download className="btn-outline border-[var(--color-orbital-teal)]/30 hover:border-white text-[var(--color-mist-gray)] hover:text-white transition-colors bg-black/40 backdrop-blur-sm flex items-center justify-center gap-2 w-full md:w-auto">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                    <span className="font-bold">Descargar CV</span>
+                    <span className="font-bold">{t('downloadCv')}</span>
                   </a>
                 </MagneticWrapper>
               </motion.div>
             </motion.div>
+          </AnimatePresence>
         </motion.div>
       </div>
     </section>

@@ -15,8 +15,6 @@ import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { routing } from "../../i18n/routing"
 import { SmoothScroll } from "../../components/theme/SmoothScroll"
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
 import Script from 'next/script'
 import SpotlightWrapper from "../../components/theme/SpotlightWrapper"
 const cormorant = Cormorant_Garamond({ 
@@ -132,9 +130,7 @@ export default async function RootLayout({ children, params }: { children: React
             </SoundProvider>
           </SmoothScroll>
         </NextIntlClientProvider>
-        <Analytics />
-        <SpeedInsights />
-        
+
         <Script id="service-worker-registration" strategy="lazyOnload">
           {`
             if ('serviceWorker' in navigator) {

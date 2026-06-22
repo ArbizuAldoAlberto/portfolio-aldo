@@ -22,7 +22,9 @@ export default function Navigation() {
   });
 
   const toggleLanguage = () => {
-    const nextLocale = locale === 'es' ? 'en' : 'es';
+    const locales = ['es', 'en', 'zh'];
+    const currentIndex = locales.indexOf(locale);
+    const nextLocale = locales[(currentIndex + 1) % locales.length];
     router.replace(pathname, { locale: nextLocale });
   };
 
@@ -42,6 +44,8 @@ export default function Navigation() {
         <span className={locale === 'es' ? 'text-[var(--color-orbital-teal)] font-bold' : 'text-[var(--color-mist-gray)]/50'}>ES</span>
         <span className="text-[var(--color-space-border)]">/</span>
         <span className={locale === 'en' ? 'text-[var(--color-orbital-teal)] font-bold' : 'text-[var(--color-mist-gray)]/50'}>EN</span>
+        <span className="text-[var(--color-space-border)]">/</span>
+        <span className={locale === 'zh' ? 'text-[var(--color-orbital-teal)] font-bold' : 'text-[var(--color-mist-gray)]/50'}>ZH</span>
       </button>
     </nav>
   );

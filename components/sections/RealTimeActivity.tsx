@@ -168,7 +168,7 @@ export default function RealTimeActivity() {
           <h3 className="font-serif text-2xl text-white">Repository Stats</h3>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 flex-1">
           <div className="bg-white/5 border border-white/10 p-4 rounded-lg flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-2 text-[var(--color-mist-gray)]">
               <Folders size={14} />

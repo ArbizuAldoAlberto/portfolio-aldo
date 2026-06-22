@@ -18,11 +18,58 @@
     "nexus-telemetry": "NEXUS",
     "contact": "Contacto"
   },
+  "Hero": {
+    "engineer": {
+      "status": "OFFLINE-FIRST ENGINEER · MOBILE SYSTEMS",
+      "badgeText": "● Ingeniero Especialista · React Native & Local Sync",
+      "sub": "Product Engineer · Rescato apps que fallan sin conexión. Especialista en sincronización atómica y bases de datos locales.",
+      "c1Title": "Local Sync Core (SQLite WAL + WatermelonDB)",
+      "c1Desc": "Arquitecturas que persisten y sincronizan datos en background, garantizando cero pérdida operativa sin red.",
+      "c2Title": "React Native (Expo Bare Workflow)",
+      "c2Desc": "Integración nativa profunda, optimización de bundles JS y resolución de cuellos de botella en el bridge.",
+      "c3Title": "State Management & Conflict Resolution",
+      "c3Desc": "Manejo de estado complejo (Zustand/Redux) y resolución criptográfica de conflictos de sincronización.",
+      "ctaPrimary": "Agendar Llamada",
+      "ctaSecondary": "Agendar Code Review"
+    },
+    "agtech": {
+      "status": "FIELD OPERATIONS · AGTECH & LOGISTICS",
+      "badgeText": "● Ingeniero de Campo · Drones & Hard-Tech",
+      "sub": "Especialista en soluciones tácticas para el Agro y la Logística. Software que sobrevive en zonas muertas de conectividad.",
+      "c1Title": "Hardware & Drone Integrations",
+      "c1Desc": "Conexión de telemetría de vuelo, procesamiento de imágenes satelitales y protocolos IoT en terreno.",
+      "c2Title": "Mesh Networks & Offline Maps",
+      "c2Desc": "Implementación de mapas vectoriales sin conexión (Mapbox) y redes de mensajería P2P (Bluetooth/LoRa).",
+      "c3Title": "Topografía & Cubicación 3D",
+      "c3Desc": "Cálculos volumétricos on-device y renderizado WebGL/Three.js para tasaciones en el campo.",
+      "ctaPrimary": "Agendar Llamada",
+      "ctaSecondary": "Consultar Viabilidad"
+    },
+    "security": {
+      "status": "B2B SECURITY SPECIALIST · OPS & COMPLIANCE",
+      "badgeText": "● Especialista en Seguridad · Ciberseguridad B2B",
+      "sub": "Consultor en Ciberseguridad Física y Digital. Detecto fugas de información y fraude en sistemas de control corporativo.",
+      "c1Title": "Mobile Security Audits (OWASP)",
+      "c1Desc": "Detección de vulnerabilidades en apps de control de rondas, prevención de clonación GPS/QR y escalada de privilegios.",
+      "c2Title": "Biometría & ML On-Device",
+      "c2Desc": "Implementación de TensorFlow Lite para validación de identidad sin depender de servidores externos.",
+      "c3Title": "Strict RLS & Data Sovereignty",
+      "c3Desc": "Políticas de seguridad a nivel de fila (Supabase/PostgreSQL) para blindaje de auditorías corporativas.",
+      "ctaPrimary": "Agendar Llamada",
+      "ctaSecondary": "Ver Reportes"
+    },
+    "downloadCv": "Descargar CV",
+    "personaLabels": {
+      "engineer": "Offline-first, React Native & Bases de datos locales",
+      "security": "Ciberseguridad B2B, OWASP Mobile & Auditorías",
+      "agtech": "AgTech, Hardware en terreno & Logística offline"
+    }
+  },
   "Manifesto": {
     "engineer": {
       "sectionLabel": "Stack & Visión",
       "title": "Código blindado diseñado para sobrevivir en producción real.",
-      "body": "Mi trayectoria técnica comenzó en la seguridad física y la ciberseguridad (UNGS). Entiendo la fragilidad de las conexiones móviles en sótanos de hormigón, patrullas perimetrales y terminales logísticas. Por eso me especialicé en estructurar kernels móviles en React Native (Expo Bare) con persistencia local robusta (SQLite en modo WAL + Zustand) y en blindar aplicaciones de extremo a extremo bajo los exigentes estándares de seguridad OWASP MASVS.",
+      "body": "No te voy a mentir con jerga corporativa: mi código está diseñado para sobrevivir en el fango de la producción real. Mi trayectoria técnica empezó en la seguridad física y cibernética. Conozco la fragilidad del mundo real. Por eso me obsesioné con el desarrollo Offline-First (SQLite WAL + Zustand) y en blindar las aplicaciones para que no colapsen cuando un operario pierde señal en medio de la nada.",
       "p1Num": "01",
       "p1Title": "Local Sync Coherence",
       "p1Desc": "Sincronización incremental bidireccional y manejo inmutable de colas de transacciones locales para evitar conflictos de base de datos.",
@@ -30,8 +77,8 @@
       "p2Title": "Security by Design",
       "p2Desc": "Cifrado SQLCipher local, firmas criptográficas de telemetría y escaneos de código estáticos en pre-compilación.",
       "p3Num": "03",
-      "p3Title": "Native Bridges & Performance",
-      "p3Desc": "Optimización a nivel de hilos Swift/Kotlin, y calibración de ciclos del recolector de basura de JavaScript para evitar lags."
+      "p3Title": "Filantropía Redistributiva",
+      "p3Desc": "El software B2B genera mis ingresos, pero mi propósito va más allá. Destino porcentajes de mis ganancias y horas de cómputo a proyectos de impacto abierto para devolver valor a la sociedad."
     },
     "agtech": {
       "sectionLabel": "Operaciones de Campo",
@@ -109,19 +156,19 @@
     "options": {
       "mobile": {
         "title": "Mobile Apps (Offline-First)",
-        "desc": "Diseño y desarrollo de apps móviles en React Native & Expo que funcionan sin conexión. Ideal para logística, agro o seguridad."
+        "desc": "Desde $4,500 USD. Diseño y desarrollo de apps en React Native que funcionan sin conexión. Ideal para logística, agro o seguridad."
       },
       "saas": {
         "title": "SaaS & Fullstack Architecture",
-        "desc": "Desarrollo web seguro con Next.js y PostgreSQL. Integración híbrida Stripe/Base L2 para pagos."
+        "desc": "Desde $6,000 USD. Desarrollo web B2B con Next.js y PostgreSQL. Integración robusta de pagos Stripe/UCP."
       },
       "n8n": {
         "title": "Intelligent n8n Workflows",
-        "desc": "Automatización comercial con n8n para capturar leads y automatizar tareas repetitivas 24/7."
+        "desc": "Desde $1,200 USD. Automatización comercial con n8n para capturar leads y automatizar tareas repetitivas 24/7."
       },
       "security": {
         "title": "Security Audit & WebGL 3D",
-        "desc": "Auditoría bajo normas OWASP MASVS y modelado 3D interactivo en React Three Fiber."
+        "desc": "Consultoría a medida. Auditoría OWASP MASVS y modelado 3D interactivo premium."
       }
     },
     "budget": {
@@ -182,18 +229,18 @@
     "pipelineDesc": "\"La sinergia entre la generación neuronal con Pixal3D y la optimización en Blender redefine los tiempos de desarrollo. Assets complejos que antes tomaban días, ahora se reconstruyen y pulen en minutos.\""
   },
   "CryptoLab": {
-    "sectionLabel": "CRYPTO & ASSETS LAB",
-    "titleLine1": "No solo invierto en cripto —",
-    "titleLine2": "construyo las herramientas que uso.",
-    "liveData": "[Live data via CoinGecko]",
+    "sectionLabel": "TITAN FLOW",
+    "titleLine1": "No solo invierto en el mercado —",
+    "titleLine2": "construyo mis propias herramientas.",
+    "liveData": "[Live data via CoinGecko - titanflow.aldoarbizu.com]",
     "features": {
       "defi": {
-        "title": "Integración DeFi",
-        "desc": "Smart contracts, Wallet connect, token gating. Conectando la Web2 tradicional con Web3."
+        "title": "Ingeniería Cuantitativa Activa",
+        "desc": "Visita titanflow.aldoarbizu.com para ver mi bot operando. Construyo algoritmos de monitoreo on-chain y flujos de datos en tiempo real."
       },
       "bots": {
-        "title": "Alertas & Bots n8n",
-        "desc": "Workflows automatizados para monitoreo de on-chain data y notificaciones a Discord/Telegram."
+        "title": "Autonomía Financiera Automática",
+        "desc": "Desarrollo sistemas que leen el mercado para liberarme del chartismo manual, dándome tiempo libre para construir más software."
       }
     }
   },

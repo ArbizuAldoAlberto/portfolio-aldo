@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useMemo, useEffect, Suspense } from 'react'
+import { useRef, useMemo, useEffect, Suspense, useState } from 'react'
 import { useInView } from 'framer-motion'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Float, Sparkles, MeshDistortMaterial, useGLTF } from '@react-three/drei'
@@ -38,7 +38,14 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
   const meshRef = useRef<THREE.InstancedMesh>(null)
   const { pointer } = useThree()
   const { persona } = usePersona()
-  const particleCount = 150
+  
+  const [particleCount, setParticleCount] = useState(150)
+  
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setParticleCount(50) // Reduce particles on mobile for performance
+    }
+  }, [])
   
   const particles = useMemo(() => {
     const arr = []
@@ -176,8 +183,9 @@ function CyberOrganicTree() {
 
   const treeMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
 
-  // Load Hunyuan3D-2 generated model
-  const { scene } = useGLTF('/models/tree.glb')
+  // Load models dynamically based on persona
+  const modelPath = persona === 'engineer' ? '/models/phone.glb' : '/models/tree.glb'
+  const { scene } = useGLTF(modelPath)
 
   const colorsMap = useMemo(() => ({
     engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
@@ -584,6 +592,9 @@ function CyberOrganicTree() {
     </group>
   )
 }
+
+useGLTF.preload('/models/tree.glb')
+useGLTF.preload('/models/phone.glb')
 
 export default function Hero3D() {
   const { setCursorState } = useCursor()

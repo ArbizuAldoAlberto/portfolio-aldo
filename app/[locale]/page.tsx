@@ -12,6 +12,8 @@ import CryptoLab from '../../components/sections/CryptoLab'
 import NexusTelemetry from '../../components/sections/NexusTelemetry'
 import Arsenal from '../../components/sections/Arsenal'
 import Contact from '../../components/sections/Contact'
+import Footer from '../../components/layout/Footer'
+import FloatingProjectsButton from '../../components/ui/FloatingProjectsButton'
 import { usePersona } from '../../components/theme/PersonaContext'
 
 export default function Home() {
@@ -61,6 +63,8 @@ export default function Home() {
       <Arsenal />
       <SectionDivider variant='fade' />
       <Contact />
+      <Footer />
+      <FloatingProjectsButton />
     </main>
   )
 }

@@ -453,7 +453,7 @@ function HolographicPhoneCore() {
                 <meshBasicMaterial color="#1D9E75" transparent opacity={0.2} />
               </mesh>
               <lineSegments position={[0, 1.2, 0.015]}>
-                <edgesGeometry attach="geometry" args={[1.2, 0.4]} />
+                <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(1.2, 0.4)]} />
                 <lineBasicMaterial attach="material" color="#1D9E75" transparent opacity={0.4} />
               </lineSegments>
             </group>

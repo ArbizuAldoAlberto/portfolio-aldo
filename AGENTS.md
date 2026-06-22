@@ -36,13 +36,15 @@ El ecosistema del portafolio e integraciones está dividido en dos capas estrict
 
 ---
 
-## ⚖️ Políticas Éticas (Calidad sobre Cantidad)
+## ⚖️ Políticas Éticas y de Integración (Calidad sobre Cantidad)
 
-Inspirado en el marco ético de `career-ops`, este sistema prioriza el respeto al tiempo de los reclutadores y la eficiencia profesional:
+Inspirado en el marco ético de `career-ops`, este sistema prioriza el respeto al tiempo de los reclutadores y la resiliencia operativa:
 
 1.  **NUNCA auto-postularse:** Los scripts o flujos autónomos pueden rellenar formularios, redactar respuestas y preparar PDFs, pero **siempre deben detenerse** antes de realizar el envío definitivo (`Submit` / `Apply`). El usuario es el único que toma la decisión final.
 2.  **Calidad sobre Volumen:** Promueve y prioriza postulaciones de alta adecuación cognitiva (puntuaciones de match altas). Desaconseja postulaciones masivas o de baja adecuación. Una postulación pulida a 5 compañías supera a un spam genérico a 50.
 3.  **Respetar la privacidad:** Ningún token de API, correo personal, número de teléfono o detalle sensible del usuario debe ser subido al repositorio público. El script `scan_security_gate.js` valida esto en el hook `prebuild`.
+4.  **Integraciones Resilientes (APIs):** Priorizar APIs públicas y gratuitas (ej. CoinGecko, Github REST). Siempre aplicar *Graceful Degradation* si una API falla. Ningún componente crítico (como WebGL o el layout principal) debe colapsar por un límite de cuota (Rate Limit 429) de un servicio externo.
+5.  **Internacionalización (i18n):** Está estrictamente prohibido usar texto hardcodeado (fijo) en español o inglés dentro de los componentes visuales. Todos los nuevos textos, títulos y métricas deben ser declarados e inyectados a través de `messages/en.json` y `messages/es.json` usando `useTranslations()`.
 
 ---
 
@@ -54,14 +56,19 @@ Para mantener el estatus inmersivo del portfolio, todo cambio o adición al fron
 *   Evita colores puros y planos. Utiliza gradientes suaves HSL y paletas oscuras premium con acentos tecnológicos (`--color-orbital-teal`, `--color-amber-gold`, etc.).
 *   Aplica efectos de desenfoque de fondo (`backdrop-filter: blur()`) combinados con bordes translúcidos en tarjetas de tipo Bento Grid (`glass-surface`).
 
-### 2. Optimización WebGL & React Three Fiber (R3F)
+### 2. Responsividad Mobile-First Crítica
+*   Ningún Agente de IA debe dar por finalizado un componente sin comprobar explícitamente su fluidez en `< 640px` (clases `sm:` en Tailwind).
+*   Se prohíbe forzar más de 2 columnas en dispositivos móviles (`grid-cols-2`). Todos los grids de métricas, paneles o dashboards deben empezar con `grid-cols-1 sm:grid-cols-2`.
+
+### 3. Optimización WebGL & React Three Fiber (R3F)
 *   Cualquier modelo 3D integrado debe ser decimado y optimizado utilizando compresión Draco o Meshoptimizer. **El tamaño máximo permitido para archivos `.glb` es de 400KB** para asegurar estabilidad en navegadores móviles.
 *   Implementa cargas asíncronas (`Suspense`) y animaciones dinámicas que no comprometan los 60 FPS (evita cálculos complejos en el hook `useFrame`).
+*   Los assets estáticos (ej. texturas CSS como `noise.svg`) no deben llamarse vía red (`url(...)`) si causan bloqueos de rendering. Deben incrustarse en línea como `Base64 Data URI`.
 
 ---
 
 ## 📂 Sincronización con Obsidian (Segundo Cerebro)
 
-El portafolio se conecta conceptualmente con la bitácora local de Obsidian a través de `NEXUS.md`. 
-*   Cualquier cambio de arquitectura importante debe documentarse en el registro de telemetría de NEXUS para que el usuario mantenga su bitácora sincronizada.
+El portafolio se conecta conceptualmente con la bitácora local de Obsidian a través de `.nexus_memory.md` y las anotaciones de despliegue. 
+*   Cualquier cambio de arquitectura importante, resolución de bugs o modificación del túnel de red (Cloudflare) debe documentarse en el registro de telemetría de NEXUS para que el usuario mantenga su bitácora sincronizada y evite repetir errores.
 *   Usa enlaces de tipo markdown estándar y evita referencias rotas a rutas relativas del sistema operativo.
