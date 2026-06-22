@@ -17,28 +17,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
-          cache-dependency-path: portfolio/dark-orbital/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install Dependencies
-        run: |
-          cd portfolio/dark-orbital || cd dark-orbital
-          npm ci
+        run: npm ci
 
       - name: Type Check
-        run: |
-          cd portfolio/dark-orbital || cd dark-orbital
-          npx tsc --noEmit
+        run: npx tsc --noEmit
 
       - name: ESLint Check
-        run: |
-          cd portfolio/dark-orbital || cd dark-orbital
-          npm run lint
+        run: npm run lint
 
       - name: Next.js Build
-        run: |
-          cd portfolio/dark-orbital || cd dark-orbital
-          npm run build
+        run: npm run build
         env:
           NEXT_PUBLIC_RESEND_API_KEY: ${{ secrets.NEXT_PUBLIC_RESEND_API_KEY }}
