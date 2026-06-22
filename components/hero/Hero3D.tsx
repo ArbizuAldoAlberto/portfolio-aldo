@@ -186,6 +186,9 @@ function CyberOrganicTree() {
   // Load models dynamically based on persona
   const modelPath = persona === 'engineer' ? '/models/phone.glb' : '/models/tree.glb'
   const { scene } = useGLTF(modelPath)
+  
+  // CLONAR LA ESCENA: Evita mutar el caché global de useGLTF, previniendo el WebGL Context Lost
+  const clonedScene = useMemo(() => scene.clone(), [scene])
 
   const colorsMap = useMemo(() => ({
     engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
@@ -196,7 +199,9 @@ function CyberOrganicTree() {
   const currentColors = useMemo(() => colorsMap[persona] || colorsMap.engineer, [persona, colorsMap])
 
   useEffect(() => {
-    scene.traverse((child) => {
+    const materialsToDispose: THREE.Material[] = []
+
+    clonedScene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
         child.receiveShadow = true
@@ -216,9 +221,15 @@ function CyberOrganicTree() {
         })
         child.material = mat
         treeMaterialRef.current = mat
+        materialsToDispose.push(mat)
       }
     })
-  }, [scene, currentColors])
+
+    // CLEANUP: Evita memory leak de WebGL eliminando los materiales de la GPU
+    return () => {
+      materialsToDispose.forEach(mat => mat.dispose())
+    }
+  }, [clonedScene, currentColors, persona])
 
   const nodeCount = 32
   const maxLines = 120
@@ -525,7 +536,7 @@ function CyberOrganicTree() {
     <group ref={groupRef}>
       {/* 🌳 CYBER-ORGANIC TRUNK AND BRANCHES */}
       <group ref={trunkRef} onClick={(e) => { e.stopPropagation(); handleTreeClick() }}>
-        <primitive object={scene} scale={[1.5, 1.5, 1.5]} position={[0, -2.4, 0]} />
+        <primitive object={clonedScene} scale={[1.5, 1.5, 1.5]} position={[0, -2.4, 0]} />
 
         {/* Pulsing sap cyber rings around trunk */}
         <mesh ref={ring1Ref} position={[0.02, -1.8, 0]} rotation={[0.1, 0, 0.05]}>

@@ -48,19 +48,19 @@ export default function PersonaSwitcher() {
               }}
               onMouseEnter={playTick}
               className={`relative flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-space text-[9px] sm:text-[10px] font-bold tracking-widest transition-colors cursor-pointer select-none snap-center flex-shrink-0 ${
-                isActive ? 'text-white' : 'text-[var(--color-mist-gray)]/50 hover:text-[var(--color-mist-gray)]'
+                isActive ? 'text-black' : 'text-[var(--color-mist-gray)]/60 hover:text-[var(--color-mist-gray)]'
               }`}
             >
               {isActive && (
                 <motion.div
-                  layoutId="active-persona"
-                  className="absolute inset-0 bg-[var(--color-orbital-teal)] rounded-full shadow-[0_0_15px_var(--color-space-border)] animate-pulse"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  layoutId="active-persona-bg"
+                  className="absolute inset-0 bg-[var(--color-orbital-teal)] rounded-full shadow-[0_0_15px_rgba(0,255,102,0.5)] z-0"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
-              <span className="relative z-10 flex items-center gap-1.5">
-                <Icon size={12} className={isActive ? 'text-black' : ''} style={{ color: isActive ? '#000000' : '' }} />
-                <span className={isActive ? 'text-black' : ''}>{profile.label}</span>
+              <span className="relative z-10 flex items-center gap-1.5 drop-shadow-md">
+                <Icon size={12} className={isActive ? 'text-black' : 'text-current'} />
+                <span className={isActive ? 'text-black font-extrabold' : ''}>{profile.label}</span>
               </span>
             </button>
           )
