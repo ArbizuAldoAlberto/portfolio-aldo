@@ -8,7 +8,7 @@ import OfflineSimulator from '../../components/sections/OfflineSimulator'
 import Services from '../../components/sections/Services'
 import Projects from '../../components/sections/Projects'
 import StudioLab from '../../components/sections/StudioLab'
-import CryptoLab from '../../components/sections/CryptoLab'
+import TitanFlow from '../../components/sections/TitanFlow'
 import NexusTelemetry from '../../components/sections/NexusTelemetry'
 import Arsenal from '../../components/sections/Arsenal'
 import Contact from '../../components/sections/Contact'
@@ -48,7 +48,7 @@ export default function Home() {
 
       {(persona === 'security' || persona === 'engineer') && (
         <>
-          <CryptoLab />
+          <TitanFlow />
           <SectionDivider variant='fade' />
         </>
       )}

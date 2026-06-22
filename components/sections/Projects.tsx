@@ -409,6 +409,14 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                   </MagneticButton>
                 </>
               )}
+              
+              <MagneticButton
+                href="/#services"
+                variant="outline"
+                className="group/link w-full md:w-auto justify-center border-[var(--color-orbital-teal)] text-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)] hover:text-black"
+              >
+                <span>{t('labels.b2b')}</span>
+              </MagneticButton>
             </div>
           </div>
         </div>

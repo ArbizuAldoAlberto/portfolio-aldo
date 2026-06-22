@@ -6,8 +6,8 @@ import { useTranslations } from 'next-intl'
 const COINS = ['hedera-hashgraph', 'tron', 'the-graph']
 const SYMBOLS: Record<string, string> = { 'hedera-hashgraph': 'HBAR', 'tron': 'TRX', 'the-graph': 'GRT' }
 
-export default function CryptoLab() {
-  const t = useTranslations('CryptoLab')
+export default function TitanFlow() {
+  const t = useTranslations('TitanFlow')
   const [prices, setPrices] = useState<any>({})
   
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function CryptoLab() {
   }, [])
 
   return (
-    <section id="crypto" className="relative py-32 bg-[var(--color-deep-space)]/30 border-t border-[var(--color-space-border)]">
+    <section id="titan-flow" className="relative py-32 bg-[var(--color-deep-space)]/30 border-t border-[var(--color-space-border)]">
 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

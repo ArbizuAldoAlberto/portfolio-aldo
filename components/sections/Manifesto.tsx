@@ -10,6 +10,7 @@ export default function Manifesto() {
   const { persona } = usePersona()
   const t = useTranslations(`Manifesto.${persona}`)
   const tTime = useTranslations('Manifesto.timeline')
+  const tRoot = useTranslations('Manifesto')
   
   const sectionRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLDivElement>(null)
@@ -152,6 +153,32 @@ export default function Manifesto() {
             </motion.div>
           ))}
         </div>
+
+        {/* Philanthropy Proof */}
+        {persona === 'engineer' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-20 glass-surface p-6 border-l-4 border-l-[var(--color-orbital-teal)] max-w-3xl mx-auto md:mx-0"
+          >
+            <h4 className="font-space font-bold text-white mb-2">{tRoot('philanthropy.title')}</h4>
+            <p className="font-mono text-sm text-[var(--color-mist-gray)] mb-4">{tRoot('philanthropy.desc')}</p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="bg-black/30 p-4 rounded border border-white/5 flex-1">
+                <div className="font-space text-[var(--color-orbital-teal)] text-xs mb-1">PAWHERO SBT ISSUED</div>
+                <div className="font-mono text-white text-lg">14,230</div>
+              </div>
+              <div className="bg-black/30 p-4 rounded border border-white/5 flex-1">
+                <div className="font-space text-[var(--color-orbital-teal)] text-xs mb-1">ECOCONNECT TREES</div>
+                <div className="font-mono text-white text-lg">8,450 kg CO2</div>
+              </div>
+            </div>
+            <div className="mt-4 text-xs font-mono text-[var(--color-mist-gray)]/50 text-right">
+              {tRoot('philanthropy.live')}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   )

@@ -115,6 +115,11 @@
       "item4": "Cybersecurity Diploma UNGS · TechZone offline-first sync",
       "item5": "Analyst at Maipu Seguridad · VigiTrack core architecture",
       "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration"
+    },
+    "philanthropy": {
+      "title": "On-Chain Philanthropy Proof",
+      "desc": "Transparency is mandatory. Live verification of SBT tokens emitted to NGOs and ecological funds on Base L2.",
+      "live": "[ Live smart contract data - Base Sepolia L2 ]"
     }
   },
   "OfflineSimulator": {
@@ -228,7 +233,7 @@
     "pipelineLabel": "AI-ASSISTED 3D PIPELINE:",
     "pipelineDesc": "\"The synergy between neural generation with Pixal3D and optimization in Blender redefines development times. Complex assets that previously took days are now reconstructed and polished in minutes.\""
   },
-  "CryptoLab": {
+  "TitanFlow": {
     "sectionLabel": "TITAN FLOW",
     "titleLine1": "I don't just invest in the market —",
     "titleLine2": "I build my own tools.",
@@ -397,7 +402,8 @@
       "solution": "SOLUTION:",
       "stack": "STACK:",
       "demo": "Live Demo",
-      "apk": "Android APK"
+      "apk": "Android APK",
+      "b2b": "License B2B"
     },
     "projects": {
       "titanflow": {
