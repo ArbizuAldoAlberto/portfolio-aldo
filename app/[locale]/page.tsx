@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+
 import Hero from '../../components/hero/Hero'
 import TechMarquee from '../../components/ui/TechMarquee'
 import Manifesto from '../../components/sections/Manifesto'

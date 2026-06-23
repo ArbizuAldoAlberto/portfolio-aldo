@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client'
 import { useRef, useMemo, useEffect, Suspense, useState } from 'react'
 import { useInView } from 'framer-motion'

@@ -70,9 +70,9 @@ export default function Hero() {
       c3Desc: t(`${persona}.c3Desc`),
       ctaPrimary: t(`${persona}.ctaPrimary`),
       ctaSecondary: t(`${persona}.ctaSecondary`),
-      cvName: persona === 'engineer' ? 'CV_Aldo_Arbizu_Software_Engineer.md' : 
-              persona === 'agtech' ? 'CV_Aldo_Arbizu_AgTech.md' : 
-              'CV_Aldo_Arbizu_Cybersecurity.md'
+      cvName: persona === 'engineer' ? 'CV_Aldo_Arbizu_Software_Engineer.pdf' : 
+              persona === 'agtech' ? 'CV_Aldo_Arbizu_AgTech.pdf' : 
+              'CV_Aldo_Arbizu_Cybersecurity.pdf'
     }
   }
 
@@ -192,7 +192,7 @@ export default function Hero() {
                 </MagneticWrapper>
 
                 <MagneticWrapper strength={20} className="w-full md:w-auto">
-                  <a href="#contact" className="btn-outline bg-black/40 backdrop-blur-sm flex justify-center w-full md:w-auto">
+                  <a href="#services" className="btn-outline bg-black/40 backdrop-blur-sm flex justify-center w-full md:w-auto">
                     {content.ctaSecondary}
                   </a>
                 </MagneticWrapper>

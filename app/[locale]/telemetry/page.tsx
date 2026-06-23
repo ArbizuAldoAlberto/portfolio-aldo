@@ -1,6 +1,6 @@
 import { getAllArticles } from '../../../lib/telemetry-loader';
 import ArticleCard from '../../../components/ui/ArticleCard';
-import GlitchText from '../../../components/ui/GlitchText';
+;
 import RevealText from '../../../components/ui/RevealText';
 import { Radar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';

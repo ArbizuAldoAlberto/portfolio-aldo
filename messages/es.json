@@ -29,8 +29,8 @@
       "c2Desc": "Integración nativa profunda, optimización de bundles JS y resolución de cuellos de botella en el bridge.",
       "c3Title": "State Management & Conflict Resolution",
       "c3Desc": "Manejo de estado complejo (Zustand/Redux) y resolución criptográfica de conflictos de sincronización.",
-      "ctaPrimary": "Agendar Llamada",
-      "ctaSecondary": "Agendar Code Review"
+      "ctaPrimary": "Explorar Arquitectura",
+      "ctaSecondary": "Servicios B2B"
     },
     "agtech": {
       "status": "FIELD OPERATIONS · AGTECH & LOGISTICS",
@@ -55,8 +55,8 @@
       "c2Desc": "Implementación de TensorFlow Lite para validación de identidad sin depender de servidores externos.",
       "c3Title": "Strict RLS & Data Sovereignty",
       "c3Desc": "Políticas de seguridad a nivel de fila (Supabase/PostgreSQL) para blindaje de auditorías corporativas.",
-      "ctaPrimary": "Agendar Llamada",
-      "ctaSecondary": "Ver Reportes"
+      "ctaPrimary": "Explorar Proyectos",
+      "ctaSecondary": "Consultar Disponibilidad"
     },
     "downloadCv": "Descargar CV",
     "personaLabels": {
@@ -614,6 +614,55 @@
           "solution": "Estilo cyber-dark con alto contraste verde neón y volt cian para mayor legibilidad."
         }
       }
+    },
+  "Services": {
+    "sectionLabel": "Servicios B2B",
+    "title": "Arquitectura & Desarrollo",
+    "options": {
+      "mobile": {
+        "title": "Mobile Apps (Offline-First)",
+        "desc": "Apps móviles (React Native & Expo) con sincronización en segundo plano y SQLite WAL. Cero pérdida de datos sin red."
+      },
+      "saas": {
+        "title": "SaaS & Web3 Architecture",
+        "desc": "Desarrollo web escalable con Next.js, PostgreSQL y WebGL. Integración híbrida Stripe/Base L2 para pagos."
+      },
+      "n8n": {
+        "title": "Intelligent n8n Workflows",
+        "desc": "Automatización con n8n para capturar leads, orquestar flujos y automatizar tareas repetitivas 24/7."
+      },
+      "security": {
+        "title": "Security & 3D Audit",
+        "desc": "Auditoría de seguridad (OWASP MASVS) y diseño de experiencias 3D optimizadas en React Three Fiber."
+      }
+    },
+    "budget": {
+      "title": "Estimador de Presupuesto",
+      "base": "USD / Base",
+      "desc": "Este es un valor base referencial. Al hacer clic en Iniciar Proyecto, se abrirá un flujo rápido para detallar los requerimientos exactos.",
+      "btnIdle": "Iniciar Proyecto B2B",
+      "btnLinking": "Estableciendo conexión...",
+      "btnProcessing": "Procesando protocolo seguro...",
+      "btnDone": "Formulario Listo"
+    },
+    "process": {
+      "step1": "1. Discovery",
+      "step1Desc": "Análisis técnico y objetivos.",
+      "step2": "2. Arquitectura",
+      "step2Desc": "Diseño del stack y BD.",
+      "step3": "3. Desarrollo",
+      "step3Desc": "Sprints iterativos ágiles.",
+      "step4": "4. QA & Security",
+      "step4Desc": "Auditorías de estrés.",
+      "step5": "5. Despliegue",
+      "step5Desc": "Handover y monitoreo."
+    },
+    "modal": {
+      "title": "Proyecto Preparado",
+      "desc": "El presupuesto base estimado es de",
+      "nameLabel": "Nombre Completo / Empresa",
+      "emailLabel": "Correo Corporativo",
+      "btn": "Solicitar Llamada Técnica"
     }
   }
 }

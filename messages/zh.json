@@ -29,8 +29,8 @@
       "c2Desc": "处理离线队列并在网络恢复时解析状态。",
       "c3Title": "全栈深度",
       "c3Desc": "从 React Native UI 一直到 PostgreSQL 和 n8n。",
-      "ctaPrimary": "启动协议",
-      "ctaSecondary": "拦截传输"
+      "ctaPrimary": "探索模块",
+      "ctaSecondary": "B2B服务"
     },
     "agtech": {
       "status": "现场协议 // 农业科技",
@@ -42,8 +42,8 @@
       "c2Desc": "为农村地区的低端移动设备进行优化。",
       "c3Title": "生物特征反馈",
       "c3Desc": "在操作现场提供触觉和听觉响应。",
-      "ctaPrimary": "分析数据",
-      "ctaSecondary": "请求审计"
+      "ctaPrimary": "探索架构",
+      "ctaSecondary": "B2B服务"
     },
     "security": {
       "status": "安全许可 // 赛博安全",
@@ -614,6 +614,55 @@
           "solution": "Cyber-dark style with high contrast neon green and cyan volt for readability."
         }
       }
+    },
+  "Services": {
+    "sectionLabel": "B2B服务",
+    "title": "架构与开发",
+    "options": {
+      "mobile": {
+        "title": "移动应用 (离线优先)",
+        "desc": "具有后台同步和 SQLite WAL 的移动应用程序（React Native 和 Expo）。断网零数据丢失。"
+      },
+      "saas": {
+        "title": "SaaS与Web3架构",
+        "desc": "使用 Next.js、PostgreSQL 和 WebGL 进行可扩展的 Web 开发。混合 Stripe/Base L2 支付集成。"
+      },
+      "n8n": {
+        "title": "智能n8n工作流",
+        "desc": "使用 n8n 自动化捕获线索，协调流程并实现全天候自动化。"
+      },
+      "security": {
+        "title": "安全与3D审计",
+        "desc": "React Three Fiber 中的安全审计 (OWASP MASVS) 和优化的 3D 体验设计。"
+      }
+    },
+    "budget": {
+      "title": "预算估算器",
+      "base": "USD / 基准",
+      "desc": "这是一个基准参考值。点击开始项目将打开一个快速流程来详细说明确切的要求。",
+      "btnIdle": "启动B2B项目",
+      "btnLinking": "正在建立连接...",
+      "btnProcessing": "正在处理安全协议...",
+      "btnDone": "表单就绪"
+    },
+    "process": {
+      "step1": "1. 发现",
+      "step1Desc": "技术分析与目标。",
+      "step2": "2. 架构",
+      "step2Desc": "技术栈与数据库设计。",
+      "step3": "3. 开发",
+      "step3Desc": "敏捷迭代开发。",
+      "step4": "4. 质量保证与安全",
+      "step4Desc": "压力审计。",
+      "step5": "5. 部署",
+      "step5Desc": "移交与监控。"
+    },
+    "modal": {
+      "title": "项目就绪",
+      "desc": "估计的基础预算为",
+      "nameLabel": "全名 / 公司",
+      "emailLabel": "企业邮箱",
+      "btn": "请求技术通话"
     }
   }
 }

@@ -29,8 +29,8 @@
       "c2Desc": "Deep native integration, JS bundle optimization, and bridge bottleneck resolution.",
       "c3Title": "State Management & Conflict Resolution",
       "c3Desc": "Complex state management (Zustand/Redux) and cryptographic resolution of synchronization conflicts.",
-      "ctaPrimary": "Schedule Call",
-      "ctaSecondary": "Schedule Code Review"
+      "ctaPrimary": "Explore Architecture",
+      "ctaSecondary": "B2B Services"
     },
     "agtech": {
       "status": "FIELD OPERATIONS · AGTECH & LOGISTICS",
@@ -42,8 +42,8 @@
       "c2Desc": "Implementation of offline vector maps (Mapbox) and P2P messaging networks (Bluetooth/LoRa).",
       "c3Title": "Topography & 3D Cubication",
       "c3Desc": "On-device volumetric calculations and WebGL/Three.js rendering for field appraisals.",
-      "ctaPrimary": "Schedule Call",
-      "ctaSecondary": "Consult Feasibility"
+      "ctaPrimary": "Explore Projects",
+      "ctaSecondary": "B2B Services"
     },
     "security": {
       "status": "B2B SECURITY SPECIALIST · OPS & COMPLIANCE",
@@ -55,8 +55,8 @@
       "c2Desc": "TensorFlow Lite implementation for identity validation without relying on external servers.",
       "c3Title": "Strict RLS & Data Sovereignty",
       "c3Desc": "Row-level security policies (Supabase/PostgreSQL) to shield corporate audits.",
-      "ctaPrimary": "Schedule Call",
-      "ctaSecondary": "View Reports"
+      "ctaPrimary": "Explore Modules",
+      "ctaSecondary": "B2B Services"
     },
     "downloadCv": "Download CV",
     "personaLabels": {
@@ -609,10 +609,59 @@
           "problem": "Collapse of telephone infrastructure cutting off vulnerable communities.",
           "solution": "Human Solidarity Portal with simulated LoRa Mesh P2P messaging and offline GPS maps."
         },
-        "agtech": {
           "problem": "Classic careless military design that is unreadable in night conditions.",
           "solution": "Cyber-dark style with high contrast neon green and cyan volt for readability."
         }
+      }
+    },
+    "Services": {
+      "sectionLabel": "B2B Services",
+      "title": "Architecture & Development",
+      "options": {
+        "mobile": {
+          "title": "Mobile Apps (Offline-First)",
+          "desc": "Mobile apps (React Native & Expo) with background sync and SQLite WAL. Zero data loss without network."
+        },
+        "saas": {
+          "title": "SaaS & Web3 Architecture",
+          "desc": "Scalable web development with Next.js, PostgreSQL and WebGL. Hybrid Stripe/Base L2 integration for payments."
+        },
+        "n8n": {
+          "title": "Intelligent n8n Workflows",
+          "desc": "Automation with n8n to capture leads, orchestrate flows and automate repetitive tasks 24/7."
+        },
+        "security": {
+          "title": "Security & 3D Audit",
+          "desc": "Security audit (OWASP MASVS) and optimized 3D experience design in React Three Fiber."
+        }
+      },
+      "budget": {
+        "title": "Budget Estimator",
+        "base": "USD / Base",
+        "desc": "This is a base reference value. Clicking Start Project will open a quick flow to detail the exact requirements.",
+        "btnIdle": "Start B2B Project",
+        "btnLinking": "Establishing connection...",
+        "btnProcessing": "Processing secure protocol...",
+        "btnDone": "Form Ready"
+      },
+      "process": {
+        "step1": "1. Discovery",
+        "step1Desc": "Technical analysis and goals.",
+        "step2": "2. Architecture",
+        "step2Desc": "Stack and DB design.",
+        "step3": "3. Development",
+        "step3Desc": "Agile iterative sprints.",
+        "step4": "4. QA & Security",
+        "step4Desc": "Stress audits.",
+        "step5": "5. Deployment",
+        "step5Desc": "Handover and monitoring."
+      },
+      "modal": {
+        "title": "Project Ready",
+        "desc": "The estimated base budget is",
+        "nameLabel": "Full Name / Company",
+        "emailLabel": "Corporate Email",
+        "btn": "Request Technical Call"
       }
     }
   }
