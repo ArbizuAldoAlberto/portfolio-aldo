@@ -1,7 +1,7 @@
 'use client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Grid } from 'lucide-react'
+import { Briefcase } from 'lucide-react'
 
 export default function FloatingProjectsButton() {
   const [visible, setVisible] = useState(false)
@@ -31,7 +31,7 @@ export default function FloatingProjectsButton() {
           className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-orbital-teal)] text-black shadow-[0_0_20px_var(--color-orbital-teal)] hover:scale-110 transition-transform cursor-pointer group"
           aria-label="Ir a Proyectos"
         >
-          <Grid className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+          <Briefcase className="w-6 h-6 group-hover:rotate-12 transition-transform" />
         </motion.a>
       )}
     </AnimatePresence>

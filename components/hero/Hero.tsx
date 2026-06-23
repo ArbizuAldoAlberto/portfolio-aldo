@@ -6,6 +6,7 @@ import GlitchText from '../ui/GlitchText'
 import { usePersona } from '../theme/PersonaContext'
 import PersonaSwitcher from '../ui/PersonaSwitcher'
 import { useTranslations } from 'next-intl'
+import { LayoutDashboard } from 'lucide-react'
 
 const Hero3D = dynamic(() => import('./Hero3D'), { ssr: false })
 
@@ -114,6 +115,7 @@ export default function Hero() {
               key={persona}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
+              dragSnapToOrigin={true}
               dragElastic={0.2}
               onDragEnd={handleDragEnd}
               initial={{ opacity: 0, y: 15, filter: 'blur(5px)' }}
@@ -187,7 +189,7 @@ export default function Hero() {
                 <MagneticWrapper strength={30} className="w-full md:w-auto">
                   <a href="#projects" className="btn-primary flex items-center justify-center gap-2 w-full md:w-auto">
                     <span>{content.ctaPrimary}</span>
-                    <span className="font-sans text-xs">→</span>
+                    <LayoutDashboard size={16} />
                   </a>
                 </MagneticWrapper>
 
