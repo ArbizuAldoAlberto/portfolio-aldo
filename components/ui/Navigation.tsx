@@ -36,6 +36,10 @@ export default function Navigation() {
           <span className="hidden sm:inline">{t('hero').toUpperCase()}</span>
         </Link>
       )}
+      <Link href="/#store" className='px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-full text-[var(--color-mist-gray)] hover:text-white transition-all text-xs font-space tracking-widest flex items-center gap-2'>
+        <span className="text-[var(--color-orbital-teal)] text-[10px]">🛒</span>
+        <span className="hidden sm:inline">STORE</span>
+      </Link>
       <Link href="/telemetry" className='px-4 py-2 bg-black/50 backdrop-blur-md border border-white/10 hover:border-[var(--color-orbital-teal)]/50 rounded-full text-[var(--color-mist-gray)] hover:text-white transition-all text-xs font-space tracking-widest flex items-center gap-2'>
         <BookOpen size={12} className="text-[var(--color-orbital-teal)]" />
         <span className="hidden sm:inline">TELEMETRY</span>

@@ -7,6 +7,7 @@ import SectionDivider from '../../components/ui/SectionDivider'
 import OfflineSimulator from '../../components/sections/OfflineSimulator'
 import Services from '../../components/sections/Services'
 import Projects from '../../components/sections/Projects'
+import DeveloperStore from '../../components/sections/DeveloperStore'
 import StudioLab from '../../components/sections/StudioLab'
 import TitanFlow from '../../components/sections/TitanFlow'
 import NexusTelemetry from '../../components/sections/NexusTelemetry'
@@ -28,6 +29,8 @@ export default function Home() {
       <SectionDivider variant='wave' />
       <Projects />
       <SectionDivider variant='diagonal' />
+      <DeveloperStore />
+      <SectionDivider variant='fade' />
       
       {persona === 'engineer' && (
         <>
