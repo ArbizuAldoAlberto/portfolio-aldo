@@ -42,5 +42,6 @@ next-env.d.ts
 
 # large files and other repos
 *.tar
+*.tar.gz
 aaa-source/
 debug_output*.html

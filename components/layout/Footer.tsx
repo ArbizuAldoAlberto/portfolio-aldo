@@ -15,6 +15,9 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center gap-6">
+          <a href="https://arbizualdo.gumroad.com" target="_blank" rel="noreferrer" className="font-space text-xs uppercase tracking-widest text-[var(--color-mist-gray)] hover:text-[var(--color-orbital-teal)] transition-colors border border-[var(--color-space-border)] px-3 py-1 rounded-full bg-white/5">
+            Gumroad Store
+          </a>
           <a href="https://github.com/ArbizuAldoAlberto" target="_blank" rel="noreferrer" className="text-[var(--color-mist-gray)] hover:text-[var(--color-orbital-teal)] transition-colors">
             <span className="sr-only">GitHub</span>
             <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

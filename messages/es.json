@@ -1,9 +1,9 @@
 {
   "Metadata": {
-    "title": "Aldo Arbizu | B2B Mobile & SaaS Architect",
-    "description": "Desarrollador Senior React Native y Product Engineer.",
+    "title": "Aldo Arbizu | Product Engineer & Especialista DeFi",
+    "description": "Especialista en Arquitecturas Móviles Offline-First y Soluciones Blockchain. Fundador de Arbizu Labs.",
     "ogTitle": "Aldo Arbizu",
-    "ogDescription": "Especialista Offline-First",
+    "ogDescription": "Especialista Offline-First y DeFi",
     "twitterTitle": "Aldo Arbizu",
     "twitterDescription": "Software resiliente"
   },
@@ -20,9 +20,9 @@
   },
   "Hero": {
     "engineer": {
-      "status": "OFFLINE-FIRST ENGINEER · MOBILE SYSTEMS",
-      "badgeText": "● Ingeniero Especialista · React Native & Local Sync",
-      "sub": "Product Engineer · Rescato apps que fallan sin conexión. Especialista en sincronización atómica y bases de datos locales.",
+      "status": "OFFLINE-FIRST ENGINEER · SISTEMAS MÓVILES Y DEFI",
+      "badgeText": "● Product Engineer · React Native & Especialista DeFi",
+      "sub": "Especialista en Arquitecturas Móviles Offline-First y Soluciones Blockchain. Construyo sistemas resilientes para aplicaciones de misión crítica. Fundador de Arbizu Labs. Orador en ETH Buenos Aires 2026.",
       "c1Title": "Local Sync Core (SQLite WAL + WatermelonDB)",
       "c1Desc": "Arquitecturas que persisten y sincronizan datos en background, garantizando cero pérdida operativa sin red.",
       "c2Title": "React Native (Expo Bare Workflow)",
@@ -399,7 +399,7 @@
     "labels": {
       "featured": "⭐ RELEVANTE",
       "problem": "PROBLEMA:",
-      "solution": "SOLUTION:",
+      "solution": "SOLUCIÓN:",
       "stack": "STACK:",
       "demo": "Demo En Vivo",
       "apk": "Android APK",
@@ -614,56 +614,6 @@
           "solution": "Estilo cyber-dark con alto contraste verde neón y volt cian para mayor legibilidad."
         }
       }
-    },
-  "Services": {
-    "sectionLabel": "Servicios B2B",
-    "title": "Arquitectura & Desarrollo",
-    "options": {
-      "mobile": {
-        "title": "Mobile Apps (Offline-First)",
-        "desc": "Apps móviles (React Native & Expo) con sincronización en segundo plano y SQLite WAL. Cero pérdida de datos sin red."
-      },
-      "saas": {
-        "title": "SaaS & Web3 Architecture",
-        "desc": "Desarrollo web escalable con Next.js, PostgreSQL y WebGL. Integración híbrida Stripe/Base L2 para pagos."
-      },
-      "n8n": {
-        "title": "Intelligent n8n Workflows",
-        "desc": "Automatización con n8n para capturar leads, orquestar flujos y automatizar tareas repetitivas 24/7."
-      },
-      "security": {
-        "title": "Security & 3D Audit",
-        "desc": "Auditoría de seguridad (OWASP MASVS) y diseño de experiencias 3D optimizadas en React Three Fiber."
-      }
-    },
-    "budget": {
-      "title": "Estimador de Presupuesto",
-      "base": "USD / Base",
-      "desc": "Este es un valor base referencial. Al hacer clic en Iniciar Proyecto, se abrirá un flujo rápido para detallar los requerimientos exactos.",
-      "btnIdle": "Iniciar Proyecto B2B",
-      "btnLinking": "Estableciendo conexión...",
-      "btnProcessing": "Procesando protocolo seguro...",
-      "btnDone": "Formulario Listo"
-    },
-    "process": {
-      "step1": "1. Discovery",
-      "step1Desc": "Análisis técnico y objetivos.",
-      "step2": "2. Arquitectura",
-      "step2Desc": "Diseño del stack y BD.",
-      "step3": "3. Desarrollo",
-      "step3Desc": "Sprints iterativos ágiles.",
-      "step4": "4. QA & Security",
-      "step4Desc": "Auditorías de estrés.",
-      "step5": "5. Despliegue",
-      "step5Desc": "Handover y monitoreo."
-    },
-    "modal": {
-      "title": "Proyecto Preparado",
-      "desc": "El presupuesto base estimado es de",
-      "nameLabel": "Nombre Completo / Empresa",
-      "emailLabel": "Correo Corporativo",
-      "btn": "Solicitar Llamada Técnica"
     }
   }
-}
 }

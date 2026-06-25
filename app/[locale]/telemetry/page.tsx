@@ -35,7 +35,7 @@ export default async function TelemetryIndex({ params }: { params: Promise<{ loc
         <div className="mb-16">
           <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs text-[var(--color-mist-gray)] hover:text-white transition-colors mb-8 group">
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-            {locale === 'en' ? 'Return to Home' : 'Volver a Inicio'}
+            {locale === 'en' ? 'Return to Home' : locale === 'zh' ? '返回主页' : 'Volver a Inicio'}
           </Link>
           <div className="flex items-center gap-3 mb-4">
             <Radar size={16} className="text-[var(--color-orbital-teal)] animate-pulse" />

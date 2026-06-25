@@ -399,7 +399,7 @@
     "labels": {
       "featured": "⭐ RELEVANT",
       "problem": "PROBLEM:",
-      "solution": "SOLUTION:",
+      "solution": "解决方案:",
       "stack": "STACK:",
       "demo": "Live Demo",
       "apk": "Android APK",
@@ -615,31 +615,6 @@
         }
       }
     },
-  "Services": {
-    "sectionLabel": "B2B服务",
-    "title": "架构与开发",
-    "options": {
-      "mobile": {
-        "title": "移动应用 (离线优先)",
-        "desc": "具有后台同步和 SQLite WAL 的移动应用程序（React Native 和 Expo）。断网零数据丢失。"
-      },
-      "saas": {
-        "title": "SaaS与Web3架构",
-        "desc": "使用 Next.js、PostgreSQL 和 WebGL 进行可扩展的 Web 开发。混合 Stripe/Base L2 支付集成。"
-      },
-      "n8n": {
-        "title": "智能n8n工作流",
-        "desc": "使用 n8n 自动化捕获线索，协调流程并实现全天候自动化。"
-      },
-      "security": {
-        "title": "安全与3D审计",
-        "desc": "React Three Fiber 中的安全审计 (OWASP MASVS) 和优化的 3D 体验设计。"
-      }
-    },
-    "budget": {
-      "title": "预算估算器",
-      "base": "USD / 基准",
-      "desc": "这是一个基准参考值。点击开始项目将打开一个快速流程来详细说明确切的要求。",
       "btnIdle": "启动B2B项目",
       "btnLinking": "正在建立连接...",
       "btnProcessing": "正在处理安全协议...",

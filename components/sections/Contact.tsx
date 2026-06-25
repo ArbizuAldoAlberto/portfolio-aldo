@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Send, Terminal, Building, User, ArrowRight, CheckCircle2, AlertCircle, RefreshCw, MessageSquare, Calendar } from 'lucide-react';
 import { usePersona } from '../theme/PersonaContext';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { submitLead } from '../../lib/lead-actions';
 import { trackEvent } from '../../lib/analytics';
 
@@ -12,6 +12,7 @@ export default function Contact() {
   const [status, setStatus] = useState<{ success: boolean; message: string } | null>(null);
   const { persona } = usePersona();
   const t = useTranslations('Contact');
+  const locale = useLocale();
 
   const getPersonaContent = () => {
     switch (persona) {
@@ -165,7 +166,7 @@ export default function Contact() {
                     required
                     disabled={loading}
                     className="w-full bg-black/50 border border-[var(--color-space-border)] rounded-md px-4 py-3 font-mono text-sm text-white focus:outline-none focus:border-[var(--color-orbital-teal)] focus:ring-1 focus:ring-[var(--color-orbital-teal)] transition-all disabled:opacity-50"
-                    placeholder="john@empresa.com"
+                    placeholder={locale === 'es' ? "john@empresa.com" : "john@company.com"}
                   />
                 </div>
               </div>

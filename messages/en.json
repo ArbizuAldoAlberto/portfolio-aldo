@@ -1,9 +1,9 @@
 {
   "Metadata": {
-    "title": "Aldo Arbizu | B2B Mobile & SaaS Architect",
-    "description": "Senior React Native Developer and Product Engineer.",
+    "title": "Aldo Arbizu | Product Engineer & DeFi Specialist",
+    "description": "Specialist in Offline-First Mobile Architectures and Blockchain Solutions. Founder of Arbizu Labs.",
     "ogTitle": "Aldo Arbizu",
-    "ogDescription": "Offline-First Specialist",
+    "ogDescription": "Offline-First & DeFi Specialist",
     "twitterTitle": "Aldo Arbizu",
     "twitterDescription": "Resilient software"
   },
@@ -20,9 +20,9 @@
   },
   "Hero": {
     "engineer": {
-      "status": "OFFLINE-FIRST ENGINEER · MOBILE SYSTEMS",
-      "badgeText": "● Specialist Engineer · React Native & Local Sync",
-      "sub": "Product Engineer · I rescue apps that fail offline. Specialist in atomic synchronization and local databases.",
+      "status": "OFFLINE-FIRST ENGINEER · MOBILE & DEFI SYSTEMS",
+      "badgeText": "● Product Engineer · React Native & DeFi Specialist",
+      "sub": "Specialist in Offline-First Mobile Architectures & Blockchain Solutions. I build resilient systems for mission-critical applications. Founder of Arbizu Labs. Speaker at ETH Buenos Aires 2026.",
       "c1Title": "Local Sync Core (SQLite WAL + WatermelonDB)",
       "c1Desc": "Architectures that persist and sync data in the background, guaranteeing zero operational loss without a network.",
       "c2Title": "React Native (Expo Bare Workflow)",
@@ -613,55 +613,6 @@
           "solution": "Cyber-dark style with high contrast neon green and cyan volt for readability."
         }
       }
-    },
-    "Services": {
-      "sectionLabel": "B2B Services",
-      "title": "Architecture & Development",
-      "options": {
-        "mobile": {
-          "title": "Mobile Apps (Offline-First)",
-          "desc": "Mobile apps (React Native & Expo) with background sync and SQLite WAL. Zero data loss without network."
-        },
-        "saas": {
-          "title": "SaaS & Web3 Architecture",
-          "desc": "Scalable web development with Next.js, PostgreSQL and WebGL. Hybrid Stripe/Base L2 integration for payments."
-        },
-        "n8n": {
-          "title": "Intelligent n8n Workflows",
-          "desc": "Automation with n8n to capture leads, orchestrate flows and automate repetitive tasks 24/7."
-        },
-        "security": {
-          "title": "Security & 3D Audit",
-          "desc": "Security audit (OWASP MASVS) and optimized 3D experience design in React Three Fiber."
-        }
-      },
-      "budget": {
-        "title": "Budget Estimator",
-        "base": "USD / Base",
-        "desc": "This is a base reference value. Clicking Start Project will open a quick flow to detail the exact requirements.",
-        "btnIdle": "Start B2B Project",
-        "btnLinking": "Establishing connection...",
-        "btnProcessing": "Processing secure protocol...",
-        "btnDone": "Form Ready"
-      },
-      "process": {
-        "step1": "1. Discovery",
-        "step1Desc": "Technical analysis and goals.",
-        "step2": "2. Architecture",
-        "step2Desc": "Stack and DB design.",
-        "step3": "3. Development",
-        "step3Desc": "Agile iterative sprints.",
-        "step4": "4. QA & Security",
-        "step4Desc": "Stress audits.",
-        "step5": "5. Deployment",
-        "step5Desc": "Handover and monitoring."
-      },
-      "modal": {
-        "title": "Project Ready",
-        "desc": "The estimated base budget is",
-        "nameLabel": "Full Name / Company",
-        "emailLabel": "Corporate Email",
-        "btn": "Request Technical Call"
-      }
     }
   }
+}
