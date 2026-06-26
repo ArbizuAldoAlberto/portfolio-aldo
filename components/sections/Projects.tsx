@@ -130,10 +130,10 @@ const rawProjects = [
   },
   {
     id: 'cannabis',
-    title: 'CannaSavias',
+    title: 'SabioBosque',
     role: 'E-commerce & Legal Compliance SaaS',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
-    link: 'https://cannabis.aldoarbizu.com',
+    link: 'https://sabiobosque.com',
     featuredIn: ['security', 'agtech'],
     engineer: {
       problem: 'Fricción en la verificación manual de recetas REPROCANN legales.',

@@ -234,50 +234,50 @@
     "pipelineDesc": "\"The synergy between neural generation with Pixal3D and optimization in Blender redefines development times. Complex assets that previously took days are now reconstructed and polished in minutes.\""
   },
   "TitanFlow": {
-    "sectionLabel": "TITAN FLOW (泰坦流)",
+    "sectionLabel": "TITAN FLOW & AUREUS",
     "titleLine1": "I don't just invest in the market —",
     "titleLine2": "I build my own tools.",
-    "liveData": "[Live data via CoinGecko - titanflow.aldoarbizu.com]",
+    "liveData": "[Active Products: Titan Flow Alert Lite, Aureus, n8n CRM]",
     "features": {
       "defi": {
         "title": "Active Quantitative Engineering",
-        "desc": "Visit titanflow.aldoarbizu.com to see my bot trading. I build on-chain monitoring algorithms and real-time data flows."
+        "desc": "I build on-chain monitoring algorithms, real-time data flows (n8n/Python), and tools like Titan Flow Alert Lite to capture market opportunities."
       },
       "bots": {
-        "title": "Automatic Financial Autonomy",
-        "desc": "I develop systems that read the market to free me from manual charting, giving me free time to build more software."
+        "title": "Aureus & Autonomy",
+        "desc": "I develop systems that read the market to free me from manual charting, deploying bots and architectures that generate revenue automatically."
       }
     }
   },
   "NexusTelemetry": {
-    "sectionLabel": "NEXUS AUTONOMOUS NODE",
-    "title": "Autonomous Supervision System",
-    "desc": "My personal node monitors global infrastructure, markets, and server states in real-time. This is the telemetry engine powering my architectures.",
+    "sectionLabel": "ENTERPRISE SAAS & MOBILE FACTORY",
+    "title": "B2B Architecture & Mobile Solutions",
+    "desc": "From Arbizu Labs, my personal factory designs and deploys offline-first platforms, n8n automation, and AI integrations to optimize enterprise-grade processes.",
     "tabs": {
       "status": "Live Status",
-      "skills": "Skills Distribution",
-      "terminal": "Interactive Terminal",
-      "reports": "Telemetry Reports"
+      "skills": "Core Capabilities",
+      "terminal": "B2B Deployments",
+      "reports": "Case Studies"
     },
     "skills": {
       "sysDesign": {
-        "title": "System Design",
-        "desc": "Design and optimization of distributed infrastructures and scalable APIs based on industrial blueprints."
+        "title": "B2B Architecture",
+        "desc": "Design and optimization of distributed SaaS infrastructures and scalable APIs ready for high corporate demand."
       },
       "uiux": {
-        "title": "UI-UX Pro Max",
-        "desc": "Advanced aesthetic patterns, Bento grids, responsive HSL design, and Awwwards-grade micro-interactions."
+        "title": "Mobile Offline-First",
+        "desc": "React Native boilerplates and apps with local databases (SQLite/WAL) designed to operate without an internet connection."
       },
       "assets3d": {
-        "title": "3D Assets & Pixal3D",
-        "desc": "Full 3D assets workflow: generative reconstruction with Pixal3D (DinoV3/MoGe-2), Blender optimization, and React Three Fiber rendering."
+        "title": "AI & Automation",
+        "desc": "Development of intelligent pipelines with n8n and LLM models for CRM automation, sales, and data analysis."
       },
       "aiOps": {
-        "title": "AI Pipelines & Career-Ops",
-        "desc": "Deployment and maintenance of job search pipelines, Greenhouse/Lever API deduplication, and ethical filtering without token consumption."
+        "title": "Telemetry Systems",
+        "desc": "Continuous monitoring, frictionless deployments, and real-time code auditing to ensure maximum resilience."
       },
       "n8n": {
-        "title": "n8n & Automation",
+        "title": "Fullstack Engineering",
         "desc": "Complex bidirectional flows, data ETLs, cross-notifications, and efficient communication bots."
       },
       "security": {
@@ -503,7 +503,7 @@
         }
       },
       "cannabis": {
-        "title": "CannaSavias",
+        "title": "SabioBosque",
         "role": "E-commerce & Legal Compliance SaaS",
         "engineer": {
           "problem": "Friction in manual verification of legal REPROCANN prescriptions.",
