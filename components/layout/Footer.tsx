@@ -8,7 +8,9 @@ export default function Footer() {
     <footer className="border-t border-[var(--color-space-border)] bg-[var(--color-space-black)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-col items-center md:items-start">
-          <span className="font-serif font-bold text-2xl text-white">ARBIZU LABS</span>
+          <a href="https://arbizulabs.com" target="_blank" rel="noreferrer" className="hover:text-[var(--color-orbital-teal)] transition-colors">
+            <span className="font-serif font-bold text-2xl text-white">ARBIZU LABS</span>
+          </a>
           <span className="font-space text-xs text-[var(--color-mist-gray)]/60 mt-1 uppercase tracking-widest">
             B2B Mobile & SaaS Architect
           </span>

@@ -29,46 +29,6 @@ const rawProjects = [
     }
   },
   {
-    id: 'aureus',
-    title: 'Aureus',
-    role: 'Wealth OS & AI Financial Advisor',
-    stack: ['Next.js 16', 'TypeScript', 'Zustand', 'Recharts', 'Gemini API', 'Base L2'],
-    link: 'https://aureus.aldoarbizu.com',
-    featuredIn: ['security', 'engineer'],
-    engineer: {
-      problem: 'Procesamiento en tiempo real de sesgos cognitivos en los diálogos del inversor.',
-      solution: 'Detector de sesgos local con WASM acoplado al SDK de Vercel AI en streaming.'
-    },
-    security: {
-      problem: 'Costos elevados de asesoramiento patrimonial tradicional.',
-      solution: 'Asesor de IA premium integrado a simulaciones de ROI con micropagos de $0.20 USD.'
-    },
-    'agtech': {
-      problem: 'Interfaces bancarias frías que carecen de discreción y prestigio visual.',
-      solution: 'Dashboard de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado.'
-    }
-  },
-  {
-    id: 'techzone',
-    title: 'TechZone',
-    role: 'POS Retail & Omnichannel Gateway',
-    stack: ['React Native', 'Expo Bare', 'SQLite WAL', 'Zustand', 'Stripe Elements', 'Universal Cart'],
-    link: 'https://techzone.aldoarbizu.com',
-    featuredIn: ['engineer', 'security'],
-    engineer: {
-      problem: 'Pérdidas de transacciones de venta por caídas abruptas de conectividad.',
-      solution: 'Encolamiento local atómico en SQLite WAL con triggers diferenciales automáticos.'
-    },
-    security: {
-      problem: 'Fuga de clientes en mostradores físicos debido a internet inestable.',
-      solution: 'Punto de venta Offline-First con firmas QR de cobro dual y checkout de Google Pay.'
-    },
-    'agtech': {
-      problem: 'Interfaces de catálogo lentas que interrumpen la fluidez del cliente.',
-      solution: 'Catálogo premium interactivo con transiciones de Bento Grid y tipografía refinada.'
-    }
-  },
-  {
     id: 'sentinelos',
     title: 'SentinelOS',
     role: 'Security Dispatch & Command Center',
@@ -133,8 +93,8 @@ const rawProjects = [
     title: 'SabioBosque',
     role: 'E-commerce & Legal Compliance SaaS',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
-    link: 'https://sabiobosque.com',
-    featuredIn: ['security', 'agtech'],
+    link: 'https://sabiobosque.aldoarbizu.com',
+    featuredIn: ['security', 'agtech', 'engineer'],
     engineer: {
       problem: 'Fricción en la verificación manual de recetas REPROCANN legales.',
       solution: 'Validación automatizada con Gemini API de stock y recetas en pasarela.'
@@ -174,7 +134,7 @@ const rawProjects = [
     role: 'Pet Tracking & NGO Donations',
     stack: ['Next.js', 'React Native', 'SQLite', 'Base L2', 'Three.js', 'STL 3D Print'],
     link: 'https://pawhero.aldoarbizu.com',
-    featuredIn: ['agtech'],
+    featuredIn: ['engineer', 'security', 'agtech'],
     engineer: {
       problem: 'Geolocalización de mascotas perdidas sin costosas suscripciones celulares.',
       solution: 'Chapas QR cifradas e interconectadas mediante WebSockets y red P2P.'
@@ -214,7 +174,7 @@ const rawProjects = [
     role: 'Decentralized Direct Rentals & Land Control',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Solidity (Base L2)', 'Gemini API'],
     link: 'https://habitat.aldoarbizu.com',
-    featuredIn: ['security', 'agtech'],
+    featuredIn: ['engineer', 'security', 'agtech'],
     engineer: {
       problem: 'Vulnerabilidades en el flujo de verificación y firma de contratos tradicionales.',
       solution: 'Firmas criptográficas on-chain en Base L2 con verificación directa del inquilino.'
