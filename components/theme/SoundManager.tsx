@@ -14,11 +14,18 @@ const SoundContext = createContext<SoundContextProps | undefined>(undefined)
 
 export function SoundProvider({ children }: { children: React.ReactNode }) {
   const [isMuted, setIsMuted] = useState(true)
+  const isMutedRef = useRef(isMuted)
+
+  useEffect(() => {
+    isMutedRef.current = isMuted
+  }, [isMuted])
+
   const audioCtxRef = useRef<AudioContext | null>(null)
   
   // Ambient oscillators & gain nodes refs
   const osc1Ref = useRef<OscillatorNode | null>(null)
   const osc2Ref = useRef<OscillatorNode | null>(null)
+  const filterRef = useRef<BiquadFilterNode | null>(null)
   const ambientGainRef = useRef<GainNode | null>(null)
   const targetGainRef = useRef<number>(0.04)
 
@@ -41,7 +48,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   const startAmbientDrone = (ctx: AudioContext) => {
     // Get saved persona
     const saved = localStorage.getItem('nexus_persona')
-    const persona = (saved && ['dev', 'founder', 'gentleman'].includes(saved)) ? saved : 'founder'
+    const persona = (saved && ['engineer', 'security', 'agtech'].includes(saved)) ? saved : 'engineer'
 
     const osc1 = ctx.createOscillator()
     const osc2 = ctx.createOscillator()
@@ -50,28 +57,32 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
     let osc1Type: OscillatorType = 'triangle'
     let osc2Type: OscillatorType = 'sawtooth'
-    let freq1 = 55
-    let freq2 = 55.3
+    let freq1 = 110
+    let freq2 = 110.6
     let gainVal = 0.04
+    let filterFreq = 330
 
-    if (persona === 'dev') {
+    if (persona === 'engineer') {
       osc1Type = 'sawtooth'
       osc2Type = 'sawtooth'
-      freq1 = 41.2 // E1
-      freq2 = 41.5
-      gainVal = 0.05
-    } else if (persona === 'gentleman') {
+      freq1 = 82.4 // E2
+      freq2 = 82.9
+      gainVal = 0.04
+      filterFreq = 247
+    } else if (persona === 'agtech') {
       osc1Type = 'sine'
       osc2Type = 'sine'
-      freq1 = 110 // A2
-      freq2 = 110.3
-      gainVal = 0.015
-    } else { // founder
+      freq1 = 220 // A3
+      freq2 = 220.6
+      gainVal = 0.03
+      filterFreq = 660
+    } else { // security
       osc1Type = 'triangle'
       osc2Type = 'triangle'
-      freq1 = 55 // A1
-      freq2 = 55.3
-      gainVal = 0.04
+      freq1 = 110 // A2
+      freq2 = 110.6
+      gainVal = 0.05
+      filterFreq = 330
     }
 
     targetGainRef.current = gainVal
@@ -83,10 +94,10 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     osc2.frequency.setValueAtTime(freq2, ctx.currentTime)
     
     filter.type = 'lowpass'
-    filter.frequency.setValueAtTime(120, ctx.currentTime)
+    filter.frequency.setValueAtTime(filterFreq, ctx.currentTime)
     filter.Q.setValueAtTime(5, ctx.currentTime)
 
-    gain.gain.setValueAtTime(isMuted ? 0 : gainVal, ctx.currentTime)
+    gain.gain.setValueAtTime(isMutedRef.current ? 0 : gainVal, ctx.currentTime)
 
     // Connect nodes
     osc1.connect(filter)
@@ -100,6 +111,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     // Store refs to control mute and stop on unmount
     osc1Ref.current = osc1
     osc2Ref.current = osc2
+    filterRef.current = filter
     ambientGainRef.current = gain
 
     // Modulate filter frequency slowly with LFO (synthesized LFO)
@@ -120,28 +132,32 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
     let osc1Type: OscillatorType = 'triangle'
     let osc2Type: OscillatorType = 'sawtooth'
-    let freq1 = 55
-    let freq2 = 55.3
+    let freq1 = 110
+    let freq2 = 110.6
     let gainVal = 0.04
+    let filterFreq = 330
 
-    if (persona === 'dev') {
+    if (persona === 'engineer') {
       osc1Type = 'sawtooth'
       osc2Type = 'sawtooth'
-      freq1 = 41.2 // E1
-      freq2 = 41.5
-      gainVal = 0.05
-    } else if (persona === 'gentleman') {
+      freq1 = 82.4 // E2
+      freq2 = 82.9
+      gainVal = 0.04
+      filterFreq = 247
+    } else if (persona === 'agtech') {
       osc1Type = 'sine'
       osc2Type = 'sine'
-      freq1 = 110 // A2
-      freq2 = 110.3
-      gainVal = 0.015
-    } else { // founder
+      freq1 = 220 // A3
+      freq2 = 220.6
+      gainVal = 0.03
+      filterFreq = 660
+    } else { // security
       osc1Type = 'triangle'
       osc2Type = 'triangle'
-      freq1 = 55 // A1
-      freq2 = 55.3
-      gainVal = 0.04
+      freq1 = 110 // A2
+      freq2 = 110.6
+      gainVal = 0.05
+      filterFreq = 330
     }
 
     targetGainRef.current = gainVal
@@ -154,8 +170,13 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     osc1Ref.current.frequency.exponentialRampToValueAtTime(freq1, now + 0.8)
     osc2Ref.current.frequency.exponentialRampToValueAtTime(freq2, now + 0.8)
 
+    // Transition filter frequency smoothly
+    if (filterRef.current) {
+      filterRef.current.frequency.exponentialRampToValueAtTime(filterFreq, now + 0.8)
+    }
+
     // Transition volume (gain) if not muted
-    if (!isMuted) {
+    if (!isMutedRef.current) {
       ambientGainRef.current.gain.linearRampToValueAtTime(gainVal, now + 0.8)
     }
   }
@@ -164,6 +185,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   const toggleMute = () => {
     const nextMute = !isMuted
     setIsMuted(nextMute)
+    isMutedRef.current = nextMute
     
     if (nextMute) {
       if (ambientGainRef.current && audioCtxRef.current) {
@@ -174,12 +196,16 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
       if (ambientGainRef.current && audioCtxRef.current) {
         ambientGainRef.current.gain.linearRampToValueAtTime(targetGainRef.current, audioCtxRef.current.currentTime + 0.8)
       }
+      // Play telemetry diagnostic immediately when unmuting
+      setTimeout(() => {
+        playBoot()
+      }, 50)
     }
   }
 
   // 1. Play Short high-frequency digital tick (button hovers)
   const playTick = () => {
-    if (isMuted || !audioCtxRef.current) return
+    if (isMutedRef.current || !audioCtxRef.current) return
     const ctx = audioCtxRef.current
     if (ctx.state === 'suspended') return
 
@@ -202,7 +228,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   // 2. Play digital click selection (button clicks)
   const playClick = () => {
-    if (isMuted || !audioCtxRef.current) return
+    if (isMutedRef.current || !audioCtxRef.current) return
     const ctx = audioCtxRef.current
     if (ctx.state === 'suspended') return
 
@@ -225,7 +251,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   // 3. Play telemetry diagnostic ascending sound (terminal boot-up)
   const playBoot = () => {
-    if (isMuted || !audioCtxRef.current) return
+    if (isMutedRef.current || !audioCtxRef.current) return
     const ctx = audioCtxRef.current
     if (ctx.state === 'suspended') return
 
@@ -253,7 +279,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   // 4. Play transaction success digital chime (checkout/telemetry pass)
   const playSuccess = () => {
-    if (isMuted || !audioCtxRef.current) return
+    if (isMutedRef.current || !audioCtxRef.current) return
     const ctx = audioCtxRef.current
     if (ctx.state === 'suspended') return
 
