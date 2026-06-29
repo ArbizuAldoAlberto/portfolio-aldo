@@ -608,6 +608,82 @@ function CyberOrganicTree() {
 useGLTF.preload('/models/tree.glb')
 useGLTF.preload('/models/phone.glb')
 
+function ProjectSatellites() {
+  const satellitesRef = useRef<THREE.Group>(null)
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+
+  const projectsList = useMemo(() => [
+    { name: 'TitanFlow', desc: 'DeFi Copy Trading & Algorithmic Bot', color: '#1D9E75', radius: 2.0, speed: 0.35 },
+    { name: 'AgroMarket Pro', desc: 'AgriTech Logistics & Marketplace', color: '#EF9F27', radius: 2.3, speed: 0.25 },
+    { name: 'SentinelOS', desc: 'Security Dispatch & Command Center', color: '#EF4444', radius: 2.6, speed: -0.3 },
+    { name: 'AeroShot', desc: 'Agricultural Drone Processing SaaS', color: '#7F77DD', radius: 2.9, speed: 0.2 },
+    { name: 'SabioBosque', desc: 'E-commerce & Legal Compliance SaaS', color: '#10b981', radius: 3.2, speed: -0.15 },
+    { name: 'Hábitat', desc: 'Decentralized Direct Rentals', color: '#EF9F27', radius: 3.5, speed: 0.1 },
+    { name: 'PawHero', desc: 'Pet Tracking & IoT Telemetry', color: '#7F77DD', radius: 3.8, speed: -0.08 }
+  ], [])
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    if (!satellitesRef.current) return
+
+    satellitesRef.current.children.forEach((child, idx) => {
+      const p = projectsList[idx]
+      if (!p) return
+      
+      const currentSpeed = hoveredIdx === idx ? p.speed * 0.1 : p.speed
+      const angle = time * currentSpeed + (idx * Math.PI * 2 / projectsList.length)
+      
+      const x = Math.cos(angle) * p.radius
+      const z = Math.sin(angle) * p.radius
+      const y = Math.sin(angle * 1.5) * 0.25
+
+      child.position.set(x, y, z)
+      
+      const targetScale = hoveredIdx === idx ? 0.14 : 0.07
+      child.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15)
+    })
+  })
+
+  const handlePointerOver = (idx: number, e: any) => {
+    e.stopPropagation()
+    setHoveredIdx(idx)
+    const p = projectsList[idx]
+    window.dispatchEvent(new CustomEvent('satellite-hover', { 
+      detail: { active: true, name: p.name, desc: p.desc, color: p.color } 
+    }))
+  }
+
+  const handlePointerOut = (idx: number, e: any) => {
+    e.stopPropagation()
+    setHoveredIdx(null)
+    window.dispatchEvent(new CustomEvent('satellite-hover', { 
+      detail: { active: false } 
+    }))
+  }
+
+  return (
+    <group ref={satellitesRef}>
+      {projectsList.map((p, idx) => (
+        <mesh 
+          key={idx}
+          onPointerOver={(e) => handlePointerOver(idx, e)}
+          onPointerOut={(e) => handlePointerOut(idx, e)}
+        >
+          <sphereGeometry args={[1, 16, 16]} />
+          <meshStandardMaterial 
+            color={p.color} 
+            emissive={p.color}
+            emissiveIntensity={hoveredIdx === idx ? 3.0 : 1.2}
+            roughness={0.1}
+            metalness={0.9}
+          />
+        </mesh>
+      ))}
+    </group>
+  )
+}
+
+
 export default function Hero3D() {
   const { setCursorState } = useCursor()
   const { persona } = usePersona()
@@ -644,6 +720,7 @@ export default function Hero3D() {
           <Float speed={2.5} rotationIntensity={0.6} floatIntensity={0.4}>
             <CyberOrganicTree />
           </Float>
+          <ProjectSatellites />
         </Suspense>
         
         <EffectComposer enableNormalPass={false} multisampling={4}>

@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import MagneticWrapper from '../ui/MagneticWrapper'
@@ -38,6 +39,15 @@ const itemVariants = {
 export default function Hero() {
   const { persona, setPersona } = usePersona()
   const t = useTranslations('Hero')
+  const [activeSatellite, setActiveSatellite] = useState<{ active: boolean; name?: string; desc?: string; color?: string }>({ active: false })
+
+  useEffect(() => {
+    const handleHover = (e: any) => {
+      setActiveSatellite(e.detail)
+    }
+    window.addEventListener('satellite-hover', handleHover)
+    return () => window.removeEventListener('satellite-hover', handleHover)
+  }, [])
 
   const personasList = ['engineer', 'security', 'agtech']
   
@@ -210,6 +220,23 @@ export default function Hero() {
           </AnimatePresence>
         </motion.div>
       </div>
+
+      {/* 🌌 SATELITE HOVER HUD TOOLTIP */}
+      <AnimatePresence>
+        {activeSatellite.active && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            className="absolute bottom-6 right-6 md:right-12 z-50 glass-surface p-6 rounded-2xl max-w-xs border-t-2 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-2xl pointer-events-none"
+            style={{ borderTopColor: activeSatellite.color }}
+          >
+            <span className="font-space text-[9px] tracking-widest text-[var(--color-mist-gray)]/50 uppercase block mb-2 font-bold">NEXUS ACTIVE NODE</span>
+            <h4 className="text-white font-serif text-xl font-bold mb-1" style={{ color: activeSatellite.color }}>{activeSatellite.name}</h4>
+            <p className="font-mono text-xs text-[var(--color-mist-gray)] leading-relaxed">{activeSatellite.desc}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

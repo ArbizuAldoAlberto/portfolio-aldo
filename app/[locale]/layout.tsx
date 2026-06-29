@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Cormorant_Garamond, JetBrains_Mono, Space_Mono } from "next/font/google"
+import { Cormorant_Garamond, JetBrains_Mono, Space_Mono, Outfit } from "next/font/google"
 import CustomCursor from "../../components/theme/CustomCursor"
 import PremiumBackground from "../../components/theme/PremiumBackground"
 import BackgroundEffects from "../../components/theme/BackgroundEffects"
@@ -21,6 +21,12 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "600", "700"],
   variable: "--font-cormorant"
+})
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-outfit"
 })
 
 const jetbrains = JetBrains_Mono({
@@ -99,7 +105,7 @@ export default async function RootLayout({ children, params }: { children: React
   if (!routing.locales.includes(locale as any)) notFound();
   const messages = await getMessages();
   return (
-    <html lang={locale} className={`${cormorant.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang={locale} className={`${cormorant.variable} ${outfit.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`} suppressHydrationWarning>
       <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 relative" suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>

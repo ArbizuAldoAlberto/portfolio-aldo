@@ -5,24 +5,29 @@
 @theme {
   --color-space-black: #050508;
   --color-deep-space: #0A0A0F;
-  --color-orbital-teal: #3BEACE;
+  --color-orbital-teal: #1D9E75;
   --color-amber-gold: #FFB130;
   --color-electric-purple: #8B5CFF;
   --color-coral-burn: #FF4C12;
   --color-mist-gray: #A0A0C4;
   --color-space-border: rgba(255, 255, 255, 0.05);
+
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-space);
+  --font-jetbrains: var(--font-jetbrains);
 }
 
 @layer base {
   :root, :root[data-persona="engineer"] {
     --color-space-black: #050508;
     --color-deep-space: #0A0A0F;
-    --color-orbital-teal: #3BEACE; /* Cyan/Teal for Hacker/Engineer */
+    --color-orbital-teal: #1D9E75; /* Premium Emerald Teal */
     --color-amber-gold: #FFB130;
     --color-electric-purple: #8B5CFF;
     --color-coral-burn: #FF4C12;
     --color-mist-gray: #A0A0C4;
-    --color-space-border: rgba(59, 234, 206, 0.15); /* Tinted border */
+    --color-space-border: rgba(29, 158, 117, 0.15); /* Tinted border */
   }
 
   :root[data-persona="security"] {
