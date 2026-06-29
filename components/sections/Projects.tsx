@@ -261,9 +261,9 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
     const securityTech = ['Base L2', 'Supabase', 'Solidity', 'Room SQLite', 'Ethers.js (Base L2)', 'Web3 Escrow'];
     const agtechTech = ['Three.js', 'HTML5 Canvas', 'Lottie', 'STL 3D Print', 'Animated', 'Mapbox', 'IoT'];
 
-    if (isEngineer && engineerTech.includes(tech)) return 'border-[#3BEACE] text-white shadow-[0_0_15px_rgba(59,234,206,0.4)] bg-[#3BEACE]/10';
-    if (isSecurity && securityTech.includes(tech)) return 'border-[#EF4444] text-white shadow-[0_0_15px_rgba(239,68,68,0.4)] bg-[#EF4444]/10';
-    if (isAgtech && agtechTech.includes(tech)) return 'border-[#84CC16] text-white shadow-[0_0_15px_rgba(132,204,22,0.4)] bg-[#84CC16]/10';
+    if (isEngineer && engineerTech.includes(tech)) return 'border-[var(--color-orbital-teal)] text-white shadow-[0_0_15px_rgba(29,158,117,0.4)] bg-[var(--color-orbital-teal)]/10';
+    if (isSecurity && securityTech.includes(tech)) return 'border-[var(--color-orbital-teal)] text-white shadow-[0_0_15px_rgba(239,68,68,0.4)] bg-[var(--color-orbital-teal)]/10';
+    if (isAgtech && agtechTech.includes(tech)) return 'border-[var(--color-orbital-teal)] text-white shadow-[0_0_15px_rgba(132,204,22,0.4)] bg-[var(--color-orbital-teal)]/10';
     return 'border-[var(--color-space-border)] text-[var(--color-mist-gray)] hover:border-white/20';
   }
 
@@ -275,9 +275,9 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`w-full mx-auto ${isSecurity ? 'drop-shadow-2xl' : 'orbital-glow'} h-full flex`}
     >
-      <div className={`flex-1 ${cardClasses} ${isFeatured ? 'border-t-2 border-t-[var(--color-orbital-teal)]' : ''}`} style={isFeatured ? { borderTopColor: isSecurity ? '#EF4444' : isAgtech ? '#84CC16' : '#3BEACE' } : {}}>
+      <div className={`flex-1 ${cardClasses} ${isFeatured ? 'border-t-2 border-t-[var(--color-orbital-teal)]' : ''}`} style={isFeatured ? { borderTopColor: 'var(--color-orbital-teal)' } : {}}>
         <div
-          className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isSecurity ? 'text-white/[0.02] group-hover:text-[#EF4444]/10' : isAgtech ? 'text-white/[0.02] group-hover:text-[#84CC16]/10' : 'text-white/[0.03] group-hover:text-[#3BEACE]/10'}`}
+          className={`absolute top-6 right-8 font-serif text-6xl md:text-8xl leading-none select-none pointer-events-none transition-colors ${isSecurity ? 'text-white/[0.02] group-hover:text-[#EF4444]/10' : isAgtech ? 'text-white/[0.02] group-hover:text-[#84CC16]/10' : 'text-white/[0.03] group-hover:text-[#1D9E75]/10'}`}
         >
           {String(index + 1).padStart(2, '0')}
         </div>
@@ -292,20 +292,20 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
         <div className="flex flex-col relative z-10 flex-1 h-full">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className={`font-space text-[9px] tracking-widest ${isSecurity ? 'text-[#EF4444]/60' : isAgtech ? 'text-[#84CC16]/60' : 'text-[#3BEACE]/60'}`}>
+              <span className={`font-space text-[9px] tracking-widest ${isSecurity ? 'text-[#EF4444]/60' : isAgtech ? 'text-[#84CC16]/60' : 'text-[var(--color-orbital-teal)]/60'}`}>
                 {String(index + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
               </span>
-              <div className={`h-px flex-1 ${isSecurity ? 'bg-gradient-to-r from-[#EF4444]/20 to-transparent' : isAgtech ? 'bg-gradient-to-r from-[#84CC16]/20 to-transparent' : 'bg-gradient-to-r from-[#3BEACE]/20 to-transparent'}`} />
+              <div className={`h-px flex-1 ${isSecurity ? 'bg-gradient-to-r from-[#EF4444]/20 to-transparent' : isAgtech ? 'bg-gradient-to-r from-[#84CC16]/20 to-transparent' : 'bg-gradient-to-r from-[var(--color-orbital-teal)]/20 to-transparent'}`} />
               
               {isFeatured && (
-                <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#EF4444] text-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.2)]' : isAgtech ? 'border-[#84CC16] text-[#84CC16] shadow-[0_0_10px_rgba(132,204,22,0.2)]' : 'border-[#3BEACE] text-[#3BEACE] shadow-[0_0_10px_rgba(59,234,206,0.2)]'}`}>
+                <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#EF4444] text-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.2)]' : isAgtech ? 'border-[#84CC16] text-[#84CC16] shadow-[0_0_10px_rgba(132,204,22,0.2)]' : 'border-[var(--color-orbital-teal)] text-[var(--color-orbital-teal)] shadow-[0_0_10px_rgba(29,158,117,0.2)]'}`}>
                   {t('labels.featured')}
                 </span>
               )}
             </div>
 
             <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{t(`projects.${project.id}.title`)}</h3>
-            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: isSecurity ? '#EF4444' : isAgtech ? '#84CC16' : '#3BEACE' }}>{t(`projects.${project.id}.role`)}</div>
+            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: 'var(--color-orbital-teal)' }}>{t(`projects.${project.id}.role`)}</div>
 
             <AnimatePresence mode="wait">
               <motion.div
