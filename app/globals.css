@@ -15,6 +15,7 @@
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-outfit);
   --font-mono: var(--font-space);
+  --font-space: var(--font-space);
   --font-jetbrains: var(--font-jetbrains);
 }
 
