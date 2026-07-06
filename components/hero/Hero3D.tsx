@@ -184,12 +184,15 @@ function CyberOrganicTree() {
 
   const treeMaterialRef = useRef<THREE.MeshPhysicalMaterial | null>(null)
 
-  // Load models dynamically based on persona
-  const modelPath = persona === 'engineer' ? '/models/phone.glb' : '/models/tree.glb'
-  const { scene } = useGLTF(modelPath)
-  
-  // CLONAR LA ESCENA: Evita mutar el caché global de useGLTF, previniendo el WebGL Context Lost
-  const clonedScene = useMemo(() => scene.clone(), [scene])
+  // Procedural geometries for 100% WebGL compatibility (No GLTF loading)
+  const GeometryComponent = useMemo(() => {
+    switch (persona) {
+      case 'engineer': return <icosahedronGeometry args={[1.2, 1]} />
+      case 'security': return <torusKnotGeometry args={[0.8, 0.25, 128, 16]} />
+      case 'agtech': return <octahedronGeometry args={[1.2, 0]} />
+      default: return <sphereGeometry args={[1.2, 32, 32]} />
+    }
+  }, [persona])
 
   const colorsMap = useMemo(() => ({
     engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
@@ -199,38 +202,7 @@ function CyberOrganicTree() {
 
   const currentColors = useMemo(() => colorsMap[persona] || colorsMap.engineer, [persona, colorsMap])
 
-  useEffect(() => {
-    const materialsToDispose: THREE.Material[] = []
-
-    clonedScene.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.castShadow = true
-        child.receiveShadow = true
-        // Apply cyber-organic dark bark material with emissive tech veins dynamically colored
-        const mat = new THREE.MeshPhysicalMaterial({
-          color: new THREE.Color(persona === 'security' ? '#020205' : '#0a0e12'),
-          roughness: persona === 'agtech' ? 0.3 : 0.65,
-          metalness: persona === 'agtech' ? 0.9 : 0.7,
-          emissive: new THREE.Color(currentColors.emissive),
-          emissiveIntensity: persona === 'security' ? 1.5 : 0.8,
-          clearcoat: persona === 'agtech' ? 0.8 : 0.4,
-          clearcoatRoughness: 0.3,
-          envMapIntensity: 1.5,
-          wireframe: persona === 'engineer',
-          transparent: persona === 'security',
-          opacity: persona === 'security' ? 0.85 : 1.0,
-        })
-        child.material = mat
-        treeMaterialRef.current = mat
-        materialsToDispose.push(mat)
-      }
-    })
-
-    // CLEANUP: Evita memory leak de WebGL eliminando los materiales de la GPU
-    return () => {
-      materialsToDispose.forEach(mat => mat.dispose())
-    }
-  }, [clonedScene, currentColors, persona])
+  }, [currentColors, persona])
 
   const nodeCount = 32
   const maxLines = 120
@@ -535,9 +507,24 @@ function CyberOrganicTree() {
 
   return (
     <group ref={groupRef}>
-      {/* 🌳 CYBER-ORGANIC TRUNK AND BRANCHES */}
+      {/* 🌳 CYBER-ORGANIC CORE (Procedural replacement for GLTF) */}
       <group ref={trunkRef} onClick={(e) => { e.stopPropagation(); handleTreeClick() }}>
-        <primitive object={clonedScene} scale={[1.5, 1.5, 1.5]} position={[0, -2.4, 0]} />
+        <mesh position={[0, -0.6, 0]} castShadow receiveShadow>
+          {GeometryComponent}
+          <meshPhysicalMaterial 
+            color={persona === 'security' ? '#020205' : '#0a0e12'}
+            roughness={persona === 'agtech' ? 0.3 : 0.65}
+            metalness={persona === 'agtech' ? 0.9 : 0.7}
+            emissive={currentColors.emissive}
+            emissiveIntensity={persona === 'security' ? 1.5 : 0.8}
+            clearcoat={persona === 'agtech' ? 0.8 : 0.4}
+            clearcoatRoughness={0.3}
+            envMapIntensity={1.5}
+            wireframe={persona === 'engineer'}
+            transparent={persona === 'security'}
+            opacity={persona === 'security' ? 0.85 : 1.0}
+          />
+        </mesh>
 
         {/* Pulsing sap cyber rings around trunk */}
         <mesh ref={ring1Ref} position={[0.02, -1.8, 0]} rotation={[0.1, 0, 0.05]}>
@@ -605,8 +592,7 @@ function CyberOrganicTree() {
   )
 }
 
-useGLTF.preload('/models/tree.glb')
-useGLTF.preload('/models/phone.glb')
+// GLTF preloading removed for 100% WebGL performance
 
 function ProjectSatellites() {
   const satellitesRef = useRef<THREE.Group>(null)

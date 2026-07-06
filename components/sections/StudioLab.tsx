@@ -62,30 +62,10 @@ function HolographicPhoneCore() {
   const [activeApp, setActiveApp] = useState<'menu' | 'sentinel' | 'techzone' | 'agro'>('menu')
   const [bootProgress, setBootProgress] = useState(0)
 
-  // Load Hunyuan3D-2 generated smartphone model
-  const { scene: phoneScene } = useGLTF('/models/phone.glb')
+  // Procedural Monolithic Glass Slab (100% WebGL performance)
+  // No GLTF loading needed.
 
-  useEffect(() => {
-    phoneScene.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.castShadow = true
-        child.receiveShadow = true
-        const mat = new THREE.MeshPhysicalMaterial({
-          color: new THREE.Color('#121217'),
-          roughness: 0.08,
-          metalness: 0.95,
-          emissive: new THREE.Color('#0a1d30'),
-          emissiveIntensity: 0.3,
-          clearcoat: 1.0,
-          clearcoatRoughness: 0.05,
-          reflectivity: 1.0,
-          envMapIntensity: 2.0,
-        })
-        child.material = mat
-        phoneMaterialRef.current = mat
-      }
-    })
-  }, [phoneScene])
+  // GLTF traversal removed for procedural mesh
 
   // Handle boot timer
   useEffect(() => {
@@ -179,9 +159,22 @@ function HolographicPhoneCore() {
 
   return (
     <group>
-      {/* 📱 SMARTPHONE CHASSIS */}
+      {/* 📱 SMARTPHONE CHASSIS (Procedural Monolith) */}
       <group ref={phoneGroupRef}>
-        <primitive object={phoneScene} scale={[2.4, 2.4, 2.4]} position={[0, 0, -0.1]} rotation={[0, 0, 0]} />
+        <mesh position={[0, 0, -0.1]} castShadow receiveShadow>
+          <boxGeometry args={[1.9, 3.8, 0.15]} />
+          <meshPhysicalMaterial 
+            color="#121217"
+            roughness={0.08}
+            metalness={0.95}
+            emissive="#0a1d30"
+            emissiveIntensity={0.3}
+            clearcoat={1.0}
+            clearcoatRoughness={0.05}
+            reflectivity={1.0}
+            envMapIntensity={2.0}
+          />
+        </mesh>
         
         {/* SCREEN CANVAS AREA */}
         <group position={[0, 0, 0.057]}>
