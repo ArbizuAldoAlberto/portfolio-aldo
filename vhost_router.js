@@ -4,7 +4,7 @@ const path = require('path');
 
 const PORT = process.env.PORT || 80;
 const PORTFOLIO_TARGET = 'http://127.0.0.1:3001';
-const DASHBOARDS_DIR = path.join(__dirname, 'dashboards');
+const DASHBOARDS_DIR = fs.existsSync('/root/dashboards') ? '/root/dashboards' : path.join(__dirname, 'dashboards');
 
 const STATIC_SUBDOMAINS = {
     'sentinelos.aldoarbizu.com': path.join(DASHBOARDS_DIR, 'sentinelos.html'),
