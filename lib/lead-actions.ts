@@ -48,6 +48,7 @@ export async function submitLead(prevState: any, formData: FormData) {
       }
 
       const toEmail = process.env.RESEND_TO_EMAIL || 'aldo@arbizulabs.com'
+      const fromEmail = process.env.RESEND_FROM_EMAIL || 'NEXUS Autonomous <onboarding@resend.dev>'
       
       const resendPromise = fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -56,14 +57,19 @@ export async function submitLead(prevState: any, formData: FormData) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          from: 'NEXUS Autonomous <onboarding@resend.dev>',
+          from: fromEmail,
           to: toEmail,
           reply_to: email,
           subject: source === 'ucp_checkout' ? '💸 Nuevo Lead de UCP Checkout' : '📩 Nuevo Mensaje del Portfolio',
           text: emailContent
         })
-      }).then(res => {
-        if (!res.ok) console.error('Error enviando a Resend:', res.statusText)
+      }).then(async res => {
+        if (!res.ok) {
+          const errText = await res.text()
+          console.error('Error enviando a Resend - Status:', res.status, 'Text:', res.statusText, 'Body:', errText)
+        } else {
+          console.log('Correo enviado exitosamente vía Resend a:', toEmail)
+        }
       }).catch(err => console.error('Error en fetch Resend:', err))
       
       promises.push(resendPromise)

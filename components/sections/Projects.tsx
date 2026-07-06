@@ -454,7 +454,7 @@ export default function Projects() {
         <HorizontalScrollSection>
           <AnimatePresence mode="popLayout">
             {sortedProjects.map((p, i) => (
-              <div key={p.id} className="shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] h-auto flex">
+              <div key={p.id} className="shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] h-auto flex snap-start">
                 <ProjectCard project={p as any} index={i} total={rawProjects.length} />
               </div>
             ))}

@@ -1,6 +1,6 @@
 'use client'
 import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface HorizontalScrollSectionProps {
   children: React.ReactNode
@@ -8,57 +8,88 @@ interface HorizontalScrollSectionProps {
 }
 
 export default function HorizontalScrollSection({ children, className = '' }: HorizontalScrollSectionProps) {
-  const targetRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+
+  const handleScroll = () => {
+    if (!containerRef.current) return
+    const { scrollLeft, scrollWidth, clientWidth } = containerRef.current
+    const maxScroll = scrollWidth - clientWidth
+    const progress = maxScroll > 0 ? scrollLeft / maxScroll : 0
+    setScrollProgress(progress)
+    
+    setCanScrollLeft(scrollLeft > 10)
+    setCanScrollRight(scrollLeft < maxScroll - 10)
+  }
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    const container = containerRef.current
+    if (container) {
+      container.addEventListener('scroll', handleScroll)
+      // Initial check
+      handleScroll()
+      // Re-check after a brief timeout to let layouts settle
+      const timer = setTimeout(handleScroll, 200)
+      return () => {
+        container.removeEventListener('scroll', handleScroll)
+        clearTimeout(timer)
+      }
+    }
+  }, [children])
 
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ['start start', 'end end']
-  })
+  const scroll = (direction: 'left' | 'right') => {
+    if (!containerRef.current) return
+    const { clientWidth } = containerRef.current
+    const scrollAmount = direction === 'left' ? -clientWidth * 0.6 : clientWidth * 0.6
+    containerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+  }
 
-  // Smooth the scroll
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 150,
-    damping: 25,
-    mass: 0.1
-  })
+  return (
+    <div className="relative w-full group/carousel">
+      {/* Left Navigation Button */}
+      {canScrollLeft && (
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full glass-surface border border-white/10 text-white hover:border-[var(--color-orbital-teal)] hover:shadow-[0_0_15px_rgba(29,158,117,0.4)] transition-all duration-300 backdrop-blur-xl hidden md:flex items-center justify-center cursor-pointer"
+          aria-label="Scroll Left"
+        >
+          <ChevronLeft size={24} />
+        </button>
+      )}
 
-  // We translate horizontally by moving the container left by 100% of its width,
-  // but we add back 100vw so the final item aligns with the right edge of the screen!
-  // No JS measurements required for the width.
-  const x = useTransform(smoothProgress, [0, 1], ['0%', 'calc(-100% + 100vw)'])
-  
-  // Progress bar logic
-  const progressWidth = useTransform(smoothProgress, [0, 1], ['0%', '100%'])
+      {/* Right Navigation Button */}
+      {canScrollRight && (
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full glass-surface border border-white/10 text-white hover:border-[var(--color-orbital-teal)] hover:shadow-[0_0_15px_rgba(29,158,117,0.4)] transition-all duration-300 backdrop-blur-xl hidden md:flex items-center justify-center cursor-pointer"
+          aria-label="Scroll Right"
+        >
+          <ChevronRight size={24} />
+        </button>
+      )}
 
-  return isMobile ? (
-    <div className={`w-full flex flex-col gap-12 ${className}`}>
-      {children}
-    </div>
-  ) : (
-    // height 400vw makes the scroll length proportional to the width!
-    <section ref={targetRef} className="relative h-[650vw]">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        {/* w-max is CRITICAL so it takes the full width of all children */}
-        <motion.div style={{ x }} className={`flex gap-8 px-16 w-max ${className}`}>
-          {children}
-        </motion.div>
-        
-        {/* Progress Bar */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-64 h-[2px] bg-[var(--color-space-border)] overflow-hidden rounded-full">
-          <motion.div 
-            className="h-full bg-gradient-to-r from-[var(--color-orbital-teal)] to-[var(--color-electric-purple)] rounded-full" 
-            style={{ width: progressWidth }} 
+      {/* Native Horizontal Scroll Container */}
+      <div
+        ref={containerRef}
+        className={`w-full overflow-x-auto scrollbar-none flex gap-8 px-8 md:px-16 py-4 scroll-smooth snap-x snap-mandatory ${className}`}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {children}
+      </div>
+
+      {/* Custom Premium Progress Bar */}
+      <div className="mt-8 flex justify-center w-full">
+        <div className="w-64 h-[2px] bg-[var(--color-space-border)] overflow-hidden rounded-full relative">
+          <div
+            className="h-full bg-gradient-to-r from-[var(--color-orbital-teal)] to-[var(--color-electric-purple)] rounded-full transition-all duration-150 ease-out"
+            style={{ 
+              width: `${scrollProgress * 100}%`,
+            }}
           />
         </div>
       </div>
-    </section>
+    </div>
   )
 }
