@@ -73,6 +73,9 @@ export default function Hero() {
 
   const personasList = ['engineer', 'security', 'agtech']
   
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  
   const handleDragEnd = (event: any, info: any) => {
     // Only trigger on intentional swipes
     if (Math.abs(info.offset.x) > 50) {
@@ -83,6 +86,34 @@ export default function Hero() {
         setPersona(personasList[nextIdx] as any)
       } else if (info.offset.x > 50) {
         // Swipe right -> prev persona
+        const prevIdx = (currentIndex - 1 + personasList.length) % personasList.length
+        setPersona(personasList[prevIdx] as any)
+      }
+    }
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const minSwipeDistance = 50
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe || isRightSwipe) {
+      const currentIndex = personasList.indexOf(persona)
+      if (isLeftSwipe) {
+        const nextIdx = (currentIndex + 1) % personasList.length
+        setPersona(personasList[nextIdx] as any)
+      } else {
         const prevIdx = (currentIndex - 1 + personasList.length) % personasList.length
         setPersona(personasList[prevIdx] as any)
       }
@@ -115,7 +146,12 @@ export default function Hero() {
   const content = getPersonaContent()
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden bg-[var(--color-space-black)]">
+    <section 
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden bg-[var(--color-space-black)]"
+    >
       {/* 3D Quantum Reactor Centerpiece */}
       <div className="absolute inset-0 md:left-1/2 md:w-1/2 md:h-full z-0 opacity-55 md:opacity-100 mix-blend-screen">
         <Hero3D />

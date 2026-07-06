@@ -6,54 +6,45 @@ import { useLocale } from 'next-intl';
 export default function DeveloperStore() {
   const locale = useLocale();
   const isEs = locale === 'es';
-  const isZh = locale === 'zh';
 
   const t = {
-    title: isEs ? "Digital Store & Boilerplates" : isZh ? "数字商店与样板代码" : "Digital Store & Boilerplates",
+    title: isEs ? "Digital Store & Boilerplates" : "Digital Store & Boilerplates",
     subtitle: isEs 
       ? "Acelera tu desarrollo con mis plantillas y herramientas de producción listas para usar. Código limpio, documentado y optimizado." 
-      : isZh 
-        ? "使用我开箱即用的生产级样板和工具加速您的开发。代码干净、文档齐全且经过优化。" 
-        : "Speed up your development with my production-ready boilerplates and tools. Clean, documented, and optimized code.",
-    buy: isEs ? "Adquirir en Gumroad" : isZh ? "在 Gumroad 购买" : "Get on Gumroad"
+      : "Speed up your development with my production-ready boilerplates and tools. Clean, documented, and optimized code.",
+    buy: isEs ? "Adquirir en Gumroad" : "Get on Gumroad"
   };
 
   const kits = [
     {
-      title: isEs ? "React Native Offline-First" : isZh ? "React Native 离线优先样板" : "React Native Offline-First",
+      title: isEs ? "React Native Offline-First" : "React Native Offline-First",
       price: "$29",
       description: isEs 
         ? "Boilerplate de producción para apps móviles que deben funcionar sin internet. SQLite con WAL y Zustand auto-sync." 
-        : isZh 
-          ? "适用于必须在无网络环境下工作的移动应用的生产级样板。带有 WAL 的 SQLite 和 Zustand 自动同步。" 
-          : "Production-ready boilerplate for mobile apps that must work offline. SQLite with WAL and Zustand auto-sync.",
+        : "Production-ready boilerplate for mobile apps that must work offline. SQLite with WAL and Zustand auto-sync.",
       url: "https://arbizualdo.gumroad.com/l/offline-starter",
       icon: <Smartphone className="w-8 h-8 text-[#3BEACE]" />,
-      badge: isEs ? "Boilerplate Móvil" : isZh ? "移动端样板" : "Mobile Boilerplate"
+      badge: isEs ? "Boilerplate Móvil" : "Mobile Boilerplate"
     },
     {
-      title: isEs ? "n8n CRM Lead Scoring" : isZh ? "n8n CRM 销售线索评分" : "n8n CRM Lead Scoring",
+      title: isEs ? "n8n CRM Lead Scoring" : "n8n CRM Lead Scoring",
       price: "$19",
       description: isEs 
         ? "Workflow n8n completo para captura y scoring de leads con Google Gemini AI, integraciones de CRM y alertas en Telegram." 
-        : isZh 
-          ? "完整的 n8n 工作流，用于使用 Google Gemini AI 捕获线索并进行评分，整合 CRM 并发送 Telegram 警报。" 
-          : "Complete n8n workflow for lead capture and scoring using Google Gemini AI, CRM integrations, and Telegram alerts.",
+        : "Complete n8n workflow for lead capture and scoring using Google Gemini AI, CRM integrations, and Telegram alerts.",
       url: "https://arbizualdo.gumroad.com/l/n8n-crm",
       icon: <Bot className="w-8 h-8 text-purple-400" />,
-      badge: isEs ? "Flujo n8n" : isZh ? "n8n 工作流" : "n8n Workflow"
+      badge: isEs ? "Flujo n8n" : "n8n Workflow"
     },
     {
-      title: isEs ? "TitanFlow Alerts Lite" : isZh ? "TitanFlow 警报精简版" : "TitanFlow Alerts Lite",
+      title: isEs ? "TitanFlow Alerts Lite" : "TitanFlow Alerts Lite",
       price: "$14",
       description: isEs 
         ? "Monitoreo en tiempo real de spreads de arbitraje en Binance Spot/Futures mediante WebSockets con notificaciones Telegram." 
-        : isZh 
-          ? "通过 WebSockets 实时监控 Binance 现货/期货套利点差，支持 Telegram 即时通知。" 
-          : "Real-time monitoring of arbitrage spreads on Binance Spot/Futures via WebSockets with instant Telegram alerts.",
+        : "Real-time monitoring of arbitrage spreads on Binance Spot/Futures via WebSockets with instant Telegram alerts.",
       url: "https://arbizualdo.gumroad.com/l/titan-alerts",
       icon: <Zap className="w-8 h-8 text-yellow-400" />,
-      badge: isEs ? "Script Python" : isZh ? "Python 脚本" : "Python Script"
+      badge: isEs ? "Script Python" : "Python Script"
     }
   ];
 
@@ -66,7 +57,7 @@ export default function DeveloperStore() {
         <div className="mb-16 md:flex md:items-end md:justify-between">
           <div className="max-w-2xl">
             <span className="font-space text-[var(--color-orbital-teal)] uppercase tracking-widest text-xs mb-4 block select-none">
-              {isEs ? "RECURSOS DE CÓDIGO" : isZh ? "代码资源" : "CODE RESOURCES"}
+              {isEs ? "RECURSOS DE CÓDIGO" : "CODE RESOURCES"}
             </span>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-bold mb-6">
               {t.title}

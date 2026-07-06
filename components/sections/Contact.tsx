@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Send, Terminal, Building, User, ArrowRight, CheckCircle2, AlertCircle, RefreshCw, MessageSquare, Calendar } from 'lucide-react';
 import { usePersona } from '../theme/PersonaContext';
@@ -64,19 +64,105 @@ export default function Contact() {
 
   const content = getPersonaContent();
 
+  // Background sync for offline saved leads
+  useEffect(() => {
+    const syncOfflineLeads = async () => {
+      if (typeof window === 'undefined' || !navigator.onLine) return;
+      const stored = localStorage.getItem('pending_leads');
+      if (!stored) return;
+      try {
+        const leads: any[] = JSON.parse(stored);
+        if (leads.length === 0) return;
+        
+        console.log(`NEXUS: Sincronizando ${leads.length} leads fuera de línea...`);
+        const updatedLeads = [];
+        
+        for (const lead of leads) {
+          // Re-build FormData
+          const fd = new FormData();
+          fd.append('name', lead.name);
+          fd.append('email', lead.email);
+          fd.append('company', lead.company);
+          fd.append('message', lead.message);
+          fd.append('source', 'offline_sync');
+          
+          const result = await submitLead(null, fd);
+          if (!result.success) {
+            // Keep in queue if it fails again
+            updatedLeads.push(lead);
+          } else {
+            trackEvent('contact_form_sync_success', { email: lead.email });
+          }
+        }
+        
+        if (updatedLeads.length > 0) {
+          localStorage.setItem('pending_leads', JSON.stringify(updatedLeads));
+        } else {
+          localStorage.removeItem('pending_leads');
+          console.log('NEXUS: Sincronización offline completada exitosamente.');
+        }
+      } catch (e) {
+        console.error('Error syncing offline leads:', e);
+      }
+    };
+
+    window.addEventListener('online', syncOfflineLeads);
+    syncOfflineLeads(); // Check on mount
+    return () => window.removeEventListener('online', syncOfflineLeads);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
-    const formData = new FormData(e.currentTarget);
-    const result = await submitLead(null, formData);
-    setStatus(result);
-    setLoading(false);
-    if (result.success) {
-      trackEvent('contact_form_submit', { 
-        has_company: !!formData.get('company')
+    
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
+    
+    const name = formData.get('name')?.toString() || '';
+    const email = formData.get('email')?.toString() || '';
+    const company = formData.get('company')?.toString() || '';
+    const message = formData.get('message')?.toString() || '';
+
+    // Standard client side validation
+    if (!email || !email.includes('@')) {
+      setStatus({ success: false, message: locale === 'es' ? 'Por favor ingresa un email válido.' : 'Please enter a valid email.' });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await submitLead(null, formData);
+      if (result.success) {
+        setStatus(result);
+        trackEvent('submit_contact_form', { 
+          name, 
+          company, 
+          persona_context: persona
+        });
+        formEl.reset();
+      } else {
+        // Server returned failure (or API key error, etc.) -> Backup offline
+        throw new Error(result.message || 'Server returned failure');
+      }
+    } catch (err: any) {
+      // Save offline
+      const stored = localStorage.getItem('pending_leads');
+      const leads = stored ? JSON.parse(stored) : [];
+      leads.push({ name, email, company, message, timestamp: new Date().toISOString() });
+      localStorage.setItem('pending_leads', JSON.stringify(leads));
+      
+      setStatus({
+        success: true, // We show success style to make it friendly since it is saved!
+        message: locale === 'es' 
+          ? '⚠️ Transmisión guardada localmente. No pudimos conectar con el servidor, pero ciframos tu mensaje offline. Se enviará automáticamente al restablecer tu red.'
+          : '⚠️ Transmission saved locally. Unable to connect to server, but we secured your message offline. It will send automatically once network is restored.'
       });
-      (e.target as HTMLFormElement).reset();
+      
+      trackEvent('contact_form_offline_saved', { name, company });
+      formEl.reset();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -254,6 +340,7 @@ export default function Contact() {
                 href="https://cal.com/aldo-arbizu" 
                 target="_blank" 
                 rel="noreferrer"
+                onClick={() => trackEvent('click_cal_schedule', { source: 'contact_section' })}
                 className="w-full btn-outline py-4 px-6 rounded-md flex items-center justify-center gap-3 font-space tracking-widest text-xs font-bold transition-all border border-[var(--color-space-border)] hover:border-[var(--color-orbital-teal)] hover:bg-[var(--color-orbital-teal)]/5 text-[var(--color-mist-gray)] hover:text-white group"
               >
                 <Calendar size={16} className="text-[var(--color-orbital-teal)] group-hover:scale-110 transition-transform" />

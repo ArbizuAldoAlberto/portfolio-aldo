@@ -8,12 +8,21 @@ declare global {
   }
 }
 
+import { track } from '@vercel/analytics';
+
 /**
- * Evento base genérico para GA4
+ * Evento base genérico para GA4 y Vercel Analytics
  */
 export const trackEvent = (eventName: string, params?: Record<string, string | number | boolean>) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', eventName, params);
+  if (typeof window !== 'undefined') {
+    if (window.gtag) {
+      window.gtag('event', eventName, params);
+    }
+    try {
+      track(eventName, params);
+    } catch (e) {
+      // Ignorar errores de Vercel Analytics si no está inicializado
+    }
   }
 };
 

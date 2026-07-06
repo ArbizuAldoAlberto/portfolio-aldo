@@ -11,6 +11,7 @@ const rawProjects = [
   {
     id: 'titanflow',
     title: 'TitanFlow',
+    type: 'saas',
     role: 'DeFi Copy Trading & Algorithmic Bot',
     stack: ['Node.js', 'TypeScript', 'Ollama AI', 'CCXT', 'Solidity', 'Base L2'],
     link: 'https://titanflow.aldoarbizu.com',
@@ -31,6 +32,7 @@ const rawProjects = [
   {
     id: 'sentinelos',
     title: 'SentinelOS',
+    type: 'labs',
     role: 'Security Dispatch & Command Center',
     stack: ['React Native', 'Expo EAS', 'SQLite', 'Redux Toolkit', 'Firebase RTDB', 'Lottie'],
     link: 'https://sentinelos.aldoarbizu.com',
@@ -51,6 +53,7 @@ const rawProjects = [
   {
     id: 'aeroshot',
     title: 'AeroShot',
+    type: 'prototype',
     role: 'Agricultural Drone Processing SaaS',
     stack: ['React Native', 'Expo', 'SQLite', 'Animated', 'Jest', 'Expo Haptics'],
     link: 'https://aeroshot.aldoarbizu.com',
@@ -71,6 +74,7 @@ const rawProjects = [
   {
     id: 'agromarket',
     title: 'AgroMarket Pro',
+    type: 'labs',
     role: 'AgriTech Logistics & Marketplace',
     stack: ['React', 'Zustand', 'Supabase', 'HTML5 Canvas', 'Gemini API', 'Universal Cart'],
     link: 'https://agromarket.aldoarbizu.com',
@@ -91,6 +95,7 @@ const rawProjects = [
   {
     id: 'cannabis',
     title: 'SabioBosque',
+    type: 'labs',
     role: 'E-commerce & Legal Compliance SaaS',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
     link: 'https://sabiobosque.aldoarbizu.com',
@@ -111,6 +116,7 @@ const rawProjects = [
   {
     id: 'ecoconnect',
     title: 'EcoConnect',
+    type: 'labs',
     role: 'ESG Registry & Carbon Platform',
     stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'PostgreSQL', 'Ethers.js (Base L2)'],
     link: 'https://ecoconnect.aldoarbizu.com',
@@ -131,6 +137,7 @@ const rawProjects = [
   {
     id: 'pawhero',
     title: 'PawHero',
+    type: 'prototype',
     role: 'Pet Tracking & NGO Donations',
     stack: ['Next.js', 'React Native', 'SQLite', 'Base L2', 'Three.js', 'STL 3D Print'],
     link: 'https://pawhero.aldoarbizu.com',
@@ -151,6 +158,7 @@ const rawProjects = [
   {
     id: 'impresion3d',
     title: 'Impresión 3D P2P',
+    type: 'prototype',
     role: 'Collaborative 3D Printing Platform',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Web3 Escrow', 'STL 3D Print'],
     link: 'https://impresion3d.aldoarbizu.com',
@@ -171,6 +179,7 @@ const rawProjects = [
   {
     id: 'habitat',
     title: 'Hábitat',
+    type: 'prototype',
     role: 'Decentralized Direct Rentals & Land Control',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Solidity (Base L2)', 'Gemini API'],
     link: 'https://habitat.aldoarbizu.com',
@@ -191,6 +200,7 @@ const rawProjects = [
   {
     id: 'marketingadvisor',
     title: 'Smart Marketing Advisor',
+    type: 'prototype',
     role: 'AI Omnichannel Marketing Coach',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Gemini API', 'Recharts analytics'],
     link: 'https://marketingadvisor.aldoarbizu.com',
@@ -211,6 +221,7 @@ const rawProjects = [
   {
     id: 'nomadhub',
     title: 'NOMAD Tactical Hub',
+    type: 'prototype',
     role: 'Off-grid Resilient Survival System',
     stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Vigenère Cipher', 'Morse Encoder'],
     link: 'https://nomadhub.aldoarbizu.com',
@@ -297,6 +308,16 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               </span>
               <div className={`h-px flex-1 ${isSecurity ? 'bg-gradient-to-r from-[#EF4444]/20 to-transparent' : isAgtech ? 'bg-gradient-to-r from-[#84CC16]/20 to-transparent' : 'bg-gradient-to-r from-[var(--color-orbital-teal)]/20 to-transparent'}`} />
               
+              <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${
+                project.type === 'saas' 
+                  ? 'border-[var(--color-amber-gold)] text-[var(--color-amber-gold)] shadow-[0_0_10px_rgba(239,159,39,0.2)] bg-[var(--color-amber-gold)]/5' 
+                  : project.type === 'labs'
+                    ? 'border-[var(--color-electric-purple)] text-[var(--color-electric-purple)] shadow-[0_0_10px_rgba(127,119,221,0.2)] bg-[var(--color-electric-purple)]/5'
+                    : 'border-[var(--color-space-border)] text-[var(--color-mist-gray)] bg-black/10'
+              }`}>
+                {t(`labels.types.${project.type}`)}
+              </span>
+
               {isFeatured && (
                 <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#EF4444] text-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.2)]' : isAgtech ? 'border-[#84CC16] text-[#84CC16] shadow-[0_0_10px_rgba(132,204,22,0.2)]' : 'border-[var(--color-orbital-teal)] text-[var(--color-orbital-teal)] shadow-[0_0_10px_rgba(29,158,117,0.2)]'}`}>
                   {t('labels.featured')}
@@ -430,15 +451,15 @@ export default function Projects() {
       </div>
 
       <div className="w-full relative z-20 overflow-visible">
-        <div className="project-carousel custom-scrollbar flex overflow-x-auto gap-6 md:gap-10 px-4 sm:px-6 lg:px-8 pb-12 snap-x snap-mandatory scroll-smooth w-full">
+        <HorizontalScrollSection>
           <AnimatePresence mode="popLayout">
             {sortedProjects.map((p, i) => (
-              <div key={p.id} className="snap-center shrink-0 w-[85vw] md:w-[65vw] lg:w-[45vw] h-auto">
+              <div key={p.id} className="shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] h-auto flex">
                 <ProjectCard project={p as any} index={i} total={rawProjects.length} />
               </div>
             ))}
           </AnimatePresence>
-        </div>
+        </HorizontalScrollSection>
       </div>
     </section>
   )

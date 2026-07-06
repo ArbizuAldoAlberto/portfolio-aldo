@@ -22,7 +22,7 @@
     "engineer": {
       "status": "ENGINEER · OFFLINE-FIRST MOBILE & WEB3 ARCHITECT",
       "badgeText": "● Product Engineer · React Native, SQLite WAL & Web3 L2",
-      "sub": "Mobile & DeFi software architect. Specialist in offline-first incremental sync engines (SQLite + Convex/Firestore) and multi-tenant database isolation using Supabase RLS. Speaker at ETH Buenos Aires 2026.",
+      "sub": "Hi, I'm Aldo. Product designer and mobile architect specialized in building applications that never let you down. I combine React Native and local databases (SQLite WAL) with the Web3/DeFi ecosystem to create secure, accessible, and robust solutions that truly simplify user lives.",
       "c1Title": "Offline-First Sync Engine (SQLite WAL)",
       "c1Desc": "Resilient architectures with local immutable transaction queues to prevent data conflicts and network downtime.",
       "c2Title": "React Native (CLI/Expo Bare Workflow)",
@@ -35,7 +35,7 @@
     "agtech": {
       "status": "FIELD OPERATIONS · AGTECH, LOGISTICS & DRONES",
       "badgeText": "● Field Engineer · Drones, Telemetry & 3D Prototyping",
-      "sub": "EAS Del Valle graduate. Bridging bytes and atoms by resolving operational problems with offline field software, telemetry, and parametric physical design.",
+      "sub": "Bridging the field with technology. I focus on solving real-world agricultural and logistics challenges in remote, offline zones through offline-first software, telemetry, and parametric design tailored to the actual needs of people in the field.",
       "c1Title": "Tactical Telemetry & Thermal Cameras",
       "c1Desc": "On-field FLIR thermal camera integration, P2P drone telemetry, and local off-grid mapping.",
       "c2Title": "P2P Mesh Networks & Local Maps",
@@ -48,7 +48,7 @@
     "security": {
       "status": "SECURITY · OPS & COMPLIANCE SPECIALIST",
       "badgeText": "● Security Specialist · B2B Cybersecurity & OWASP",
-      "sub": "Former President of the Radical Youth in La Plata. Organizational leadership, social impact, operational audits, and cryptographic data shielding.",
+      "sub": "I believe in technology as a tool for protection and social good. I bring a human and organizational perspective to leadership, executing process audits and shielding data privacy under the highest security and ethical standards.",
       "c1Title": "Mobile Security Audits (OWASP)",
       "c1Desc": "Vulnerability detection, NFC/GPS spoofing prevention, and static OWASP MASVS code analysis.",
       "c2Title": "Local Biometrics & TensorFlow Lite",
@@ -68,8 +68,8 @@
   "Manifesto": {
     "engineer": {
       "sectionLabel": "Stack & Vision",
-      "title": "Armored code designed to survive in real production.",
-      "body": "I won't lie to you with corporate jargon: my code is designed to survive in the mud of real-world production. My technical background started in physical and cyber security. I know the fragility of the real world. That's why I obsessed over Offline-First development (SQLite WAL + Zustand) and hardening applications so they don't crash when a worker loses signal in the middle of nowhere.",
+      "title": "Resilient architectures: code built with purpose and empathy for the user.",
+      "body": "I don't believe in fragile desktop mockups or corporate over-engineering. Having a background in physical security taught me that a network failure is not just an annoying bug: it is an offline guard, a security vulnerability, or real financial loss. That's why I build applications thinking about the human factor, focusing deeply on Offline-First development (SQLite WAL + Zustand) to ensure the software protects and serves people under any real-world stress or disconnection.",
       "p1Num": "01",
       "p1Title": "Local Sync Coherence",
       "p1Desc": "Bidirectional incremental sync and immutable local transaction queues to prevent database conflicts.",
@@ -97,7 +97,7 @@
     "security": {
       "sectionLabel": "Clearance & Protocol",
       "title": "I build software designed to withstand real-world failures.",
-      "body": "I come from the private security and cybersecurity world. In that sector, if a system fails in a basement or a remote field, the impact is not a minor bug: it's a real vulnerability and a financial loss. That's why I obsessed over Offline-First development and SQLite WAL. I don't build fragile desktop prototypes; I create resilient software that ensures your sales keep processing, your employees keep reporting, and your business keeps capturing value, regardless of network conditions.",
+      "body": "I see security not just as hardened code, but as peace of mind for people. In private security and cybersecurity, a system failure isn't just a technical error; it's a person unprotected or real business loss. That's why I dedicate myself to building solid offline-first software that protects your operational continuity and gives peace of mind to your team, whatever happens to the network.",
       "p1Num": "01",
       "p1Title": "Return & Continuity",
       "p1Desc": "If your app crashes when cell signal drops, you lose money. We design with atomic local storage to ensure every interaction counts.",
@@ -114,7 +114,7 @@
       "item3": "Fullstack MERN · First commercialized multi-tenant SaaS",
       "item4": "Cybersecurity Diploma UNGS · TechZone offline-first sync",
       "item5": "Analyst at Maipu Seguridad · VigiTrack core architecture",
-      "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration"
+      "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration - On-Chain Philanthropy Proof"
     },
     "philanthropy": {
       "title": "On-Chain Philanthropy Proof",
@@ -234,18 +234,18 @@
     "pipelineDesc": "\"The synergy between neural generation with Pixal3D and optimization in Blender redefines development times. Complex assets that previously took days are now reconstructed and polished in minutes.\""
   },
   "TitanFlow": {
-    "sectionLabel": "TITAN FLOW & DEFI",
-    "titleLine1": "I don't just invest in the market —",
-    "titleLine2": "I build my own tools.",
-    "liveData": "[Active Products: Titan Flow Alert Lite, n8n CRM]",
+    "sectionLabel": "ACTIVE PROJECTS & ON-CHAIN PHILANTHROPY",
+    "titleLine1": "TitanFlow: Algorithmic Monitoring",
+    "titleLine2": "and Redistributive On-Chain Philanthropy.",
+    "liveData": "[Live Status: Titan Flow Alert Lite · n8n Engine. Connected to current block]",
     "features": {
       "defi": {
-        "title": "Active Quantitative Engineering",
-        "desc": "I build on-chain monitoring algorithms, real-time data flows (n8n/Python), and tools like Titan Flow Alert Lite to capture market opportunities."
+        "title": "SaaS & Production-Grade Algorithms",
+        "desc": "I design and commercialize high-concurrency quantitative trading and on-chain monitoring tools. TitanFlow executes alerts and DeFi strategies with non-custodial local signatures."
       },
       "bots": {
-        "title": "DeFi & Autonomy",
-        "desc": "I develop decentralized systems that interact with the DeFi ecosystem, allowing automated transaction execution without custodial friction."
+        "title": "Redistributive Philanthropy",
+        "desc": "We believe in a model of real-world impact: a percentage of revenues generated by B2B licenses and TitanFlow's automated operations is directly redistributed to local and social causes via Smart Contracts, proving a tech ecosystem with human impact."
       }
     }
   },
@@ -403,7 +403,12 @@
       "stack": "STACK:",
       "demo": "Live Demo",
       "apk": "Android APK",
-      "b2b": "License B2B"
+      "b2b": "License B2B",
+      "types": {
+        "saas": "🚀 ACTIVE SAAS",
+        "labs": "🏢 ARBIZU LABS PROJECT",
+        "prototype": "🧪 LABS PROTOTYPE"
+      }
     },
     "projects": {
       "titanflow": {

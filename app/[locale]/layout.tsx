@@ -4,6 +4,8 @@ import CustomCursor from "../../components/theme/CustomCursor"
 import PremiumBackground from "../../components/theme/PremiumBackground"
 import BackgroundEffects from "../../components/theme/BackgroundEffects"
 import { CursorProvider } from "../../components/theme/CursorContext"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { PersonaProvider } from "../../components/theme/PersonaContext"
 import { SoundProvider } from "../../components/theme/SoundManager"
 import AudioToggle from "../../components/ui/AudioToggle"
@@ -136,6 +138,8 @@ export default async function RootLayout({ children, params }: { children: React
                   <AudioToggle />
                   <SpotlightWrapper />
                   {children}
+                  <Analytics />
+                  <SpeedInsights />
                 </CursorProvider>
               </PersonaProvider>
             </SoundProvider>
