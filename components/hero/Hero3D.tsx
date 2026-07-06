@@ -202,8 +202,6 @@ function CyberOrganicTree() {
 
   const currentColors = useMemo(() => colorsMap[persona] || colorsMap.engineer, [persona, colorsMap])
 
-  }, [currentColors, persona])
-
   const nodeCount = 32
   const maxLines = 120
 
