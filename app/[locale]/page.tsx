@@ -25,9 +25,9 @@ export default function Home() {
       <Hero />
       <TechMarquee />
       <SectionDivider variant='fade' />
-      <Manifesto />
-      <SectionDivider variant='wave' />
       <Projects />
+      <SectionDivider variant='wave' />
+      <Manifesto />
       <SectionDivider variant='diagonal' />
       <DeveloperStore />
       <SectionDivider variant='fade' />

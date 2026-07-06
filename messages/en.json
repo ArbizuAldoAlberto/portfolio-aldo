@@ -234,18 +234,18 @@
     "pipelineDesc": "\"The synergy between neural generation with Pixal3D and optimization in Blender redefines development times. Complex assets that previously took days are now reconstructed and polished in minutes.\""
   },
   "TitanFlow": {
-    "sectionLabel": "TITAN FLOW & AUREUS",
+    "sectionLabel": "TITAN FLOW & DEFI",
     "titleLine1": "I don't just invest in the market —",
     "titleLine2": "I build my own tools.",
-    "liveData": "[Active Products: Titan Flow Alert Lite, Aureus, n8n CRM]",
+    "liveData": "[Active Products: Titan Flow Alert Lite, n8n CRM]",
     "features": {
       "defi": {
         "title": "Active Quantitative Engineering",
         "desc": "I build on-chain monitoring algorithms, real-time data flows (n8n/Python), and tools like Titan Flow Alert Lite to capture market opportunities."
       },
       "bots": {
-        "title": "Aureus & Autonomy",
-        "desc": "I develop systems that read the market to free me from manual charting, deploying bots and architectures that generate revenue automatically."
+        "title": "DeFi & Autonomy",
+        "desc": "I develop decentralized systems that interact with the DeFi ecosystem, allowing automated transaction execution without custodial friction."
       }
     }
   },
