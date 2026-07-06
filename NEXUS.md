@@ -22,6 +22,14 @@
 
 ---
 
+## 📧 Integración de Resend (Contacto y Leads)
+*   **API Service:** Utilizamos Resend para el envío programático de notificaciones de formularios de contacto.
+*   **Configuración de Destinatario:** Las notificaciones (Leads) se envían a la dirección especificada en `RESEND_TO_EMAIL` (configurada en `.env.local`). 
+*   **Flujo Corporativo:** Para mantener la profesionalidad, usamos `RESEND_TO_EMAIL="aldo@arbizulabs.com"`.
+*   **Recepción y Lectura (Cloudflare Email Routing):** Para leer los correos enviados a `aldo@arbizulabs.com`, utilizamos **Cloudflare Email Routing**, el cual intercepta los correos y los reenvía automáticamente y de forma gratuita a la bandeja de entrada personal `arbizualdoalberto@gmail.com`. Nunca leemos correos directamente desde Resend (es solo SMTP de envío) ni pagamos por un buzón extra.
+
+---
+
 ## 🔄 Active Lifecycle Phase
 *   **Current Phase:** `Deployed / Live` (Active on production VPS, serving resume and project details, integrated with cal.com scheduling).
 *   **Production Status:** Running actively in production under PM2 or Docker environment.
