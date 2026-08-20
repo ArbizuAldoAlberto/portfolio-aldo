@@ -102,12 +102,23 @@
   cursor: pointer;
 }
 
-/* SMART CURSOR CSS - Only hide native cursor on fine pointer devices */
+/* ========================================================================= */
+/* AWWWARDS-GRADE HARDWARE ACCELERATED TACTICAL CURSOR (0ms LAG, ZERO GHOSTS)*/
+/* ========================================================================= */
 @media (pointer: fine) {
-  body {
-    cursor: none;
+  /* 1. Cursor Base: Retícula táctica esmeralda de precisión milimétrica */
+  body, html {
+    cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='3' fill='%2310B981'/%3E%3Ccircle cx='12' cy='12' r='8' stroke='rgba(16,185,129,0.5)' stroke-width='1' stroke-dasharray='3 2'/%3E%3Cline x1='12' y1='2' x2='12' y2='5' stroke='white' stroke-width='1.2' stroke-linecap='round'/%3E%3Cline x1='12' y1='19' x2='12' y2='22' stroke='white' stroke-width='1.2' stroke-linecap='round'/%3E%3Cline x1='2' y1='12' x2='5' y2='12' stroke='white' stroke-width='1.2' stroke-linecap='round'/%3E%3Cline x1='19' y1='12' x2='22' y2='12' stroke='white' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, auto;
   }
-  a, button, input, textarea, select, label {
-    cursor: none !important;
+
+  /* 2. Cursor Interactivo: Retícula expandida de acción rápida */
+  a, button, [role="button"], input[type="submit"], select, .cursor-pointer {
+    cursor: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='4' fill='%2334D399'/%3E%3Ccircle cx='14' cy='14' r='10' stroke='%2334D399' stroke-width='1.5' stroke-dasharray='4 2'/%3E%3Cpath d='M6 14H2M26 14H22M14 6V2M14 26V22' stroke='%2334D399' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 14 14, pointer !important;
+  }
+
+  /* 3. Cursor 3D Táctico: Órbita espacial para el lienzo WebGL */
+  .cursor-3d, [data-cursor="3d"], canvas {
+    cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23F59E0B'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' stroke='%23F59E0B' stroke-width='1.2' stroke-dasharray='3 2' transform='rotate(-25 16 16)'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' stroke='%2310B981' stroke-width='1.2' stroke-dasharray='3 2' transform='rotate(25 16 16)'/%3E%3C/svg%3E") 16 16, crosshair !important;
   }
 }
+

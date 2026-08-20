@@ -6,7 +6,7 @@ import { getRecentCommits, getTopLanguages, getContributionStreak, getRepoStats 
 
 export default function RealTimeActivity() {
   const [loading, setLoading] = useState(true)
-  const [githubUser] = useState('aldoarbizu') // Puede venir de env pero para cliente mejor hardcodeado seguro
+  const [githubUser] = useState('ArbizuAldoAlberto')
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {

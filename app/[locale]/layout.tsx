@@ -1,68 +1,57 @@
-import type { Metadata } from "next"
-import { Cormorant_Garamond, JetBrains_Mono, Space_Mono, Outfit } from "next/font/google"
-import CustomCursor from "../../components/theme/CustomCursor"
-import PremiumBackground from "../../components/theme/PremiumBackground"
-import BackgroundEffects from "../../components/theme/BackgroundEffects"
-import { CursorProvider } from "../../components/theme/CursorContext"
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { PersonaProvider } from "../../components/theme/PersonaContext"
-import { SoundProvider } from "../../components/theme/SoundManager"
-import AudioToggle from "../../components/ui/AudioToggle"
-import Navigation from "../../components/ui/Navigation"
-import Preloader from "../../components/ui/Preloader"
-import "../globals.css"
-import { NextIntlClientProvider } from "next-intl"
-import { getMessages, getTranslations } from "next-intl/server"
-import { notFound } from "next/navigation"
-import { routing } from "../../i18n/routing"
-import { SmoothScroll } from "../../components/theme/SmoothScroll"
-import Script from 'next/script'
-import SpotlightWrapper from "../../components/theme/SpotlightWrapper"
-const cormorant = Cormorant_Garamond({ 
-  subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
-  variable: "--font-cormorant"
-})
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-outfit"
-})
+import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
+import { JetBrains_Mono } from "next/font/google";
+import { MotionPreferencesProvider } from "../../components/system/MotionPreferences";
+import PremiumBackground from "../../components/theme/PremiumBackground";
+import BackgroundEffects from "../../components/theme/BackgroundEffects";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { PersonaProvider } from "../../components/theme/PersonaContext";
+import { SoundProvider } from "../../components/theme/SoundManager";
+import Navigation from "../../components/ui/Navigation";
+import { BootSequence } from "../../components/system/BootSequence";
+import "../globals.css";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "../../i18n/routing";
+import { SmoothScroll } from "../../components/theme/SmoothScroll";
+import Script from "next/script";
+import SpotlightWrapper from "../../components/theme/SpotlightWrapper";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains"
-})
+  variable: "--font-jetbrains-mono",
+  preload: true,
+});
 
-const space = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space"
-})
-
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Metadata' });
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
-    manifest: '/manifest.json',
+    manifest: "/manifest.json",
     appleWebApp: {
       capable: true,
-      statusBarStyle: 'default',
-      title: 'Arbizu Labs',
+      statusBarStyle: "default",
+      title: "Aldo Arbizu | Arbizu Labs",
     },
-    title: t('title'),
-    description: t('description'),
+    title: t("title"),
+    description: t("description"),
     keywords: [
-      "Aldo Arbizu", "React Native Developer", "Product Engineer", "Offline-First", "SQLite WAL Expo",
-      "Contratar React Native", "Hire React Native Developer", "SaaS Architect Argentina",
-      "n8n automatización", "Freelance Mobile Developer", "Three.js Portfolio", "Next.js 16",
-      "Arbizu Labs", "Desarrollador Senior Mobile", "Desarrollo Offline-First",
-      "B2B Software Development", "Custom Mobile Apps", "SaaS Developer Argentina",
-      "Hire Fullstack Engineer", "Contratar Desarrollador Mobile", "Product Engineer B2B",
-      "Base L2 payment integration", "Stripe Developer", "Universal Commerce Protocol UCP"
+      "Aldo Arbizu",
+      "React Native Developer",
+      "Product Engineer",
+      "Offline-First",
+      "SQLite WAL Expo",
+      "Arbizu Labs",
+      "SaaS Architect Argentina",
+      "AgTech Developer",
+      "B2B Software Development",
     ],
     authors: [{ name: "Aldo Arbizu", url: "https://aldoarbizu.com" }],
     metadataBase: new URL("https://aldoarbizu.com"),
@@ -72,23 +61,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       apple: "/favicon-founder.svg",
     },
     alternates: {
-      canonical: "/"
-    },
-    robots: {
-      index: true,
-      follow: true,
-      nocache: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
+      canonical: "/",
+      languages: {
+        es: "/es",
+        en: "/en",
       },
     },
     openGraph: {
-      title: t('ogTitle'),
-      description: t('ogDescription'),
+      title: t("ogTitle"),
+      description: t("ogDescription"),
       url: "https://aldoarbizu.com",
       siteName: "Aldo Arbizu Portfolio",
       type: "website",
@@ -96,19 +77,34 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     twitter: {
       card: "summary_large_image",
-      title: t('twitterTitle'),
-      description: t('twitterDescription'),
-    }
-  }
+      title: t("twitterTitle"),
+      description: t("twitterDescription"),
+    },
+  };
 }
 
-export default async function RootLayout({ children, params }: { children: React.ReactNode, params: Promise<{ locale: string }> }) {
+export default async function LocalizedLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   if (!routing.locales.includes(locale as any)) notFound();
   const messages = await getMessages();
+
   return (
-    <html lang={locale} className={`${cormorant.variable} ${outfit.variable} ${jetbrains.variable} ${space.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="bg-[var(--color-space-black)] text-[var(--color-mist-gray)] font-mono antialiased selection:bg-[var(--color-orbital-teal)]/30 relative" suppressHydrationWarning>
+    <html
+      lang={locale}
+      data-scroll-behavior="smooth"
+      className={`${GeistSans.variable} ${jetbrains.variable} scroll-smooth`}
+      suppressHydrationWarning
+    >
+      <body
+        className="bg-orbital-bg text-slate-200 font-sans antialiased selection:bg-orbital-emerald/30 selection:text-white relative"
+        suppressHydrationWarning
+      >
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
@@ -125,25 +121,24 @@ export default async function RootLayout({ children, params }: { children: React
             </Script>
           </>
         )}
+
         <NextIntlClientProvider messages={messages}>
-          <SmoothScroll>
-            <SoundProvider>
-              <PersonaProvider>
-                <CursorProvider>
-                  <Preloader />
+          <MotionPreferencesProvider>
+            <SmoothScroll>
+              <SoundProvider>
+                <PersonaProvider>
+                  <BootSequence />
                   <Navigation />
-                  <CustomCursor />
                   <PremiumBackground />
                   <BackgroundEffects />
-                  <AudioToggle />
                   <SpotlightWrapper />
                   {children}
                   <Analytics />
                   <SpeedInsights />
-                </CursorProvider>
-              </PersonaProvider>
-            </SoundProvider>
-          </SmoothScroll>
+                </PersonaProvider>
+              </SoundProvider>
+            </SmoothScroll>
+          </MotionPreferencesProvider>
         </NextIntlClientProvider>
 
         <Script id="service-worker-registration" strategy="lazyOnload">
@@ -159,5 +154,5 @@ export default async function RootLayout({ children, params }: { children: React
         </Script>
       </body>
     </html>
-  )
+  );
 }

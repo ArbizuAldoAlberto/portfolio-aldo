@@ -58,7 +58,7 @@ export default function MagneticButton({
 
   const classes = `${baseClasses} ${variants[variant]} ${className}`
 
-  const MotionComponent = motion(href ? 'a' : 'button') as any
+  const MotionComponent = (href ? motion.a : motion.button) as any
 
   return (
     <MotionComponent
