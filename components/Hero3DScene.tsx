@@ -113,15 +113,17 @@ function MetatronCore({ energySurge }: { energySurge: number }) {
     // 1. Reorientar la geometría verticalmente en 90° para que quede erguida y frontal
     solid.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
-        child.geometry = child.geometry.clone();
-        child.geometry.rotateX(Math.PI / 2);
+        const mesh = child as THREE.Mesh;
+        mesh.geometry = mesh.geometry.clone();
+        mesh.geometry.rotateX(Math.PI / 2);
       }
     });
 
     wire.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
-        child.geometry = child.geometry.clone();
-        child.geometry.rotateX(Math.PI / 2);
+        const mesh = child as THREE.Mesh;
+        mesh.geometry = mesh.geometry.clone();
+        mesh.geometry.rotateX(Math.PI / 2);
       }
     });
 
