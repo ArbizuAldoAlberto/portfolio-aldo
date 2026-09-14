@@ -12,11 +12,11 @@ interface DiagramNode {
 }
 
 interface ArchitectureDiagramProps {
-  systemId: "titanflow" | "agromarket" | "sentinel";
+  systemId: "titanflow" | "agromarket" | "sentinel" | "aureus" | "nexus-sre";
 }
 
 const DIAGRAM_DATA: Record<
-  "titanflow" | "agromarket" | "sentinel",
+  "titanflow" | "agromarket" | "sentinel" | "aureus" | "nexus-sre",
   { title: string; nodes: DiagramNode[] }
 > = {
   titanflow: {
@@ -44,6 +44,24 @@ const DIAGRAM_DATA: Record<
       { label: "SQLite WAL Local", sub: "Encolado sin pérdida", tag: "CORE", color: "amber" },
       { label: "Firma Criptográfica", sub: "Anclaje GPS inmutable", color: "teal" },
       { label: "Sincronización Mesh", sub: "Disparo al detectar red", color: "emerald" },
+    ],
+  },
+  aureus: {
+    title: "WEALTH OS // RUNWAY & ASSET ALLOCATION LEDGER",
+    nodes: [
+      { label: "Multi-Asset Engine", sub: "Cripto, FX & Real Estate", color: "amber" },
+      { label: "Risk Curve Monte Carlo", sub: "Preservación estricta", color: "teal" },
+      { label: "Liquid Runway Gauge", sub: "Proyección 36 meses", tag: "CORE", color: "emerald" },
+      { label: "Zero-Trust Local Store", sub: "Sin intermediarios", color: "amber" },
+    ],
+  },
+  "nexus-sre": {
+    title: "SRE CLUSTER // ZERO-DOWNTIME L7 FAILOVER",
+    nodes: [
+      { label: "Anycast Edge Router", sub: "Inspección de cabecera", color: "teal" },
+      { label: "Layer-7 Health Watchdog", sub: "Polling cada 2s", tag: "SRE", color: "amber" },
+      { label: "Dynamic Proxy Reroute", sub: "Conmutación en 42ms", color: "emerald" },
+      { label: "Self-Healing PM2 Cluster", sub: "Auto-reinicio y purge", color: "teal" },
     ],
   },
 };

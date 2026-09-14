@@ -16,6 +16,7 @@ import { ArchitectureDiagram } from "./interactive/ArchitectureDiagram";
 import { TitanFlowWidget } from "./interactive/TitanFlowWidget";
 import { AgroMarketWidget } from "./interactive/AgroMarketWidget";
 import { SentinelWidget } from "./interactive/SentinelWidget";
+import { SreFailoverSandbox } from "./interactive/SreFailoverSandbox";
 import { soundEngine } from "./system/SoundEngine";
 import { useLocale } from "next-intl";
 
@@ -534,6 +535,51 @@ export function ProjectsShowcase() {
           </div>
         </div>
       </div>
+
+      {/* ========================================================================= */}
+      {/* SECCIÓN INTERACTIVA SRE & HIGH-AVAILABILITY CLOUD LAB */}
+      {/* ========================================================================= */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.6 }}
+        className="mt-24 p-6 sm:p-10 rounded-3xl bg-black/60 border border-cyan-500/30 shadow-2xl relative overflow-hidden"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-white/10 pb-6">
+          <div>
+            <span className="font-mono text-xs text-cyan-400 font-bold uppercase tracking-wider block mb-1">
+              [ LIVE ARCHITECTURE SANDBOX ]
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight">
+              {isEs ? "Simulador de Resiliencia & Failover SRE en Vivo" : "Live SRE Resiliency & Failover Simulator"}
+            </h3>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 font-mono text-[11px] font-semibold text-cyan-300">
+            TEST DE INFRAESTRUCTURA L7
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-6">
+            <SreFailoverSandbox />
+          </div>
+          <div className="lg:col-span-6 space-y-4">
+            <ArchitectureDiagram systemId="nexus-sre" />
+            <div className="p-4 rounded-xl bg-black/40 border border-white/10 text-slate-300 font-sans text-xs leading-relaxed">
+              {isEs ? (
+                <p>
+                  Demostración interactiva de tolerancia a fallos. En arquitecturas de misión crítica (trading cuantitativo, Web3 y portales empresariales), los incidentes son detectados por el <strong>Watchdog Autónomo</strong> y mitigados en milisegundos mediante reencaminamiento de capa 7 sin provocar caídas de servicio.
+                </p>
+              ) : (
+                <p>
+                  Interactive fault-tolerance demonstration. Across mission-critical workloads (quantitative trading, Web3 and enterprise platforms), anomalies are detected by our <strong>Autonomous Watchdog</strong> and rerouted at Layer 7 in milliseconds with zero downtime.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
