@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { PersonaProvider } from "../../components/theme/PersonaContext";
 import { SoundProvider } from "../../components/theme/SoundManager";
 import Navigation from "../../components/ui/Navigation";
+import FastTrackBar from "../../components/ui/FastTrackBar";
 import { BootSequence } from "../../components/system/BootSequence";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
@@ -40,18 +41,27 @@ export async function generateMetadata({
       statusBarStyle: "default",
       title: "Aldo Arbizu | Arbizu Labs",
     },
-    title: t("title"),
-    description: t("description"),
+    title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect | High-Availability Infrastructure",
+    description: "Portafolio de ingeniería de Aldo Arbizu. Staff Site Reliability Engineer, desarrollador de sistemas de trading algorítmico en Binance Futures y arquitecto de infraestructuras distribuidas de alta disponibilidad (Zero-Downtime).",
     keywords: [
       "Aldo Arbizu",
-      "React Native Developer",
-      "Product Engineer",
-      "Offline-First",
-      "SQLite WAL Expo",
-      "Arbizu Labs",
-      "SaaS Architect Argentina",
-      "AgTech Developer",
-      "B2B Software Development",
+      "Staff SRE",
+      "Site Reliability Engineer",
+      "Quantitative Systems Developer",
+      "Binance Futures API",
+      "Kelly Criterion Automation",
+      "Low-Latency WebSockets",
+      "Distributed Systems Architect",
+      "Zero-Downtime Infrastructure",
+      "Layer-7 Failover",
+      "Hetzner Cloud",
+      "Kubernetes",
+      "TypeScript",
+      "Rust",
+      "Go",
+      "Base L2 Blockchain",
+      "Offline-First Mobile",
+      "Arbizu Labs"
     ],
     authors: [{ name: "Aldo Arbizu", url: "https://aldoarbizu.com" }],
     metadataBase: new URL("https://aldoarbizu.com"),
@@ -68,17 +78,26 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: t("ogTitle"),
-      description: t("ogDescription"),
+      title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect",
+      description: "Infraestructuras distribuidas resilientes, ejecución algorítmica en Binance Futures y ecosistemas SaaS en producción activa.",
       url: "https://aldoarbizu.com",
-      siteName: "Aldo Arbizu Portfolio",
+      siteName: "Aldo Arbizu — Staff SRE & Quantitative Portfolio",
       type: "website",
       locale: locale,
+      images: [
+        {
+          url: "/api/og?persona=founder",
+          width: 1200,
+          height: 630,
+          alt: "Aldo Arbizu — Staff SRE & Quantitative Systems Architect",
+        }
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: t("twitterTitle"),
-      description: t("twitterDescription"),
+      title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect",
+      description: "Sistemas distribuidos de alta disponibilidad y ejecución algorítmica de baja latencia.",
+      images: ["/api/og?persona=founder"],
     },
   };
 }
@@ -128,6 +147,7 @@ export default async function LocalizedLayout({
               <SoundProvider>
                 <PersonaProvider>
                   <BootSequence />
+                  <FastTrackBar />
                   <Navigation />
                   <PremiumBackground />
                   <BackgroundEffects />
@@ -140,6 +160,38 @@ export default async function LocalizedLayout({
             </SmoothScroll>
           </MotionPreferencesProvider>
         </NextIntlClientProvider>
+
+        {/* Schema.org Person JSON-LD for Google Rich Results */}
+        <Script
+          id="schema-person"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Aldo Alberto Arbizu",
+              "jobTitle": "Staff Site Reliability Engineer & Quantitative Systems Architect",
+              "url": "https://aldoarbizu.com",
+              "sameAs": [
+                "https://github.com/ArbizuAldoAlberto",
+                "https://linkedin.com/in/aldoarbizu"
+              ],
+              "knowsAbout": [
+                "Site Reliability Engineering",
+                "Quantitative Trading",
+                "Binance Futures API",
+                "Kelly Criterion Risk Modeling",
+                "Distributed Systems",
+                "Layer-7 Failover",
+                "Kubernetes",
+                "TypeScript",
+                "Rust",
+                "Go",
+                "Base L2 Blockchain"
+              ]
+            })
+          }}
+        />
 
         <Script id="service-worker-registration" strategy="lazyOnload">
           {`
