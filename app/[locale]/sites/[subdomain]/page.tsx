@@ -10,7 +10,8 @@ export default async function SubdomainPage({
   const validSubdomains = [
     'titanflow', 'sentinelos', 'aeroshot', 'agromarket',
     'sabiobosque', 'ecoconnect', 'pawhero', 'impresion3d',
-    'habitat', 'marketingadvisor', 'nomadhub'
+    'habitat', 'marketingadvisor', 'nomadhub', 'aureus',
+    'cannabis', 'techzone', 'arbizulabs'
   ];
 
   if (!validSubdomains.includes(subdomain)) {
