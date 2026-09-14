@@ -326,7 +326,35 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
             </div>
 
             <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{t(`projects.${project.id}.title`)}</h3>
-            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-8 font-bold" style={{ color: 'var(--color-orbital-teal)' }}>{t(`projects.${project.id}.role`)}</div>
+            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-6 font-bold" style={{ color: 'var(--color-orbital-teal)' }}>{t(`projects.${project.id}.role`)}</div>
+
+            {/* Real Project Screenshot Browser Mockup */}
+            <div className="relative mb-6 rounded-xl border border-white/10 bg-black/80 overflow-hidden shadow-lg group-hover:border-[var(--color-orbital-teal)]/40 transition-colors">
+              <div className="flex items-center justify-between px-3 py-2 bg-black/90 border-b border-white/5 text-[10px] font-mono text-slate-400">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-red-500/70" />
+                  <span className="w-2 h-2 rounded-full bg-amber-500/70" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
+                  <span className="text-slate-500 text-[9px] ml-2 hidden sm:inline">
+                    https://{project.id === 'cannabis' ? 'sabiobosque' : project.id}.aldoarbizu.com
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-emerald-400 font-bold text-[9px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span>LIVE · 200 OK</span>
+                </div>
+              </div>
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#06080e]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/projects/${project.id === 'cannabis' ? 'sabiobosque' : project.id}.png`}
+                  alt={`${project.title} Preview`}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+              </div>
+            </div>
 
             <AnimatePresence mode="wait">
               <motion.div
