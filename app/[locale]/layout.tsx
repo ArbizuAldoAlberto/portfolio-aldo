@@ -10,6 +10,7 @@ import { PersonaProvider } from "../../components/theme/PersonaContext";
 import { SoundProvider } from "../../components/theme/SoundManager";
 import Navigation from "../../components/ui/Navigation";
 import FastTrackBar from "../../components/ui/FastTrackBar";
+import FloatingProjectsButton from "../../components/ui/FloatingProjectsButton";
 import { BootSequence } from "../../components/system/BootSequence";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
@@ -149,6 +150,7 @@ export default async function LocalizedLayout({
                   <BootSequence />
                   <FastTrackBar />
                   <Navigation />
+                  <FloatingProjectsButton />
                   <PremiumBackground />
                   <BackgroundEffects />
                   <SpotlightWrapper />

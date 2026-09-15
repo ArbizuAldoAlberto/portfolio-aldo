@@ -211,6 +211,27 @@ export default function Contact() {
                 <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
               </a>
             </div>
+
+            <div className="glass-surface p-6 border-l-4 border-l-emerald-500 hover:border-l-emerald-400 transition-colors">
+              <span className="font-space text-[10px] uppercase tracking-widest text-emerald-400 font-bold block mb-2">
+                {locale === 'es' ? "WhatsApp Directo B2B // Respuesta < 2h" : "Direct B2B WhatsApp // Response < 2h"}
+              </span>
+              <a
+                href="https://wa.me/5492314489197?text=Hola%20Aldo,%20vi%20tu%20portfolio%20aldoarbizu.com%20y%20me%20gustar%C3%ADa%20conversar%20sobre..."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-white hover:text-emerald-300 transition-colors flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-2">
+                  <MessageSquare size={16} className="text-emerald-400" />
+                  <span>+54 9 2314 489197</span>
+                </div>
+                <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-emerald-400" />
+              </a>
+              <span className="font-mono text-[10px] text-slate-400 block mt-2">
+                {locale === 'es' ? "Aldo Alberto Arbizu (CUIT: 20-38362060-1) · Bolívar & Remoto" : "Aldo Alberto Arbizu (CUIT: 20-38362060-1) · Bolívar & Remote"}
+              </span>
+            </div>
           </div>
 
           {/* Right Column: Premium Form */}

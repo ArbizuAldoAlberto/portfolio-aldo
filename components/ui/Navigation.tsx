@@ -14,6 +14,20 @@ export default function Navigation() {
   const router = useRouter();
   const { reducedMotion, toggleReducedMotion } = useMotionPreferences();
   const [isMuted, setIsMuted] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress(Math.min(100, Math.max(0, (scrollY / totalHeight) * 100)));
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsMuted(soundEngine.isMuted());
@@ -39,7 +53,7 @@ export default function Navigation() {
 
   return (
     <header className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-6xl pointer-events-none">
-      <div className="flex items-center justify-between gap-2 sm:gap-3 p-2 sm:p-2.5 rounded-full bg-[#07070A]/90 backdrop-blur-2xl border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.8)] pointer-events-auto transition-all">
+      <div className="relative overflow-hidden flex items-center justify-between gap-2 sm:gap-3 p-2 sm:p-2.5 rounded-full bg-[#07070A]/90 backdrop-blur-2xl border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.8)] pointer-events-auto transition-all">
         {/* Brand & Live Beacon */}
         <Link
           href="/"
@@ -162,6 +176,12 @@ export default function Navigation() {
             <span className={locale === "en" ? "text-emerald-400 font-bold" : "text-slate-400"}>EN</span>
           </button>
         </div>
+
+        {/* Scroll Reading Progress Bar */}
+        <div
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 transition-all duration-150 pointer-events-none"
+          style={{ width: `${scrollProgress}%` }}
+        />
       </div>
     </header>
   );

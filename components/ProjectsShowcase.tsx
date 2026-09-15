@@ -184,9 +184,12 @@ export function ProjectsShowcase() {
               {isEs ? "Logística Agropecuaria & Soluciones de Manga" : "Agricultural Logistics & Livestock Solutions"}
             </span>
           </div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/80 border border-amber-500/40 font-mono text-[11px] font-semibold text-amber-400">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{isEs ? "PROTOTIPO EN CREACIÓN · VALIDACIÓN DE CAMPO" : "PROTOTYPE IN PROGRESS · FIELD VALIDATION"}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 font-mono text-[11px] font-semibold text-emerald-400">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+            </span>
+            <span>{isEs ? "EN PRODUCCIÓN · 8 HERRAMIENTAS ACTIVAS" : "IN PRODUCTION · 8 ACTIVE TOOLS"}</span>
           </div>
         </div>
 
@@ -197,14 +200,14 @@ export function ProjectsShowcase() {
             </h3>
             <p className="font-mono text-xs text-emerald-400 font-medium">
               {isEs
-                ? "Plataforma de optimización de fletes rurales (AgroPool) y control térmico FLIR para acopio"
-                : "Rural freight pooling platform (AgroPool) and FLIR thermal monitoring for crop storage"}
+                ? "Plataforma AgTech completa: 8 herramientas en producción para ganadería, fletes y silobolsas"
+                : "Complete AgTech platform: 8 production-grade tools for livestock, freight pooling, and silo storage"}
             </p>
 
             {/* Historia de Origen Real */}
-            <div className="p-5 rounded-2xl bg-black/80 border-l-4 border-amber-500 border border-white/10 relative">
-              <Quote className="w-6 h-6 text-amber-500/20 absolute top-4 right-4" />
-              <span className="font-mono text-[11px] text-amber-400 uppercase tracking-wider font-semibold block mb-2">
+            <div className="p-5 rounded-2xl bg-black/80 border-l-4 border-emerald-500 border border-white/10 relative">
+              <Quote className="w-6 h-6 text-emerald-500/20 absolute top-4 right-4" />
+              <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-wider font-semibold block mb-2">
                 {isEs ? "// EL ORIGEN REAL" : "// THE REAL ORIGIN"}
               </span>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed italic">
@@ -223,17 +226,17 @@ export function ProjectsShowcase() {
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
                 {isEs ? (
                   <>
-                    Interfaz de contraste ultra-alto diseñada para visibilidad bajo sol directo. Arquitectura{" "}
-                    <strong>Offline-First</strong> para registro ininterrumpido de pesaje y sanidad animal en manga.
-                    Algoritmo <strong>“AgroPool”</strong> para consolidación inteligente de fletes compartidos y
-                    simulador térmico en Canvas para detección temprana de focos en silobolsas.
+                    Interfaz de contraste ultra-alto diseñada para visibilidad bajo sol directo. 8 módulos operativos en producción:{" "}
+                    <strong>Manga BLE & SENASA 2026</strong> para pesaje y trazabilidad ininterrumpida sin conexión,
+                    cálculo de <strong>Márgenes por Lote</strong>, consolidación de fletes <strong>AgroPool</strong>,
+                    telemetría de <strong>Silobolsas FLIR</strong>, Asistente IA, cotizaciones en vivo y Fideicomiso Granario.
                   </>
                 ) : (
                   <>
-                    Ultra-high contrast UI engineered for direct sunlight readability. <strong>Offline-First</strong>{" "}
-                    architecture for uninterrupted livestock weighing and health logs. <strong>“AgroPool”</strong>{" "}
-                    algorithm for shared rural freight pooling, and Canvas 2D thermal simulator for early hotspot
-                    detection in silo bags.
+                    Ultra-high contrast UI engineered for direct sunlight readability. 8 operational production modules:{" "}
+                    <strong>BLE Livestock Chute & SENASA 2026</strong> for uninterrupted off-grid weighing and traceability,
+                    <strong>Field Margin Analysis</strong>, <strong>AgroPool</strong> freight pooling,
+                    <strong>FLIR Silo Bag Telemetry</strong>, AI Field Assistant, live market quotes, and Grain Escrow.
                   </>
                 )}
               </p>
@@ -243,7 +246,7 @@ export function ProjectsShowcase() {
             <div className="pt-2">
               <span className="font-mono text-[10px] text-slate-400 uppercase block mb-2">Stack:</span>
               <div className="flex flex-wrap gap-2">
-                {["Next.js", "Canvas 2D / WebGL", "IoT LoRaWAN", "Supabase", "Gemini API", "Universal Cart"].map(
+                {["Next.js", "Canvas 2D / WebGL", "IoT LoRaWAN", "Supabase", "Gemini API", "FLIR Thermal", "BLE Chute"].map(
                   (tech, i) => (
                     <span
                       key={i}
@@ -257,20 +260,30 @@ export function ProjectsShowcase() {
             </div>
 
             {/* CTA */}
-            <div className="pt-3 flex flex-wrap gap-4 items-center">
+            <div className="pt-3 flex flex-wrap gap-3 items-center">
               <a
                 href="https://agromarket.aldoarbizu.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 onMouseEnter={() => soundEngine.playHover()}
                 onClick={() => soundEngine.playClick()}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono text-xs font-bold hover:bg-emerald-400 hover:text-slate-950 hover:border-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.25)] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-400 text-slate-950 font-mono text-xs font-bold hover:bg-emerald-300 shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all"
               >
-                <span>{isEs ? "Ver Prototipo en Desarrollo" : "View Prototype in Progress"}</span>
+                <span>{isEs ? "Acceder a AgroMarket Pro" : "Access AgroMarket Pro"}</span>
                 <ExternalLink className="w-4 h-4" />
               </a>
-              <span className="font-mono text-xs text-amber-400/90 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-amber-400" /> {isEs ? "-22% costos logísticos" : "-22% logistics costs"}
+              <a
+                href="https://wa.me/5492314489197?text=Hola%20Aldo,%20deseo%20solicitar%20una%20Auditor%C3%ADa%20T%C3%A9rmica%20FLIR%20en%20Silobolsas%20para%20mi%20campo"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => soundEngine.playHover()}
+                onClick={() => soundEngine.playClick()}
+                className="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 font-mono text-xs font-semibold transition-all"
+              >
+                <span>{isEs ? "Auditoría FLIR ($105k ARS)" : "FLIR Audit ($105k ARS)"}</span>
+              </a>
+              <span className="font-mono text-xs text-emerald-400/90 flex items-center gap-1.5 ml-1">
+                <Sparkles className="w-4 h-4 text-emerald-400" /> {isEs ? "8 Herramientas 100% Activas" : "8 Tools 100% Active"}
               </span>
             </div>
           </div>
@@ -456,6 +469,82 @@ export function ProjectsShowcase() {
             </a>
           </div>
 
+          {/* TechZone POS */}
+          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-blue-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] text-blue-400 uppercase font-bold">
+                  {isEs ? "Retail POS & Offline-First" : "Retail POS & Offline-First"}
+                </span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-blue-950/60 text-blue-300 border border-blue-500/30">
+                  {isEs ? "LICENCIA $85K ARS" : "LICENSE $85K ARS"}
+                </span>
+              </div>
+              <h4 className="text-xl font-sans font-bold text-white mb-2">TechZone POS</h4>
+              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
+                {isEs
+                  ? "Terminal de cobro blindada anti-cortes de internet para comercios. Encolado transaccional en SQLite WAL y facturación continua en mostrador."
+                  : "Bulletproof offline-first retail POS terminal. Transaction queuing in SQLite WAL with zero downtime during internet outages."}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {["React Native", "SQLite WAL", "ESC/POS", "QR Interoperable"].map((t, i) => (
+                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <a
+              href="https://techzone.aldoarbizu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => soundEngine.playHover()}
+              onClick={() => soundEngine.playClick()}
+              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-blue-400 hover:text-slate-950 transition-colors"
+            >
+              <span>{isEs ? "Explorar Terminal POS" : "Explore POS Terminal"}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* AeroShot Drones 4K */}
+          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-sky-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] text-sky-400 uppercase font-bold">
+                  {isEs ? "Agro Drones & GIS" : "Agro Drones & GIS"}
+                </span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-sky-950/60 text-sky-300 border border-sky-500/30">
+                  {isEs ? "SERVICIO $60K ARS" : "SERVICE $60K ARS"}
+                </span>
+              </div>
+              <h4 className="text-xl font-sans font-bold text-white mb-2">AeroShot Drones</h4>
+              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
+                {isEs
+                  ? "Relevamiento aéreo 4K multiespectral, peritaje de siniestros agropecuarios (granizo/inundación) y cartografía en Bolívar y la región."
+                  : "4K multispectral drone surveys, agricultural crop loss appraisal, and geospatial mapping in Bolívar and central Buenos Aires."}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {["GIS WebGL", "DJI Telemetry", "NDVI Index", "Base L2"].map((t, i) => (
+                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <a
+              href="https://aeroshot.aldoarbizu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => soundEngine.playHover()}
+              onClick={() => soundEngine.playClick()}
+              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-sky-400 hover:text-slate-950 transition-colors"
+            >
+              <span>{isEs ? "Explorar Servicio Aéreo" : "Explore Aerial Service"}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
           {/* PawHero */}
           <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
             <div>
@@ -530,6 +619,44 @@ export function ProjectsShowcase() {
               className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-amber-400 hover:text-slate-950 transition-colors"
             >
               <span>{isEs ? "Explorar Proyecto" : "Explore Project"}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* EcoConnect ESG */}
+          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-teal-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] text-teal-400 uppercase font-bold">
+                  {isEs ? "ESG & Satelital" : "ESG & Satellite"}
+                </span>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-950/60 text-teal-300 border border-teal-500/30">
+                  LIVE TELEMETRY
+                </span>
+              </div>
+              <h4 className="text-xl font-sans font-bold text-white mb-2">EcoConnect ESG</h4>
+              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
+                {isEs
+                  ? "Registro y monitoreo de cobertura forestal con telemetría satelital Sentinel-2 (NDVI) y certificación inmutable on-chain."
+                  : "Forest canopy monitoring via Sentinel-2 (NDVI) satellite telemetry and tamper-proof environmental certification."}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {["Next.js", "Sentinel-2 API", "Base L2", "Three.js"].map((t, i) => (
+                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <a
+              href="https://ecoconnect.aldoarbizu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => soundEngine.playHover()}
+              onClick={() => soundEngine.playClick()}
+              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-teal-400 hover:text-slate-950 transition-colors"
+            >
+              <span>{isEs ? "Explorar Telemetría" : "Explore Telemetry"}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
