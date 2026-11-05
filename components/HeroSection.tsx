@@ -92,7 +92,9 @@ export default function HeroSection() {
           >
             <span className="btn-label">
               <span>{t("heroCtaPrimary")}</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-white/10 border border-white/20 group-hover:scale-110 group-hover:border-emerald-400 group-hover:text-emerald-400 transition-all duration-200">
+                <ArrowUpRight className="w-3.5 h-3.5 drop-shadow-[0_0_6px_currentColor]" />
+              </span>
             </span>
             <span className="btn-glow" aria-hidden="true" />
           </a>

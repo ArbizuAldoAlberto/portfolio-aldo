@@ -428,26 +428,84 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   gap: 0.38rem;
   padding: 0.42rem 0.72rem;
   border-radius: var(--radius-arch);
-  background-color: var(--bg-btn);
+  background: linear-gradient(135deg, var(--bg-btn) 0%, var(--bg-elevated) 100%);
   border: 1px solid var(--accent-border);
   color: var(--text-secondary);
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.75rem;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ctrl-btn:hover,
 .ctrl-btn:focus-visible {
   color: var(--text-primary);
   border-color: var(--accent-border-strong);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 12px var(--accent-soft), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
 }
 
 .ctrl-btn--active {
   background-color: var(--accent-soft);
   color: var(--text-primary);
   border-color: var(--accent-border-strong);
+  box-shadow: 0 0 14px var(--accent-soft), inset 0 0 0 1px var(--accent-border-strong);
+}
+
+/* ==========================================================================
+   STITCH DESIGN SYSTEM — FROSTED GLASS & MICRO-LUMINESCENT ICON PEDESTALS
+   ========================================================================== */
+.icon-pedestal {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(7, 17, 30, 0.85) 0%, rgba(10, 25, 44, 0.65) 100%);
+  border: 1px solid var(--accent-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: var(--accent);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.icon-pedestal::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--accent) 0%, transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: opacity 0.25s ease;
+}
+
+.group:hover .icon-pedestal,
+.icon-pedestal:hover {
+  border-color: var(--accent-border-strong);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 16px var(--accent-soft), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.group:hover .icon-pedestal::after,
+.icon-pedestal:hover::after {
+  opacity: 1;
+}
+
+.icon-pedestal svg {
+  filter: drop-shadow(0 0 6px var(--accent-soft));
+  transition: filter 0.25s ease;
+}
+
+.group:hover .icon-pedestal svg,
+.icon-pedestal:hover svg {
+  filter: drop-shadow(0 0 10px var(--accent));
 }
 
 /* ==========================================================================

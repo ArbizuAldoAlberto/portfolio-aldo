@@ -116,9 +116,15 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                     decoding="async"
                   />
                 </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <item.icon className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span className="artifact-tag mb-0">{item.tag}</span>
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/10 border border-emerald-500/40 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.4),0_0_12px_rgba(52,211,153,0.25)] group-hover:border-emerald-400 group-hover:shadow-[0_0_20px_rgba(52,211,153,0.45)] group-hover:scale-105 transition-all duration-300">
+                    <item.icon className="w-5 h-5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399] animate-pulse" />
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/40 border border-emerald-500/30 font-mono text-[10px] font-bold tracking-wider text-emerald-300 uppercase shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span>{item.tag}</span>
+                  </div>
                 </div>
                 <h3 className="artifact-name">{item.title}</h3>
                 <p className="artifact-copy">{item.desc}</p>

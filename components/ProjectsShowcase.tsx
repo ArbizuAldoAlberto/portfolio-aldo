@@ -132,7 +132,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <Cpu className="w-4 h-4 text-emerald-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Cpu className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Solución Técnica" : "Engineering & Technical Architecture"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
@@ -252,7 +254,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <Tractor className="w-4 h-4 text-emerald-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Tractor className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Solución de Campo" : "Engineering & Field Solution"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
@@ -384,7 +388,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Resiliencia Táctica" : "Engineering & Tactical Resilience"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">

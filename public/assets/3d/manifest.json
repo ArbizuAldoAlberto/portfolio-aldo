@@ -14,13 +14,13 @@
         "file": "agtech-drone.png",
         "width": 1200,
         "height": 1200,
-        "bytes": 401693
+        "bytes": 414919
       },
       "webp": {
         "file": "agtech-drone.webp",
         "width": 1000,
         "height": 1000,
-        "bytes": 72728
+        "bytes": 77224
       },
       "bbox_px": {
         "min_x": 191,
@@ -44,13 +44,13 @@
         "file": "sqlite-vault.png",
         "width": 1200,
         "height": 1200,
-        "bytes": 707846
+        "bytes": 702483
       },
       "webp": {
         "file": "sqlite-vault.webp",
         "width": 1000,
         "height": 1000,
-        "bytes": 67260
+        "bytes": 67190
       },
       "bbox_px": {
         "min_x": 205,
@@ -74,27 +74,27 @@
         "file": "zero-trust-shield.png",
         "width": 1200,
         "height": 1200,
-        "bytes": 548440
+        "bytes": 543206
       },
       "webp": {
         "file": "zero-trust-shield.webp",
         "width": 1000,
         "height": 1000,
-        "bytes": 97146
+        "bytes": 98324
       },
       "bbox_px": {
         "min_x": 191,
-        "min_y": 220,
+        "min_y": 226,
         "max_x": 1008,
-        "max_y": 979,
+        "max_y": 973,
         "width": 818,
-        "height": 760
+        "height": 748
       },
       "margins_pct": {
         "left": 15.92,
         "right": 15.92,
-        "top": 18.33,
-        "bottom": 18.33
+        "top": 18.83,
+        "bottom": 18.83
       },
       "min_margin_pct": 15.92
     },
@@ -104,29 +104,29 @@
         "file": "kelly-chronometer.png",
         "width": 1200,
         "height": 1200,
-        "bytes": 642693
+        "bytes": 642189
       },
       "webp": {
         "file": "kelly-chronometer.webp",
         "width": 1000,
         "height": 1000,
-        "bytes": 114582
+        "bytes": 115002
       },
       "bbox_px": {
-        "min_x": 206,
+        "min_x": 207,
         "min_y": 191,
         "max_x": 992,
-        "max_y": 1009,
-        "width": 787,
-        "height": 819
+        "max_y": 1008,
+        "width": 786,
+        "height": 818
       },
       "margins_pct": {
-        "left": 17.17,
+        "left": 17.25,
         "right": 17.25,
         "top": 15.92,
-        "bottom": 15.83
+        "bottom": 15.92
       },
-      "min_margin_pct": 15.83
+      "min_margin_pct": 15.92
     }
   ]
 }
