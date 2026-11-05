@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "generator": "pipeline/blender/render_portfolio_assets.py",
+  "engine_routing": {
+    "probe_command": "py -3.12 pipeline/engine_a_veo_gemini.py asset --name nautilus",
+    "probe_return_code": 4,
+    "probe_status": "HTTP_429_QUOTA_EXCEEDED",
+    "active_engine": "ab3d-forge (Blender 4.5.15 BLENDER_EEVEE_NEXT)"
+  },
+  "assets": [
+    {
+      "name": "agtech-drone",
+      "png": {
+        "file": "agtech-drone.png",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 401693
+      },
+      "webp": {
+        "file": "agtech-drone.webp",
+        "width": 1000,
+        "height": 1000,
+        "bytes": 72728
+      },
+      "bbox_px": {
+        "min_x": 191,
+        "min_y": 298,
+        "max_x": 1008,
+        "max_y": 902,
+        "width": 818,
+        "height": 605
+      },
+      "margins_pct": {
+        "left": 15.92,
+        "right": 15.92,
+        "top": 24.83,
+        "bottom": 24.75
+      },
+      "min_margin_pct": 15.92
+    },
+    {
+      "name": "sqlite-vault",
+      "png": {
+        "file": "sqlite-vault.png",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 707846
+      },
+      "webp": {
+        "file": "sqlite-vault.webp",
+        "width": 1000,
+        "height": 1000,
+        "bytes": 67260
+      },
+      "bbox_px": {
+        "min_x": 205,
+        "min_y": 191,
+        "max_x": 994,
+        "max_y": 1008,
+        "width": 790,
+        "height": 818
+      },
+      "margins_pct": {
+        "left": 17.08,
+        "right": 17.08,
+        "top": 15.92,
+        "bottom": 15.92
+      },
+      "min_margin_pct": 15.92
+    },
+    {
+      "name": "zero-trust-shield",
+      "png": {
+        "file": "zero-trust-shield.png",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 548440
+      },
+      "webp": {
+        "file": "zero-trust-shield.webp",
+        "width": 1000,
+        "height": 1000,
+        "bytes": 97146
+      },
+      "bbox_px": {
+        "min_x": 191,
+        "min_y": 220,
+        "max_x": 1008,
+        "max_y": 979,
+        "width": 818,
+        "height": 760
+      },
+      "margins_pct": {
+        "left": 15.92,
+        "right": 15.92,
+        "top": 18.33,
+        "bottom": 18.33
+      },
+      "min_margin_pct": 15.92
+    },
+    {
+      "name": "kelly-chronometer",
+      "png": {
+        "file": "kelly-chronometer.png",
+        "width": 1200,
+        "height": 1200,
+        "bytes": 642693
+      },
+      "webp": {
+        "file": "kelly-chronometer.webp",
+        "width": 1000,
+        "height": 1000,
+        "bytes": 114582
+      },
+      "bbox_px": {
+        "min_x": 206,
+        "min_y": 191,
+        "max_x": 992,
+        "max_y": 1009,
+        "width": 787,
+        "height": 819
+      },
+      "margins_pct": {
+        "left": 17.17,
+        "right": 17.25,
+        "top": 15.92,
+        "bottom": 15.83
+      },
+      "min_margin_pct": 15.83
+    }
+  ]
+}

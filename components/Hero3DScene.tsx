@@ -1,36 +1,83 @@
 "use client";
 
 import { useRef, useMemo, useEffect, useState, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Sparkles, useGLTF } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { useMotionPreferences } from "./system/MotionPreferences";
 import { soundEngine } from "./system/SoundEngine";
 
-// 1. Base AgTech: Terreno Topográfico / Rejilla de Mapeo Agrícola
-function AgTechGrid() {
+// ============================================================================
+// 1. MOD-03: Grilla Topográfica LiDAR AgTech (Núcleo Pampeano Bolívar / Cuyo)
+// ============================================================================
+function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
   const gridRef = useRef<THREE.Mesh>(null);
+  const shaderRef = useRef<{ uniforms: { uScanY: { value: number }; uTime: { value: number } } } | null>(null);
 
   const { geometry } = useMemo(() => {
-    const geo = new THREE.PlaneGeometry(26, 20, 52, 40);
+    const geo = new THREE.PlaneGeometry(36, 28, 72, 56);
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
       const y = pos.getY(i);
+      // Topografía de cuenca agrícola pampeana: suaves lomas y cuencas aluviales
       const z =
-        Math.sin(x * 0.38) * 0.65 +
-        Math.cos(y * 0.28) * 0.5 +
-        Math.sin((x + y) * 0.18) * 0.38;
+        Math.sin(x * 0.28) * 0.85 * Math.cos(y * 0.22) +
+        Math.sin((x + y) * 0.18) * 0.45 +
+        Math.cos(x * 0.55) * 0.22;
       pos.setZ(i, z);
     }
     geo.computeVertexNormals();
     return { geometry: geo };
   }, []);
 
+  const material = useMemo(() => {
+    const mat = new THREE.MeshBasicMaterial({
+      wireframe: true,
+      color: new THREE.Color("#10B981"),
+      transparent: true,
+      opacity: 0.24,
+      depthWrite: false,
+    });
+
+    mat.onBeforeCompile = (shader) => {
+      shader.uniforms.uScanY = { value: 0 };
+      shader.uniforms.uTime = { value: 0 };
+      shader.fragmentShader = `
+        uniform float uScanY;
+        uniform float uTime;
+        ${shader.fragmentShader}
+      `;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <dithering_fragment>',
+        `
+        #include <dithering_fragment>
+        // Haz de Escaneo Láser LiDAR (AgTech Drone Survey - Bolívar, Bs. As. // 36.23° S, 61.11° W)
+        float distToScan = abs(vViewPosition.y - uScanY);
+        float scanPulse = smoothstep(1.5, 0.0, distToScan);
+        vec3 laserColor = mix(vec3(0.06, 0.72, 0.51), vec3(0.02, 0.85, 0.95), scanPulse);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 2.2, scanPulse * 0.75);
+        `
+      );
+      shaderRef.current = shader as unknown as { uniforms: { uScanY: { value: number }; uTime: { value: number } } };
+    };
+
+    return mat;
+  }, []);
+
   useFrame((state) => {
+    const t = state.clock.elapsedTime;
     if (gridRef.current) {
-      gridRef.current.position.y = -2.25 + Math.sin(state.clock.elapsedTime * 0.3) * 0.08;
-      gridRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.15) * 0.02;
+      gridRef.current.position.y = -2.6 + Math.sin(t * 0.2) * 0.04;
+      gridRef.current.rotation.z = Math.sin(t * 0.08) * 0.012;
+    }
+    if (shaderRef.current && !reducedMotion) {
+      // Barrido continuo del haz LiDAR de norte a sur
+      const scanProgress = ((t * 2.2) % 36.0) - 18.0;
+      shaderRef.current.uniforms.uScanY.value = scanProgress;
+      shaderRef.current.uniforms.uTime.value = t;
     }
   });
 
@@ -38,30 +85,123 @@ function AgTechGrid() {
     <mesh
       ref={gridRef}
       geometry={geometry}
-      rotation={[-1.2, 0, 0]}
-      position={[0, -2.25, -1.3]}
-    >
-      <meshBasicMaterial
-        wireframe
-        color="#10B981"
-        transparent
-        opacity={0.16}
-      />
-    </mesh>
+      material={material}
+      rotation={[-1.28, 0, 0]}
+      position={[0, -2.6, -1.8]}
+    />
   );
 }
 
-// 2. Rayos Sagrados Multidimensionales (Beacon Rays)
+// ============================================================================
+// 2. MOD-03: HUD Táctico Aeroespacial 3D (Gimbal Rings + Retículas de Puntería)
+// ============================================================================
+function TacticalAerospaceHUD({
+  currentRoll,
+  currentPitch,
+  pointer,
+  reducedMotion = false,
+}: {
+  currentRoll: number;
+  currentPitch: number;
+  pointer: { x: number; y: number };
+  reducedMotion?: boolean;
+}) {
+  const outerGimbalRef = useRef<THREE.Group>(null);
+  const innerRingRef = useRef<THREE.Group>(null);
+  const reticleLRef = useRef<THREE.Group>(null);
+  const reticleRRef = useRef<THREE.Group>(null);
+
+  // Anillo exterior con marcas radiales cada 30°
+  const { ringGeometry, tickGeometry } = useMemo(() => {
+    const ringGeo = new THREE.RingGeometry(4.35, 4.40, 64);
+
+    const tickPts: number[] = [];
+    const count = 24;
+    for (let i = 0; i < count; i++) {
+      const a = (i / count) * Math.PI * 2;
+      const len = i % 2 === 0 ? 0.35 : 0.18;
+      const r1 = 4.42;
+      const r2 = 4.42 + len;
+      tickPts.push(Math.cos(a) * r1, Math.sin(a) * r1, 0);
+      tickPts.push(Math.cos(a) * r2, Math.sin(a) * r2, 0);
+    }
+    const tickGeo = new THREE.BufferGeometry();
+    tickGeo.setAttribute("position", new THREE.Float32BufferAttribute(tickPts, 3));
+
+    return { ringGeometry: ringGeo, tickGeometry: tickGeo };
+  }, []);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+
+    if (outerGimbalRef.current) {
+      // Rotación en contra-fase al alabeo del Halcón (Horizonte Artificial)
+      outerGimbalRef.current.rotation.z = -currentRoll * 0.45 + (reducedMotion ? 0 : Math.sin(t * 0.1) * 0.02);
+      outerGimbalRef.current.rotation.x = currentPitch * 0.25;
+    }
+
+    if (innerRingRef.current) {
+      innerRingRef.current.rotation.z = (reducedMotion ? 0 : t * 0.04);
+    }
+
+    // Retículas vectoriales que apuntan ligeramente adelantadas al cursor
+    if (reticleLRef.current && reticleRRef.current) {
+      const rx = pointer.x * 0.65;
+      const ry = pointer.y * 0.45;
+      reticleLRef.current.position.set(-0.6 + rx * 0.25, 1.45 + ry * 0.2, 0.45);
+      reticleRRef.current.position.set(0.6 + rx * 0.25, 1.45 + ry * 0.2, 0.45);
+    }
+  });
+
+  return (
+    <group position={[0, 0.35, -0.2]}>
+      {/* Gimbal Primario: Horizonte Artificial */}
+      <group ref={outerGimbalRef}>
+        <mesh geometry={ringGeometry}>
+          <meshBasicMaterial color="#10B981" transparent opacity={0.16} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+        <lineSegments geometry={tickGeometry}>
+          <lineBasicMaterial color="#06B6D4" transparent opacity={0.22} depthWrite={false} />
+        </lineSegments>
+      </group>
+
+      {/* Anillo de Telemetría Secundario Concétrico */}
+      <group ref={innerRingRef} scale={0.72}>
+        <lineSegments geometry={tickGeometry}>
+          <lineBasicMaterial color="#F59E0B" transparent opacity={0.14} depthWrite={false} />
+        </lineSegments>
+      </group>
+
+      {/* Retículas Oculares 3D de Puntería */}
+      <group ref={reticleLRef}>
+        <mesh>
+          <ringGeometry args={[0.07, 0.085, 16]} />
+          <meshBasicMaterial color="#34D399" transparent opacity={0.45} depthWrite={false} />
+        </mesh>
+      </group>
+      <group ref={reticleRRef}>
+        <mesh>
+          <ringGeometry args={[0.07, 0.085, 16]} />
+          <meshBasicMaterial color="#34D399" transparent opacity={0.45} depthWrite={false} />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
+// ============================================================================
+// 3. Rayos Sagrados Multidimensionales (Beacon Rays)
+// ============================================================================
 function SacredBeaconRays() {
   const raysGroupRef = useRef<THREE.Group>(null);
 
   const rays = useMemo(() => {
     const lines = [];
-    const count = 12;
+    const count = 16;
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2;
-      const x = Math.cos(angle) * 3.8;
-      const y = Math.sin(angle) * 3.8;
+      const x = Math.cos(angle) * 4.2;
+      const y = Math.sin(angle) * 4.2;
       lines.push({ x, y, angle });
     }
     return lines;
@@ -69,18 +209,18 @@ function SacredBeaconRays() {
 
   useFrame((state) => {
     if (raysGroupRef.current) {
-      raysGroupRef.current.rotation.z = -state.clock.elapsedTime * 0.05;
+      raysGroupRef.current.rotation.z = -state.clock.elapsedTime * 0.025;
     }
   });
 
   return (
-    <group ref={raysGroupRef} position={[0, 0.1, -0.2]}>
+    <group ref={raysGroupRef} position={[0, 0.1, -0.4]}>
       {rays.map((ray, i) => (
         <line key={i}>
           <bufferGeometry
             attach="geometry"
             onUpdate={(self) => {
-              const pts = new Float32Array([0, 0, 0, ray.x, ray.y, (i % 2 === 0 ? 0.4 : -0.4)]);
+              const pts = new Float32Array([0, 0, 0, ray.x, ray.y, (i % 2 === 0 ? 0.35 : -0.35)]);
               self.setAttribute("position", new THREE.BufferAttribute(pts, 3));
             }}
           />
@@ -89,6 +229,7 @@ function SacredBeaconRays() {
             color={i % 3 === 0 ? "#10B981" : i % 3 === 1 ? "#06B6D4" : "#F59E0B"}
             transparent
             opacity={0.18}
+            depthWrite={false}
           />
         </line>
       ))}
@@ -96,340 +237,517 @@ function SacredBeaconRays() {
   );
 }
 
-// 3. Núcleo Sagrado: Cubo de Metatrón Monumental (Vertical, Multicromático & Iridiscente)
-function MetatronCore({ energySurge }: { energySurge: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const innerIcosahedronRef = useRef<THREE.Mesh>(null);
-  const innerOctahedronRef = useRef<THREE.Mesh>(null);
-  const coreLightRef = useRef<THREE.PointLight>(null);
+// ============================================================================
+// 4. MOD-01 & MOD-02: Halcón Peregrino Cibernético AAA (PBR Físico + GLSL Fresnel)
+// ============================================================================
+function CyberFalcon({
+  energySurge,
+  renderMode,
+  reducedMotion = false,
+  onAttitudeUpdate,
+}: {
+  energySurge: number;
+  renderMode: 'chromatic' | 'wireframe' | 'xray';
+  reducedMotion?: boolean;
+  onAttitudeUpdate?: (roll: number, pitch: number, pointer: { x: number; y: number }) => void;
+}) {
+  const falconGroupRef = useRef<THREE.Group>(null);
+  const headPivotRef = useRef<THREE.Object3D | null>(null);
+  const wingLPivotRef = useRef<THREE.Object3D | null>(null);
+  const wingLWristRef = useRef<THREE.Object3D | null>(null);
+  const wingRPivotRef = useRef<THREE.Object3D | null>(null);
+  const wingRWristRef = useRef<THREE.Object3D | null>(null);
+  const tailPivotRef = useRef<THREE.Object3D | null>(null);
+  const reactorRef = useRef<THREE.Object3D | null>(null);
+  const reactorLightRef = useRef<THREE.PointLight>(null);
 
-  const { scene } = useGLTF("/models/metatron.glb");
+  // Estado inercial de resorte crítico (Critically Damped Inverted Spring)
+  const rollRef = useRef(0);
+  const pitchRef = useRef(0);
+  const yawRef = useRef(0);
 
-  // Clonar y configurar materiales PBR multicromáticos e iridiscentes
-  const { solidScene, wireframeScene, scaleMultiplier } = useMemo(() => {
-    const solid = scene.clone(true);
-    const wire = scene.clone(true);
+  const { scene } = useGLTF("/models/cyber_falcon.glb");
 
-    // 1. Reorientar la geometría verticalmente en 90° para que quede erguida y frontal
-    solid.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        mesh.geometry = mesh.geometry.clone();
-        mesh.geometry.rotateX(Math.PI / 2);
-      }
+  // Materiales físicos de grado cinematográfico (MOD-01)
+  const materials = useMemo(() => {
+    // 1. Titanio Grado 5 con Clearcoat & Rim Light GLSL
+    const titaniumMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#506272"),
+      metalness: 0.94,
+      roughness: 0.20,
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.12,
+      reflectivity: 0.95,
+      envMapIntensity: 2.2,
+    });
+    titaniumMat.customProgramCacheKey = () => "FalconTitaniumFresnel_v3";
+    titaniumMat.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = { value: 0 };
+      shader.uniforms.uSurge = { value: 0 };
+      shader.fragmentShader = `
+        uniform float uTime;
+        uniform float uSurge;
+        ${shader.fragmentShader}
+      `;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <dithering_fragment>",
+        `
+        #include <dithering_fragment>
+        vec3 viewDirNorm = normalize(vViewPosition);
+        float fresnel = pow(1.0 - clamp(dot(geometryNormal, -viewDirNorm), 0.0, 1.0), 3.0);
+        vec3 rimCol = mix(vec3(0.06, 0.72, 0.51), vec3(0.02, 0.85, 0.95), fresnel);
+        float pulse = 0.85 + sin(uTime * 2.5) * 0.25 + uSurge * 2.5;
+        gl_FragColor.rgb += rimCol * fresnel * pulse * 0.85;
+        `
+      );
+      titaniumMat.userData.shader = shader;
+    };
+
+    // 2. Oro Aeroespacial 24K con Anisotropía Óptica
+    const goldMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#FBBF24"),
+      emissive: new THREE.Color("#92400e"),
+      emissiveIntensity: 0.35,
+      metalness: 0.98,
+      roughness: 0.10,
+      clearcoat: 0.95,
+      clearcoatRoughness: 0.08,
+      reflectivity: 0.98,
+      envMapIntensity: 2.5,
+    });
+    goldMat.customProgramCacheKey = () => "FalconGoldFresnel_v3";
+    goldMat.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = { value: 0 };
+      shader.fragmentShader = `
+        uniform float uTime;
+        ${shader.fragmentShader}
+      `;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <dithering_fragment>",
+        `
+        #include <dithering_fragment>
+        vec3 viewDirNorm = normalize(vViewPosition);
+        float fresnel = pow(1.0 - clamp(dot(geometryNormal, -viewDirNorm), 0.0, 1.0), 3.2);
+        vec3 goldRim = mix(vec3(0.98, 0.75, 0.14), vec3(1.0, 0.92, 0.65), fresnel);
+        gl_FragColor.rgb += goldRim * fresnel * 0.65;
+        `
+      );
+      goldMat.userData.shader = shader;
+    };
+
+    // 3. Reactor Cuántico & Ojos con Núcleo de Plasma Procedural
+    const quantumMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#059669"),
+      emissive: new THREE.Color("#34D399"),
+      emissiveIntensity: 3.2,
+      roughness: 0.05,
+      metalness: 0.1,
+      transmission: 0.25,
+      thickness: 0.5,
+    });
+    quantumMat.customProgramCacheKey = () => "FalconQuantumPlasma_v3";
+    quantumMat.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = { value: 0 };
+      shader.uniforms.uSurge = { value: 0 };
+      shader.fragmentShader = `
+        uniform float uTime;
+        uniform float uSurge;
+        ${shader.fragmentShader}
+      `;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <dithering_fragment>",
+        `
+        #include <dithering_fragment>
+        float plasma = sin(vViewPosition.x * 12.0 + uTime * 6.0) * cos(vViewPosition.y * 12.0 + uTime * 4.0);
+        vec3 coreGlow = mix(vec3(0.06, 0.72, 0.51), vec3(0.20, 0.95, 0.65), plasma * 0.5 + 0.5);
+        gl_FragColor.rgb += coreGlow * (1.2 + uSurge * 3.0);
+        `
+      );
+      quantumMat.userData.shader = shader;
+    };
+
+    // 4. Modo Wireframe de Ingeniería
+    const wireMat = new THREE.MeshBasicMaterial({
+      wireframe: true,
+      color: new THREE.Color("#10B981"),
+      transparent: true,
+      opacity: 0.85,
     });
 
-    wire.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        mesh.geometry = mesh.geometry.clone();
-        mesh.geometry.rotateX(Math.PI / 2);
-      }
+    // 5. Modo X-Ray Núcleo Dieléctrico
+    const xrayMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#06b6d4"),
+      transparent: true,
+      opacity: 0.28,
+      roughness: 0.06,
+      transmission: 0.82,
+      ior: 1.45,
     });
 
-    // 2. Centrar y normalizar a escala monumental (targetSize = 4.1)
-    const box = new THREE.Box3().setFromObject(solid);
+    return { titaniumMat, goldMat, quantumMat, wireMat, xrayMat };
+  }, []);
+
+  // Clonar y centrar la escena del Halcón
+  const clonedScene = useMemo(() => {
+    const root = scene.clone(true);
+
+    // Orientación natural: planeo dinámico hacia el observador (45° pitch)
+    root.rotation.x = Math.PI / 3.2;
+
+    const box = new THREE.Box3().setFromObject(root);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
-    const targetSize = 4.15; // Tamaño monumental dominante en el hero
-    const scale = maxDim > 0 ? targetSize / maxDim : 1;
+    const targetSize = 7.0; // Envergadura monumental alar que enmarca el titular del Hero
+    const s = maxDim > 0 ? targetSize / maxDim : 1;
+    root.scale.set(s, s, s);
 
     const center = new THREE.Vector3();
     box.getCenter(center);
-    solid.position.sub(center);
-    wire.position.sub(center);
+    root.position.sub(center.multiplyScalar(s));
 
-    // 3. Material 1: Cristal PBR Iridiscente Multicromático (Cuarzo, Esmeralda, Cian y Oro)
-    const chromaticPhysicalMaterial = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#059669"),
-      emissive: new THREE.Color("#0d9488"),
-      emissiveIntensity: 0.7,
-      roughness: 0.08,
-      metalness: 0.9,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.04,
-      transmission: 0.32,
-      ior: 1.6,
-      iridescence: 1.0,
-      iridescenceIOR: 1.85,
-      iridescenceThicknessRange: [120, 850],
-      transparent: true,
-      opacity: 0.92,
-      depthWrite: true,
-    });
-
-    // 4. Material 2: Armadura Wireframe con pulso de color dinámico
-    const wireMaterial = new THREE.MeshBasicMaterial({
-      wireframe: true,
-      color: new THREE.Color("#34D399"),
-      transparent: true,
-      opacity: 0.55,
-    });
-
-    solid.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        (child as THREE.Mesh).material = chromaticPhysicalMaterial;
-        (child as THREE.Mesh).castShadow = true;
-        (child as THREE.Mesh).receiveShadow = true;
-      }
-    });
-
-    wire.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        (child as THREE.Mesh).material = wireMaterial;
-      }
-    });
-
-    return {
-      solidScene: solid,
-      wireframeScene: wire,
-      scaleMultiplier: scale,
-    };
+    return root;
   }, [scene]);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const boost = 1 + energySurge * 2.5;
+  // MOD-01: Corrección Integral de Traversal de Mallas y Asignación de Nodos
+  useEffect(() => {
+    headPivotRef.current = clonedScene.getObjectByName("Falcon_Head_Pivot") || null;
+    wingLPivotRef.current = clonedScene.getObjectByName("Falcon_WingL_Pivot") || null;
+    wingLWristRef.current = clonedScene.getObjectByName("Falcon_WingL_Wrist_Pivot") || null;
+    wingRPivotRef.current = clonedScene.getObjectByName("Falcon_WingR_Pivot") || null;
+    wingRWristRef.current = clonedScene.getObjectByName("Falcon_WingR_Wrist_Pivot") || null;
+    tailPivotRef.current = clonedScene.getObjectByName("Falcon_Tail_Pivot") || null;
+    reactorRef.current = clonedScene.getObjectByName("Falcon_Chest_Reactor") || null;
 
-    if (groupRef.current) {
-      // Rotación giroscópica sagrada multidimensional con impulso de energía
-      groupRef.current.rotation.y = t * 0.18 * boost;
-      groupRef.current.rotation.x = Math.sin(t * 0.14) * 0.12;
-      groupRef.current.rotation.z = Math.cos(t * 0.1) * 0.08;
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
 
-      // Respiración armónica sutil del Metatrón + expansión por energía de clic
-      const breathScale = scaleMultiplier * (1 + Math.sin(t * 1.6) * 0.025 + energySurge * 0.08);
-      groupRef.current.scale.set(breathScale, breathScale, breathScale);
-    }
+        const mName = mesh.name;
+        const pName = mesh.parent?.name || "";
 
-    // Rotación de los sólidos platónicos internos anidados
-    if (innerIcosahedronRef.current) {
-      innerIcosahedronRef.current.rotation.y = -t * 0.35 * boost;
-      innerIcosahedronRef.current.rotation.z = t * 0.25;
-    }
-    if (innerOctahedronRef.current) {
-      innerOctahedronRef.current.rotation.x = t * 0.45 * boost;
-      innerOctahedronRef.current.rotation.y = t * 0.3;
-    }
-
-    // Respiración del núcleo de luz central
-    if (coreLightRef.current) {
-      coreLightRef.current.intensity = 3.2 + Math.sin(t * 2.4) * 1.4 + energySurge * 6.0;
-    }
-
-    // Pulso cromático continuo del wireframe (Esmeralda -> Cian -> Ámbar -> Púrpura)
-    if (wireframeScene) {
-      wireframeScene.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh && (child as THREE.Mesh).material) {
-          const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
-          mat.color.setHSL((t * 0.06 + energySurge * 0.2) % 1, 0.95, 0.62);
+        if (renderMode === "wireframe") {
+          mesh.material = materials.wireMat;
+        } else if (renderMode === "xray") {
+          if (
+            mName.includes("Reactor") ||
+            pName.includes("Reactor") ||
+            mName.includes("Eye") ||
+            mName.startsWith("Icosphere")
+          ) {
+            mesh.material = materials.quantumMat;
+          } else {
+            mesh.material = materials.xrayMat;
+          }
+        } else {
+          // Modo PBR Físico Élite
+          if (
+            mName.includes("Reactor") ||
+            pName.includes("Reactor") ||
+            mName.includes("Eye") ||
+            mName.startsWith("Icosphere")
+          ) {
+            mesh.material = materials.quantumMat;
+          } else if (
+            mName.includes("Talons") ||
+            pName.includes("Talons") ||
+            mName.includes("Beak") ||
+            mName === "Falcon_Skull_Mesh_1" ||
+            mName === "Cube006_1" ||
+            mName === "Cube013_1" ||
+            mName === "Cube020_1" ||
+            mName.includes("Vanes") ||
+            pName.includes("Vanes")
+          ) {
+            // Remiges primarias chevron, pico raptor y garras en Oro 24K
+            mesh.material = materials.goldMat;
+          } else {
+            // Fuselaje y largueros alares en Titanio Grado 5 con Fresnel
+            mesh.material = materials.titaniumMat;
+          }
         }
-      });
-    }
-  });
+      }
+    });
+  }, [clonedScene, renderMode, materials]);
 
-  return (
-    <group ref={groupRef} position={[0, 0.1, 0]} scale={scaleMultiplier}>
-      <primitive object={solidScene} />
-      <primitive object={wireframeScene} scale={1.006} />
-
-      {/* Sólido Platónico Interno 1: Icosaedro Cuántico Púrpura/Cian */}
-      <mesh ref={innerIcosahedronRef} scale={0.75}>
-        <icosahedronGeometry args={[1, 1]} />
-        <meshBasicMaterial wireframe color="#8B5CF6" transparent opacity={0.65} />
-      </mesh>
-
-      {/* Sólido Platónico Interno 2: Octaedro Solar Ámbar */}
-      <mesh ref={innerOctahedronRef} scale={0.42}>
-        <octahedronGeometry args={[1, 0]} />
-        <meshBasicMaterial color="#F59E0B" wireframe transparent opacity={0.85} />
-      </mesh>
-
-      {/* Núcleo de Energía Interno (Quantum Singularity) */}
-      <pointLight ref={coreLightRef} position={[0, 0, 0]} color="#06B6D4" intensity={3.5} distance={9} />
-    </group>
-  );
-}
-
-// 4. Escudo de Ciberseguridad: 4 Anillos Orbitales Sagrados con Marcadores Giroscópicos
-function SecurityShield({ energySurge }: { energySurge: number }) {
-  const ring1Ref = useRef<THREE.Mesh>(null);
-  const ring2Ref = useRef<THREE.Mesh>(null);
-  const ring3Ref = useRef<THREE.Mesh>(null);
-  const ring4Ref = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
-    const boost = 1 + energySurge * 2.0;
+    const boost = 1 + energySurge * 2.2;
+    const pointer = state.pointer;
 
-    if (ring1Ref.current) {
-      ring1Ref.current.rotation.x = t * 0.24 * boost;
-      ring1Ref.current.rotation.y = t * 0.15;
+    // Actualización de uniforms en shaders GLSL personalizados
+    if (materials.titaniumMat.userData.shader) {
+      materials.titaniumMat.userData.shader.uniforms.uTime.value = t;
+      materials.titaniumMat.userData.shader.uniforms.uSurge.value = energySurge;
     }
-    if (ring2Ref.current) {
-      ring2Ref.current.rotation.x = -t * 0.18;
-      ring2Ref.current.rotation.z = t * 0.26 * boost;
+    if (materials.goldMat.userData.shader) {
+      materials.goldMat.userData.shader.uniforms.uTime.value = t;
     }
-    if (ring3Ref.current) {
-      ring3Ref.current.rotation.y = -t * 0.16 * boost;
-      ring3Ref.current.rotation.z = -t * 0.12;
+    if (materials.quantumMat.userData.shader) {
+      materials.quantumMat.userData.shader.uniforms.uTime.value = t;
+      materials.quantumMat.userData.shader.uniforms.uSurge.value = energySurge;
     }
-    if (ring4Ref.current) {
-      ring4Ref.current.rotation.x = t * 0.12;
-      ring4Ref.current.rotation.z = -t * 0.2 * boost;
+
+    // ========================================================================
+    // MOD-02: Cinemática Aeroelástica Multicapa (Desfase de Fase en Remiges)
+    // ========================================================================
+    const cycleTime = t % 5.0;
+    const isFlapping = !reducedMotion && (cycleTime < 3.2 || energySurge > 0.05);
+
+    let flapAngle = 0;
+    let wristLag = 0;
+
+    if (isFlapping) {
+      const flapFreq = 4.8 * boost;
+      const strokeProgress = Math.sin(t * flapFreq);
+      const nonLinearFlap = strokeProgress > 0 ? Math.pow(strokeProgress, 0.85) : -Math.pow(-strokeProgress, 1.15);
+      flapAngle = nonLinearFlap * (0.38 + energySurge * 0.28);
+
+      // Desfase aeroelástico en la muñeca (efecto látigo en remiges)
+      const aeroelasticPhase = Math.sin(t * flapFreq - 0.45);
+      const aeroFlutter = Math.sin(t * 14.0) * 0.025; // Micro-turbulencia alar
+      wristLag = aeroelasticPhase * (0.35 + energySurge * 0.2) + aeroFlutter;
+    } else {
+      // Planeo térmico con suave absorción de brisa
+      flapAngle = Math.sin(t * 1.6) * 0.05;
+      wristLag = Math.sin(t * 1.6 - 0.3) * 0.035 + (reducedMotion ? 0 : Math.sin(t * 8.0) * 0.01);
+    }
+
+    if (wingLPivotRef.current) {
+      wingLPivotRef.current.rotation.z = flapAngle;
+      wingLPivotRef.current.rotation.x = Math.cos(t * 4.8) * 0.06;
+    }
+    if (wingLWristRef.current) {
+      wingLWristRef.current.rotation.z = wristLag;
+    }
+
+    if (wingRPivotRef.current) {
+      wingRPivotRef.current.rotation.z = -flapAngle;
+      wingRPivotRef.current.rotation.x = Math.cos(t * 4.8) * 0.06;
+    }
+    if (wingRWristRef.current) {
+      wingRWristRef.current.rotation.z = -wristLag;
+    }
+
+    // ========================================================================
+    // MOD-02: Inercia de Combate con Resorte Crítico (Critically Damped Banking)
+    // ========================================================================
+    const targetRoll = -pointer.x * 0.82;
+    const targetPitch = -pointer.y * 0.42 + (reducedMotion ? 0 : Math.sin(t * 1.8) * 0.04);
+    const targetYaw = pointer.x * 0.52;
+
+    rollRef.current = THREE.MathUtils.damp(rollRef.current, targetRoll, 7.0, delta);
+    pitchRef.current = THREE.MathUtils.damp(pitchRef.current, targetPitch, 6.0, delta);
+    yawRef.current = THREE.MathUtils.damp(yawRef.current, targetYaw, 6.5, delta);
+
+    if (falconGroupRef.current) {
+      falconGroupRef.current.rotation.z = rollRef.current;
+      falconGroupRef.current.rotation.x = pitchRef.current;
+      falconGroupRef.current.rotation.y = yawRef.current;
+
+      falconGroupRef.current.position.y = THREE.MathUtils.damp(
+        falconGroupRef.current.position.y,
+        0.08 + (reducedMotion ? 0 : Math.sin(t * 2.2) * 0.12) + pointer.y * 0.35,
+        6.0,
+        delta
+      );
+      falconGroupRef.current.position.x = THREE.MathUtils.damp(
+        falconGroupRef.current.position.x,
+        pointer.x * 0.65,
+        6.0,
+        delta
+      );
+    }
+
+    // Estabilizador Caudal: Guiñada y Alabeo Compensatorio
+    if (tailPivotRef.current) {
+      tailPivotRef.current.rotation.x = pitchRef.current * 0.45 - 0.06;
+      tailPivotRef.current.rotation.z = -yawRef.current * 0.55;
+    }
+
+    // Seguimiento Ocular Predatorio por Cursor con Micro-Saccades
+    if (headPivotRef.current) {
+      headPivotRef.current.rotation.z = THREE.MathUtils.damp(headPivotRef.current.rotation.z, -pointer.x * 0.85, 9.0, delta);
+      headPivotRef.current.rotation.x = THREE.MathUtils.damp(headPivotRef.current.rotation.x, -pointer.y * 0.55, 9.0, delta);
+    }
+
+    // Reactor Pectoral y Destello Cuántico
+    if (reactorRef.current) {
+      const pulse = 1 + Math.sin(t * 3.8) * 0.06 + energySurge * 0.35;
+      reactorRef.current.scale.set(pulse, pulse, pulse);
+    }
+
+    if (reactorLightRef.current) {
+      reactorLightRef.current.intensity = 1.6 + Math.sin(t * 3.2) * 0.4 + energySurge * 4.0;
+    }
+
+    // Notificar actitud actual al HUD Táctico
+    if (onAttitudeUpdate) {
+      onAttitudeUpdate(rollRef.current, pitchRef.current, pointer);
     }
   });
 
   return (
-    <group position={[0, 0.1, 0]}>
-      {/* Anillo Orbital 1 - Ámbar / Oro Solar */}
-      <mesh ref={ring1Ref} scale={2.45}>
-        <torusGeometry args={[1, 0.012, 16, 64]} />
-        <meshBasicMaterial color="#F59E0B" transparent opacity={0.75} />
-      </mesh>
+    <group ref={falconGroupRef} position={[0, 0.08, -0.2]}>
+      <primitive object={clonedScene} />
 
-      {/* Anillo Orbital 2 - Cian Eléctrico */}
-      <mesh ref={ring2Ref} scale={2.95}>
-        <torusGeometry args={[1, 0.009, 16, 64]} />
-        <meshBasicMaterial color="#06B6D4" transparent opacity={0.65} />
-      </mesh>
-
-      {/* Anillo Orbital 3 - Púrpura Cuántico con segmentación */}
-      <mesh ref={ring3Ref} scale={3.45}>
-        <torusGeometry args={[1, 0.008, 12, 48]} />
-        <meshBasicMaterial wireframe color="#A855F7" transparent opacity={0.45} />
-      </mesh>
-
-      {/* Anillo Orbital 4 - Perímetro Esmeralda Criptográfico */}
-      <mesh ref={ring4Ref} scale={3.95}>
-        <torusGeometry args={[1, 0.006, 8, 36]} />
-        <meshBasicMaterial wireframe color="#10B981" transparent opacity={0.35} />
-      </mesh>
+      {/* Luz Cuántica Central del Reactor Pectoral */}
+      <pointLight
+        ref={reactorLightRef}
+        position={[0, 0.25, 0.25]}
+        color="#10B981"
+        distance={4.5}
+        intensity={1.6}
+      />
     </group>
   );
 }
 
-// 5. Luces Multicromáticas Orbitales (Matriz Esmeralda, Cian, Ámbar, Púrpura)
+// ============================================================================
+// 5. Matriz de Luces Dinámicas & Entorno PBR Offline
+// ============================================================================
 function ChromaticLightsMatrix({ energySurge }: { energySurge: number }) {
-  const light1Ref = useRef<THREE.PointLight>(null);
-  const light2Ref = useRef<THREE.PointLight>(null);
-  const light3Ref = useRef<THREE.PointLight>(null);
-  const light4Ref = useRef<THREE.PointLight>(null);
-
+  const lightGroupRef = useRef<THREE.Group>(null);
   useFrame((state) => {
-    const t = state.clock.elapsedTime * 0.45;
-    const r = 4.8;
-    const boost = 1 + energySurge * 1.5;
-
-    // Órbita 3D de las 4 fuentes de luz multicromáticas
-    if (light1Ref.current) {
-      light1Ref.current.position.set(Math.cos(t) * r, Math.sin(t * 0.8) * 2.6, Math.sin(t) * r);
-      light1Ref.current.intensity = 2.8 * boost;
-    }
-    if (light2Ref.current) {
-      light2Ref.current.position.set(
-        Math.cos(t + Math.PI * 0.5) * r,
-        Math.sin(t * 0.6 + 1) * 2.6,
-        Math.sin(t + Math.PI * 0.5) * r
-      );
-      light2Ref.current.intensity = 2.8 * boost;
-    }
-    if (light3Ref.current) {
-      light3Ref.current.position.set(
-        Math.cos(t + Math.PI) * r,
-        Math.sin(t * 0.7 + 2) * 2.6,
-        Math.sin(t + Math.PI) * r
-      );
-      light3Ref.current.intensity = 2.8 * boost;
-    }
-    if (light4Ref.current) {
-      light4Ref.current.position.set(
-        Math.cos(t + Math.PI * 1.5) * r,
-        Math.sin(t * 0.9 + 3) * 2.6,
-        Math.sin(t + Math.PI * 1.5) * r
-      );
-      light4Ref.current.intensity = 2.8 * boost;
+    if (lightGroupRef.current) {
+      lightGroupRef.current.rotation.y = state.clock.elapsedTime * 0.25;
+      lightGroupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.14) * 0.14;
     }
   });
 
+  const surgeIntensity = energySurge * 1.5;
+
   return (
-    <>
-      <pointLight ref={light1Ref} color="#10B981" intensity={2.8} distance={10} />
-      <pointLight ref={light2Ref} color="#06B6D4" intensity={2.8} distance={10} />
-      <pointLight ref={light3Ref} color="#F59E0B" intensity={2.8} distance={10} />
-      <pointLight ref={light4Ref} color="#A855F7" intensity={2.8} distance={10} />
-    </>
+    <group ref={lightGroupRef}>
+      <pointLight position={[3.8, 2.4, 0]} color="#10B981" intensity={0.8 + surgeIntensity} distance={7} />
+      <pointLight position={[-3.8, -2.0, 0]} color="#06B6D4" intensity={0.9 + surgeIntensity} distance={7} />
+      <pointLight position={[0, 3.5, 3.0]} color="#F59E0B" intensity={0.7 + surgeIntensity} distance={7} />
+      <pointLight position={[0, -3.0, -3.0]} color="#A855F7" intensity={0.7 + surgeIntensity} distance={7} />
+    </group>
   );
 }
 
-// 6. Composición Interactiva con Parallax de Puntero, Pulso de Energía & Niebla
-function SceneContent({ isVisible, energySurge }: { isVisible: boolean; energySurge: number }) {
+function OfflinePBREnvironment() {
+  const { gl, scene } = useThree();
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    pmrem.compileEquirectangularShader();
+    const env = pmrem.fromScene(new RoomEnvironment(), 0.04);
+    scene.environment = env.texture;
+    return () => {
+      pmrem.dispose();
+      env.dispose();
+    };
+  }, [gl, scene]);
+  return null;
+}
+
+// ============================================================================
+// 6. Contenido Principal de la Escena 3D
+// ============================================================================
+function SceneContent({
+  isVisible,
+  energySurge,
+  renderMode,
+  reducedMotion = false,
+}: {
+  isVisible: boolean;
+  energySurge: number;
+  renderMode: 'chromatic' | 'wireframe' | 'xray';
+  reducedMotion?: boolean;
+}) {
   const sceneGroup = useRef<THREE.Group>(null);
   const dynamicLightRef = useRef<THREE.PointLight>(null);
+
+  const [attitude, setAttitude] = useState({ roll: 0, pitch: 0, pointer: { x: 0, y: 0 } });
 
   useFrame((state) => {
     if (!isVisible) return;
 
-    // 1. Parallax elástico responsivo al cursor del mouse
-    if (sceneGroup.current) {
-      const targetX = state.pointer.x * 0.55;
-      const targetY = state.pointer.y * 0.45;
-      sceneGroup.current.position.x = THREE.MathUtils.lerp(sceneGroup.current.position.x, targetX, 0.06);
-      sceneGroup.current.position.y = THREE.MathUtils.lerp(sceneGroup.current.position.y, targetY, 0.06);
-
-      // Inclinación 3D en tiempo real hacia la dirección del puntero
-      sceneGroup.current.rotation.y = THREE.MathUtils.lerp(sceneGroup.current.rotation.y, state.pointer.x * 0.45, 0.05);
-      sceneGroup.current.rotation.x = THREE.MathUtils.lerp(sceneGroup.current.rotation.x, -state.pointer.y * 0.35, 0.05);
-    }
-
-    // 2. Haz de luz interactivo que sigue el puntero e ilumina las facetas iridiscentes
     if (dynamicLightRef.current) {
-      dynamicLightRef.current.position.x = state.pointer.x * 5;
-      dynamicLightRef.current.position.y = state.pointer.y * 4;
-      dynamicLightRef.current.intensity = 3.0 + energySurge * 5.0;
+      dynamicLightRef.current.position.x = state.pointer.x * 5.5;
+      dynamicLightRef.current.position.y = state.pointer.y * 4.5;
+      dynamicLightRef.current.intensity = 1.2 + energySurge * 3.0;
     }
   });
 
   return (
     <group ref={sceneGroup}>
-      {/* Niebla exponencial para profundidad atmosférica cinematográfica */}
-      <fog attach="fog" args={["#0A0A0C", 4.0, 11.5]} />
+      {/* Fog distante para preservar nitidez cristalina en primer plano */}
+      <fog attach="fog" args={["#0A0A0C", 18.0, 45.0]} />
 
-      <ambientLight intensity={0.65} />
-      <directionalLight position={[6, 9, 6]} intensity={1.8} color="#FFFFFF" />
-      <pointLight ref={dynamicLightRef} position={[0, 0, 3.5]} intensity={3.0} color="#34D399" distance={10} />
+      {/* Iluminación PBR de Estudio 100% Offline (Sin dependencias remotas) */}
+      <OfflinePBREnvironment />
 
-      {/* Matriz de 4 Luces Multicromáticas Orbitando */}
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[6, 8, 6]} intensity={1.5} color="#FFFFFF" />
+      <directionalLight position={[-5, -3, -3]} intensity={0.8} color="#06B6D4" />
+      <pointLight ref={dynamicLightRef} position={[0, 0, 3.5]} intensity={1.2} color="#34D399" distance={8} />
+
       <ChromaticLightsMatrix energySurge={energySurge} />
-
-      {/* Rayos Sagrados Multidimensionales */}
       <SacredBeaconRays />
 
-      {/* Partículas de Telemetría Multicromáticas */}
-      <Sparkles count={55} scale={8} size={2.0} speed={0.4} opacity={0.5} color="#10B981" />
-      <Sparkles count={45} scale={7} size={2.2} speed={0.35} opacity={0.5} color="#06B6D4" />
-      <Sparkles count={35} scale={6} size={2.4} speed={0.3} opacity={0.45} color="#F59E0B" />
-      <Sparkles count={30} scale={7} size={2.2} speed={0.25} opacity={0.4} color="#A855F7" />
+      {/* HUD Táctico 3D Aeroespacial (MOD-03) */}
+      <TacticalAerospaceHUD
+        currentRoll={attitude.roll}
+        currentPitch={attitude.pitch}
+        pointer={attitude.pointer}
+        reducedMotion={reducedMotion}
+      />
 
-      <Float speed={1.6} rotationIntensity={0.15} floatIntensity={0.45}>
+      {/* Partículas de Telemetría Multicromáticas */}
+      <Sparkles count={50} scale={9} size={1.8} speed={0.35} opacity={0.45} color="#10B981" />
+      <Sparkles count={35} scale={8} size={2.0} speed={0.3} opacity={0.4} color="#06B6D4" />
+      <Sparkles count={25} scale={7} size={2.2} speed={0.25} opacity={0.35} color="#F59E0B" />
+
+      <Float speed={reducedMotion ? 0.3 : 1.2} rotationIntensity={reducedMotion ? 0.02 : 0.08} floatIntensity={reducedMotion ? 0.1 : 0.25}>
         <Suspense fallback={null}>
-          <MetatronCore energySurge={energySurge} />
+          <CyberFalcon
+            energySurge={energySurge}
+            renderMode={renderMode}
+            reducedMotion={reducedMotion}
+            onAttitudeUpdate={(roll, pitch, pointer) => setAttitude({ roll, pitch, pointer })}
+          />
         </Suspense>
-        <SecurityShield energySurge={energySurge} />
       </Float>
 
-      <AgTechGrid />
+      {/* Grilla Topográfica LiDAR AgTech (MOD-03) */}
+      <AgTechGrid reducedMotion={reducedMotion} />
+
+      {/* Postprocessing Cinematográfico: Bloom Selectivo sobre Ópticas y Reactor */}
+      <EffectComposer enableNormalPass={false} multisampling={4}>
+        <Bloom
+          luminanceThreshold={1.1}
+          mipmapBlur
+          intensity={0.85}
+          radius={0.55}
+        />
+      </EffectComposer>
     </group>
   );
 }
 
-export function Hero3DScene() {
+export interface Hero3DSceneProps {
+  renderMode?: 'chromatic' | 'wireframe' | 'xray';
+  onRenderModeChange?: (mode: 'chromatic' | 'wireframe' | 'xray') => void;
+  showOverlayControls?: boolean;
+}
+
+export function Hero3DScene({
+  renderMode: externalRenderMode,
+  onRenderModeChange,
+  showOverlayControls = false,
+}: Hero3DSceneProps = {}) {
   const { reducedMotion } = useMotionPreferences();
   const [inViewport, setInViewport] = useState(true);
   const [energySurge, setEnergySurge] = useState(0);
+  const [internalRenderMode, setInternalRenderMode] = useState<'chromatic' | 'wireframe' | 'xray'>('chromatic');
 
-  // Performance budget: pausar cómputo WebGL cuando la escena sale de vista
+  const renderMode = externalRenderMode || internalRenderMode;
+  const setRenderMode = onRenderModeChange || setInternalRenderMode;
+
   useEffect(() => {
     const handleScroll = () => {
       const isPastHero = window.scrollY > window.innerHeight * 1.2;
@@ -440,7 +758,6 @@ export function Hero3DScene() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animación de decaimiento del impulso de energía interactivo
   useEffect(() => {
     if (energySurge <= 0.01) return;
     const timer = requestAnimationFrame(() => {
@@ -457,25 +774,54 @@ export function Hero3DScene() {
   return (
     <div
       onClick={handleCanvasClick}
-      className="w-full h-full cursor-3d select-none"
+      className="relative w-full h-full cursor-3d select-none"
       data-cursor="3d"
-      title="Clic para detonar pulso cuántico en el Cubo de Metatrón"
+      title="Clic para detonar pulso cuántico en el Halcón Peregrino"
     >
       <Canvas
-        camera={{ position: [0, 0, 6.2], fov: 46 }}
+        camera={{ position: [0, 0, 5.2], fov: 46 }}
         gl={{
           antialias: true,
           powerPreference: "high-performance",
           alpha: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.1,
         }}
         dpr={[1, 1.5]}
-        frameloop={reducedMotion ? "never" : inViewport ? "always" : "demand"}
+        frameloop={inViewport ? "always" : "demand"}
         className="w-full h-full pointer-events-auto"
       >
-        <SceneContent isVisible={inViewport && !reducedMotion} energySurge={energySurge} />
+        <SceneContent isVisible={inViewport} energySurge={energySurge} renderMode={renderMode} reducedMotion={reducedMotion} />
       </Canvas>
+
+      {showOverlayControls && (
+        <div className="absolute bottom-4 right-4 z-30 flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/10 text-xs font-mono shadow-2xl pointer-events-auto">
+          <span className="text-emerald-400 font-bold mr-1 tracking-wider text-[11px]">// HALCÓN WORKBENCH:</span>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); soundEngine.playClick(); setRenderMode('chromatic'); }}
+            className={`px-3 py-1 rounded-full transition-all text-[11px] ${renderMode === 'chromatic' ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/25' : 'text-slate-300 hover:text-white hover:bg-white/5'}`}
+          >
+            PBR FÍSICO
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); soundEngine.playClick(); setRenderMode('wireframe'); }}
+            className={`px-3 py-1 rounded-full transition-all text-[11px] ${renderMode === 'wireframe' ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/25' : 'text-slate-300 hover:text-white hover:bg-white/5'}`}
+          >
+            WIREFRAME
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); soundEngine.playClick(); setRenderMode('xray'); }}
+            className={`px-3 py-1 rounded-full transition-all text-[11px] ${renderMode === 'xray' ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/25' : 'text-slate-300 hover:text-white hover:bg-white/5'}`}
+          >
+            X-RAY NÚCLEO
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-useGLTF.preload("/models/metatron.glb");
+useGLTF.preload("/models/cyber_falcon.glb");

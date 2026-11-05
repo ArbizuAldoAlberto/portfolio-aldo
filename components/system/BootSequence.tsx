@@ -19,27 +19,34 @@ export function BootSequence() {
   const [activeLogIndex, setActiveLogIndex] = useState<number>(0);
 
   useEffect(() => {
-    // Solo mostrar en la primera visita de la sesión para no cansar al usuario/jurado
+    if (typeof window === "undefined") return;
+    const isWebdriver = typeof navigator !== "undefined" && Boolean(navigator.webdriver);
+    const search = window.location.search || "";
+    const isQa = search.includes("qa=1");
+    const forceBoot = search.includes("boot=1");
     const hasBooted = sessionStorage.getItem("nexus_boot_sequence_done");
-    if (!hasBooted) {
-      setShowBoot(true);
-      document.body.style.overflow = "hidden";
 
-      // Contador de progreso 0% -> 100% en ~1.8s
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            setTimeout(() => handleFinish(), 300);
-            return 100;
-          }
-          const next = prev + Math.floor(Math.random() * 8) + 3;
-          return next > 100 ? 100 : next;
-        });
-      }, 45);
-
-      return () => clearInterval(interval);
+    // Omitir siempre en pruebas automatizadas (webdriver / qa=1), sesiones previas o carga directa sin ?boot=1
+    if (isWebdriver || isQa || hasBooted || !forceBoot) {
+      sessionStorage.setItem("nexus_boot_sequence_done", "true");
+      return;
     }
+
+    setShowBoot(true);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => handleFinish(), 300);
+          return 100;
+        }
+        const next = prev + Math.floor(Math.random() * 8) + 3;
+        return next > 100 ? 100 : next;
+      });
+    }, 45);
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -53,7 +60,6 @@ export function BootSequence() {
     soundEngine.playSuccess();
     sessionStorage.setItem("nexus_boot_sequence_done", "true");
     setShowBoot(false);
-    document.body.style.overflow = "";
   };
 
   const handleSkip = () => {
@@ -70,25 +76,23 @@ export function BootSequence() {
           clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
           transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
         }}
-        className="fixed inset-0 z-[9999] bg-[#050508] text-slate-200 flex flex-col justify-between p-6 sm:p-12 font-mono select-none"
+        className="fixed inset-0 z-[9999] bg-[#04070d] text-slate-200 flex flex-col justify-between p-6 sm:p-12 font-mono select-none"
       >
-        {/* Header de la secuencia */}
-        <div className="flex justify-between items-center border-b border-white/10 pb-4">
+        <div className="flex justify-between items-center pb-4">
           <div className="flex items-center gap-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-orbital-emerald animate-ping" />
-            <span className="text-xs font-bold text-orbital-emerald tracking-widest uppercase">
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-xs font-bold text-emerald-400 tracking-widest uppercase">
               ARBIZU LABS // BOOT_SEQUENCE v4.2
             </span>
           </div>
           <button
             onClick={handleSkip}
-            className="text-[11px] text-orbital-muted hover:text-white border border-white/10 px-3 py-1 rounded-full hover:border-orbital-emerald transition-colors"
+            className="text-[11px] text-slate-300 hover:text-white border border-white/15 px-3 py-1 rounded-lg hover:border-emerald-400 transition-colors"
           >
             [ ESC / SALTAR ]
           </button>
         </div>
 
-        {/* Consola Central de Telemetría */}
         <div className="max-w-2xl mx-auto w-full my-auto space-y-4">
           <div className="space-y-2.5">
             {BOOT_LOGS.slice(0, activeLogIndex + 1).map((log, i) => {
@@ -102,26 +106,25 @@ export function BootSequence() {
                   transition={{ duration: 0.25 }}
                   className="flex items-center gap-3 text-xs sm:text-sm"
                 >
-                  <span className="text-orbital-emerald font-bold">&gt;</span>
-                  <Icon className="w-3.5 h-3.5 text-orbital-emerald shrink-0" />
-                  <span className={isLatest ? "text-white font-semibold" : "text-orbital-muted"}>
+                  <span className="text-emerald-400 font-bold">&gt;</span>
+                  <Icon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <span className={isLatest ? "text-white font-semibold" : "text-slate-400"}>
                     {log.text}
                   </span>
-                  {isLatest && <span className="w-2 h-4 bg-orbital-emerald animate-pulse inline-block ml-1" />}
+                  {isLatest && <span className="w-2 h-4 bg-emerald-400 animate-pulse inline-block ml-1" />}
                 </motion.div>
               );
             })}
           </div>
 
-          {/* Barra de Carga & Porcentaje Numérico */}
           <div className="pt-8 space-y-2">
             <div className="flex justify-between text-xs font-bold text-white tabular-nums">
-              <span className="text-orbital-muted">CARGANDO RECURSOS CRÍTICOS...</span>
-              <span className="text-orbital-emerald">{progress}%</span>
+              <span className="text-slate-400">CARGANDO RECURSOS CRÍTICOS...</span>
+              <span className="text-emerald-400">{progress}%</span>
             </div>
-            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/10">
+            <div className="h-1.5 w-full bg-white/5 rounded-lg overflow-hidden border border-white/10">
               <motion.div
-                className="h-full bg-gradient-to-r from-orbital-emerald via-teal-300 to-amber-400"
+                className="h-full bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-400"
                 style={{ width: `${progress}%` }}
                 transition={{ ease: "linear" }}
               />
@@ -129,8 +132,7 @@ export function BootSequence() {
           </div>
         </div>
 
-        {/* Footer de la secuencia */}
-        <div className="flex justify-between items-center text-[10px] text-orbital-muted border-t border-white/10 pt-4">
+        <div className="flex justify-between items-center text-[10px] text-slate-400 pt-4">
           <span>LATAM · SAN CARLOS DE BOLÍVAR (UTC-3)</span>
           <span>ARQUITECTURA DE SOFTWARE RESILIENTE</span>
         </div>

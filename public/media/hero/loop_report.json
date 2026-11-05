@@ -1,0 +1,8 @@
+{
+  "frames": 180,
+  "seam_ssim": 0.9926,
+  "seam_ratio": 1.47,
+  "max_jump_ratio": 1.29,
+  "pass": true,
+  "duration": 6.0
+}

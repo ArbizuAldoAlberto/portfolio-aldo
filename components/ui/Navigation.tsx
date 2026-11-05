@@ -2,27 +2,39 @@
 
 import { useState, useEffect } from "react";
 import { Volume2, VolumeX, Eye, EyeOff, ExternalLink } from "lucide-react";
-import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../i18n/routing";
 import { soundEngine } from "../system/SoundEngine";
 import { useMotionPreferences } from "../system/MotionPreferences";
 
 export default function Navigation() {
   const locale = useLocale();
+  const t = useTranslations("OrbitalUI");
   const pathname = usePathname();
   const router = useRouter();
   const { reducedMotion, toggleReducedMotion } = useMotionPreferences();
   const [isMuted, setIsMuted] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeTheme, setActiveTheme] = useState<"v1" | "v2">("v1");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isV2Path =
+      pathname === "/v2" ||
+      pathname.startsWith("/v2/") ||
+      window.location.pathname.includes("/v2") ||
+      window.location.search.includes("theme=v2");
+    const nextTheme = isV2Path ? "v2" : "v1";
+    setActiveTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    if (window.__webanti) {
+      window.__webanti.theme = nextTheme;
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        setScrollProgress(Math.min(100, Math.max(0, (scrollY / totalHeight) * 100)));
-      }
+      setIsScrolled(window.scrollY > 36);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -34,6 +46,10 @@ export default function Navigation() {
     const unsub = soundEngine.subscribe((muted) => setIsMuted(muted));
     return unsub;
   }, []);
+
+  if (pathname === "/compare" || pathname.startsWith("/compare/")) {
+    return null;
+  }
 
   const toggleLanguage = () => {
     soundEngine.playClick();
@@ -51,138 +67,139 @@ export default function Navigation() {
     toggleReducedMotion();
   };
 
+  const v1Href = `/${locale}`;
+  const v2Href = `/${locale}/v2`;
+
   return (
-    <header className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-6xl pointer-events-none">
-      <div className="relative overflow-hidden flex items-center justify-between gap-2 sm:gap-3 p-2 sm:p-2.5 rounded-full bg-[#07070A]/90 backdrop-blur-2xl border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.8)] pointer-events-auto transition-all">
-        {/* Brand & Live Beacon */}
-        <Link
-          href="/"
+    <>
+      <a className="skip-link" href="#contenido">
+        {t("skipToContent")}
+      </a>
+      <header
+        className={`site-header${isScrolled ? " is-scrolled" : ""}`}
+        data-header
+        data-scrolled={isScrolled ? "true" : "false"}
+      >
+        {/* Brand & Orbital Mark */}
+        <a
+          href={activeTheme === "v2" ? v2Href : v1Href}
           onMouseEnter={() => soundEngine.playHover()}
           onClick={() => soundEngine.playClick()}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors group shrink-0"
+          className="brand"
+          aria-label="Aldo Arbizu, inicio"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-          </span>
-          <span className="font-mono text-xs font-bold text-white tracking-wider uppercase group-hover:text-emerald-300 transition-colors">
-            ALDO ARBIZU
-          </span>
-        </Link>
+          <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" strokeWidth="1.3" />
+            <ellipse
+              cx="16"
+              cy="16"
+              rx="13.5"
+              ry="5.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.1"
+              transform="rotate(-24 16 16)"
+            />
+            <circle cx="16" cy="16" r="2.4" fill="currentColor" />
+          </svg>
+          <span className="brand-word">ALDO ARBIZU</span>
+        </a>
 
-        {/* Links de Navegación Rápida */}
-        <nav className="hidden lg:flex items-center gap-1 font-mono text-xs text-slate-300">
-          {[
-            { label: locale === "es" ? "FACTOR HÍBRIDO" : "HYBRID EDGE", href: "#sobre-mi" },
-            { label: locale === "es" ? "CASOS REALES" : "PROJECTS", href: "#proyectos" },
-            { label: locale === "es" ? "TIENDA & CÓDIGO" : "STORE & CODE", href: "#store" },
-            { label: locale === "es" ? "SERVICIOS" : "SERVICES", href: "#servicios" },
-            { label: locale === "es" ? "CONTACTO" : "CONTACT", href: "#contacto" },
-          ].map((item, idx) => (
-            <a
-              key={idx}
-              href={item.href}
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/10 transition-all font-medium"
-            >
-              {item.label}
-            </a>
-          ))}
+        {/* Navegación de Secciones */}
+        <nav className="site-nav" aria-label="Secciones">
+          <a href="#inmersion" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {t("navInmersion")}
+          </a>
+          <a href="#sobre-mi" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {t("navHybrid")}
+          </a>
+          <a href="#proyectos" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {t("navProjects")}
+          </a>
+          <a href="#servicios" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {t("navServices")}
+          </a>
+          <a href="#contacto" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {t("navContact")}
+          </a>
         </nav>
 
-        {/* Controles: Web Corporativa + Accesibilidad + Audio + Idioma */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Botón directo a arbizulabs.com */}
+        {/* Controles Derecha: Selector V1/V2 + Idioma + Audio + Arbizu Labs */}
+        <div className="header-controls">
+          <div className="theme-switch" data-theme-switch role="group" aria-label={t("themeSwitchAria")}>
+            <a
+              href={v1Href}
+              data-theme-link="v1"
+              className={activeTheme === "v1" ? "is-active" : ""}
+              aria-current={activeTheme === "v1" ? "page" : undefined}
+              onClick={() => {
+                soundEngine.playClick();
+                setActiveTheme("v1");
+                document.documentElement.setAttribute("data-theme", "v1");
+              }}
+            >
+              {t("themeV1")}
+            </a>
+            <a
+              href={v2Href}
+              data-theme-link="v2"
+              className={activeTheme === "v2" ? "is-active" : ""}
+              aria-current={activeTheme === "v2" ? "page" : undefined}
+              onClick={() => {
+                soundEngine.playClick();
+                setActiveTheme("v2");
+                document.documentElement.setAttribute("data-theme", "v2");
+              }}
+            >
+              {t("themeV2")}
+            </a>
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleLanguage}
+            onMouseEnter={() => soundEngine.playHover()}
+            className="ctrl-btn"
+            aria-label="Cambiar idioma ES / EN"
+          >
+            <span className={locale === "es" ? "text-emerald-300 font-bold" : "opacity-75"}>ES</span>
+            <span className="opacity-40">/</span>
+            <span className={locale === "en" ? "text-emerald-300 font-bold" : "opacity-75"}>EN</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSoundToggle}
+            onMouseEnter={() => soundEngine.playHover()}
+            className={`ctrl-btn hidden sm:inline-flex${!isMuted ? " ctrl-btn--active" : ""}`}
+            aria-label={isMuted ? "Activar audio ambiental" : "Silenciar audio"}
+          >
+            {isMuted ? <VolumeX size={13} /> : <Volume2 size={13} />}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleMotionToggle}
+            onMouseEnter={() => soundEngine.playHover()}
+            className={`ctrl-btn hidden md:inline-flex${reducedMotion ? " ctrl-btn--active" : ""}`}
+            aria-label={reducedMotion ? "Movimiento reducido activo" : "Movimiento cinemático activo"}
+          >
+            {reducedMotion ? <EyeOff size={13} /> : <Eye size={13} />}
+          </button>
+
           <a
             href="https://arbizulabs.com"
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => soundEngine.playHover()}
             onClick={() => soundEngine.playClick()}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-950/80 hover:bg-emerald-900/90 border border-emerald-500/40 text-emerald-300 hover:text-white font-mono text-[11px] font-bold transition-all shadow-md"
-            title={locale === "es" ? "Visitar web corporativa: Arbizu Labs" : "Visit corporate studio: Arbizu Labs"}
+            className="ctrl-btn hidden xl:inline-flex"
           >
             <span>ARBIZU LABS</span>
-            <ExternalLink size={11} className="text-emerald-400" />
+            <ExternalLink size={11} />
           </a>
-
-          {/* Toggle de Reduce Motion */}
-          <button
-            onClick={handleMotionToggle}
-            onMouseEnter={() => soundEngine.playHover()}
-            title={
-              reducedMotion
-                ? locale === "es"
-                  ? "Animaciones Reducidas (Activo)"
-                  : "Reduced Motion (Active)"
-                : locale === "es"
-                ? "Animaciones Cinemáticas (Activo)"
-                : "Cinematic Motion (Active)"
-            }
-            className={`p-2 rounded-full border transition-all ${
-              reducedMotion
-                ? "bg-amber-950/80 border-amber-500/60 text-amber-300"
-                : "bg-white/10 border-white/15 text-slate-300 hover:text-white hover:bg-white/20"
-            }`}
-          >
-            {reducedMotion ? <EyeOff size={13} /> : <Eye size={13} />}
-          </button>
-
-          {/* Toggle de Sonido Sintetizado & Ambient Soundscape */}
-          <button
-            onClick={handleSoundToggle}
-            onMouseEnter={() => soundEngine.playHover()}
-            title={
-              isMuted
-                ? locale === "es"
-                  ? "Activar Audio Espacial & Synthwave Ambient"
-                  : "Enable Spatial & Synthwave Audio"
-                : locale === "es"
-                ? "Silenciar Audio"
-                : "Mute Audio"
-            }
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-mono text-[11px] font-bold transition-all shadow-md ${
-              !isMuted
-                ? "bg-emerald-950/90 border-emerald-400 text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.35)]"
-                : "bg-white/10 border-white/15 text-slate-300 hover:text-white hover:bg-white/20"
-            }`}
-          >
-            {isMuted ? (
-              <>
-                <VolumeX size={12} />
-                <span className="hidden sm:inline">AUDIO OFF</span>
-              </>
-            ) : (
-              <>
-                <div className="flex items-end gap-0.5 h-3">
-                  <span className="w-0.5 h-1.5 bg-emerald-400 animate-pulse" />
-                  <span className="w-0.5 h-3 bg-emerald-400 animate-bounce" />
-                  <span className="w-0.5 h-2 bg-emerald-400 animate-pulse" />
-                </div>
-                <span className="text-emerald-300 hidden sm:inline">SYNTH AMBIENT</span>
-              </>
-            )}
-          </button>
-
-          {/* Selector de Idioma */}
-          <button
-            onClick={toggleLanguage}
-            onMouseEnter={() => soundEngine.playHover()}
-            className="px-2.5 py-1.5 bg-white/10 hover:bg-white/20 border border-white/15 rounded-full text-white text-xs font-mono tracking-wider transition-all flex items-center gap-1"
-          >
-            <span className={locale === "es" ? "text-emerald-400 font-bold" : "text-slate-400"}>ES</span>
-            <span className="text-white/30">/</span>
-            <span className={locale === "en" ? "text-emerald-400 font-bold" : "text-slate-400"}>EN</span>
-          </button>
         </div>
-
-        {/* Scroll Reading Progress Bar */}
-        <div
-          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 transition-all duration-150 pointer-events-none"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
