@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { soundEngine } from "./system/SoundEngine";
 import type { Hero3DSceneProps } from "./Hero3DScene";
+import QuantumRaymarchGrid from "./ui/QuantumRaymarchGrid";
 
 const Hero3DScene = dynamic<Hero3DSceneProps>(
   () => import("./Hero3DScene").then((mod) => mod.Hero3DScene),
@@ -22,10 +23,10 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (!navigator.webdriver) {
+      const sp = new URLSearchParams(window.location.search);
+      if (!navigator.webdriver || sp.has("force3d")) {
         setMount3D(true);
       }
-      const sp = new URLSearchParams(window.location.search);
       const wb = sp.get("workbench");
       if (wb === "chromatic" || wb === "wireframe" || wb === "xray") {
         setRenderMode(wb);
@@ -68,19 +69,22 @@ export default function HeroSection() {
         )}
 
         <div className="hero-shade" aria-hidden="true" />
+        <QuantumRaymarchGrid opacity={0.22} />
         <div className="edge-fuse edge-fuse--top" aria-hidden="true" />
         <div className="edge-fuse edge-fuse--bottom" aria-hidden="true" />
       </div>
 
       <div className="hero-content">
-        <h1 id="hero-title" className="hero-title" data-split>
-          <span className="line">{t("heroTitleLine1")}</span>
-          <span className="line">{t("heroTitleLine2")}</span>
-        </h1>
+        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-slate-950/55 px-8 py-6 backdrop-blur-md border border-white/[0.06] shadow-[0_24px_80px_rgba(0,0,0,0.75)] flex flex-col items-center text-center mt-16 md:mt-20 mb-6">
+          <h1 id="hero-title" className="hero-title" data-split>
+            <span className="line">{t("heroTitleLine1")}</span>
+            <span className="line">{t("heroTitleLine2")}</span>
+          </h1>
 
-        <p className="hero-lede">
-          <strong>{t("heroLedeLead")}</strong> {t("heroLedeBody")}
-        </p>
+          <p className="hero-lede">
+            <strong>{t("heroLedeLead")}</strong> {t("heroLedeBody")}
+          </p>
+        </div>
 
         <div className="hero-actions">
           <a

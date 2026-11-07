@@ -8,6 +8,11 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { useMotionPreferences } from "./system/MotionPreferences";
 import { soundEngine } from "./system/SoundEngine";
+import {
+  createAnisotropicRoughnessTexture,
+  createMicroPebbleNormalTexture,
+} from "./3d/pbrTextures";
+import { HalconWorkbench, WorkbenchMode } from "./three/HalconWorkbench";
 
 // ============================================================================
 // 1. MOD-03: Grilla Topográfica LiDAR AgTech (Núcleo Pampeano Bolívar / Cuyo)
@@ -268,17 +273,23 @@ function CyberFalcon({
 
   const { scene } = useGLTF("/models/cyber_falcon.glb");
 
-  // Materiales físicos de grado cinematográfico (MOD-01)
+  // Materiales físicos de grado cinematográfico (PBR Awwwards Grade)
   const materials = useMemo(() => {
-    // 1. Titanio Grado 5 con Clearcoat & Rim Light GLSL
+    const anisoRoughnessMap = createAnisotropicRoughnessTexture(256);
+    const microNormalMap = createMicroPebbleNormalTexture(256);
+
+    // 1. Titanio Grado 5 con Clearcoat & Rim Light GLSL + Texturas Anisotrópicas PBR
     const titaniumMat = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color("#506272"),
-      metalness: 0.94,
-      roughness: 0.20,
-      clearcoat: 0.85,
-      clearcoatRoughness: 0.12,
-      reflectivity: 0.95,
-      envMapIntensity: 2.2,
+      metalness: 0.96,
+      roughness: 0.18,
+      roughnessMap: anisoRoughnessMap,
+      normalMap: microNormalMap,
+      normalScale: new THREE.Vector2(0.25, 0.25),
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
+      reflectivity: 0.98,
+      envMapIntensity: 2.6,
     });
     titaniumMat.customProgramCacheKey = () => "FalconTitaniumFresnel_v3";
     titaniumMat.onBeforeCompile = (shader) => {
@@ -675,8 +686,8 @@ function SceneContent({
 
   return (
     <group ref={sceneGroup}>
-      {/* Fog distante para preservar nitidez cristalina en primer plano */}
-      <fog attach="fog" args={["#0A0A0C", 18.0, 45.0]} />
+      {/* Niebla exponencial para fundir el fondo suavemente en la oscuridad profunda sin bordes duros */}
+      <fogExp2 attach="fog" args={["#070A0F", 0.035]} />
 
       {/* Iluminación PBR de Estudio 100% Offline (Sin dependencias remotas) */}
       <OfflinePBREnvironment />
@@ -704,11 +715,8 @@ function SceneContent({
 
       <Float speed={reducedMotion ? 0.3 : 1.2} rotationIntensity={reducedMotion ? 0.02 : 0.08} floatIntensity={reducedMotion ? 0.1 : 0.25}>
         <Suspense fallback={null}>
-          <CyberFalcon
-            energySurge={energySurge}
-            renderMode={renderMode}
-            reducedMotion={reducedMotion}
-            onAttitudeUpdate={(roll, pitch, pointer) => setAttitude({ roll, pitch, pointer })}
+          <HalconWorkbench
+            mode={renderMode === "wireframe" ? "wireframe" : renderMode === "xray" ? "xray" : "pbr"}
           />
         </Suspense>
       </Float>
@@ -716,12 +724,12 @@ function SceneContent({
       {/* Grilla Topográfica LiDAR AgTech (MOD-03) */}
       <AgTechGrid reducedMotion={reducedMotion} />
 
-      {/* Postprocessing Cinematográfico: Bloom Selectivo sobre Ópticas y Reactor */}
+      {/* Postprocessing Cinematográfico: Bloom Calibrado (sin quemar alas ni geometría PBR) */}
       <EffectComposer enableNormalPass={false} multisampling={4}>
         <Bloom
-          luminanceThreshold={1.1}
+          luminanceThreshold={0.85}
           mipmapBlur
-          intensity={0.85}
+          intensity={0.35}
           radius={0.55}
         />
       </EffectComposer>

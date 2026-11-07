@@ -41,6 +41,23 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
     }
   }, [forceTheme]);
 
+  const handleTiltMove = (e: React.PointerEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    const rotY = (px - 0.5) * 10;
+    const rotX = (0.5 - py) * 8;
+    card.style.setProperty("--gx", `${(px * 100).toFixed(1)}%`);
+    card.style.setProperty("--gy", `${(py * 100).toFixed(1)}%`);
+    card.style.transform = `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+  };
+
+  const handleTiltLeave = (e: React.PointerEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+  };
+
   const hybridArtifacts = [
     {
       icon: Tractor,
@@ -104,7 +121,19 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
 
           <div className="artifact-grid">
             {hybridArtifacts.map((item, i) => (
-              <article key={i} className="artifact-card group" data-tilt>
+              <article
+                key={i}
+                className="artifact-card group relative"
+                data-tilt
+                onPointerMove={handleTiltMove}
+                onPointerLeave={handleTiltLeave}
+              >
+                {/* Mechanical Corner Brackets */}
+                <span className="card-bracket card-bracket--tl" aria-hidden="true" />
+                <span className="card-bracket card-bracket--tr" aria-hidden="true" />
+                <span className="card-bracket card-bracket--bl" aria-hidden="true" />
+                <span className="card-bracket card-bracket--br" aria-hidden="true" />
+
                 <div className="artifact-stage">
                   <img
                     data-float
