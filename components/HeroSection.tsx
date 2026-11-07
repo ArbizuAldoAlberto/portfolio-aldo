@@ -26,7 +26,7 @@ export default function HeroSection() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const sp = new URLSearchParams(window.location.search);
-      if (!navigator.webdriver || sp.has("force3d")) {
+      if (!sp.has("disable3d")) {
         setMount3D(true);
       }
       const wb = sp.get("workbench");
@@ -77,7 +77,7 @@ export default function HeroSection() {
       </div>
 
       <div className="hero-content">
-        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-slate-950/55 px-8 py-6 backdrop-blur-md border border-white/[0.06] shadow-[0_24px_80px_rgba(0,0,0,0.75)] flex flex-col items-center text-center mt-16 md:mt-20 mb-6">
+        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-slate-950/55 px-5 sm:px-8 py-5 sm:py-6 backdrop-blur-md border border-white/[0.06] shadow-[0_24px_80px_rgba(0,0,0,0.75)] flex flex-col items-center text-center mt-14 md:mt-20 mb-4 sm:mb-6">
           <h1 id="hero-title" className="hero-title" data-split>
             <span className="line">{t("heroTitleLine1")}</span>
             <span className="line">{t("heroTitleLine2")}</span>
@@ -122,8 +122,8 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Workbench HUD acoplado al borde inferior (fuera del 55%x55% central del video) */}
-      <div className="hero-workbench-dock" role="group" aria-label={t("workbenchLabel")}>
+      {/* Workbench HUD acoplado al borde inferior (visible en Desktop y Mobile) */}
+      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label={t("workbenchLabel")}>
         <span className="hero-workbench-label">{t("workbenchLabel")}</span>
         <button
           type="button"

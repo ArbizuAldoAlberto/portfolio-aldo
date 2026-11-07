@@ -792,6 +792,7 @@ export function Hero3DScene({
           antialias: true,
           powerPreference: "high-performance",
           alpha: true,
+          preserveDrawingBuffer: true,
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.1,
         }}

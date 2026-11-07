@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ExternalLink,
@@ -18,12 +19,179 @@ import { AgroMarketWidget } from "./interactive/AgroMarketWidget";
 import { SentinelWidget } from "./interactive/SentinelWidget";
 import { SreFailoverSandbox } from "./interactive/SreFailoverSandbox";
 import { soundEngine } from "./system/SoundEngine";
+import { useTacticalAudio } from "./audio/useTacticalAudio";
 import { useLocale, useTranslations } from "next-intl";
+
+type LabCategory = "all" | "fintech" | "agtech" | "cybersec";
 
 export function ProjectsShowcase() {
   const locale = useLocale();
   const t = useTranslations("OrbitalUI");
   const isEs = locale === "es";
+  const [activeCategory, setActiveCategory] = useState<LabCategory>("all");
+  const { playHoverTick, playModeSwitch } = useTacticalAudio();
+
+  const handleCardPointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x.toFixed(0)}px`);
+    card.style.setProperty("--mouse-y", `${y.toFixed(0)}px`);
+  };
+
+  const AUX_PROJECTS = [
+    {
+      id: "sabiobosque",
+      category: "cybersec" as const,
+      domain: isEs ? "E-Commerce & AI Legal" : "E-Commerce & Legal AI",
+      badge: "LIVE SAAS",
+      accentText: "text-emerald-400",
+      badgeClass: "bg-emerald-950/60 text-emerald-300 border-emerald-500/30",
+      hoverBtn: "hover:bg-emerald-400 hover:text-slate-950",
+      title: "SabioBosque",
+      desc: isEs
+        ? "Validación automatizada de stock y recetas médicas legales REPROCANN en el checkout mediante Gemini API y Universal Cart."
+        : "Automated stock verification and REPROCANN medical prescription compliance validation at checkout via Gemini API.",
+      tags: ["Next.js", "Zustand", "Supabase", "Gemini API"],
+      href: "https://sabiobosque.aldoarbizu.com",
+      cta: isEs ? "Explorar SaaS" : "Explore SaaS",
+    },
+    {
+      id: "techzone",
+      category: "fintech" as const,
+      domain: "Retail POS & Offline-First",
+      badge: isEs ? "LICENCIA $85K ARS" : "LICENSE $85K ARS",
+      accentText: "text-blue-400",
+      badgeClass: "bg-blue-950/60 text-blue-300 border-blue-500/30",
+      hoverBtn: "hover:bg-blue-400 hover:text-slate-950",
+      title: "TechZone POS",
+      desc: isEs
+        ? "Terminal de cobro blindada anti-cortes de internet para comercios. Encolado transaccional en SQLite WAL y facturación continua en mostrador."
+        : "Bulletproof offline-first retail POS terminal. Transaction queuing in SQLite WAL with zero downtime during internet outages.",
+      tags: ["React Native", "SQLite WAL", "ESC/POS", "QR Interoperable"],
+      href: "https://techzone.aldoarbizu.com",
+      cta: isEs ? "Explorar Terminal POS" : "Explore POS Terminal",
+    },
+    {
+      id: "aeroshot",
+      category: "agtech" as const,
+      domain: "Agro Drones & GIS",
+      badge: isEs ? "SERVICIO $60K ARS" : "SERVICE $60K ARS",
+      accentText: "text-sky-400",
+      badgeClass: "bg-sky-950/60 text-sky-300 border-sky-500/30",
+      hoverBtn: "hover:bg-sky-400 hover:text-slate-950",
+      title: "AeroShot Drones",
+      desc: isEs
+        ? "Relevamiento aéreo 4K multiespectral, peritaje de siniestros agropecuarios (granizo/inundación) y cartografía en Bolívar y la región."
+        : "4K multispectral drone surveys, agricultural crop loss appraisal, and geospatial mapping in Bolívar and central Buenos Aires.",
+      tags: ["GIS WebGL", "DJI Telemetry", "NDVI Index", "Base L2"],
+      href: "https://aeroshot.aldoarbizu.com",
+      cta: isEs ? "Explorar Servicio Aéreo" : "Explore Aerial Service",
+    },
+    {
+      id: "pawhero",
+      category: "cybersec" as const,
+      domain: isEs ? "Web3 & Hardware 3D" : "Web3 & 3D Hardware",
+      badge: "LABS PROTO",
+      accentText: "text-emerald-400",
+      badgeClass: "bg-purple-950/60 text-purple-300 border-purple-500/30",
+      hoverBtn: "hover:bg-emerald-400 hover:text-slate-950",
+      title: "PawHero",
+      desc: isEs
+        ? "Trazabilidad de mascotas con chapas QR imprimibles en 3D (STL) a costo cero y emisión de Soulbound Tokens (SBT) en Base L2 para ONGs."
+        : "Pet traceability with 3D-printable QR tags (STL) and Soulbound Token (SBT) issuance on Base L2 for animal rescues.",
+      tags: ["React Native", "Base L2", "Three.js", "STL 3D Print"],
+      href: "https://pawhero.aldoarbizu.com",
+      cta: isEs ? "Explorar Prototipo" : "Explore Prototype",
+    },
+    {
+      id: "impresion3d",
+      category: "cybersec" as const,
+      domain: "Makers & Web3",
+      badge: "HARDWARE PROTO",
+      accentText: "text-amber-400",
+      badgeClass: "bg-amber-950/60 text-amber-300 border-amber-500/30",
+      hoverBtn: "hover:bg-amber-400 hover:text-slate-950",
+      title: isEs ? "Impresión 3D P2P" : "P2P 3D Printing",
+      desc: isEs
+        ? "Plataforma de cotización instantánea de archivos STL de diseño 3D y red colaborativa de makers con escrow descentralizado."
+        : "Instant 3D STL slicing quotation platform and collaborative maker network with decentralized escrow.",
+      tags: ["Kotlin", "STL Slicer", "Base L2 Escrow", "Blender"],
+      href: "https://impresion3d.aldoarbizu.com",
+      cta: isEs ? "Explorar Proyecto" : "Explore Project",
+    },
+    {
+      id: "ecoconnect",
+      category: "agtech" as const,
+      domain: isEs ? "ESG & Satelital" : "ESG & Satellite",
+      badge: "LIVE TELEMETRY",
+      accentText: "text-teal-400",
+      badgeClass: "bg-teal-950/60 text-teal-300 border-teal-500/30",
+      hoverBtn: "hover:bg-teal-400 hover:text-slate-950",
+      title: "EcoConnect ESG",
+      desc: isEs
+        ? "Registro y monitoreo de cobertura forestal con telemetría satelital Sentinel-2 (NDVI) y certificación inmutable on-chain."
+        : "Forest canopy monitoring via Sentinel-2 (NDVI) satellite telemetry and tamper-proof environmental certification.",
+      tags: ["Next.js", "Sentinel-2 API", "Base L2", "Three.js"],
+      href: "https://ecoconnect.aldoarbizu.com",
+      cta: isEs ? "Explorar Telemetría" : "Explore Telemetry",
+    },
+    {
+      id: "aureus",
+      category: "fintech" as const,
+      domain: "DeFi & Wealth OS",
+      badge: "LIVE ERP",
+      accentText: "text-amber-400",
+      badgeClass: "bg-amber-950/60 text-amber-300 border-amber-500/30",
+      hoverBtn: "hover:bg-amber-400 hover:text-slate-950",
+      title: "Aureus Wealth OS",
+      desc: isEs
+        ? "Sistema operativo patrimonial y ERP para Family Offices. Consolidación de tesorería multimoneda, NAV en tiempo real y ejecución Web3 en Base L2."
+        : "Private wealth operating system & ERP for Family Offices. Multi-currency treasury consolidation, real-time NAV, and Base L2 Web3 execution.",
+      tags: ["Next.js 16", "Base L2", "WASM", "Supabase"],
+      href: "https://aureus.aldoarbizu.com",
+      cta: isEs ? "Explorar ERP" : "Explore ERP",
+    },
+    {
+      id: "habitat",
+      category: "fintech" as const,
+      domain: "PropTech & Web3",
+      badge: "BASE L2 ESCROW",
+      accentText: "text-purple-400",
+      badgeClass: "bg-purple-950/60 text-purple-300 border-purple-500/30",
+      hoverBtn: "hover:bg-purple-400 hover:text-slate-950",
+      title: "Hábitat Smart Lease",
+      desc: isEs
+        ? "Generador descentralizado de contratos de alquiler y escrow en Base L2. Firma criptográfica personal_sign y depósito en garantía programable."
+        : "Decentralized smart lease generator and escrow on Base L2. Cryptographic personal_sign validation and programmable security deposits.",
+      tags: ["Solidity", "Base L2", "Next.js", "Ethers.js"],
+      href: "https://habitat.aldoarbizu.com",
+      cta: isEs ? "Explorar Smart Lease" : "Explore Smart Lease",
+    },
+    {
+      id: "nomad",
+      category: "agtech" as const,
+      domain: isEs ? "Táctico & Off-Grid" : "Tactical & Off-Grid",
+      badge: "LORA MESH",
+      accentText: "text-zinc-300",
+      badgeClass: "bg-zinc-900 text-zinc-300 border-zinc-500/30",
+      hoverBtn: "hover:bg-zinc-300 hover:text-slate-950",
+      title: "Nomad Tactical Hub",
+      desc: isEs
+        ? "Consola de campo para comunicaciones malladas LoRa off-grid, mapas topográficos vectoriales sin internet y telemetría de batería solar."
+        : "Off-grid tactical field console for LoRa mesh networks, offline vector topographic mapping, and solar power telemetry.",
+      tags: ["React Native", "LoRaWAN", "SQLite WAL", "Offline GIS"],
+      href: "https://nomadhub.aldoarbizu.com",
+      cta: isEs ? "Explorar Hub Táctico" : "Explore Tactical Hub",
+    },
+  ];
+
+  const filteredAuxProjects =
+    activeCategory === "all"
+      ? AUX_PROJECTS
+      : AUX_PROJECTS.filter((p) => p.category === activeCategory);
 
   return (
     <section id="proyectos" className="depth" data-section="depth">
@@ -456,438 +624,122 @@ export function ProjectsShowcase() {
       </motion.div>
 
       {/* ========================================================================= */}
-      {/* SECCIÓN SECUNDARIA: LABORATORIO & CREACIONES AUXILIARES */}
+      {/* SECCIÓN SECUNDARIA: LABORATORIO & CREACIONES AUXILIARES (FILTRADO TÁCTICO) */}
       {/* ========================================================================= */}
       <div className="pt-8">
-        <div className="mb-10 text-center sm:text-left">
-          <span className="font-mono text-xs text-emerald-400 font-semibold uppercase tracking-widest block mb-1">
-            {isEs ? "// EXPERIMENTOS & SAAS AUXILIARES" : "// EXPERIMENTS & AUXILIARY SAAS"}
-          </span>
-          <h3 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight">
-            {isEs ? "Otros desarrollos de software especializado" : "Other specialized software creations"}
-          </h3>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+          <div className="text-center sm:text-left">
+            <span className="font-mono text-xs text-emerald-400 font-semibold uppercase tracking-widest block mb-1">
+              {isEs ? "// EXPERIMENTOS & SAAS AUXILIARES" : "// EXPERIMENTS & AUXILIARY SAAS"}
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight">
+              {isEs ? "Otros desarrollos de software especializado" : "Other specialized software creations"}
+            </h3>
+          </div>
+
+          {/* Pestañas de Filtrado Táctico por Arquitectura */}
+          <div
+            role="tablist"
+            aria-label={isEs ? "Filtrar por arquitectura" : "Filter by architecture"}
+            className="inline-flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/80 border border-emerald-500/25 backdrop-blur-md self-center lg:self-auto"
+          >
+            {(
+              [
+                { id: "all", label: isEs ? "Todos (9)" : "All (9)", mode: "pbr" as const },
+                { id: "fintech", label: "FinTech / Quant", mode: "wireframe" as const },
+                { id: "agtech", label: "AgTech / Offline-First", mode: "xray" as const },
+                { id: "cybersec", label: "CyberSec / WebGL", mode: "pbr" as const },
+              ] as const
+            ).map((tab) => {
+              const active = activeCategory === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onMouseEnter={playHoverTick}
+                  onClick={() => {
+                    soundEngine.playClick();
+                    playModeSwitch(tab.mode);
+                    setActiveCategory(tab.id);
+                  }}
+                  className={`px-3.5 py-1.5 rounded-xl font-mono text-xs font-semibold transition-all duration-200 ${
+                    active
+                      ? "bg-emerald-400/20 text-emerald-300 border border-emerald-400/60 shadow-[0_0_16px_rgba(52,211,153,0.25)]"
+                      : "text-slate-400 hover:text-white border border-transparent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* SabioBosque */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-emerald-400 uppercase font-bold">
-                  {isEs ? "E-Commerce & AI Legal" : "E-Commerce & Legal AI"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-500/30">
-                  LIVE SAAS
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">SabioBosque</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Validación automatizada de stock y recetas médicas legales REPROCANN en el checkout mediante Gemini API y Universal Cart."
-                  : "Automated stock verification and REPROCANN medical prescription compliance validation at checkout via Gemini API."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Next.js", "Zustand", "Supabase", "Gemini API"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://sabiobosque.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-emerald-400 hover:text-slate-950 transition-colors"
+          {filteredAuxProjects.map((proj) => (
+            <div
+              key={proj.id}
+              onPointerEnter={playHoverTick}
+              onPointerMove={handleCardPointerMove}
+              className="group relative p-6 rounded-2xl bg-black/70 border border-white/10 hover:border-emerald-400/45 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-lg"
             >
-              <span>{isEs ? "Explorar SaaS" : "Explore SaaS"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
+              {/* Halo de iluminación perimetral reactivo al puntero (--mouse-x, --mouse-y) */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background:
+                    "radial-gradient(280px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(52, 211, 153, 0.14), transparent 72%)",
+                }}
+              />
+              {/* Mechanical Corner Brackets */}
+              <span className="card-bracket card-bracket--tl" aria-hidden="true" />
+              <span className="card-bracket card-bracket--tr" aria-hidden="true" />
+              <span className="card-bracket card-bracket--bl" aria-hidden="true" />
+              <span className="card-bracket card-bracket--br" aria-hidden="true" />
 
-          {/* TechZone POS */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-blue-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-blue-400 uppercase font-bold">
-                  {isEs ? "Retail POS & Offline-First" : "Retail POS & Offline-First"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-blue-950/60 text-blue-300 border border-blue-500/30">
-                  {isEs ? "LICENCIA $85K ARS" : "LICENSE $85K ARS"}
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">TechZone POS</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Terminal de cobro blindada anti-cortes de internet para comercios. Encolado transaccional en SQLite WAL y facturación continua en mostrador."
-                  : "Bulletproof offline-first retail POS terminal. Transaction queuing in SQLite WAL with zero downtime during internet outages."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["React Native", "SQLite WAL", "ESC/POS", "QR Interoperable"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <span className={`font-mono text-[10px] uppercase font-bold ${proj.accentText}`}>
+                    {proj.domain}
                   </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://techzone.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-blue-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Terminal POS" : "Explore POS Terminal"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* AeroShot Drones 4K */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-sky-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-sky-400 uppercase font-bold">
-                  {isEs ? "Agro Drones & GIS" : "Agro Drones & GIS"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-sky-950/60 text-sky-300 border border-sky-500/30">
-                  {isEs ? "SERVICIO $60K ARS" : "SERVICE $60K ARS"}
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">AeroShot Drones</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Relevamiento aéreo 4K multiespectral, peritaje de siniestros agropecuarios (granizo/inundación) y cartografía en Bolívar y la región."
-                  : "4K multispectral drone surveys, agricultural crop loss appraisal, and geospatial mapping in Bolívar and central Buenos Aires."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["GIS WebGL", "DJI Telemetry", "NDVI Index", "Base L2"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
+                  <span className={`font-mono text-[10px] px-2 py-0.5 rounded border ${proj.badgeClass}`}>
+                    {proj.badge}
                   </span>
-                ))}
+                </div>
+                <h4 className="text-xl font-sans font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
+                  {proj.title}
+                </h4>
+                <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">{proj.desc}</p>
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {proj.tags.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 rounded bg-slate-900/90 border border-white/5 text-[10px] font-mono text-slate-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
+              <a
+                href={proj.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => {
+                  soundEngine.playHover();
+                  playHoverTick();
+                }}
+                onClick={() => soundEngine.playClick()}
+                className={`relative z-10 inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white transition-colors ${proj.hoverBtn}`}
+              >
+                <span>{proj.cta}</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
-            <a
-              href="https://aeroshot.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-sky-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Servicio Aéreo" : "Explore Aerial Service"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* PawHero */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-emerald-400 uppercase font-bold">
-                  {isEs ? "Web3 & Hardware 3D" : "Web3 & 3D Hardware"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-500/30">
-                  LABS PROTO
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">PawHero</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Trazabilidad de mascotas con chapas QR imprimibles en 3D (STL) a costo cero y emisión de Soulbound Tokens (SBT) en Base L2 para ONGs."
-                  : "Pet traceability with 3D-printable QR tags (STL) and Soulbound Token (SBT) issuance on Base L2 for animal rescues."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["React Native", "Base L2", "Three.js", "STL 3D Print"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://pawhero.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-emerald-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Prototipo" : "Explore Prototype"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Impresión 3D P2P */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-emerald-500/30 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-amber-400 uppercase font-bold">
-                  {isEs ? "Makers & Web3" : "Makers & Web3"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-500/30">
-                  HARDWARE PROTO
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">
-                {isEs ? "Impresión 3D P2P" : "P2P 3D Printing"}
-              </h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Plataforma de cotización instantánea de archivos STL de diseño 3D y red colaborativa de makers con escrow descentralizado."
-                  : "Instant 3D STL slicing quotation platform and collaborative maker network with decentralized escrow."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Kotlin", "STL Slicer", "Base L2 Escrow", "Blender"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://impresion3d.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-amber-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Proyecto" : "Explore Project"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* EcoConnect ESG */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-teal-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-teal-400 uppercase font-bold">
-                  {isEs ? "ESG & Satelital" : "ESG & Satellite"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-950/60 text-teal-300 border border-teal-500/30">
-                  LIVE TELEMETRY
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">EcoConnect ESG</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Registro y monitoreo de cobertura forestal con telemetría satelital Sentinel-2 (NDVI) y certificación inmutable on-chain."
-                  : "Forest canopy monitoring via Sentinel-2 (NDVI) satellite telemetry and tamper-proof environmental certification."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Next.js", "Sentinel-2 API", "Base L2", "Three.js"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://ecoconnect.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-teal-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Telemetría" : "Explore Telemetry"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Aureus Wealth OS */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-amber-500/50 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-amber-400 uppercase font-bold">
-                  {isEs ? "DeFi & Wealth OS" : "DeFi & Wealth OS"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-500/30">
-                  LIVE ERP
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">Aureus Wealth OS</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Sistema operativo patrimonial y ERP para Family Offices. Consolidación de tesorería multimoneda, NAV en tiempo real y ejecución Web3 en Base L2."
-                  : "Private wealth operating system & ERP for Family Offices. Multi-currency treasury consolidation, real-time NAV, and Base L2 Web3 execution."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Next.js 16", "Base L2", "WASM", "Supabase"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://aureus.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-amber-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar ERP" : "Explore ERP"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Hábitat Smart Lease */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-purple-400 uppercase font-bold">
-                  {isEs ? "PropTech & Web3" : "PropTech & Web3"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-500/30">
-                  BASE L2 ESCROW
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">Hábitat Smart Lease</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Generador descentralizado de contratos de alquiler y escrow en Base L2. Firma criptográfica personal_sign y depósito en garantía programable."
-                  : "Decentralized smart lease generator and escrow on Base L2. Cryptographic personal_sign validation and programmable security deposits."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Solidity", "Base L2", "Next.js", "Ethers.js"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://habitat.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-purple-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Smart Lease" : "Explore Smart Lease"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Smart Marketing Advisor */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-rose-500/40 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-rose-400 uppercase font-bold">
-                  {isEs ? "AI Marketing & Funnels" : "AI Marketing & Funnels"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-rose-950/60 text-rose-300 border border-rose-500/30">
-                  AI ENGINE
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">Smart Marketing Advisor</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Optimizador autónomo de funnels y generador de copies publicitarios con modelos de neuromarketing y cálculo predictivo de ROI."
-                  : "Autonomous sales funnel optimizer and copy generation engine with neuromarketing heuristics and predictive ROI modeling."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Next.js", "Gemini AI", "n8n", "Tailwind"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://marketingadvisor.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-rose-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar AI Advisor" : "Explore AI Advisor"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Nomad Tactical Hub */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-zinc-400/50 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-zinc-300 uppercase font-bold">
-                  {isEs ? "Táctico & Off-Grid" : "Tactical & Off-Grid"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-500/30">
-                  LORA MESH
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">Nomad Tactical Hub</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Consola de campo para comunicaciones malladas LoRa off-grid, mapas topográficos vectoriales sin internet y telemetría de batería solar."
-                  : "Off-grid tactical field console for LoRa mesh networks, offline vector topographic mapping, and solar power telemetry."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["React Native", "LoRaWAN", "SQLite WAL", "Offline GIS"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://nomadhub.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-zinc-300 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Explorar Hub Táctico" : "Explore Tactical Hub"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          {/* Arbizu Labs Boutique */}
-          <div className="p-6 rounded-2xl bg-black/60 border border-white/10 hover:border-cyan-400/50 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] text-cyan-400 uppercase font-bold">
-                  {isEs ? "Agencia B2B" : "B2B Agency"}
-                </span>
-                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
-                  OFFICIAL PORTAL
-                </span>
-              </div>
-              <h4 className="text-xl font-sans font-bold text-white mb-2">Arbizu Labs Boutique</h4>
-              <p className="font-sans text-xs text-slate-300 leading-relaxed mb-4">
-                {isEs
-                  ? "Agencia de ingeniería de software corporativo. Arquitectura distribuida, auditorías térmicas FLIR, sistemas offline-first y contratos B2B."
-                  : "Enterprise software engineering boutique. Distributed architecture, FLIR thermal hardware audits, offline-first systems, and B2B contracts."}
-              </p>
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {["Next.js 16", "TypeScript", "Bento UX", "FLIR Vision"].map((t, i) => (
-                  <span key={i} className="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-slate-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <a
-              href="https://arbizulabs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => soundEngine.playHover()}
-              onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 border border-white/15 text-xs font-mono font-bold text-white hover:bg-cyan-400 hover:text-slate-950 transition-colors"
-            >
-              <span>{isEs ? "Visitar Arbizu Labs" : "Visit Arbizu Labs"}</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
+          ))}
         </div>
       </div>
 
