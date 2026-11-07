@@ -9,7 +9,7 @@ const securityHeaders = [
     },
     {
         key: 'X-Frame-Options',
-        value: 'DENY',
+        value: 'SAMEORIGIN',
     },
     {
         key: 'X-Content-Type-Options',
@@ -25,7 +25,7 @@ const securityHeaders = [
     },
     {
         key: 'Content-Security-Policy',
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://va.vercel-scripts.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https: wss:; frame-src 'self';",
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://va.vercel-scripts.com https://unpkg.com; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https: wss: blob:; frame-src 'self';",
     },
 ];
 
@@ -49,7 +49,22 @@ const nextConfig = {
             },
         ];
     },
+    async rewrites() {
+        return [
+            {
+                source: '/compare.html',
+                destination: '/es/compare',
+            },
+            {
+                source: '/es/compare.html',
+                destination: '/es/compare',
+            },
+            {
+                source: '/en/compare.html',
+                destination: '/en/compare',
+            },
+        ];
+    },
 };
 
 export default withNextIntl(nextConfig);
-

@@ -18,14 +18,46 @@ import { AgroMarketWidget } from "./interactive/AgroMarketWidget";
 import { SentinelWidget } from "./interactive/SentinelWidget";
 import { SreFailoverSandbox } from "./interactive/SreFailoverSandbox";
 import { soundEngine } from "./system/SoundEngine";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function ProjectsShowcase() {
   const locale = useLocale();
+  const t = useTranslations("OrbitalUI");
   const isEs = locale === "es";
 
   return (
-    <section id="proyectos" className="py-24 sm:py-36 px-4 sm:px-6 lg:px-8 border-b border-white/10 max-w-7xl mx-auto">
+    <section id="proyectos" className="depth" data-section="depth">
+      <div className="section-inner">
+        <dl className="stats">
+          <div className="stat">
+            <dt>{t("depthStat1Label")}</dt>
+            <dd>
+              <span data-count="10000" data-format="es">0</span>
+              <span className="stat-unit">{t("depthStat1Unit")}</span>
+            </dd>
+          </div>
+          <div className="stat">
+            <dt>{t("depthStat2Label")}</dt>
+            <dd>
+              <span data-count="14">0</span>
+              <span className="stat-unit">{t("depthStat2Unit")}</span>
+            </dd>
+          </div>
+          <div className="stat">
+            <dt>{t("depthStat3Label")}</dt>
+            <dd>
+              <span data-count="800">0</span>
+              <span className="stat-unit">{t("depthStat3Unit")}</span>
+            </dd>
+          </div>
+          <div className="stat">
+            <dt>{t("depthStat4Label")}</dt>
+            <dd>
+              <span data-count="8">0</span>
+              <span className="stat-unit">{t("depthStat4Unit")}</span>
+            </dd>
+          </div>
+        </dl>
       {/* Encabezado Principal */}
       <div className="mb-20 sm:mb-28 text-center sm:text-left">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 font-mono text-xs text-emerald-400 mb-4">
@@ -90,7 +122,7 @@ export function ProjectsShowcase() {
               <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-wider font-semibold block mb-2">
                 {isEs ? "// EL ORIGEN REAL" : "// THE REAL ORIGIN"}
               </span>
-              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed italic">
+              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
                 {isEs
                   ? "“Durante mucho tiempo operé manualmente en los mercados financieros con estrategias que me permitieron subsistir con mis ahorros. Sin embargo, al depender directamente de ese capital para vivir, la presión psicológica era desgastante. Los fallos no venían de errores en la lectura del mercado, sino de la necesidad personal de ganar. Creé TitanFlow para eliminar mis propias emociones de la ecuación y delegar la ejecución en algoritmos matemáticos estrictos.”"
                   : "“For a long time, I traded financial markets manually using strategies that supported my living expenses. However, relying directly on that capital to live created immense emotional wear. Mistakes didn't stem from market analysis, but from the personal psychological pressure to win. I created TitanFlow to eliminate human emotions entirely from the equation and delegate execution to strict mathematical algorithms.”"}
@@ -100,7 +132,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <Cpu className="w-4 h-4 text-emerald-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Cpu className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Solución Técnica" : "Engineering & Technical Architecture"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
@@ -210,7 +244,7 @@ export function ProjectsShowcase() {
               <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-wider font-semibold block mb-2">
                 {isEs ? "// EL ORIGEN REAL" : "// THE REAL ORIGIN"}
               </span>
-              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed italic">
+              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
                 {isEs
                   ? "“Mi origen y formación siempre estuvo en el campo (EAS Del Valle). Conozco en persona el estrés de trabajar en la manga ganadera, donde todo debe ser rápido y dinámico para que los animales no se estresen ni se lastimen, y donde el software tradicional no sirve: pantallas que no se leen con el sol de frente, polvo, tierra en las manos y nula señal de internet. AgroMarket Pro nace para llevar soluciones tecnológicas prácticas a quienes trabajan en el barro.”"
                   : "“My roots and education are deeply tied to agriculture (EAS Del Valle). I know firsthand the physical stress of working in livestock chutes, where handling must be fast and dynamic so animals don't get hurt, and where generic software fails: unreadable screens under intense sunlight, dust, mud, and zero internet connectivity. AgroMarket Pro is engineered to bring practical tech to real operators in the mud.”"}
@@ -220,7 +254,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <Tractor className="w-4 h-4 text-emerald-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                  <Tractor className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Solución de Campo" : "Engineering & Field Solution"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
@@ -342,7 +378,7 @@ export function ProjectsShowcase() {
               <span className="font-mono text-[11px] text-amber-400 uppercase tracking-wider font-semibold block mb-2">
                 {isEs ? "// EL ORIGEN REAL" : "// THE REAL ORIGIN"}
               </span>
-              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed italic">
+              <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
                 {isEs
                   ? "“Trabajando en el servicio de seguridad nocturno sufrí en carne propia cómo fallaba la aplicación corporativa que nos daban: la cámara no leía los códigos QR en la oscuridad, la app se tildaba al perder señal en galpones o perímetros alejados, y los reportes de incidentes se borraban en lugar de guardarse. Creé Sentinel OS para darle a los vigiladores una herramienta que funcione siempre, protegiendo su trabajo con auditoría real.”"
                   : "“Working night security patrols, I experienced firsthand the failure of corporate guard apps: the camera couldn't read QR checkpoints in dark warehouses, the app froze upon losing signal along perimeter fences, and critical incident reports were lost instead of stored. I created Sentinel OS to provide guards with tools that never fail, backing up their work with auditable logs.”"}
@@ -352,7 +388,9 @@ export function ProjectsShowcase() {
             {/* Solución Técnica */}
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 font-mono text-xs text-white font-semibold uppercase">
-                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                </span>
                 <span>{isEs ? "Ingeniería & Resiliencia Táctica" : "Engineering & Tactical Resilience"}</span>
               </div>
               <p className="text-slate-300 font-sans text-xs sm:text-sm leading-relaxed">
@@ -897,6 +935,7 @@ export function ProjectsShowcase() {
           </div>
         </div>
       </motion.div>
+      </div>
     </section>
   );
 }

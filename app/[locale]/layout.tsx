@@ -33,7 +33,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  await getTranslations({ locale, namespace: "Metadata" });
 
   return {
     manifest: "/manifest.json",
@@ -43,7 +43,8 @@ export async function generateMetadata({
       title: "Aldo Arbizu | Arbizu Labs",
     },
     title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect | High-Availability Infrastructure",
-    description: "Portafolio de ingeniería de Aldo Arbizu. Staff Site Reliability Engineer, desarrollador de sistemas de trading algorítmico en Binance Futures y arquitecto de infraestructuras distribuidas de alta disponibilidad (Zero-Downtime).",
+    description:
+      "Portafolio de ingeniería de Aldo Arbizu. Staff Site Reliability Engineer, desarrollador de sistemas de trading algorítmico en Binance Futures y arquitecto de infraestructuras distribuidas de alta disponibilidad (Zero-Downtime).",
     keywords: [
       "Aldo Arbizu",
       "Staff SRE",
@@ -62,7 +63,7 @@ export async function generateMetadata({
       "Go",
       "Base L2 Blockchain",
       "Offline-First Mobile",
-      "Arbizu Labs"
+      "Arbizu Labs",
     ],
     authors: [{ name: "Aldo Arbizu", url: "https://aldoarbizu.com" }],
     metadataBase: new URL("https://aldoarbizu.com"),
@@ -80,7 +81,8 @@ export async function generateMetadata({
     },
     openGraph: {
       title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect",
-      description: "Infraestructuras distribuidas resilientes, ejecución algorítmica en Binance Futures y ecosistemas SaaS en producción activa.",
+      description:
+        "Infraestructuras distribuidas resilientes, ejecución algorítmica en Binance Futures y ecosistemas SaaS en producción activa.",
       url: "https://aldoarbizu.com",
       siteName: "Aldo Arbizu — Staff SRE & Quantitative Portfolio",
       type: "website",
@@ -91,7 +93,7 @@ export async function generateMetadata({
           width: 1200,
           height: 630,
           alt: "Aldo Arbizu — Staff SRE & Quantitative Systems Architect",
-        }
+        },
       ],
     },
     twitter: {
@@ -111,21 +113,29 @@ export default async function LocalizedLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as any)) notFound();
+  if (!routing.locales.includes(locale as "en" | "es")) notFound();
   const messages = await getMessages();
 
   return (
     <html
       lang={locale}
+      data-theme="v1"
       data-scroll-behavior="smooth"
-      className={`${GeistSans.variable} ${jetbrains.variable} scroll-smooth`}
+      className={`${GeistSans.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className="bg-orbital-bg text-slate-200 font-sans antialiased selection:bg-orbital-emerald/30 selection:text-white relative"
-        suppressHydrationWarning
-      >
-        {process.env.NEXT_PUBLIC_GA_ID && (
+      <head>
+        <link rel="preload" as="image" href="/media/hero/hero-poster.webp" fetchPriority="high" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var p=window.location.pathname||"";var s=window.location.search||"";var isV2=/\\/v2(\\/|$)/.test(p)||s.indexOf("theme=v2")!==-1;document.documentElement.setAttribute("data-theme",isV2?"v2":"v1");}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="antialiased selection:bg-emerald-400/30 selection:text-white relative" suppressHydrationWarning>
+        {process.env.NEXT_PUBLIC_GA_ID &&
+          !process.env.NEXT_PUBLIC_GA_ID.includes("YYYY") &&
+          !process.env.NEXT_PUBLIC_GA_ID.includes("XXXX") && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
@@ -155,8 +165,12 @@ export default async function LocalizedLayout({
                   <BackgroundEffects />
                   <SpotlightWrapper />
                   {children}
-                  <Analytics />
-                  <SpeedInsights />
+                  {process.env.NEXT_PUBLIC_VERCEL_ENV && (
+                    <>
+                      <Analytics />
+                      <SpeedInsights />
+                    </>
+                  )}
                 </PersonaProvider>
               </SoundProvider>
             </SmoothScroll>
@@ -171,14 +185,11 @@ export default async function LocalizedLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "name": "Aldo Alberto Arbizu",
-              "jobTitle": "Staff Site Reliability Engineer & Quantitative Systems Architect",
-              "url": "https://aldoarbizu.com",
-              "sameAs": [
-                "https://github.com/ArbizuAldoAlberto",
-                "https://linkedin.com/in/aldoarbizu"
-              ],
-              "knowsAbout": [
+              name: "Aldo Alberto Arbizu",
+              jobTitle: "Staff Site Reliability Engineer & Quantitative Systems Architect",
+              url: "https://aldoarbizu.com",
+              sameAs: ["https://github.com/ArbizuAldoAlberto", "https://linkedin.com/in/aldoarbizu"],
+              knowsAbout: [
                 "Site Reliability Engineering",
                 "Quantitative Trading",
                 "Binance Futures API",
@@ -189,9 +200,9 @@ export default async function LocalizedLayout({
                 "TypeScript",
                 "Rust",
                 "Go",
-                "Base L2 Blockchain"
-              ]
-            })
+                "Base L2 Blockchain",
+              ],
+            }),
           }}
         />
 
