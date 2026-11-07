@@ -12,7 +12,7 @@ import {
   createAnisotropicRoughnessTexture,
   createMicroPebbleNormalTexture,
 } from "./3d/pbrTextures";
-import { SculpturalPortrait3D, WorkbenchMode } from "./three/SculpturalPortrait3D";
+import { CyberneticOperator3D, WorkbenchMode } from "./three/CyberneticOperator3D";
 
 // ============================================================================
 // 1. MOD-03: Grilla Topográfica LiDAR AgTech (Núcleo Pampeano Bolívar / Cuyo)
@@ -41,9 +41,9 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
   const material = useMemo(() => {
     const mat = new THREE.MeshBasicMaterial({
       wireframe: true,
-      color: new THREE.Color("#10B981"),
+      color: new THREE.Color("#D4AF37"),
       transparent: true,
-      opacity: 0.24,
+      opacity: 0.20,
       depthWrite: false,
     });
 
@@ -59,11 +59,11 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
         '#include <dithering_fragment>',
         `
         #include <dithering_fragment>
-        // Haz de Escaneo Láser LiDAR (AgTech Drone Survey - Bolívar, Bs. As. // 36.23° S, 61.11° W)
+        // Haz de Escaneo Láser LiDAR Titanium & Solar Gold (#D4AF37 / #00F0FF)
         float distToScan = abs(vViewPosition.y - uScanY);
         float scanPulse = smoothstep(1.5, 0.0, distToScan);
-        vec3 laserColor = mix(vec3(0.06, 0.72, 0.51), vec3(0.02, 0.85, 0.95), scanPulse);
-        gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 2.2, scanPulse * 0.75);
+        vec3 laserColor = mix(vec3(0.831, 0.686, 0.216), vec3(0.0, 0.941, 1.0), scanPulse);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 1.65, scanPulse * 0.65);
         `
       );
       shaderRef.current = shader as unknown as { uniforms: { uScanY: { value: number }; uTime: { value: number } } };
@@ -163,17 +163,17 @@ function TacticalAerospaceHUD({
       {/* Gimbal Primario: Horizonte Artificial */}
       <group ref={outerGimbalRef}>
         <mesh geometry={ringGeometry}>
-          <meshBasicMaterial color="#10B981" transparent opacity={0.16} depthWrite={false} side={THREE.DoubleSide} />
+          <meshBasicMaterial color="#D4AF37" transparent opacity={0.18} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
         <lineSegments geometry={tickGeometry}>
-          <lineBasicMaterial color="#06B6D4" transparent opacity={0.22} depthWrite={false} />
+          <lineBasicMaterial color="#E2E8F0" transparent opacity={0.22} depthWrite={false} />
         </lineSegments>
       </group>
 
-      {/* Anillo de Telemetría Secundario Concétrico */}
+      {/* Anillo de Telemetría Secundario Concéntrico */}
       <group ref={innerRingRef} scale={0.72}>
         <lineSegments geometry={tickGeometry}>
-          <lineBasicMaterial color="#F59E0B" transparent opacity={0.14} depthWrite={false} />
+          <lineBasicMaterial color="#D4AF37" transparent opacity={0.14} depthWrite={false} />
         </lineSegments>
       </group>
 
@@ -181,13 +181,13 @@ function TacticalAerospaceHUD({
       <group ref={reticleLRef}>
         <mesh>
           <ringGeometry args={[0.07, 0.085, 16]} />
-          <meshBasicMaterial color="#34D399" transparent opacity={0.45} depthWrite={false} />
+          <meshBasicMaterial color="#D4AF37" transparent opacity={0.45} depthWrite={false} />
         </mesh>
       </group>
       <group ref={reticleRRef}>
         <mesh>
           <ringGeometry args={[0.07, 0.085, 16]} />
-          <meshBasicMaterial color="#34D399" transparent opacity={0.45} depthWrite={false} />
+          <meshBasicMaterial color="#D4AF37" transparent opacity={0.45} depthWrite={false} />
         </mesh>
       </group>
     </group>
@@ -661,11 +661,13 @@ function OfflinePBREnvironment() {
 function SceneContent({
   isVisible,
   energySurge,
+  scrollProgress = 0,
   renderMode,
   reducedMotion = false,
 }: {
   isVisible: boolean;
   energySurge: number;
+  scrollProgress?: number;
   renderMode: 'chromatic' | 'wireframe' | 'xray';
   reducedMotion?: boolean;
 }) {
@@ -695,7 +697,7 @@ function SceneContent({
       <ambientLight intensity={0.4} />
       <directionalLight position={[6, 8, 6]} intensity={1.5} color="#FFFFFF" />
       <directionalLight position={[-5, -3, -3]} intensity={0.8} color="#06B6D4" />
-      <pointLight ref={dynamicLightRef} position={[0, 0, 3.5]} intensity={1.2} color="#34D399" distance={8} />
+      <pointLight ref={dynamicLightRef} position={[0, 0, 3.5]} intensity={1.2} color="#D4AF37" distance={8} />
 
       <ChromaticLightsMatrix energySurge={energySurge} />
       <SacredBeaconRays />
@@ -715,8 +717,10 @@ function SceneContent({
 
       <Float speed={reducedMotion ? 0.3 : 1.0} rotationIntensity={reducedMotion ? 0.01 : 0.04} floatIntensity={reducedMotion ? 0.05 : 0.14}>
         <Suspense fallback={null}>
-          <SculpturalPortrait3D
+          <CyberneticOperator3D
             mode={renderMode === "wireframe" ? "wireframe" : renderMode === "xray" ? "xray" : "pbr"}
+            scrollProgress={scrollProgress}
+            energySurge={energySurge}
           />
         </Suspense>
       </Float>
@@ -751,6 +755,7 @@ export function Hero3DScene({
   const { reducedMotion } = useMotionPreferences();
   const [inViewport, setInViewport] = useState(true);
   const [energySurge, setEnergySurge] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [internalRenderMode, setInternalRenderMode] = useState<'chromatic' | 'wireframe' | 'xray'>('chromatic');
 
   const renderMode = externalRenderMode || internalRenderMode;
@@ -758,8 +763,10 @@ export function Hero3DScene({
 
   useEffect(() => {
     const handleScroll = () => {
-      const isPastHero = window.scrollY > window.innerHeight * 1.2;
+      const vh = Math.max(window.innerHeight, 1);
+      const isPastHero = window.scrollY > vh * 1.2;
       setInViewport(!isPastHero);
+      setScrollProgress(Math.min(1, Math.max(0, window.scrollY / vh)));
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -784,7 +791,7 @@ export function Hero3DScene({
       onClick={handleCanvasClick}
       className="relative w-full h-full cursor-3d select-none"
       data-cursor="3d"
-      title="Clic para detonar pulso cuántico en el Halcón Peregrino"
+      title="Clic para detonar onda de choque cuántica en el Operador Biónico 3D"
     >
       <Canvas
         camera={{ position: [0, 0, 5.2], fov: 46 }}
@@ -800,7 +807,13 @@ export function Hero3DScene({
         frameloop={inViewport ? "always" : "demand"}
         className="w-full h-full pointer-events-auto"
       >
-        <SceneContent isVisible={inViewport} energySurge={energySurge} renderMode={renderMode} reducedMotion={reducedMotion} />
+        <SceneContent
+          isVisible={inViewport}
+          energySurge={energySurge}
+          scrollProgress={scrollProgress}
+          renderMode={renderMode}
+          reducedMotion={reducedMotion}
+        />
       </Canvas>
 
       {showOverlayControls && (
@@ -833,4 +846,4 @@ export function Hero3DScene({
   );
 }
 
-useGLTF.preload("/models/cyber_falcon.glb");
+useGLTF.preload("/models/cyber_operator_sotd.glb", "/draco/gltf/");
