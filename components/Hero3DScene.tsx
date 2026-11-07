@@ -12,7 +12,7 @@ import {
   createAnisotropicRoughnessTexture,
   createMicroPebbleNormalTexture,
 } from "./3d/pbrTextures";
-import { HalconWorkbench, WorkbenchMode } from "./three/HalconWorkbench";
+import { SculpturalPortrait3D, WorkbenchMode } from "./three/SculpturalPortrait3D";
 
 // ============================================================================
 // 1. MOD-03: Grilla Topográfica LiDAR AgTech (Núcleo Pampeano Bolívar / Cuyo)
@@ -708,14 +708,14 @@ function SceneContent({
         reducedMotion={reducedMotion}
       />
 
-      {/* Partículas de Telemetría Multicromáticas */}
-      <Sparkles count={50} scale={9} size={1.8} speed={0.35} opacity={0.45} color="#10B981" />
-      <Sparkles count={35} scale={8} size={2.0} speed={0.3} opacity={0.4} color="#06B6D4" />
-      <Sparkles count={25} scale={7} size={2.2} speed={0.25} opacity={0.35} color="#F59E0B" />
+      {/* Partículas de Telemetría Titanium & Warm Bronze */}
+      <Sparkles count={45} scale={9} size={1.8} speed={0.35} opacity={0.45} color="#D4AF37" />
+      <Sparkles count={35} scale={8} size={2.0} speed={0.3} opacity={0.4} color="#E2E8F0" />
+      <Sparkles count={25} scale={7} size={2.2} speed={0.25} opacity={0.35} color="#06B6D4" />
 
-      <Float speed={reducedMotion ? 0.3 : 1.2} rotationIntensity={reducedMotion ? 0.02 : 0.08} floatIntensity={reducedMotion ? 0.1 : 0.25}>
+      <Float speed={reducedMotion ? 0.3 : 1.0} rotationIntensity={reducedMotion ? 0.01 : 0.04} floatIntensity={reducedMotion ? 0.05 : 0.14}>
         <Suspense fallback={null}>
-          <HalconWorkbench
+          <SculpturalPortrait3D
             mode={renderMode === "wireframe" ? "wireframe" : renderMode === "xray" ? "xray" : "pbr"}
           />
         </Suspense>

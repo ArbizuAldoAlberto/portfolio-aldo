@@ -63,7 +63,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
   const hybridArtifacts = [
     {
       icon: Tractor,
-      asset: "/assets/3d/agtech-drone.webp",
+      cadType: "drone" as const,
       alt: t("artifact1Alt"),
       tag: t("artifact1Tag"),
       title: t("artifact1Title"),
@@ -71,7 +71,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
     },
     {
       icon: Smartphone,
-      asset: "/assets/3d/sqlite-vault.webp",
+      cadType: "sqlite" as const,
       alt: t("artifact2Alt"),
       tag: t("artifact2Tag"),
       title: t("artifact2Title"),
@@ -79,7 +79,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
     },
     {
       icon: Shield,
-      asset: "/assets/3d/zero-trust-shield.webp",
+      cadType: "shield" as const,
       alt: t("artifact3Alt"),
       tag: t("artifact3Tag"),
       title: t("artifact3Title"),
@@ -87,7 +87,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
     },
     {
       icon: TrendingUp,
-      asset: "/assets/3d/kelly-chronometer.webp",
+      cadType: "quant" as const,
       alt: t("artifact4Alt"),
       tag: t("artifact4Tag"),
       title: t("artifact4Title"),
@@ -146,25 +146,62 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                 <span className="card-bracket card-bracket--bl" aria-hidden="true" />
                 <span className="card-bracket card-bracket--br" aria-hidden="true" />
 
-                <div className="artifact-stage">
-                  <img
-                    data-float
-                    src={item.asset}
-                    alt={item.alt}
-                    width={1000}
-                    height={1000}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
-                  />
+                <div className="artifact-stage flex items-center justify-center p-4">
+                  {item.cadType === "drone" && (
+                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
+                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
+                      <circle cx="100" cy="100" r="64" stroke="#D4AF37" strokeOpacity="0.32" strokeWidth="1" />
+                      <line x1="48" y1="48" x2="152" y2="152" stroke="#E2E8F0" strokeWidth="1.6" strokeOpacity="0.85" />
+                      <line x1="152" y1="48" x2="48" y2="152" stroke="#E2E8F0" strokeWidth="1.6" strokeOpacity="0.85" />
+                      <circle cx="48" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
+                      <circle cx="152" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
+                      <circle cx="48" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
+                      <circle cx="152" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
+                      <polygon points="100,72 124,100 100,128 76,100" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.08)" />
+                      <circle cx="100" cy="100" r="6" fill="#D4AF37" />
+                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // UAV-LIDAR-V4</text>
+                    </svg>
+                  )}
+                  {item.cadType === "sqlite" && (
+                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
+                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
+                      <ellipse cx="100" cy="58" rx="50" ry="18" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.08)" />
+                      <path d="M50 58 V100 C50 110 72 118 100 118 C128 118 150 110 150 100 V58" stroke="#E2E8F0" strokeWidth="1.5" />
+                      <path d="M50 100 V142 C50 152 72 160 100 160 C128 160 150 152 150 142 V100" stroke="#D4AF37" strokeWidth="1.6" />
+                      <line x1="100" y1="36" x2="100" y2="168" stroke="#D4AF37" strokeOpacity="0.35" strokeDasharray="2 4" />
+                      <circle cx="100" cy="100" r="5" fill="#D4AF37" />
+                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // SQLITE-WAL-ENGINE</text>
+                    </svg>
+                  )}
+                  {item.cadType === "shield" && (
+                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
+                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
+                      <polygon points="100,34 154,58 154,108 100,164 46,108 46,58" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.07)" />
+                      <polygon points="100,52 138,70 138,104 100,144 62,104 62,70" stroke="#E2E8F0" strokeWidth="1.3" strokeOpacity="0.8" />
+                      <circle cx="100" cy="96" r="14" stroke="#D4AF37" strokeWidth="1.5" />
+                      <circle cx="100" cy="96" r="4" fill="#D4AF37" />
+                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // ZERO-TRUST-MASVS</text>
+                    </svg>
+                  )}
+                  {item.cadType === "quant" && (
+                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
+                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
+                      <circle cx="100" cy="100" r="62" stroke="#D4AF37" strokeWidth="1.6" />
+                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#E2E8F0" strokeWidth="1.2" transform="rotate(-28 100 100)" />
+                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#D4AF37" strokeWidth="1.2" transform="rotate(32 100 100)" />
+                      <polyline points="54,126 82,98 104,112 144,68" stroke="#D4AF37" strokeWidth="2.2" />
+                      <circle cx="144" cy="68" r="4.5" fill="#D4AF37" />
+                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // KELLY-QUANT-CORE</text>
+                    </svg>
+                  )}
                 </div>
                 <div className="flex items-center justify-between gap-3 mb-3">
-                  <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/10 border border-emerald-500/40 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.4),0_0_12px_rgba(52,211,153,0.25)] group-hover:border-emerald-400 group-hover:shadow-[0_0_20px_rgba(52,211,153,0.45)] group-hover:scale-105 transition-all duration-300">
-                    <item.icon className="w-5 h-5 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
-                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399] animate-pulse" />
+                  <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-[#070B12] border border-[#D4AF37]/45 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.5),0_0_12px_rgba(212,175,55,0.2)] group-hover:border-[#D4AF37] group-hover:scale-105 transition-all duration-300">
+                    <item.icon className="w-5 h-5 text-[#D4AF37]" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_#D4AF37] animate-pulse" />
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/40 border border-emerald-500/30 font-mono text-[10px] font-bold tracking-wider text-emerald-300 uppercase shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#070B12]/90 border border-[#D4AF37]/35 font-mono text-[10px] font-bold tracking-wider text-[#E2E8F0] uppercase shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
                     <span>{item.tag}</span>
                   </div>
                 </div>

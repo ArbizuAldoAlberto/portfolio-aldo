@@ -30,8 +30,12 @@ export default function HeroSection() {
         setMount3D(true);
       }
       const wb = sp.get("workbench");
-      if (wb === "chromatic" || wb === "wireframe" || wb === "xray") {
-        setRenderMode(wb);
+      if (wb === "pbr" || wb === "chromatic") {
+        setRenderMode("chromatic");
+      } else if (wb === "wireframe") {
+        setRenderMode("wireframe");
+      } else if (wb === "xray") {
+        setRenderMode("xray");
       }
       const heroVideo = document.querySelector<HTMLVideoElement>("video[data-hero-video]");
       if (heroVideo) {
@@ -71,20 +75,21 @@ export default function HeroSection() {
         )}
 
         <div className="hero-shade" aria-hidden="true" />
-        <QuantumRaymarchGrid opacity={0.22} />
+        <QuantumRaymarchGrid opacity={0.18} />
         <div className="edge-fuse edge-fuse--top" aria-hidden="true" />
         <div className="edge-fuse edge-fuse--bottom" aria-hidden="true" />
       </div>
 
+      {/* Consola tipográfica anclada al tercio inferior para despejar el Retrato Escultórico 3D */}
       <div className="hero-content">
-        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-slate-950/55 px-5 sm:px-8 py-5 sm:py-6 backdrop-blur-md border border-white/[0.06] shadow-[0_24px_80px_rgba(0,0,0,0.75)] flex flex-col items-center text-center mt-14 md:mt-20 mb-4 sm:mb-6">
-          <h1 id="hero-title" className="hero-title" data-split>
+        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-[#070B12]/72 px-5 sm:px-8 py-4 sm:py-5 backdrop-blur-md border border-[#D4AF37]/25 shadow-[0_24px_80px_rgba(0,0,0,0.85)] flex flex-col items-center text-center mt-60 md:mt-72 mb-3 sm:mb-4">
+          <h1 id="hero-title" className="hero-title !text-2xl sm:!text-4xl md:!text-5xl" data-split>
             <span className="line">{t("heroTitleLine1")}</span>
-            <span className="line">{t("heroTitleLine2")}</span>
+            <span className="line text-[#D4AF37]">{t("heroTitleLine2")}</span>
           </h1>
 
-          <p className="hero-lede">
-            <strong>{t("heroLedeLead")}</strong> {t("heroLedeBody")}
+          <p className="hero-lede !mt-2 !text-xs sm:!text-sm">
+            <strong className="text-[#E2E8F0]">{t("heroLedeLead")}</strong> {t("heroLedeBody")}
           </p>
         </div>
 
@@ -97,11 +102,11 @@ export default function HeroSection() {
               playHoverTick();
             }}
             onClick={() => soundEngine.playClick()}
-            className="btn-magnetic"
+            className="btn-magnetic border-[#D4AF37]/45"
           >
             <span className="btn-label">
               <span>{t("heroCtaPrimary")}</span>
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-white/10 border border-white/20 group-hover:scale-110 group-hover:border-emerald-400 group-hover:text-emerald-400 transition-all duration-200">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] group-hover:scale-110 transition-all duration-200">
                 <ArrowUpRight className="w-3.5 h-3.5 drop-shadow-[0_0_6px_currentColor]" />
               </span>
             </span>
@@ -122,11 +127,12 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Workbench HUD acoplado al borde inferior (visible en Desktop y Mobile) */}
-      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label={t("workbenchLabel")}>
-        <span className="hero-workbench-label">{t("workbenchLabel")}</span>
+      {/* Workbench Escultórico 3D acoplado al borde inferior */}
+      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Retrato Escultórico 3D Workbench">
+        <span className="hero-workbench-label text-[#D4AF37]">ESCULTURA 3D</span>
         <button
           type="button"
+          data-workbench-mode="pbr"
           onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
@@ -135,10 +141,11 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "chromatic" ? " is-active" : ""}`}
         >
-          {t("workbenchChromatic")}
+          PBR Físico (Titanio &amp; Bronce)
         </button>
         <button
           type="button"
+          data-workbench-mode="wireframe"
           onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
@@ -147,10 +154,11 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "wireframe" ? " is-active" : ""}`}
         >
-          {t("workbenchWireframe")}
+          Wireframe CAD
         </button>
         <button
           type="button"
+          data-workbench-mode="xray"
           onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
@@ -159,7 +167,7 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "xray" ? " is-active" : ""}`}
         >
-          {t("workbenchXray")}
+          X-Ray Núcleo
         </button>
       </div>
 

@@ -34,30 +34,30 @@ html:not([data-theme="v2"]),
 html[data-theme="v1"] {
   color-scheme: dark;
 
-  /* Paleta V1 — Deep Space Orbital */
-  --bg-seam: #04070d;
-  --bg-deep: #04070d;
-  --bg-surface: #07111e;
-  --bg-elevated: #0a192c;
-  --bg-card: rgba(7, 17, 30, 0.82);
-  --bg-card-solid: #07111e;
-  --bg-glass: rgba(4, 7, 13, 0.76);
-  --bg-btn: #061423;
+  /* Paleta Ejecutiva — Titanium & Warm Bronze (#070B12 / #D4AF37 / #E2E8F0) */
+  --bg-seam: #070b12;
+  --bg-deep: #070b12;
+  --bg-surface: #0b111c;
+  --bg-elevated: #111927;
+  --bg-card: rgba(11, 17, 28, 0.84);
+  --bg-card-solid: #0b111c;
+  --bg-glass: rgba(7, 11, 18, 0.78);
+  --bg-btn: #0d1522;
 
-  /* Tipografía V1 (WCAG AA >= 4.5:1 garantizado) */
-  --text-primary: #ecf8f8;
-  --text-secondary: #a3c9d3;
-  --text-muted: #7eb0bd;
+  /* Tipografía Ejecutiva (WCAG AAA) */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
 
-  /* Acentos Orbitales V1 */
-  --accent: #34d399;
-  --accent-strong: #5ef2e0;
-  --accent-soft: rgba(52, 211, 153, 0.16);
-  --accent-border: rgba(52, 211, 153, 0.28);
-  --accent-border-strong: rgba(94, 242, 224, 0.58);
-  --grid-line: rgba(94, 242, 224, 0.055);
-  --ambient-glow-a: rgba(14, 116, 144, 0.18);
-  --ambient-glow-b: rgba(52, 211, 153, 0.12);
+  /* Acentos Titanium & Solar Gold */
+  --accent: #d4af37;
+  --accent-strong: #f3e5ab;
+  --accent-soft: rgba(212, 175, 55, 0.16);
+  --accent-border: rgba(212, 175, 55, 0.32);
+  --accent-border-strong: rgba(212, 175, 55, 0.65);
+  --grid-line: rgba(212, 175, 55, 0.06);
+  --ambient-glow-a: rgba(212, 175, 55, 0.14);
+  --ambient-glow-b: rgba(148, 163, 184, 0.12);
 
   /* Fusión de bordes de video y canvas V1 (0%..18% top y bottom) */
   --fuse-edge-height: 18%;

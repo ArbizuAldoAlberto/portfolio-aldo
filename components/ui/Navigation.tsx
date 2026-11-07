@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Volume2, VolumeX, Eye, EyeOff, ExternalLink } from "lucide-react";
+import { Volume2, VolumeX, Eye, EyeOff, ExternalLink, FileText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../i18n/routing";
 import { soundEngine } from "../system/SoundEngine";
@@ -15,21 +15,10 @@ export default function Navigation() {
   const { reducedMotion, toggleReducedMotion } = useMotionPreferences();
   const [isMuted, setIsMuted] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeTheme, setActiveTheme] = useState<"v1" | "v2">("v1");
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const isV2Path =
-      pathname === "/v2" ||
-      pathname.startsWith("/v2/") ||
-      window.location.pathname.includes("/v2") ||
-      window.location.search.includes("theme=v2");
-    const nextTheme = isV2Path ? "v2" : "v1";
-    setActiveTheme(nextTheme);
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    if (window.__webanti) {
-      window.__webanti.theme = nextTheme;
-    }
+    document.documentElement.setAttribute("data-theme", "v1");
   }, [pathname]);
 
   useEffect(() => {
@@ -67,8 +56,8 @@ export default function Navigation() {
     toggleReducedMotion();
   };
 
-  const v1Href = `/${locale}`;
-  const v2Href = `/${locale}/v2`;
+  const homeHref = `/${locale}`;
+  const isEs = locale === "es";
 
   return (
     <>
@@ -80,15 +69,15 @@ export default function Navigation() {
         data-header
         data-scrolled={isScrolled ? "true" : "false"}
       >
-        {/* Brand & Orbital Mark */}
+        {/* Brand & Executive Titanium/Bronze Mark */}
         <a
-          href={activeTheme === "v2" ? v2Href : v1Href}
+          href={homeHref}
           onMouseEnter={() => soundEngine.playHover()}
           onClick={() => soundEngine.playClick()}
           className="brand"
           aria-label="Aldo Arbizu, inicio"
         >
-          <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <svg className="brand-mark text-[#D4AF37]" viewBox="0 0 32 32" aria-hidden="true">
             <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" strokeWidth="1.3" />
             <ellipse
               cx="16"
@@ -102,10 +91,10 @@ export default function Navigation() {
             />
             <circle cx="16" cy="16" r="2.4" fill="currentColor" />
           </svg>
-          <span className="brand-word">ALDO ARBIZU</span>
+          <span className="brand-word tracking-wider text-slate-100">ALDO ARBIZU</span>
         </a>
 
-        {/* Navegación de Secciones */}
+        {/* Navegación Ejecutiva Limpia */}
         <nav className="site-nav" aria-label="Secciones">
           <a href="#inmersion" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
             {t("navInmersion")}
@@ -124,36 +113,18 @@ export default function Navigation() {
           </a>
         </nav>
 
-        {/* Controles Derecha: Selector V1/V2 + Idioma + Audio + Arbizu Labs */}
+        {/* Controles Ejecutivos Derecha (Sin selectores V1/V2 — Paleta Titanium & Warm Bronze) */}
         <div className="header-controls">
-          <div className="theme-switch" data-theme-switch role="group" aria-label={t("themeSwitchAria")}>
-            <a
-              href={v1Href}
-              data-theme-link="v1"
-              className={activeTheme === "v1" ? "is-active" : ""}
-              aria-current={activeTheme === "v1" ? "page" : undefined}
-              onClick={() => {
-                soundEngine.playClick();
-                setActiveTheme("v1");
-                document.documentElement.setAttribute("data-theme", "v1");
-              }}
-            >
-              {t("themeV1")}
-            </a>
-            <a
-              href={v2Href}
-              data-theme-link="v2"
-              className={activeTheme === "v2" ? "is-active" : ""}
-              aria-current={activeTheme === "v2" ? "page" : undefined}
-              onClick={() => {
-                soundEngine.playClick();
-                setActiveTheme("v2");
-                document.documentElement.setAttribute("data-theme", "v2");
-              }}
-            >
-              {t("themeV2")}
-            </a>
-          </div>
+          <a
+            href="/cv/cv-unificado-aldo-arbizu.pdf"
+            download
+            onMouseEnter={() => soundEngine.playHover()}
+            onClick={() => soundEngine.playClick()}
+            className="ctrl-btn !hidden lg:!inline-flex border-[#D4AF37]/40 text-[#D4AF37] hover:border-[#D4AF37]"
+          >
+            <FileText size={12} className="text-[#D4AF37]" />
+            <span>{isEs ? "Resumen Ejecutivo (PDF)" : "Executive Summary (PDF)"}</span>
+          </a>
 
           <button
             type="button"
@@ -162,9 +133,9 @@ export default function Navigation() {
             className="ctrl-btn"
             aria-label="Cambiar idioma ES / EN"
           >
-            <span className={locale === "es" ? "text-emerald-300 font-bold" : "opacity-75"}>ES</span>
+            <span className={locale === "es" ? "text-[#D4AF37] font-bold" : "opacity-75"}>ES</span>
             <span className="opacity-40">/</span>
-            <span className={locale === "en" ? "text-emerald-300 font-bold" : "opacity-75"}>EN</span>
+            <span className={locale === "en" ? "text-[#D4AF37] font-bold" : "opacity-75"}>EN</span>
           </button>
 
           <button

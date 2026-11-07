@@ -207,8 +207,8 @@ export function HalconWorkbench({ mode = "pbr", scrollProgress = 0 }: HalconWork
         f.kind === "primary"
           ? 0.16 * (0.4 + f.spanFactor * 0.6)
           : f.kind === "secondary"
-          ? 0.09
-          : 0.07;
+            ? 0.09
+            : 0.07;
 
       // Aplicamos flexión diedral y torsión de borde de ataque sin romper la simetría L/R
       f.mesh.rotation.y = f.baseRot.y + f.side * flapCycle * amp;
