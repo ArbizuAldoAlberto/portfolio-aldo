@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { soundEngine } from "./system/SoundEngine";
+import { useTacticalAudio } from "./audio/useTacticalAudio";
 import type { Hero3DSceneProps } from "./Hero3DScene";
 import QuantumRaymarchGrid from "./ui/QuantumRaymarchGrid";
 
@@ -20,6 +21,7 @@ export default function HeroSection() {
   const t = useTranslations("OrbitalUI");
   const [renderMode, setRenderMode] = useState<"chromatic" | "wireframe" | "xray">("chromatic");
   const [mount3D, setMount3D] = useState(false);
+  const { playHoverTick, playModeSwitch } = useTacticalAudio();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -90,7 +92,10 @@ export default function HeroSection() {
           <a
             href="#proyectos"
             data-magnetic
-            onMouseEnter={() => soundEngine.playHover()}
+            onMouseEnter={() => {
+              soundEngine.playHover();
+              playHoverTick();
+            }}
             onClick={() => soundEngine.playClick()}
             className="btn-magnetic"
           >
@@ -105,7 +110,10 @@ export default function HeroSection() {
 
           <a
             href="#inmersion"
-            onMouseEnter={() => soundEngine.playHover()}
+            onMouseEnter={() => {
+              soundEngine.playHover();
+              playHoverTick();
+            }}
             onClick={() => soundEngine.playClick()}
             className="link-quiet"
           >
@@ -119,8 +127,10 @@ export default function HeroSection() {
         <span className="hero-workbench-label">{t("workbenchLabel")}</span>
         <button
           type="button"
+          onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
+            playModeSwitch("pbr");
             setRenderMode("chromatic");
           }}
           className={`hero-workbench-btn${renderMode === "chromatic" ? " is-active" : ""}`}
@@ -129,8 +139,10 @@ export default function HeroSection() {
         </button>
         <button
           type="button"
+          onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
+            playModeSwitch("wireframe");
             setRenderMode("wireframe");
           }}
           className={`hero-workbench-btn${renderMode === "wireframe" ? " is-active" : ""}`}
@@ -139,8 +151,10 @@ export default function HeroSection() {
         </button>
         <button
           type="button"
+          onMouseEnter={playHoverTick}
           onClick={() => {
             soundEngine.playClick();
+            playModeSwitch("xray");
             setRenderMode("xray");
           }}
           className={`hero-workbench-btn${renderMode === "xray" ? " is-active" : ""}`}
