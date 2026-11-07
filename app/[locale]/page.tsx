@@ -137,7 +137,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                   className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{
                     background:
-                      "radial-gradient(280px circle at var(--gx, 50%) var(--gy, 50%), rgba(52, 211, 153, 0.16), transparent 72%)",
+                      "radial-gradient(280px circle at var(--gx, 50%) var(--gy, 50%), rgba(212, 175, 55, 0.16), transparent 72%)",
                   }}
                 />
                 {/* Mechanical Corner Brackets */}
@@ -149,35 +149,35 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                 <div className="artifact-stage flex items-center justify-center p-4">
                   {item.cadType === "drone" && (
                     <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
-                      <circle cx="100" cy="100" r="64" stroke="#D4AF37" strokeOpacity="0.32" strokeWidth="1" />
-                      <line x1="48" y1="48" x2="152" y2="152" stroke="#E2E8F0" strokeWidth="1.6" strokeOpacity="0.85" />
-                      <line x1="152" y1="48" x2="48" y2="152" stroke="#E2E8F0" strokeWidth="1.6" strokeOpacity="0.85" />
+                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
+                      <circle cx="100" cy="100" r="64" stroke="#D4AF37" strokeOpacity="0.4" strokeWidth="1.5" />
+                      <line x1="48" y1="48" x2="152" y2="152" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.9" />
+                      <line x1="152" y1="48" x2="48" y2="152" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.9" />
                       <circle cx="48" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
                       <circle cx="152" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
                       <circle cx="48" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
                       <circle cx="152" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
-                      <polygon points="100,72 124,100 100,128 76,100" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.08)" />
+                      <polygon points="100,72 124,100 100,128 76,100" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.08)" />
                       <circle cx="100" cy="100" r="6" fill="#D4AF37" />
                       <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // UAV-LIDAR-V4</text>
                     </svg>
                   )}
                   {item.cadType === "sqlite" && (
                     <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
-                      <ellipse cx="100" cy="58" rx="50" ry="18" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.08)" />
-                      <path d="M50 58 V100 C50 110 72 118 100 118 C128 118 150 110 150 100 V58" stroke="#E2E8F0" strokeWidth="1.5" />
-                      <path d="M50 100 V142 C50 152 72 160 100 160 C128 160 150 152 150 142 V100" stroke="#D4AF37" strokeWidth="1.6" />
-                      <line x1="100" y1="36" x2="100" y2="168" stroke="#D4AF37" strokeOpacity="0.35" strokeDasharray="2 4" />
+                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
+                      <ellipse cx="100" cy="58" rx="50" ry="18" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.08)" />
+                      <path d="M50 58 V100 C50 110 72 118 100 118 C128 118 150 110 150 100 V58" stroke="#94A3B8" strokeWidth="1.5" />
+                      <path d="M50 100 V142 C50 152 72 160 100 160 C128 160 150 152 150 142 V100" stroke="#D4AF37" strokeWidth="1.5" />
+                      <line x1="100" y1="36" x2="100" y2="168" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity="0.4" strokeDasharray="2 4" />
                       <circle cx="100" cy="100" r="5" fill="#D4AF37" />
                       <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // SQLITE-WAL-ENGINE</text>
                     </svg>
                   )}
                   {item.cadType === "shield" && (
                     <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
-                      <polygon points="100,34 154,58 154,108 100,164 46,108 46,58" stroke="#D4AF37" strokeWidth="1.8" fill="rgba(212,175,55,0.07)" />
-                      <polygon points="100,52 138,70 138,104 100,144 62,104 62,70" stroke="#E2E8F0" strokeWidth="1.3" strokeOpacity="0.8" />
+                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
+                      <polygon points="100,34 154,58 154,108 100,164 46,108 46,58" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.07)" />
+                      <polygon points="100,52 138,70 138,104 100,144 62,104 62,70" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.85" />
                       <circle cx="100" cy="96" r="14" stroke="#D4AF37" strokeWidth="1.5" />
                       <circle cx="100" cy="96" r="4" fill="#D4AF37" />
                       <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // ZERO-TRUST-MASVS</text>
@@ -185,11 +185,11 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                   )}
                   {item.cadType === "quant" && (
                     <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#E2E8F0" strokeOpacity="0.16" strokeDasharray="3 5" />
-                      <circle cx="100" cy="100" r="62" stroke="#D4AF37" strokeWidth="1.6" />
-                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#E2E8F0" strokeWidth="1.2" transform="rotate(-28 100 100)" />
-                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#D4AF37" strokeWidth="1.2" transform="rotate(32 100 100)" />
-                      <polyline points="54,126 82,98 104,112 144,68" stroke="#D4AF37" strokeWidth="2.2" />
+                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
+                      <circle cx="100" cy="100" r="62" stroke="#D4AF37" strokeWidth="1.5" />
+                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#94A3B8" strokeWidth="1.5" transform="rotate(-28 100 100)" />
+                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#D4AF37" strokeWidth="1.5" transform="rotate(32 100 100)" />
+                      <polyline points="54,126 82,98 104,112 144,68" stroke="#D4AF37" strokeWidth="1.5" />
                       <circle cx="144" cy="68" r="4.5" fill="#D4AF37" />
                       <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // KELLY-QUANT-CORE</text>
                     </svg>
@@ -197,7 +197,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                 </div>
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-[#070B12] border border-[#D4AF37]/45 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.5),0_0_12px_rgba(212,175,55,0.2)] group-hover:border-[#D4AF37] group-hover:scale-105 transition-all duration-300">
-                    <item.icon className="w-5 h-5 text-[#D4AF37]" />
+                    <item.icon className="w-5 h-5 text-[#D4AF37]" strokeWidth={1.5} />
                     <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_#D4AF37] animate-pulse" />
                   </div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#070B12]/90 border border-[#D4AF37]/35 font-mono text-[10px] font-bold tracking-wider text-[#E2E8F0] uppercase shadow-sm">
@@ -227,12 +227,12 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
         <div className="section-inner">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
             {/* Columna Izquierda: Formación Técnica Formal Verificable */}
-            <div className="p-8 rounded-3xl bg-black/60 border border-white/10 flex flex-col justify-between">
+            <div className="p-8 rounded-3xl bg-[#070B12]/80 border border-white/[0.08] flex flex-col justify-between">
               <div>
-                <span className="font-mono text-xs text-emerald-400 font-semibold uppercase tracking-widest block mb-2">
+                <span className="font-mono text-xs text-[#D4AF37] font-semibold uppercase tracking-widest block mb-2">
                   {isEs ? "// ANTECEDENTES & EDUCACIÓN" : "// BACKGROUND & CREDENTIALS"}
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-sans font-bold text-white mb-6">
+                <h2 className="text-2xl sm:text-3xl font-sans font-bold text-[#F8FAFC] mb-6">
                   {isEs
                     ? "Formación técnica y certificaciones reales."
                     : "Technical background & verified credentials."}
@@ -266,19 +266,19 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                   ].map((b, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 p-4 rounded-xl bg-black/80 border border-white/10"
+                      className="flex items-start gap-3 p-4 rounded-xl bg-[#070B12] border border-white/[0.08]"
                     >
-                      <Award className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                      <Award className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>
-                        <div className="font-mono text-xs text-emerald-400 font-bold">{b.org}</div>
-                        <div className="font-sans text-sm text-white font-medium">{b.title}</div>
+                        <div className="font-mono text-xs text-[#D4AF37] font-bold">{b.org}</div>
+                        <div className="font-sans text-sm text-[#F8FAFC] font-medium">{b.title}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="pt-6 border-t border-white/10 mt-6 flex items-center gap-2 text-xs font-mono text-slate-400">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="pt-6 border-t border-white/[0.08] mt-6 flex items-center gap-2 text-xs font-mono text-[#94A3B8]">
+                <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
                 <span>
                   {isEs
                     ? "Titulación y certificaciones auditables."
@@ -288,35 +288,35 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
             </div>
 
             {/* Columna Derecha: Presentación Oficial de Arbizu Labs */}
-            <div className="p-8 rounded-3xl bg-black/60 border border-emerald-500/30 flex flex-col justify-between relative overflow-hidden shadow-2xl">
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="p-8 rounded-3xl bg-[#070B12]/80 border border-white/[0.08] flex flex-col justify-between relative overflow-hidden shadow-2xl">
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
 
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 font-mono text-xs text-emerald-400 font-bold uppercase">
-                    <Building2 className="w-4 h-4 text-emerald-400" />
+                  <div className="flex items-center gap-2 font-mono text-xs text-[#D4AF37] font-bold uppercase">
+                    <Building2 className="w-4 h-4 text-[#D4AF37]" />
                     <span>
                       {isEs ? "ESTUDIO CORPORATIVO // ARBIZU LABS" : "CORPORATE STUDIO // ARBIZU LABS"}
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-lg bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold">
+                  <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-lg bg-[#070B12] text-[#D4AF37] border border-[#D4AF37]/40 font-bold">
                     SOFTWARE HOUSE
                   </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-sans font-bold text-white mb-4">Arbizu Labs</h3>
+                <h3 className="text-2xl sm:text-3xl font-sans font-bold text-[#F8FAFC] mb-4">Arbizu Labs</h3>
 
-                <p className="font-sans text-sm text-slate-300 leading-relaxed mb-6">
+                <p className="font-sans text-sm text-[#94A3B8] leading-relaxed mb-6">
                   {isEs ? (
                     <>
-                      <strong className="text-white">Arbizu Labs</strong> es mi estudio de software y consultoría
+                      <strong className="text-[#F8FAFC]">Arbizu Labs</strong> es mi estudio de software y consultoría
                       técnica corporativa, especializado en el diseño y construcción de arquitecturas críticas:
                       aplicaciones móviles Offline-First, automatización de flujos con agentes de IA y sistemas que
                       no fallan en entornos hostiles.
                     </>
                   ) : (
                     <>
-                      <strong className="text-white">Arbizu Labs</strong> is my corporate software studio and
+                      <strong className="text-[#F8FAFC]">Arbizu Labs</strong> is my corporate software studio and
                       technical consultancy, specialized in designing and building mission-critical architectures:
                       Offline-First mobile apps, AI-agent automations, and resilient systems built to withstand
                       extreme environments.
@@ -336,8 +336,8 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                       ? "Auditoría técnica, seguridad móvil y automatizaciones n8n."
                       : "Technical audit, mobile app security, and n8n workflow automations.",
                   ].map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs font-sans text-slate-300">
-                      <span className="text-emerald-400 font-bold">✓</span>
+                    <div key={idx} className="flex items-start gap-2 text-xs font-sans text-[#94A3B8]">
+                      <span className="text-[#D4AF37] font-bold">✓</span>
                       <span>{item}</span>
                     </div>
                   ))}

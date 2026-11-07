@@ -1,8 +1,8 @@
 "use client";
 
 export {
-  CyberneticOperator3D,
-  CyberneticOperator3D as HalconWorkbench,
+  QuantumCore3D,
+  QuantumCore3D as HalconWorkbench,
   type WorkbenchMode,
-  type CyberneticOperatorProps as HalconWorkbenchProps,
-} from "./CyberneticOperator3D";
+  type QuantumCore3DProps as HalconWorkbenchProps,
+} from "./QuantumCore3D";

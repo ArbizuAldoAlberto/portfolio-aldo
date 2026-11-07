@@ -12,7 +12,7 @@ import {
   createAnisotropicRoughnessTexture,
   createMicroPebbleNormalTexture,
 } from "./3d/pbrTextures";
-import { CyberneticOperator3D, WorkbenchMode } from "./three/CyberneticOperator3D";
+import { QuantumCore3D, WorkbenchMode } from "./three/QuantumCore3D";
 
 // ============================================================================
 // 1. MOD-03: Grilla Topográfica LiDAR AgTech (Núcleo Pampeano Bolívar / Cuyo)
@@ -59,11 +59,11 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
         '#include <dithering_fragment>',
         `
         #include <dithering_fragment>
-        // Haz de Escaneo Láser LiDAR Titanium & Solar Gold (#D4AF37 / #00F0FF)
+        // Haz de Escaneo Láser LiDAR Titanium & Solar Gold (#D4AF37 / #E2E8F0)
         float distToScan = abs(vViewPosition.y - uScanY);
         float scanPulse = smoothstep(1.5, 0.0, distToScan);
-        vec3 laserColor = mix(vec3(0.831, 0.686, 0.216), vec3(0.0, 0.941, 1.0), scanPulse);
-        gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 1.65, scanPulse * 0.65);
+        vec3 laserColor = mix(vec3(0.831, 0.686, 0.216), vec3(0.886, 0.910, 0.941), scanPulse);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 1.55, scanPulse * 0.60);
         `
       );
       shaderRef.current = shader as unknown as { uniforms: { uScanY: { value: number }; uTime: { value: number } } };
@@ -231,9 +231,9 @@ function SacredBeaconRays() {
           />
           <lineBasicMaterial
             attach="material"
-            color={i % 3 === 0 ? "#10B981" : i % 3 === 1 ? "#06B6D4" : "#F59E0B"}
+            color={i % 2 === 0 ? "#D4AF37" : "#94A3B8"}
             transparent
-            opacity={0.18}
+            opacity={0.16}
             depthWrite={false}
           />
         </line>
@@ -632,10 +632,10 @@ function ChromaticLightsMatrix({ energySurge }: { energySurge: number }) {
 
   return (
     <group ref={lightGroupRef}>
-      <pointLight position={[3.8, 2.4, 0]} color="#10B981" intensity={0.8 + surgeIntensity} distance={7} />
-      <pointLight position={[-3.8, -2.0, 0]} color="#06B6D4" intensity={0.9 + surgeIntensity} distance={7} />
-      <pointLight position={[0, 3.5, 3.0]} color="#F59E0B" intensity={0.7 + surgeIntensity} distance={7} />
-      <pointLight position={[0, -3.0, -3.0]} color="#A855F7" intensity={0.7 + surgeIntensity} distance={7} />
+      <pointLight position={[3.8, 2.4, 0]} color="#D4AF37" intensity={0.8 + surgeIntensity} distance={7} />
+      <pointLight position={[-3.8, -2.0, 0]} color="#94A3B8" intensity={0.8 + surgeIntensity} distance={7} />
+      <pointLight position={[0, 3.5, 3.0]} color="#F8FAFC" intensity={0.7 + surgeIntensity} distance={7} />
+      <pointLight position={[0, -3.0, -3.0]} color="#8C6D46" intensity={0.7 + surgeIntensity} distance={7} />
     </group>
   );
 }
@@ -695,8 +695,8 @@ function SceneContent({
       <OfflinePBREnvironment />
 
       <ambientLight intensity={0.4} />
-      <directionalLight position={[6, 8, 6]} intensity={1.5} color="#FFFFFF" />
-      <directionalLight position={[-5, -3, -3]} intensity={0.8} color="#06B6D4" />
+      <directionalLight position={[6, 8, 6]} intensity={1.5} color="#F8FAFC" />
+      <directionalLight position={[-5, -3, -3]} intensity={0.8} color="#94A3B8" />
       <pointLight ref={dynamicLightRef} position={[0, 0, 3.5]} intensity={1.2} color="#D4AF37" distance={8} />
 
       <ChromaticLightsMatrix energySurge={energySurge} />
@@ -712,12 +712,12 @@ function SceneContent({
 
       {/* Partículas de Telemetría Titanium & Warm Bronze */}
       <Sparkles count={45} scale={9} size={1.8} speed={0.35} opacity={0.45} color="#D4AF37" />
-      <Sparkles count={35} scale={8} size={2.0} speed={0.3} opacity={0.4} color="#E2E8F0" />
-      <Sparkles count={25} scale={7} size={2.2} speed={0.25} opacity={0.35} color="#06B6D4" />
+      <Sparkles count={35} scale={8} size={2.0} speed={0.3} opacity={0.4} color="#F8FAFC" />
+      <Sparkles count={25} scale={7} size={2.2} speed={0.25} opacity={0.35} color="#94A3B8" />
 
       <Float speed={reducedMotion ? 0.3 : 1.0} rotationIntensity={reducedMotion ? 0.01 : 0.04} floatIntensity={reducedMotion ? 0.05 : 0.14}>
         <Suspense fallback={null}>
-          <CyberneticOperator3D
+          <QuantumCore3D
             mode={renderMode === "wireframe" ? "wireframe" : renderMode === "xray" ? "xray" : "pbr"}
             scrollProgress={scrollProgress}
             energySurge={energySurge}
@@ -791,7 +791,7 @@ export function Hero3DScene({
       onClick={handleCanvasClick}
       className="relative w-full h-full cursor-3d select-none"
       data-cursor="3d"
-      title="Clic para detonar onda de choque cuántica en el Operador Biónico 3D"
+      title="Clic para detonar pulso electromagnético en el Servidor Cuántico Orbital // Astrolabio CNC"
     >
       <Canvas
         camera={{ position: [0, 0, 5.2], fov: 46 }}
@@ -846,4 +846,4 @@ export function Hero3DScene({
   );
 }
 
-useGLTF.preload("/models/cyber_operator_sotd.glb", "/draco/gltf/");
+// Astrolabio CNC & Servidor Cuántico Orbital 100% Procedural (0 KB latencia externa)

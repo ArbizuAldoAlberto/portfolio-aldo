@@ -127,9 +127,9 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Workbench Operador Biónico 3D acoplado al borde inferior */}
-      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Operador Biónico 3D Workbench">
-        <span className="hero-workbench-label text-[#D4AF37]">OPERADOR BIÓNICO 3D</span>
+      {/* Workbench Servidor Cuántico Orbital // Astrolabio CNC acoplado al borde inferior */}
+      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Servidor Cuántico Orbital // Astrolabio CNC Workbench">
+        <span className="hero-workbench-label text-[#D4AF37]">ASTROLABIO CNC // NÚCLEO CUÁNTICO</span>
         <button
           type="button"
           data-workbench-mode="pbr"
