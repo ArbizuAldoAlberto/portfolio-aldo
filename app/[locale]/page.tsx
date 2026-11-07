@@ -7,6 +7,7 @@ import { ProjectsShowcase } from "@/components/ProjectsShowcase";
 import DeveloperStore from "@/components/sections/DeveloperStore";
 import ServicesSection from "@/components/ServicesSection";
 import { MonumentalFooter } from "@/components/ui/MonumentalFooter";
+import { useTacticalAudio } from "@/components/audio/useTacticalAudio";
 import {
   Tractor,
   Smartphone,
@@ -27,6 +28,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
   const locale = useLocale();
   const t = useTranslations("OrbitalUI");
   const isEs = locale === "es";
+  const { playHoverTick } = useTacticalAudio();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -123,11 +125,21 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
             {hybridArtifacts.map((item, i) => (
               <article
                 key={i}
-                className="artifact-card group relative"
+                className="artifact-card group relative overflow-hidden"
                 data-tilt
+                onPointerEnter={playHoverTick}
                 onPointerMove={handleTiltMove}
                 onPointerLeave={handleTiltLeave}
               >
+                {/* Directional Pointer Spotlight Halo */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background:
+                      "radial-gradient(280px circle at var(--gx, 50%) var(--gy, 50%), rgba(52, 211, 153, 0.16), transparent 72%)",
+                  }}
+                />
                 {/* Mechanical Corner Brackets */}
                 <span className="card-bracket card-bracket--tl" aria-hidden="true" />
                 <span className="card-bracket card-bracket--tr" aria-hidden="true" />
@@ -141,8 +153,9 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                     alt={item.alt}
                     width={1000}
                     height={1000}
-                    loading="lazy"
-                    decoding="async"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="sync"
                   />
                 </div>
                 <div className="flex items-center justify-between gap-3 mb-3">

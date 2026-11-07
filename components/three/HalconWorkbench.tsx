@@ -174,7 +174,10 @@ export function HalconWorkbench({ mode = "pbr", scrollProgress = 0 }: HalconWork
     tacticalMaterials.xrayFresnel.uniforms.uTime.value = t;
 
     if (groupRef.current) {
-      groupRef.current.position.y = BASE_POS_Y + Math.sin(t * 1.6) * 0.10;
+      const responsiveScale = state.viewport.aspect < 1 ? 0.72 : 1.18;
+      const basePosY = state.viewport.aspect < 1 ? 0.96 : BASE_POS_Y;
+      groupRef.current.scale.setScalar(responsiveScale);
+      groupRef.current.position.y = basePosY + Math.sin(t * 1.6) * 0.10;
       groupRef.current.position.z = BASE_POS_Z;
       groupRef.current.rotation.x =
         BASE_PITCH_X + Math.cos(t * 1.6) * 0.04 + scrollProgress * 0.25;

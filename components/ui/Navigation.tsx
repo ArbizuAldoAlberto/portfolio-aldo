@@ -171,7 +171,7 @@ export default function Navigation() {
             type="button"
             onClick={handleSoundToggle}
             onMouseEnter={() => soundEngine.playHover()}
-            className={`ctrl-btn hidden sm:inline-flex${!isMuted ? " ctrl-btn--active" : ""}`}
+            className={`ctrl-btn !hidden sm:!inline-flex${!isMuted ? " ctrl-btn--active" : ""}`}
             aria-label={isMuted ? "Activar audio ambiental" : "Silenciar audio"}
           >
             {isMuted ? <VolumeX size={13} /> : <Volume2 size={13} />}
@@ -181,7 +181,7 @@ export default function Navigation() {
             type="button"
             onClick={handleMotionToggle}
             onMouseEnter={() => soundEngine.playHover()}
-            className={`ctrl-btn hidden md:inline-flex${reducedMotion ? " ctrl-btn--active" : ""}`}
+            className={`ctrl-btn !hidden md:!inline-flex${reducedMotion ? " ctrl-btn--active" : ""}`}
             aria-label={reducedMotion ? "Movimiento reducido activo" : "Movimiento cinemático activo"}
           >
             {reducedMotion ? <EyeOff size={13} /> : <Eye size={13} />}
@@ -193,7 +193,7 @@ export default function Navigation() {
             rel="noopener noreferrer"
             onMouseEnter={() => soundEngine.playHover()}
             onClick={() => soundEngine.playClick()}
-            className="ctrl-btn hidden xl:inline-flex"
+            className="ctrl-btn !hidden xl:!inline-flex"
           >
             <span>ARBIZU LABS</span>
             <ExternalLink size={11} />

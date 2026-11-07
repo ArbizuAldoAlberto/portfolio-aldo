@@ -70,8 +70,8 @@ export default function ChromaticComparatorPage() {
     });
   };
 
-  const v1Url = `/${locale}?qa=1`;
-  const v2Url = `/${locale}/v2?qa=1`;
+  const v1Url = `/${locale}?qa=1&force3d=1`;
+  const v2Url = `/${locale}/v2?qa=1&force3d=1`;
 
   return (
     <div className="grid grid-rows-[auto_1fr] w-full h-screen bg-[#04070d] text-[#ecf8f8] overflow-x-clip">

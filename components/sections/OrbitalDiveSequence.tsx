@@ -398,7 +398,7 @@ export default function OrbitalDiveSequence() {
       trigger: diveSection,
       start: "top top",
       end: "bottom bottom",
-      scrub: true,
+      scrub: 0.65,
       onUpdate: (self) => {
         applyProgress(self.progress);
       },
