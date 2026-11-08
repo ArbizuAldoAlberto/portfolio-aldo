@@ -3,10 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Activity, ShieldCheck, Zap, Terminal } from "lucide-react";
+import { useLocale } from "next-intl";
 import { soundEngine } from "../system/SoundEngine";
 import { useTacticalAudio } from "../audio/useTacticalAudio";
 
 export function TitanFlowWidget() {
+  const locale = useLocale();
+  const isEs = locale !== "en";
   const { playHoverTick, playEngagePulse } = useTacticalAudio();
   const [kellyFraction, setKellyFraction] = useState<number>(0.22);
   const [pnlValue, setPnlValue] = useState<number>(14820.45);
@@ -51,14 +54,16 @@ export function TitanFlowWidget() {
         </div>
         <span className="text-[10px] px-2 py-0.5 rounded bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 font-bold flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping" />
-          CAPITAL REAL VIVO
+          {isEs ? "CAPITAL REAL VIVO" : "LIVE REAL CAPITAL"}
         </span>
       </div>
 
       {/* Métricas Principales */}
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">
-          <span className="text-[10px] text-[#94A3B8] block mb-1">PNL ACUMULADO (USDT)</span>
+          <span className="text-[10px] text-[#94A3B8] block mb-1">
+            {isEs ? "PNL ACUMULADO (USDT)" : "CUMULATIVE PNL (USDT)"}
+          </span>
           <div className="text-[#D4AF37] font-bold text-base tabular-nums flex items-baseline gap-1">
             <span>+${pnlValue.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
             <span className="text-[10px] text-[#E09F5A] font-semibold">▲</span>
@@ -76,7 +81,7 @@ export function TitanFlowWidget() {
       {/* Gráfico Sparkline PnL SVG Animado */}
       <div className="mb-4 p-3 rounded-xl bg-black/80 border border-white/[0.08]">
         <div className="flex justify-between text-[10px] text-[#94A3B8] mb-1">
-          <span>CURVA DE EQUIDAD HISTÓRICA</span>
+          <span>{isEs ? "CURVA DE EQUIDAD HISTÓRICA" : "HISTORICAL EQUITY CURVE"}</span>
           <span className="text-[#D4AF37] font-bold">SHARPE RATIO: 2.14</span>
         </div>
         <svg viewBox="0 0 300 65" className="w-full h-14 overflow-visible">
@@ -103,8 +108,12 @@ export function TitanFlowWidget() {
       {/* Selector Interactivo de Kelly */}
       <div className="mb-4">
         <div className="flex justify-between text-[10px] text-[#94A3B8] mb-1.5">
-          <span className="font-bold text-[#F8FAFC]">CONTROL KELLY FRACCIONAL (f*):</span>
-          <span className="text-[#D4AF37] font-bold">{kellyFraction} (Óptimo)</span>
+          <span className="font-bold text-[#F8FAFC]">
+            {isEs ? "CONTROL KELLY FRACCIONAL (f*):" : "FRACTIONAL KELLY CONTROL (f*):"}
+          </span>
+          <span className="text-[#D4AF37] font-bold">
+            {kellyFraction} {isEs ? "(Óptimo)" : "(Optimal)"}
+          </span>
         </div>
         <div className="grid grid-cols-4 gap-1.5">
           {[0.1, 0.22, 0.35, 0.5].map((f) => (
@@ -132,7 +141,7 @@ export function TitanFlowWidget() {
       <div className="p-2.5 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/25 text-[10px] flex items-center justify-between text-[#94A3B8]">
         <div className="flex items-center gap-1.5">
           <Zap className="w-3 h-3 text-[#D4AF37]" strokeWidth={1.5} />
-          <span>ÚLTIMA ORDEN:</span>
+          <span>{isEs ? "ÚLTIMA ORDEN:" : "LAST ORDER:"}</span>
           <span className="text-[#F8FAFC] font-bold">{recentOrder.symbol} {recentOrder.side}</span>
         </div>
         <span className="text-[#D4AF37] font-bold">14ms WS OK</span>

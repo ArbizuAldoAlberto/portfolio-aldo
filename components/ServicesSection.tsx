@@ -16,30 +16,30 @@ interface ServiceItem {
   accent: string;
 }
 
-const B2B_COORDINATES = [
+const getCoordinates = (isEs: boolean) => [
   {
     id: "mp",
-    label: "Mercado Pago (Alias Oficial)",
+    label: isEs ? "Mercado Pago (Alias Oficial)" : "Mercado Pago (Official Alias)",
     value: "aldoarbizu",
-    sub: "Titular: Aldo Alberto Arbizu · CUIT 20-38362060-1",
+    sub: isEs ? "Titular: Aldo Alberto Arbizu · CUIT 20-38362060-1" : "Beneficiary: Aldo Alberto Arbizu · Tax ID 20-38362060-1",
   },
   {
     id: "galicia",
-    label: "Banco Galicia (Alias)",
+    label: isEs ? "Banco Galicia (Alias)" : "Banco Galicia (Alias)",
     value: "ALDO.ARBIZU.GALICIA",
-    sub: "Cuenta Corriente / Caja de Ahorro Corporativa",
+    sub: isEs ? "Cuenta Corriente / Caja de Ahorro Corporativa" : "Corporate Checking & Business Account",
   },
   {
     id: "cbu",
-    label: "CBU Unificado (Transferencia Bancaria)",
+    label: isEs ? "CBU Unificado (Transferencia Bancaria)" : "Unified CBU (Bank Wire Transfer)",
     value: "0070149130004016919618",
-    sub: "Acreditación inmediata 24/7 (COELSA)",
+    sub: isEs ? "Acreditación inmediata 24/7 (COELSA)" : "Instant 24/7 settlement (COELSA Clearing)",
   },
   {
     id: "web3",
     label: "Web3 / Cripto (USDT · USDC — Base L2 / ERC-20)",
     value: "0x71C95911E9a5D330f4D621842EC243EE1343292e",
-    sub: "Liquidación internacional sin intermediarios",
+    sub: isEs ? "Liquidación internacional sin intermediarios" : "Direct borderless settlement with zero intermediaries",
   },
 ];
 
@@ -248,6 +248,9 @@ export default function ServicesSection() {
                   soundEngine.playClick();
                   playModeSwitch("xray");
                   setSelectedService(service);
+                  if (typeof window !== "undefined") {
+                    sessionStorage.setItem("webanti_b2b_plan", service.title);
+                  }
                 }}
                 className="relative z-10 btn-magnetic w-full cursor-pointer"
               >
@@ -297,7 +300,7 @@ export default function ServicesSection() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-              {B2B_COORDINATES.map((coord) => {
+              {getCoordinates(isEs).map((coord) => {
                 const isCopied = copiedId === coord.id;
                 return (
                   <div
@@ -334,7 +337,9 @@ export default function ServicesSection() {
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <a
                 href={`https://wa.me/5492314489197?text=${encodeURIComponent(
-                  `Hola Aldo, quiero consultar disponibilidad e iniciar el paquete B2B "${selectedService.title}" (${selectedService.price}).`,
+                  isEs
+                    ? `Hola Aldo, quiero consultar disponibilidad e iniciar el paquete B2B "${selectedService.title}" (${selectedService.price}).`
+                    : `Hello Aldo, I would like to inquire about availability and initiate the B2B package "${selectedService.title}" (${selectedService.price}).`,
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"

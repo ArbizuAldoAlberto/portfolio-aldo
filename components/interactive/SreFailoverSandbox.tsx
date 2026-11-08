@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldAlert, CheckCircle2, Zap, Server, RefreshCw, AlertTriangle } from "lucide-react";
+import { useLocale } from "next-intl";
 import { soundEngine } from "../system/SoundEngine";
 
 interface ClusterNode {
@@ -16,6 +17,9 @@ interface ClusterNode {
 }
 
 export function SreFailoverSandbox() {
+  const locale = useLocale();
+  const isEs = locale !== "en";
+
   const [nodes, setNodes] = useState<ClusterNode[]>([
     {
       id: "node-1",
@@ -48,7 +52,11 @@ export function SreFailoverSandbox() {
 
   const [rps, setRps] = useState<number>(1840);
   const [p99Latency, setP99Latency] = useState<number>(14.2);
-  const [activeLog, setActiveLog] = useState<string>("SYSTEM_NORMAL // L7 Router distribuyendo carga sin degradación");
+  const [activeLog, setActiveLog] = useState<string>(
+    isEs
+      ? "SYSTEM_NORMAL // L7 Router distribuyendo carga sin degradación"
+      : "SYSTEM_NORMAL // L7 Router distributing load with zero degradation"
+  );
   const [isSimulatingFailover, setIsSimulatingFailover] = useState<boolean>(false);
 
   // Background slight jitter to feel alive
@@ -62,7 +70,11 @@ export function SreFailoverSandbox() {
   const triggerNodeFailure = () => {
     try { soundEngine?.playClick(); } catch (e) {}
     setIsSimulatingFailover(true);
-    setActiveLog("🚨 ALERTA CRÍTICA: Nodo Primario Hetzner-FSN1 no responde (Heartbeat timeout)");
+    setActiveLog(
+      isEs
+        ? "🚨 ALERTA CRÍTICA: Nodo Primario Hetzner-FSN1 no responde (Heartbeat timeout)"
+        : "🚨 CRITICAL ALERT: Primary Node Hetzner-FSN1 unresponsive (Heartbeat timeout)"
+    );
 
     setNodes((prev) =>
       prev.map((n) =>
@@ -77,7 +89,11 @@ export function SreFailoverSandbox() {
 
     // Auto failover self-healing in 1.8s
     setTimeout(() => {
-      setActiveLog("⚡ SRE FAILOVER AUTOMÁTICO: Tráfico desviado al 100% hacia Cloudflare & Standby (< 42ms)");
+      setActiveLog(
+        isEs
+          ? "⚡ SRE FAILOVER AUTOMÁTICO: Tráfico desviado al 100% hacia Cloudflare & Standby (< 42ms)"
+          : "⚡ AUTOMATIC SRE FAILOVER: Traffic 100% rerouted to Cloudflare & Standby (< 42ms)"
+      );
       setP99Latency(19.8);
 
       setTimeout(() => {
@@ -118,7 +134,11 @@ export function SreFailoverSandbox() {
       },
     ]);
     setP99Latency(14.2);
-    setActiveLog("🟢 RESTAURACIÓN COMPLETADA: Clúster en topología balanceada");
+    setActiveLog(
+      isEs
+        ? "🟢 RESTAURACIÓN COMPLETADA: Clúster en topología balanceada"
+        : "🟢 RESTORATION COMPLETE: Cluster in balanced topology"
+    );
     setIsSimulatingFailover(false);
   };
 
@@ -133,7 +153,7 @@ export function SreFailoverSandbox() {
           </span>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-[#94A3B8]">
-          <span>TOPOLOGÍA: MULTI-REGION L7</span>
+          <span>{isEs ? "TOPOLOGÍA: MULTI-REGION L7" : "TOPOLOGY: MULTI-REGION L7"}</span>
           <span className="px-2 py-0.5 rounded bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/35 font-bold">
             ZERO-DOWNTIME
           </span>
@@ -168,7 +188,9 @@ export function SreFailoverSandbox() {
 
       {/* Active Clustered Nodes */}
       <div className="space-y-2.5 mb-4">
-        <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">ESTADO DE NODOS DE BORDE:</span>
+        <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">
+          {isEs ? "ESTADO DE NODOS DE BORDE:" : "EDGE NODES STATUS:"}
+        </span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           {nodes.map((node) => {
             const isFailed = node.status === "failed";
@@ -192,7 +214,7 @@ export function SreFailoverSandbox() {
                 </div>
                 <div className="text-[9px] text-[#94A3B8] truncate mb-2">{node.region}</div>
                 <div className="flex justify-between items-center text-[10px] pt-1.5 border-t border-white/[0.08]">
-                  <span>Carga: {node.load}%</span>
+                  <span>{isEs ? `Carga: ${node.load}%` : `Load: ${node.load}%`}</span>
                   <span>{isFailed ? "TIMEOUT" : `${node.latencyMs}ms`}</span>
                 </div>
               </motion.div>
@@ -204,7 +226,7 @@ export function SreFailoverSandbox() {
       {/* Dynamic Telemetry Log */}
       <div className="p-2.5 rounded-lg bg-black/80 border border-white/[0.08] mb-4 text-[10px] font-mono flex items-center gap-2 overflow-x-auto">
         <span className="text-[#D4AF37] font-bold shrink-0">&gt;&gt;</span>
-        <span className={activeLog.includes("ALERTA") ? "text-[#E09F5A] font-semibold" : "text-[#94A3B8]"}>
+        <span className={activeLog.includes("ALERTA") || activeLog.includes("ALERT") ? "text-[#E09F5A] font-semibold" : "text-[#94A3B8]"}>
           {activeLog}
         </span>
       </div>
@@ -219,7 +241,7 @@ export function SreFailoverSandbox() {
             className="px-3.5 py-2 rounded-lg bg-[#E09F5A]/15 hover:bg-[#E09F5A]/25 border border-[#E09F5A]/45 text-[#E09F5A] font-bold text-[11px] flex items-center gap-1.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             <AlertTriangle className="w-3.5 h-3.5" strokeWidth={1.5} />
-            <span>Simular Caída Nodo Primario</span>
+            <span>{isEs ? "Simular Caída Nodo Primario" : "Simulate Primary Node Failure"}</span>
           </button>
           <button
             type="button"
@@ -227,11 +249,11 @@ export function SreFailoverSandbox() {
             className="px-3.5 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/[0.08] hover:border-[#D4AF37]/40 text-[#F8FAFC] text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" strokeWidth={1.5} />
-            <span>Restaurar Clúster</span>
+            <span>{isEs ? "Restaurar Clúster" : "Restore Cluster"}</span>
           </button>
         </div>
         <span className="text-[10px] text-[#94A3B8] hidden sm:inline font-mono">
-          Failover determinista por Layer-7 Router
+          {isEs ? "Failover determinista por Layer-7 Router" : "Deterministic Layer-7 router failover"}
         </span>
       </div>
     </div>

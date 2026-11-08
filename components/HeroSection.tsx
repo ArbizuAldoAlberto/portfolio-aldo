@@ -29,13 +29,18 @@ export default function HeroSection() {
       if (!sp.has("disable3d")) {
         setMount3D(true);
       }
-      const wb = sp.get("workbench");
-      if (wb === "pbr" || wb === "chromatic") {
-        setRenderMode("chromatic");
-      } else if (wb === "wireframe") {
-        setRenderMode("wireframe");
-      } else if (wb === "xray") {
-        setRenderMode("xray");
+      const savedMode = sessionStorage.getItem("webanti_workbench_mode");
+      if (savedMode === "chromatic" || savedMode === "wireframe" || savedMode === "xray") {
+        setRenderMode(savedMode);
+      } else {
+        const wb = sp.get("workbench");
+        if (wb === "pbr" || wb === "chromatic") {
+          setRenderMode("chromatic");
+        } else if (wb === "wireframe") {
+          setRenderMode("wireframe");
+        } else if (wb === "xray") {
+          setRenderMode("xray");
+        }
       }
       const heroVideo = document.querySelector<HTMLVideoElement>("video[data-hero-video]");
       if (heroVideo) {
@@ -129,7 +134,7 @@ export default function HeroSection() {
 
       {/* Workbench Servidor Cuántico Orbital // Astrolabio CNC acoplado al borde inferior */}
       <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Astrolabio CNC // Núcleo Workbench">
-        <span className="hero-workbench-label text-[#D4AF37]">ASTROLABIO CNC // NÚCLEO</span>
+        <span className="hero-workbench-label text-[#D4AF37]">{t("workbenchLabel")}</span>
         <button
           type="button"
           data-workbench-mode="pbr"
@@ -138,10 +143,11 @@ export default function HeroSection() {
             soundEngine.playClick();
             playModeSwitch("pbr");
             setRenderMode("chromatic");
+            if (typeof window !== "undefined") sessionStorage.setItem("webanti_workbench_mode", "chromatic");
           }}
           className={`hero-workbench-btn${renderMode === "chromatic" ? " is-active" : ""}`}
         >
-          PBR Físico (Titanio &amp; Bronce)
+          {t("workbenchChromatic")}
         </button>
         <button
           type="button"
@@ -151,10 +157,11 @@ export default function HeroSection() {
             soundEngine.playClick();
             playModeSwitch("wireframe");
             setRenderMode("wireframe");
+            if (typeof window !== "undefined") sessionStorage.setItem("webanti_workbench_mode", "wireframe");
           }}
           className={`hero-workbench-btn${renderMode === "wireframe" ? " is-active" : ""}`}
         >
-          Wireframe CAD
+          {t("workbenchWireframe")}
         </button>
         <button
           type="button"
@@ -164,10 +171,11 @@ export default function HeroSection() {
             soundEngine.playClick();
             playModeSwitch("xray");
             setRenderMode("xray");
+            if (typeof window !== "undefined") sessionStorage.setItem("webanti_workbench_mode", "xray");
           }}
           className={`hero-workbench-btn${renderMode === "xray" ? " is-active" : ""}`}
         >
-          X-Ray Núcleo
+          {t("workbenchXray")}
         </button>
       </div>
 

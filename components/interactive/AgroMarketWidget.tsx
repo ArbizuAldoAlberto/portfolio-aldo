@@ -2,10 +2,13 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Tractor, Thermometer, MapPin, Layers } from "lucide-react";
+import { useLocale } from "next-intl";
 import { soundEngine } from "../system/SoundEngine";
 import { useTacticalAudio } from "../audio/useTacticalAudio";
 
 export function AgroMarketWidget() {
+  const locale = useLocale();
+  const isEs = locale !== "en";
   const { playHoverTick, playEngagePulse } = useTacticalAudio();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [probeTemp, setProbeTemp] = useState<number>(24.8);
@@ -112,18 +115,18 @@ export function AgroMarketWidget() {
           </span>
         </div>
         <span className="text-[10px] px-2 py-0.5 rounded bg-[#D4AF37]/15 border border-[#D4AF37]/35 text-[#D4AF37] font-bold">
-          OFFLINE-FIRST ACTIVO
+          {isEs ? "OFFLINE-FIRST ACTIVO" : "OFFLINE-FIRST ACTIVE"}
         </span>
       </div>
 
       {/* Registro de Manga Táctil */}
       <div className="mb-4 p-3 rounded-xl bg-black/60 border border-white/[0.08] flex items-center justify-between">
         <div>
-          <span className="text-[10px] text-[#94A3B8] block">CARAVANA GANADERA</span>
+          <span className="text-[10px] text-[#94A3B8] block">{isEs ? "CARAVANA GANADERA" : "CATTLE EAR-TAG"}</span>
           <span className="text-[#F8FAFC] font-bold text-base">#{activeCaravana}</span>
         </div>
         <div className="text-right">
-          <span className="text-[10px] text-[#94A3B8] block">BALANZA EN MANGA</span>
+          <span className="text-[10px] text-[#94A3B8] block">{isEs ? "BALANZA EN MANGA" : "CHUTE SCALE"}</span>
           <span className="text-[#D4AF37] font-bold text-base">{weightKg} kg</span>
         </div>
         <button
@@ -135,7 +138,7 @@ export function AgroMarketWidget() {
           }}
           className="px-3 py-1.5 rounded-lg bg-[#D4AF37] text-[#070B12] font-bold text-[10px] hover:bg-[#E2E8F0] transition-all active:scale-95 cursor-pointer"
         >
-          SIGUIENTE +
+          {isEs ? "SIGUIENTE +" : "NEXT +"}
         </button>
       </div>
 
@@ -143,21 +146,21 @@ export function AgroMarketWidget() {
       <div className="mb-4 p-3 rounded-xl bg-black/80 border border-white/[0.08]">
         <div className="flex justify-between items-center text-[10px] text-[#94A3B8] mb-2">
           <span className="flex items-center gap-1">
-            <Thermometer className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} /> ESCÁNER TÉRMICO FLIR (SILOBOLSA)
+            <Thermometer className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} /> {isEs ? "ESCÁNER TÉRMICO FLIR (SILOBOLSA)" : "FLIR THERMAL SCANNER (GRAIN BAG)"}
           </span>
           <span
             className={`font-bold ${
               probeTemp > 35 ? "text-[#E09F5A] animate-pulse" : "text-[#D4AF37]"
             }`}
           >
-            SONDA: {probeTemp}°C
+            {isEs ? `SONDA: ${probeTemp}°C` : `PROBE: ${probeTemp}°C`}
           </span>
         </div>
         <div className="rounded-lg overflow-hidden border border-[#D4AF37]/30">
           <canvas ref={canvasRef} className="w-full h-24 block cursor-crosshair touch-none" />
         </div>
         <span className="text-[9px] text-[#94A3B8] mt-1.5 block text-center">
-          Desliza el cursor / dedo sobre el mapa para censar temperatura
+          {isEs ? "Desliza el cursor / dedo sobre el mapa para censar temperatura" : "Hover / drag across the thermal map to sample probe temp"}
         </span>
       </div>
 
@@ -165,9 +168,11 @@ export function AgroMarketWidget() {
       <div className="p-2.5 rounded-lg bg-[#D4AF37]/10 border border-[#D4AF37]/25 text-[10px] flex items-center justify-between text-[#94A3B8]">
         <div className="flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} />
-          <span className="text-[#F8FAFC]">AGROPOOL: 3 PRODUCTORES CONSOLIDADOS</span>
+          <span className="text-[#F8FAFC]">
+            {isEs ? "AGROPOOL: 3 PRODUCTORES CONSOLIDADOS" : "AGROPOOL: 3 CONSOLIDATED GROWERS"}
+          </span>
         </div>
-        <span className="text-[#D4AF37] font-bold">-22% FLETE</span>
+        <span className="text-[#D4AF37] font-bold">{isEs ? "-22% FLETE" : "-22% FREIGHT"}</span>
       </div>
     </div>
   );

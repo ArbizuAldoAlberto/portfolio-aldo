@@ -12,6 +12,7 @@ import Navigation from "../../components/ui/Navigation";
 import FastTrackBar from "../../components/ui/FastTrackBar";
 import FloatingProjectsButton from "../../components/ui/FloatingProjectsButton";
 import { BootSequence } from "../../components/system/BootSequence";
+import { OfflineTelemetryHUD } from "../../components/system/OfflineTelemetryHUD";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -128,7 +129,16 @@ export default async function LocalizedLayout({
         <link rel="preload" as="image" href="/media/hero/hero-poster.webp" fetchPriority="high" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var p=window.location.pathname||"";var s=window.location.search||"";var isV2=/\\/v2(\\/|$)/.test(p)||s.indexOf("theme=v2")!==-1;document.documentElement.setAttribute("data-theme",isV2?"v2":"v1");}catch(e){}})();`,
+            __html: `(function(){try{
+              var p=window.location.pathname||"";
+              var s=window.location.search||"";
+              var isV2=/\\/v2(\\/|$)/.test(p)||s.indexOf("theme=v2")!==-1;
+              document.documentElement.setAttribute("data-theme",isV2?"v2":"v1");
+              if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+              var y = sessionStorage.getItem('webanti_scroll_y');
+              var r = sessionStorage.getItem('webanti_restoring_scroll');
+              if (r && y) { window.scrollTo(0, parseFloat(y)); }
+            }catch(e){}})();`,
           }}
         />
       </head>
@@ -161,6 +171,7 @@ export default async function LocalizedLayout({
                   <FastTrackBar />
                   <Navigation />
                   <FloatingProjectsButton />
+                  <OfflineTelemetryHUD />
                   <PremiumBackground />
                   <BackgroundEffects />
                   <SpotlightWrapper />

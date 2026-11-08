@@ -42,8 +42,22 @@ export default function Navigation() {
 
   const toggleLanguage = () => {
     soundEngine.playClick();
-    const nextLocale = locale === "es" ? "en" : "es";
-    router.replace(pathname, { locale: nextLocale });
+    if (typeof window !== "undefined") {
+      const scrollY = window.scrollY;
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      sessionStorage.setItem("webanti_scroll_y", String(scrollY));
+      sessionStorage.setItem("webanti_scroll_ratio", String(scrollY / maxScroll));
+      sessionStorage.setItem("webanti_restoring_scroll", "true");
+
+      const nextLocale = locale === "es" ? "en" : "es";
+      const currentPath = window.location.pathname;
+      const currentSearch = window.location.search;
+      const currentHash = window.location.hash;
+      let cleanPath = currentPath.replace(/^\/(es|en)(\/|$)/, "/");
+      if (!cleanPath.startsWith("/")) cleanPath = "/" + cleanPath;
+      const targetUrl = `/${nextLocale}${cleanPath === "/" ? "" : cleanPath}${currentSearch}${currentHash}`;
+      window.location.href = targetUrl;
+    }
   };
 
   const handleSoundToggle = () => {

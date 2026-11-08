@@ -46,7 +46,19 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
     mat.onBeforeCompile = (shader) => {
       shader.uniforms.uScanY = { value: 0 };
       shader.uniforms.uTime = { value: 0 };
+      shader.vertexShader = `
+        varying vec3 vCustomWorldPos;
+        ${shader.vertexShader}
+      `;
+      shader.vertexShader = shader.vertexShader.replace(
+        '#include <begin_vertex>',
+        `
+        #include <begin_vertex>
+        vCustomWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+        `
+      );
       shader.fragmentShader = `
+        varying vec3 vCustomWorldPos;
         uniform float uScanY;
         uniform float uTime;
         ${shader.fragmentShader}
@@ -56,7 +68,7 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
         `
         #include <dithering_fragment>
         // Haz de Escaneo Láser LiDAR Titanium & Solar Gold (#D4AF37 / #E2E8F0)
-        float distToScan = abs(vViewPosition.y - uScanY);
+        float distToScan = abs(vCustomWorldPos.y - uScanY);
         float scanPulse = smoothstep(1.5, 0.0, distToScan);
         vec3 laserColor = mix(vec3(0.831, 0.686, 0.216), vec3(0.886, 0.910, 0.941), scanPulse);
         gl_FragColor.rgb = mix(gl_FragColor.rgb, laserColor * 1.55, scanPulse * 0.60);
@@ -428,6 +440,18 @@ export function Hero3DScene({
         dpr={[1, 1.5]}
         frameloop={inViewport ? "always" : "demand"}
         className="w-full h-full pointer-events-auto"
+        onCreated={({ gl }) => {
+          const dom = gl.domElement;
+          const handleContextLost = (event: Event) => {
+            event.preventDefault();
+            console.warn("[Hero3DScene] WebGL context lost. Initiating graceful recovery watchdog.");
+          };
+          const handleContextRestored = () => {
+            console.info("[Hero3DScene] WebGL context restored successfully.");
+          };
+          dom.addEventListener("webglcontextlost", handleContextLost, false);
+          dom.addEventListener("webglcontextrestored", handleContextRestored, false);
+        }}
       >
         <SceneContent
           isVisible={inViewport}

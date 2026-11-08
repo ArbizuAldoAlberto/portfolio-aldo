@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, Wifi, WifiOff, Smartphone, QrCode, Lock } from "lucide-react";
+import { useLocale } from "next-intl";
 import { soundEngine } from "../system/SoundEngine";
 import { useTacticalAudio } from "../audio/useTacticalAudio";
 
 export function SentinelWidget() {
+  const locale = useLocale();
+  const isEs = locale !== "en";
   const { playHoverTick, playEngagePulse } = useTacticalAudio();
   const [isOfflineSim, setIsOfflineSim] = useState<boolean>(false);
   const [queuedEvents, setQueuedEvents] = useState<number>(0);
@@ -61,7 +64,7 @@ export function SentinelWidget() {
           }`}
         >
           {isOfflineSim ? <WifiOff size={12} /> : <Wifi size={12} />}
-          <span>{isOfflineSim ? "SIN SEÑAL (SIMULADA)" : "RED ONLINE"}</span>
+          <span>{isOfflineSim ? (isEs ? "SIN SEÑAL (SIMULADA)" : "NO SIGNAL (SIMULATED)") : (isEs ? "RED ONLINE" : "NETWORK ONLINE")}</span>
         </button>
       </div>
 
@@ -92,11 +95,13 @@ export function SentinelWidget() {
         <div className="space-y-1">
           <div className="flex items-center gap-1.5 text-[#F8FAFC] font-bold text-xs">
             <QrCode className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} />
-            <span>POSTE PERIMETRAL #04</span>
+            <span>{isEs ? "POSTE PERIMETRAL #04" : "PERIMETER POST #04"}</span>
           </div>
-          <span className="text-[10px] text-[#D4AF37] block font-bold">QR ESCANEADO EN PENUMBRAS</span>
+          <span className="text-[10px] text-[#D4AF37] block font-bold">
+            {isEs ? "QR ESCANEADO EN PENUMBRAS" : "QR SCANNED IN LOW LIGHT"}
+          </span>
           <span className="text-[10px] text-[#94A3B8] block">
-            GPS: -36.2314, -61.1102 (Firma Criptográfica)
+            GPS: -36.2314, -61.1102 ({isEs ? "Firma Criptográfica" : "Cryptographic Signature"})
           </span>
         </div>
       </div>
@@ -104,21 +109,27 @@ export function SentinelWidget() {
       {/* Estado del Encolado SQLite WAL */}
       <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08] mb-4">
         <div className="flex justify-between items-center text-[10px] mb-1.5">
-          <span className="text-[#94A3B8] font-bold">PERSISTENCIA STORE-AND-FORWARD:</span>
+          <span className="text-[#94A3B8] font-bold">
+            {isEs ? "PERSISTENCIA STORE-AND-FORWARD:" : "STORE-AND-FORWARD PERSISTENCE:"}
+          </span>
           <span
             className={`font-bold ${
               queuedEvents > 0 ? "text-[#E09F5A]" : "text-[#D4AF37]"
             }`}
           >
             {queuedEvents > 0
-              ? `${queuedEvents} EVENTO(S) EN COLA SQLITE`
-              : "TODO SINCRONIZADO ✓"}
+              ? (isEs ? `${queuedEvents} EVENTO(S) EN COLA SQLITE` : `${queuedEvents} EVENT(S) IN SQLITE QUEUE`)
+              : (isEs ? "TODO SINCRONIZADO ✓" : "ALL SYNCHRONIZED ✓")}
           </span>
         </div>
         <div className="text-[11px] text-[#94A3B8]">
           {isOfflineSim
-            ? "Reporte guardado en base de datos local SQLite WAL. Cero pérdida de datos."
-            : "Conexión estable. Los reportes se transmiten en tiempo real."}
+            ? (isEs
+                ? "Reporte guardado en base de datos local SQLite WAL. Cero pérdida de datos."
+                : "Report stored in local SQLite WAL database. Zero data loss.")
+            : (isEs
+                ? "Conexión estable. Los reportes se transmiten en tiempo real."
+                : "Stable connection. Reports transmitted in real-time.")}
         </div>
       </div>
 
@@ -133,7 +144,11 @@ export function SentinelWidget() {
         className="w-full py-2.5 rounded-lg bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 border border-[#D4AF37]/30 text-[#D4AF37] font-bold text-[10px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
       >
         <Lock className="w-3.5 h-3.5" strokeWidth={1.5} />
-        <span>{isOfflineSim ? "RESTAURAR RED & FORZAR SYNC" : "PROBAR CORTE DE RED OFFLINE-FIRST"}</span>
+        <span>
+          {isOfflineSim
+            ? (isEs ? "RESTAURAR RED & FORZAR SYNC" : "RESTORE NETWORK & FORCE SYNC")
+            : (isEs ? "PROBAR CORTE DE RED OFFLINE-FIRST" : "TEST OFFLINE-FIRST NETWORK CUT")}
+        </span>
       </button>
     </div>
   );
