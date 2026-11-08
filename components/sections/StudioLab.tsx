@@ -59,7 +59,7 @@ function HolographicPhoneCore() {
 
   // Interactive phone states
   const [phoneStatus, setPhoneStatus] = useState<'sleep' | 'booting' | 'active'>('sleep')
-  const [activeApp, setActiveApp] = useState<'menu' | 'sentinel' | 'techzone' | 'agro'>('menu')
+  const [activeApp, setActiveApp] = useState<'menu' | 'sentinel' | 'sabiobosque' | 'agro'>('menu')
   const [bootProgress, setBootProgress] = useState(0)
 
   // Procedural Monolithic Glass Slab (100% WebGL performance)
@@ -250,8 +250,8 @@ function HolographicPhoneCore() {
                     </lineSegments>
                   </group>
 
-                  {/* APP 2: TechZone (Teal) */}
-                  <group position={[0.45, 0.8, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('techzone') }}>
+                  {/* APP 2: SabioBosque (Teal) */}
+                  <group position={[0.45, 0.8, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('sabiobosque') }}>
                     <mesh>
                       <planeGeometry args={[0.35, 0.35]} />
                       <meshBasicMaterial color="#00FF66" transparent opacity={0.2} />
@@ -329,8 +329,8 @@ function HolographicPhoneCore() {
                 </group>
               )}
 
-              {/* APP VIEW: TECHZONE */}
-              {activeApp === 'techzone' && (
+              {/* APP VIEW: SABIOBOSQUE */}
+              {activeApp === 'sabiobosque' && (
                 <group position={[0, 0, 0.01]}>
                   {/* Title Bar */}
                   <mesh position={[0, 1.4, 0]}>

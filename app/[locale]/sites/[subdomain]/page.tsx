@@ -11,7 +11,7 @@ export default async function SubdomainPage({
     'titanflow', 'sentinelos', 'aeroshot', 'agromarket',
     'sabiobosque', 'ecoconnect', 'pawhero', 'impresion3d',
     'habitat', 'marketingadvisor', 'nomadhub', 'aureus',
-    'cannabis', 'techzone', 'arbizulabs'
+    'cannabis', 'arbizulabs'
   ];
 
   if (!validSubdomains.includes(subdomain)) {

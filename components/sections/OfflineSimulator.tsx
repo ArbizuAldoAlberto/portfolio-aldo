@@ -59,7 +59,7 @@ export default function OfflineSimulator() {
     }
   }, [isConnected, queue])
 
-  const simulateAction = (type: 'gps_spoof' | 'techzone_cart' | 'sensor_alert') => {
+  const simulateAction = (type: 'gps_spoof' | 'agromarket_cart' | 'sensor_alert') => {
     const id = `item_${Math.floor(Math.random() * 9000) + 1000}`
     const timestamp = new Date().toLocaleTimeString()
     
@@ -75,7 +75,7 @@ export default function OfflineSimulator() {
         timestamp
       }
       addLog(`SQLite: Intercepted spoofing! Saved critical spoofing incident locally inside SQLite.`)
-    } else if (type === 'techzone_cart') {
+    } else if (type === 'agromarket_cart') {
       newItem = {
         id,
         entity: 'cart',
@@ -166,7 +166,7 @@ export default function OfflineSimulator() {
                 </button>
 
                 <button 
-                  onClick={() => simulateAction('techzone_cart')}
+                  onClick={() => simulateAction('agromarket_cart')}
                   className="w-full flex items-center justify-between p-4 border border-[var(--color-space-border)] hover:border-[var(--color-orbital-teal)]/40 hover:bg-white/[0.02] text-left transition-all cursor-pointer group"
                 >
                   <div className="flex items-center gap-3">

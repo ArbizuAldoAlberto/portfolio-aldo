@@ -80,7 +80,7 @@ export default function HeroSection() {
         <div className="edge-fuse edge-fuse--bottom" aria-hidden="true" />
       </div>
 
-      {/* Consola tipográfica anclada al tercio inferior para despejar el Retrato Escultórico 3D */}
+      {/* Consola tipográfica anclada al tercio inferior para despejar el Astrolabio CNC 3D */}
       <div className="hero-content">
         <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-[#070B12]/72 px-5 sm:px-8 py-4 sm:py-5 backdrop-blur-md border border-[#D4AF37]/25 shadow-[0_24px_80px_rgba(0,0,0,0.85)] flex flex-col items-center text-center mt-60 md:mt-72 mb-3 sm:mb-4">
           <h1 id="hero-title" className="hero-title !text-2xl sm:!text-4xl md:!text-5xl" data-split>
@@ -128,8 +128,8 @@ export default function HeroSection() {
       </div>
 
       {/* Workbench Servidor Cuántico Orbital // Astrolabio CNC acoplado al borde inferior */}
-      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Servidor Cuántico Orbital // Astrolabio CNC Workbench">
-        <span className="hero-workbench-label text-[#D4AF37]">ASTROLABIO CNC // NÚCLEO CUÁNTICO</span>
+      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Astrolabio CNC // Núcleo Workbench">
+        <span className="hero-workbench-label text-[#D4AF37]">ASTROLABIO CNC // NÚCLEO</span>
         <button
           type="button"
           data-workbench-mode="pbr"

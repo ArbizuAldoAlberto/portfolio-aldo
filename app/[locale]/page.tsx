@@ -96,7 +96,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
   ];
 
   return (
-    <main id="contenido" className="min-h-screen selection:bg-emerald-500/30 selection:text-white">
+    <main id="contenido" className="min-h-screen selection:bg-[#D4AF37]/30 selection:text-white">
       {/* 1. HERO SECTION CINEMÁTICO (VIDEO LOOP 6S + ESCENA 3D + VIÑETA PERIMETRAL) */}
       <HeroSection />
 
@@ -113,7 +113,7 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
         <div className="particles" data-particles aria-hidden="true" />
         <div className="section-inner">
           <div className="mb-12 text-center sm:text-left">
-            <span className="font-mono text-xs text-emerald-400 font-semibold uppercase tracking-widest block mb-2">
+            <span className="font-mono text-xs text-[#D4AF37] font-semibold uppercase tracking-widest block mb-2">
               {t("artifactsTag")}
             </span>
             <h2 id="artefactos-title" className="section-title mb-0" data-reveal>

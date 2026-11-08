@@ -112,8 +112,8 @@
       "item1": "Technological specialist in private security (Custodiar)",
       "item2": "Fulltime freelance — founded Arbizu Labs",
       "item3": "Fullstack MERN · First commercialized multi-tenant SaaS",
-      "item4": "Cybersecurity Diploma UNGS · TechZone offline-first sync",
-      "item5": "Analyst at Maipu Seguridad · VigiTrack core architecture",
+      "item4": "Cybersecurity Diploma UNGS · SQLite WAL Offline-First Sync",
+      "item5": "Operational Cybersecurity Specialist · SentinelOS core architecture",
       "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration - On-Chain Philanthropy Proof"
     },
     "philanthropy": {
@@ -132,7 +132,7 @@
       "gpsAlert": "GPS Spoofing Alert",
       "gpsDesc": "SentinelOS Cheating Detector",
       "cartItem": "Add Cart Item",
-      "cartDesc": "TechZone Store Sync",
+      "cartDesc": "AgroMarket Pro Sync",
       "panicAlarm": "Panic Alarm Event",
       "panicDesc": "VigiTrack Emergency Sync",
       "telemetryTitle": "LOCAL CORE TELEMETRY:"
@@ -443,22 +443,6 @@
           "solution": "Wealth management dashboard with dark glassmorphism and brushed gold accents."
         }
       },
-      "techzone": {
-        "title": "TechZone",
-        "role": "POS Retail & Omnichannel Gateway",
-        "engineer": {
-          "problem": "Loss of sales transactions due to abrupt connectivity drops.",
-          "solution": "Atomic local queuing in SQLite WAL with automatic differential triggers."
-        },
-        "security": {
-          "problem": "Customer churn at physical counters due to unstable internet.",
-          "solution": "Offline-First POS with dual QR charging signatures and Google Pay checkout."
-        },
-        "agtech": {
-          "problem": "Slow catalog interfaces that interrupt customer flow.",
-          "solution": "Premium interactive catalog with Bento Grid transitions and refined typography."
-        }
-      },
       "sentinelos": {
         "title": "SentinelOS",
         "role": "Security Dispatch & Command Center",
@@ -638,9 +622,9 @@
     "heroLedeBody": "The real intersection between field agronomy, Offline-First mobile development, defensive cybersecurity, and low-latency quantitative execution.",
     "heroCtaPrimary": "View Production Systems",
     "heroCtaSecondary": "Explore Orbital Dive",
-    "workbenchLabel": "FALCON WORKBENCH",
+    "workbenchLabel": "ASTROLABIO CNC // NÚCLEO",
     "workbenchChromatic": "Physical PBR",
-    "workbenchWireframe": "Wireframe",
+    "workbenchWireframe": "Wireframe CAD",
     "workbenchXray": "Core X-Ray",
     "diveAria": "Orbital telemetry dive",
     "diveCanvasAria": "240-frame cinematic camera journey through the orbital telemetry and local persistence core",

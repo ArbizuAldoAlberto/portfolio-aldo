@@ -71,14 +71,14 @@ export function ArchitectureDiagram({ systemId }: ArchitectureDiagramProps) {
   const data = DIAGRAM_DATA[systemId];
 
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-black/60 border border-white/10 font-mono text-xs overflow-hidden">
+    <div className="p-4 sm:p-5 rounded-2xl bg-[#070B12] border border-white/[0.08] hover:border-[#D4AF37]/40 transition-colors font-mono text-xs overflow-hidden">
       {/* Header del diagrama */}
-      <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-2.5">
-        <span className="text-[10px] text-orbital-muted tracking-wider uppercase">
+      <div className="flex items-center justify-between mb-4 border-b border-white/[0.08] pb-2.5">
+        <span className="text-[10px] text-[#94A3B8] tracking-wider uppercase">
           {data.title}
         </span>
-        <span className="text-[10px] text-orbital-emerald font-bold flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-orbital-emerald animate-pulse" />
+        <span className="text-[10px] text-[#D4AF37] font-bold flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
           ARQUITECTURA EN VIVO
         </span>
       </div>
@@ -89,10 +89,10 @@ export function ArchitectureDiagram({ systemId }: ArchitectureDiagramProps) {
           const isLast = i === data.nodes.length - 1;
           const colorClasses =
             node.color === "emerald"
-              ? "border-emerald-500/40 text-emerald-400 bg-emerald-950/20"
+              ? "border-[#D4AF37]/40 text-[#D4AF37] bg-[#D4AF37]/10"
               : node.color === "amber"
-              ? "border-amber-500/40 text-amber-400 bg-amber-950/20"
-              : "border-teal-500/40 text-teal-400 bg-teal-950/20";
+              ? "border-[#E09F5A]/40 text-[#E09F5A] bg-[#E09F5A]/10"
+              : "border-white/[0.14] text-[#F8FAFC] bg-white/[0.04]";
 
           return (
             <motion.div
@@ -115,13 +115,13 @@ export function ArchitectureDiagram({ systemId }: ArchitectureDiagramProps) {
                 )}
               </div>
               <div>
-                <div className="text-white font-bold text-xs leading-tight mb-1">{node.label}</div>
-                <div className="text-[10px] text-slate-400 leading-tight">{node.sub}</div>
+                <div className="text-[#F8FAFC] font-bold text-xs leading-tight mb-1">{node.label}</div>
+                <div className="text-[10px] text-[#94A3B8] leading-tight">{node.sub}</div>
               </div>
 
               {/* Flecha indicadora en desktop */}
               {!isLast && (
-                <div className="hidden sm:block absolute -right-2.5 top-1/2 -translate-y-1/2 z-10 text-white/30 text-xs">
+                <div className="hidden sm:block absolute -right-2.5 top-1/2 -translate-y-1/2 z-10 text-[#D4AF37]/60 text-xs">
                   →
                 </div>
               )}

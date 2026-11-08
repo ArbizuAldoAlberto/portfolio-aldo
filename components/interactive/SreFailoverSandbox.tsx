@@ -123,18 +123,18 @@ export function SreFailoverSandbox() {
   };
 
   return (
-    <div className="rounded-2xl bg-[#090A0F] border border-cyan-500/30 p-5 sm:p-6 font-mono text-xs text-slate-200 shadow-2xl relative overflow-hidden">
+    <div className="rounded-2xl bg-[#070B12] border border-white/[0.08] hover:border-[#D4AF37]/40 transition-colors p-5 sm:p-6 font-mono text-xs text-[#F8FAFC] shadow-2xl relative overflow-hidden">
       {/* Terminal Titlebar */}
-      <div className="flex flex-wrap items-center justify-between border-b border-white/10 pb-3 mb-4 gap-2">
+      <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] pb-3 mb-4 gap-2">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] animate-pulse" />
+          <span className="text-[11px] text-[#D4AF37] font-bold uppercase tracking-wider">
             NEXUS_SRE // HIGH_AVAILABILITY_SANDBOX
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[10px] text-slate-400">
+        <div className="flex items-center gap-2 text-[10px] text-[#94A3B8]">
           <span>TOPOLOGÍA: MULTI-REGION L7</span>
-          <span className="px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 font-bold">
+          <span className="px-2 py-0.5 rounded bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/35 font-bold">
             ZERO-DOWNTIME
           </span>
         </div>
@@ -142,39 +142,39 @@ export function SreFailoverSandbox() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="p-3 rounded-xl bg-black/60 border border-white/5">
-          <span className="text-[10px] text-slate-400 block mb-1">THROUGHPUT</span>
-          <div className="text-white font-bold text-sm sm:text-base tabular-nums">
-            {rps.toLocaleString()} <span className="text-[10px] text-slate-500 font-normal">req/s</span>
+        <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">
+          <span className="text-[10px] text-[#94A3B8] block mb-1">THROUGHPUT</span>
+          <div className="text-[#F8FAFC] font-bold text-sm sm:text-base tabular-nums">
+            {rps.toLocaleString()} <span className="text-[10px] text-[#94A3B8] font-normal">req/s</span>
           </div>
         </div>
-        <div className="p-3 rounded-xl bg-black/60 border border-white/5">
-          <span className="text-[10px] text-slate-400 block mb-1">P99 LATENCY</span>
+        <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">
+          <span className="text-[10px] text-[#94A3B8] block mb-1">P99 LATENCY</span>
           <div
             className={`font-bold text-sm sm:text-base tabular-nums ${
-              p99Latency > 30 ? "text-amber-400" : "text-emerald-400"
+              p99Latency > 30 ? "text-[#E09F5A]" : "text-[#D4AF37]"
             }`}
           >
-            {p99Latency.toFixed(1)} <span className="text-[10px] text-slate-500 font-normal">ms</span>
+            {p99Latency.toFixed(1)} <span className="text-[10px] text-[#94A3B8] font-normal">ms</span>
           </div>
         </div>
-        <div className="p-3 rounded-xl bg-black/60 border border-white/5">
-          <span className="text-[10px] text-slate-400 block mb-1">PACKET LOSS</span>
-          <div className="text-emerald-400 font-bold text-sm sm:text-base tabular-nums">
-            0.00% <span className="text-[10px] text-slate-500 font-normal">SLA 99.99%</span>
+        <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">
+          <span className="text-[10px] text-[#94A3B8] block mb-1">PACKET LOSS</span>
+          <div className="text-[#D4AF37] font-bold text-sm sm:text-base tabular-nums">
+            0.00% <span className="text-[10px] text-[#94A3B8] font-normal">SLA 99.99%</span>
           </div>
         </div>
       </div>
 
       {/* Active Clustered Nodes */}
       <div className="space-y-2.5 mb-4">
-        <span className="text-[10px] text-slate-400 uppercase tracking-wider block">ESTADO DE NODOS DE BORDE:</span>
+        <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider block">ESTADO DE NODOS DE BORDE:</span>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           {nodes.map((node) => {
             const isFailed = node.status === "failed";
             const borderStyle = isFailed
-              ? "border-red-500/60 bg-red-950/20 text-red-300"
-              : "border-white/10 bg-black/40 text-slate-300";
+              ? "border-[#E09F5A]/60 bg-[#E09F5A]/15 text-[#E09F5A]"
+              : "border-white/[0.08] bg-black/40 text-[#F8FAFC]";
 
             return (
               <motion.div
@@ -186,12 +186,12 @@ export function SreFailoverSandbox() {
                   <span className="font-bold text-[11px] truncate">{node.name}</span>
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isFailed ? "bg-red-500 animate-ping" : "bg-emerald-400"
+                      isFailed ? "bg-[#E09F5A] animate-ping" : "bg-[#D4AF37]"
                     }`}
                   />
                 </div>
-                <div className="text-[9px] text-slate-400 truncate mb-2">{node.region}</div>
-                <div className="flex justify-between items-center text-[10px] pt-1.5 border-t border-white/5">
+                <div className="text-[9px] text-[#94A3B8] truncate mb-2">{node.region}</div>
+                <div className="flex justify-between items-center text-[10px] pt-1.5 border-t border-white/[0.08]">
                   <span>Carga: {node.load}%</span>
                   <span>{isFailed ? "TIMEOUT" : `${node.latencyMs}ms`}</span>
                 </div>
@@ -202,9 +202,9 @@ export function SreFailoverSandbox() {
       </div>
 
       {/* Dynamic Telemetry Log */}
-      <div className="p-2.5 rounded-lg bg-black/80 border border-white/10 mb-4 text-[10px] font-mono flex items-center gap-2 overflow-x-auto">
-        <span className="text-cyan-400 font-bold shrink-0">&gt;&gt;</span>
-        <span className={activeLog.includes("ALERTA") ? "text-red-400 font-semibold" : "text-slate-300"}>
+      <div className="p-2.5 rounded-lg bg-black/80 border border-white/[0.08] mb-4 text-[10px] font-mono flex items-center gap-2 overflow-x-auto">
+        <span className="text-[#D4AF37] font-bold shrink-0">&gt;&gt;</span>
+        <span className={activeLog.includes("ALERTA") ? "text-[#E09F5A] font-semibold" : "text-[#94A3B8]"}>
           {activeLog}
         </span>
       </div>
@@ -213,22 +213,24 @@ export function SreFailoverSandbox() {
       <div className="flex flex-wrap gap-3 items-center justify-between pt-1">
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={triggerNodeFailure}
             disabled={isSimulatingFailover || nodes[0].status === "failed"}
-            className="px-3.5 py-2 rounded-lg bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 font-bold text-[11px] flex items-center gap-1.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(239,68,68,0.2)]"
+            className="px-3.5 py-2 rounded-lg bg-[#E09F5A]/15 hover:bg-[#E09F5A]/25 border border-[#E09F5A]/45 text-[#E09F5A] font-bold text-[11px] flex items-center gap-1.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
-            <AlertTriangle className="w-3.5 h-3.5" />
+            <AlertTriangle className="w-3.5 h-3.5" strokeWidth={1.5} />
             <span>Simular Caída Nodo Primario</span>
           </button>
           <button
+            type="button"
             onClick={resetCluster}
-            className="px-3.5 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 text-[11px] flex items-center gap-1.5 transition-all"
+            className="px-3.5 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/[0.08] hover:border-[#D4AF37]/40 text-[#F8FAFC] text-[11px] flex items-center gap-1.5 transition-all cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3.5 h-3.5" strokeWidth={1.5} />
             <span>Restaurar Clúster</span>
           </button>
         </div>
-        <span className="text-[10px] text-slate-500 hidden sm:inline font-mono">
+        <span className="text-[10px] text-[#94A3B8] hidden sm:inline font-mono">
           Failover determinista por Layer-7 Router
         </span>
       </div>

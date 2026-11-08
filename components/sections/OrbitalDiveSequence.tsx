@@ -127,13 +127,13 @@ export default function OrbitalDiveSequence() {
       const maxR = Math.max(canvasWidth, canvasHeight) * 0.68;
 
       const grad = ctx.createRadialGradient(cx, cy, canvasWidth * 0.03, cx, canvasHeight * 0.5, maxR);
-      grad.addColorStop(0, p < 0.5 ? "#0b3842" : "#0e483e");
-      grad.addColorStop(0.42, "#061524");
-      grad.addColorStop(1, "#04070d");
+      grad.addColorStop(0, p < 0.5 ? "#1c160c" : "#151924");
+      grad.addColorStop(0.42, "#0b111c");
+      grad.addColorStop(1, "#070b12");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-      // Anillos orbitales procedurales sincronizados con el frame
+      // Anillos orbitales procedurales sincronizados con el frame (Titanium & Warm Bronze)
       ctx.save();
       ctx.translate(cx, cy);
       for (let rIdx = 1; rIdx <= 4; rIdx++) {
@@ -148,7 +148,7 @@ export default function OrbitalDiveSequence() {
           0,
           Math.PI * 2,
         );
-        ctx.strokeStyle = rIdx % 2 === 0 ? "rgba(94, 242, 224, 0.24)" : "rgba(52, 211, 153, 0.28)";
+        ctx.strokeStyle = rIdx % 2 === 0 ? "rgba(212, 175, 55, 0.28)" : "rgba(226, 232, 240, 0.22)";
         ctx.lineWidth = Math.max(1, canvasWidth * 0.0012);
         ctx.stroke();
       }

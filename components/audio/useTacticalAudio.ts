@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef } from "react";
-import type { WorkbenchMode } from "../three/HalconWorkbench";
+import type { WorkbenchMode } from "../three/QuantumCore3D";
 
 export function useTacticalAudio() {
   const ctxRef = useRef<AudioContext | null>(null);
@@ -41,7 +41,7 @@ export function useTacticalAudio() {
     osc.stop(now + 0.016);
   }, [getContext]);
 
-  // Firma acústica diferenciada para cada modo táctico del Halcón Workbench
+  // Firma acústica diferenciada para cada modo del Astrolabio CNC (QuantumCore3D)
   const playModeSwitch = useCallback(
     (mode: WorkbenchMode) => {
       const ctx = getContext();

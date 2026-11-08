@@ -112,8 +112,8 @@
       "item1": "Especialista tecnológico en seguridad privada (Custodiar)",
       "item2": "Freelance Fulltime — fundación de Arbizu Labs",
       "item3": "Fullstack MERN · Primer SaaS multi-tenant comercializado",
-      "item4": "Diplomatura Ciberseguridad UNGS · Sincronización offline-first TechZone",
-      "item5": "Analista en Maipu Seguridad · Arquitectura core VigiTrack",
+      "item4": "Diplomatura Ciberseguridad UNGS · Sincronización SQLite WAL Offline-First",
+      "item5": "Especialista en Ciberseguridad Operativa · Arquitectura core SentinelOS",
       "item6": "Ingeniería Crypto/DeFi · Prototipado 3D & Universal Cart - On-Chain Philanthropy Proof"
     },
     "philanthropy": {
@@ -132,7 +132,7 @@
       "gpsAlert": "Alerta Spoofing GPS",
       "gpsDesc": "Detector de trampas SentinelOS",
       "cartItem": "Añadir al Carrito",
-      "cartDesc": "Sincronización de Tienda TechZone",
+      "cartDesc": "Sincronización AgroMarket Pro",
       "panicAlarm": "Evento Alarma Pánico",
       "panicDesc": "Sincronización de Emergencia VigiTrack",
       "telemetryTitle": "TELEMETRÍA LOCAL CORE:"
@@ -443,22 +443,6 @@
           "solution": "Dashboard de gestión patrimonial con glassmorphism oscuro y acentos en oro cepillado."
         }
       },
-      "techzone": {
-        "title": "TechZone",
-        "role": "POS Retail & Omnichannel Gateway",
-        "engineer": {
-          "problem": "Pérdidas de transacciones de venta por caídas abruptas de conectividad.",
-          "solution": "Encolamiento local atómico en SQLite WAL con triggers diferenciales automáticos."
-        },
-        "security": {
-          "problem": "Fuga de clientes en mostradores físicos debido a internet inestable.",
-          "solution": "Punto de venta Offline-First con firmas QR de cobro dual y checkout de Google Pay."
-        },
-        "agtech": {
-          "problem": "Interfaces de catálogo lentas que interrumpen la fluidez del cliente.",
-          "solution": "Catálogo premium interactivo con transiciones de Bento Grid y tipografía refinada."
-        }
-      },
       "sentinelos": {
         "title": "SentinelOS",
         "role": "Security Dispatch & Command Center",
@@ -638,9 +622,9 @@
     "heroLedeBody": "La intersección real entre agronomía de campo, desarrollo Mobile Offline-First, ciberseguridad defensiva y ejecución cuantitativa de baja latencia.",
     "heroCtaPrimary": "Ver Sistemas en Producción",
     "heroCtaSecondary": "Explorar Inmersión Orbital",
-    "workbenchLabel": "HALCÓN WORKBENCH",
+    "workbenchLabel": "ASTROLABIO CNC // NÚCLEO",
     "workbenchChromatic": "PBR Físico",
-    "workbenchWireframe": "Wireframe",
+    "workbenchWireframe": "Wireframe CAD",
     "workbenchXray": "X-Ray Núcleo",
     "diveAria": "Inmersión orbital de telemetría",
     "diveCanvasAria": "Recorrido cinemático de 240 fotogramas por el núcleo orbital de telemetría y persistencia local",

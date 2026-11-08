@@ -99,7 +99,7 @@ function createMicrometricTicksGeometry(radius: number, count: number, baseTickL
     const isMajor = i % 6 === 0;
     const isMedium = i % 3 === 0;
     const len = isMajor ? baseTickLen * 2.1 : isMedium ? baseTickLen * 1.45 : baseTickLen;
-    const rInner = radius + 0.022;
+    const rInner = radius + 0.018;
     const rOuter = rInner + len;
     const c = Math.cos(angle);
     const s = Math.sin(angle);
@@ -120,17 +120,45 @@ export function QuantumCore3D({
   const isMobileViewport = viewport.width < 3.6;
 
   const rootGroupRef = useRef<THREE.Group>(null);
+  const equatorialVernierRef = useRef<THREE.Group>(null);
   const outerGimbalRef = useRef<THREE.Group>(null);
   const middleGimbalRef = useRef<THREE.Group>(null);
   const innerGimbalRef = useRef<THREE.Group>(null);
+  const satellitesGroupRef = useRef<THREE.Group>(null);
   const crystalCoreRef = useRef<THREE.Mesh>(null);
   const innerPulseCoreRef = useRef<THREE.Mesh>(null);
   const quantumLatticeRef = useRef<THREE.Points>(null);
   const shockwaveRing1Ref = useRef<THREE.Mesh>(null);
   const shockwaveRing2Ref = useRef<THREE.Mesh>(null);
 
-  // Geometrías de alta precisión para los 3 Anillos Cardán CNC y el Núcleo de Cristal Óptico
+  // Estado de amortiguación elástica (Spring Damping) para impulsos rotacionales en clic o cambio de modo
+  const springStateRef = useRef({
+    offsetRotY: 0,
+    offsetRotX: 0,
+    velRotY: 0,
+    velRotX: 0,
+    localSurge: 0,
+  });
+
+  // Impulso rotacional suave con amortiguación elástica al cambiar entre PBR, Wireframe CAD y X-Ray Núcleo
+  useEffect(() => {
+    springStateRef.current.velRotY += 3.6;
+    springStateRef.current.velRotX += 1.8;
+    springStateRef.current.localSurge = 1.0;
+  }, [mode]);
+
+  const handleAstrolabeClick = () => {
+    springStateRef.current.velRotY += 4.5;
+    springStateRef.current.velRotX -= 2.2;
+    springStateRef.current.localSurge = 1.0;
+  };
+
+  // Geometrías de Alta Relojería CNC: 3 Anillos Cardán, Pernos de Acoplamiento, Vernier Ecuatorial y 4 Satélites
   const geometries = useMemo(() => {
+    // 0. Anillo Ecuatorial Fijo de Referencia con Retícula Micrométrica Fina (Vernier, R = 1.54)
+    const vernierReferenceTorus = new THREE.TorusGeometry(1.54, 0.009, 16, 160);
+    const vernierReferenceTicks = createMicrometricTicksGeometry(1.56, 120, 0.026);
+
     // 1. Anillo Cardán Exterior (Titanio Cepillado, R = 1.38)
     const outerTorus = new THREE.TorusGeometry(1.38, 0.026, 32, 160);
     const outerBevel = new THREE.TorusGeometry(1.43, 0.008, 16, 144);
@@ -145,19 +173,28 @@ export function QuantumCore3D({
     const innerTorus = new THREE.TorusGeometry(0.78, 0.020, 28, 128);
     const innerTicks = createMicrometricTicksGeometry(0.81, 36, 0.028);
 
-    // Pivotes y rodamientos axiales CNC
-    const bearingCylinder = new THREE.CylinderGeometry(0.032, 0.032, 0.14, 24);
+    // 4. Uniones Mecánicas Reales (Gimbal Pivots & Coupling Pins en CylinderGeometry)
+    // Conector físico Exterior (1.38) <-> Medio (1.08), longitud = 0.30
+    const pivotOuterToMidPin = new THREE.CylinderGeometry(0.022, 0.022, 0.30, 24);
+    const pivotCollarFlange = new THREE.CylinderGeometry(0.044, 0.044, 0.065, 24);
+    // Conector físico Medio (1.08) <-> Interior (0.78), longitud = 0.30
+    const pivotMidToInnerPin = new THREE.CylinderGeometry(0.019, 0.019, 0.30, 24);
+    // Conector físico Interior (0.78) <-> Jaula Núcleo (0.52), longitud = 0.26
+    const pivotInnerToCorePin = new THREE.CylinderGeometry(0.015, 0.015, 0.26, 20);
 
-    // 4. Esfera / Poliedro Central de Cristal Óptico (IcosahedronGeometry con refracción)
+    // 5. 4 Nodos Orbitales Satelitales (Giroscopios Auxiliares)
+    const satelliteCoreGeo = new THREE.OctahedronGeometry(0.044, 0);
+    const satelliteHaloGeo = new THREE.TorusGeometry(0.076, 0.006, 12, 36);
+
+    // 6. Esfera / Poliedro Central de Cristal Óptico (IcosahedronGeometry con refracción)
     const opticalCrystalGeo = new THREE.IcosahedronGeometry(0.48, 3);
     const innerReactorGeo = new THREE.IcosahedronGeometry(0.28, 1);
     const coreCageGeo = new THREE.IcosahedronGeometry(0.52, 1);
 
-    // 5. Campo de Puntos Cuánticos Orbitales alrededor del núcleo
+    // 7. Campo de Puntos Cuánticos Orbitales alrededor del núcleo
     const ptCount = 420;
     const ptPositions = new Float32Array(ptCount * 3);
     for (let i = 0; i < ptCount; i++) {
-      // Distribución esférica de Fibonacci entre r=0.32 y r=1.25
       const phi = Math.acos(1 - (2 * (i + 0.5)) / ptCount);
       const theta = Math.PI * (1 + Math.sqrt(5)) * i;
       const r = 0.34 + ((i * 19) % 100) * 0.009;
@@ -168,10 +205,12 @@ export function QuantumCore3D({
     const quantumPointsGeo = new THREE.BufferGeometry();
     quantumPointsGeo.setAttribute("position", new THREE.BufferAttribute(ptPositions, 3));
 
-    // 6. Anillos de onda de choque electromagnética (X-Ray / Clic)
+    // 8. Anillos de onda de choque electromagnética (X-Ray / Clic)
     const shockRingGeo = new THREE.RingGeometry(0.52, 0.56, 96);
 
     return {
+      vernierReferenceTorus,
+      vernierReferenceTicks,
       outerTorus,
       outerBevel,
       outerTicks,
@@ -180,7 +219,12 @@ export function QuantumCore3D({
       middleTicks,
       innerTorus,
       innerTicks,
-      bearingCylinder,
+      pivotOuterToMidPin,
+      pivotCollarFlange,
+      pivotMidToInnerPin,
+      pivotInnerToCorePin,
+      satelliteCoreGeo,
+      satelliteHaloGeo,
       opticalCrystalGeo,
       innerReactorGeo,
       coreCageGeo,
@@ -191,9 +235,9 @@ export function QuantumCore3D({
 
   // Materiales Ejecutivos Titanium & Warm Bronze (#070B12, #E2E8F0, #94A3B8, #D4AF37)
   const materials = useMemo(() => {
-    // 1. Titanio Cepillado Aeroespacial
+    // 1. Titanio Cepillado Aeroespacial (#E2E8F0 / #CBD5E1)
     const brushedTitaniumMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#CBD5E1"),
+      color: new THREE.Color("#E2E8F0"),
       metalness: 0.92,
       roughness: 0.18,
       clearcoat: 1.0,
@@ -357,59 +401,85 @@ export function QuantumCore3D({
     };
   }, [geometries, materials]);
 
-  // Animación de Rotación Sincrónica Multi-Eje y Seguimiento del Cursor con Amortiguamiento (lerp)
-  useFrame((state) => {
+  // Animación de Rotación Sincrónica Multi-Eje + Spring Damping Elástico + Seguimiento del Cursor
+  useFrame((state, delta) => {
+    const dt = Math.min(delta, 0.05);
     const t = state.clock.getElapsedTime();
     const px = state.pointer.x;
     const py = state.pointer.y;
 
-    materials.cadShaderMat.uniforms.uTime.value = t;
-    materials.cadShaderMat.uniforms.uEnergySurge.value = energySurge;
-    materials.xrayShaderMat.uniforms.uTime.value = t;
-    materials.xrayShaderMat.uniforms.uEnergySurge.value = energySurge;
+    // Integración física del resorte amortiguado (Spring Damping)
+    const sp = springStateRef.current;
+    const stiffness = 18.0;
+    const damping = 4.2;
+    const accelY = -stiffness * sp.offsetRotY - damping * sp.velRotY;
+    const accelX = -stiffness * sp.offsetRotX - damping * sp.velRotX;
+    sp.velRotY += accelY * dt;
+    sp.velRotX += accelX * dt;
+    sp.offsetRotY += sp.velRotY * dt;
+    sp.offsetRotX += sp.velRotX * dt;
+    sp.localSurge = Math.max(0, sp.localSurge - dt * 1.4);
 
-    // 1. Seguimiento global amortiguado (lerp) + levitación armónica
+    const combinedSurge = Math.max(energySurge, sp.localSurge);
+
+    materials.cadShaderMat.uniforms.uTime.value = t;
+    materials.cadShaderMat.uniforms.uEnergySurge.value = combinedSurge;
+    materials.xrayShaderMat.uniforms.uTime.value = t;
+    materials.xrayShaderMat.uniforms.uEnergySurge.value = combinedSurge;
+
+    // 1. Seguimiento global amortiguado (lerp) + impulso elástico + levitación armónica
     if (rootGroupRef.current) {
       const floatY = Math.sin(t * 1.5) * 0.04;
       const baseY = isMobileViewport ? 0.56 : 0.52;
       rootGroupRef.current.position.y = baseY + floatY + scrollProgress * 0.18;
 
-      const targetRotY = px * 0.42;
-      const targetRotX = -py * 0.28 + scrollProgress * 0.25;
-      rootGroupRef.current.rotation.y = THREE.MathUtils.lerp(rootGroupRef.current.rotation.y, targetRotY, 0.06);
-      rootGroupRef.current.rotation.x = THREE.MathUtils.lerp(rootGroupRef.current.rotation.x, targetRotX, 0.06);
+      const targetRotY = px * 0.44 + sp.offsetRotY * 0.35;
+      const targetRotX = -py * 0.30 + scrollProgress * 0.25 + sp.offsetRotX * 0.25;
+      rootGroupRef.current.rotation.y = THREE.MathUtils.lerp(rootGroupRef.current.rotation.y, targetRotY, 0.08);
+      rootGroupRef.current.rotation.x = THREE.MathUtils.lerp(rootGroupRef.current.rotation.x, targetRotX, 0.08);
     }
 
-    // 2. Rotación Sincrónica de los 3 Anillos Cardán Concéntricos (Astrolabio CNC)
+    // 2. Anillo Ecuatorial Vernier de Referencia (oscilación micrométrica muy sutil)
+    if (equatorialVernierRef.current) {
+      equatorialVernierRef.current.rotation.z = Math.sin(t * 0.25) * 0.06;
+    }
+
+    // 3. Rotación Sincrónica de los 3 Anillos Cardán Concéntricos (Astrolabio CNC)
     if (outerGimbalRef.current) {
-      outerGimbalRef.current.rotation.z = t * 0.22 + scrollProgress * 0.9;
-      outerGimbalRef.current.rotation.x = Math.sin(t * 0.35) * 0.18 + py * 0.15;
+      outerGimbalRef.current.rotation.z = t * 0.22 + scrollProgress * 0.9 + sp.offsetRotY * 0.45;
+      outerGimbalRef.current.rotation.x = Math.sin(t * 0.35) * 0.18 + py * 0.15 + sp.offsetRotX * 0.30;
     }
 
     if (middleGimbalRef.current) {
-      middleGimbalRef.current.rotation.y = -t * 0.34 - scrollProgress * 1.2;
+      middleGimbalRef.current.rotation.y = -t * 0.34 - scrollProgress * 1.2 - sp.offsetRotY * 0.65;
       middleGimbalRef.current.rotation.x = Math.PI / 5.5 + Math.cos(t * 0.42) * 0.24 + px * 0.20;
     }
 
     if (innerGimbalRef.current) {
-      innerGimbalRef.current.rotation.x = t * 0.48 + scrollProgress * 1.5;
-      innerGimbalRef.current.rotation.z = Math.PI / 4.0 + Math.sin(t * 0.55) * 0.30;
+      innerGimbalRef.current.rotation.x = t * 0.48 + scrollProgress * 1.5 + sp.offsetRotX * 0.85;
+      innerGimbalRef.current.rotation.z = Math.PI / 4.0 + Math.sin(t * 0.55) * 0.30 + sp.offsetRotY * 0.55;
     }
 
-    // 3. Esfera / Núcleo Central de Cristal Óptico + Pulso de Energía Interno
+    // 4. 4 Nodos Orbitales Satelitales alrededor del núcleo
+    if (satellitesGroupRef.current) {
+      satellitesGroupRef.current.rotation.y = t * 0.62 + sp.offsetRotY * 0.5;
+      satellitesGroupRef.current.rotation.z = Math.sin(t * 0.4) * 0.22;
+    }
+
+    // 5. Esfera / Núcleo Central de Cristal Óptico + Pulso de Energía Interno
     if (crystalCoreRef.current) {
-      crystalCoreRef.current.rotation.y = t * 0.38;
+      crystalCoreRef.current.rotation.y = t * 0.38 + sp.offsetRotY * 0.4;
       crystalCoreRef.current.rotation.z = t * 0.24;
-      const crystalScale = 1.0 + Math.sin(t * 2.8) * 0.03 + energySurge * 0.12;
+      const crystalScale = 1.0 + Math.sin(t * 2.8) * 0.03 + combinedSurge * 0.12;
       crystalCoreRef.current.scale.setScalar(crystalScale);
     }
 
     if (innerPulseCoreRef.current) {
       innerPulseCoreRef.current.rotation.y = -t * 0.85;
       innerPulseCoreRef.current.rotation.x = t * 0.62;
-      const corePulse = 1.0 + Math.sin(t * 4.5) * 0.10 + energySurge * 0.32;
+      const corePulse = 1.0 + Math.sin(t * 4.5) * 0.10 + combinedSurge * 0.32;
       innerPulseCoreRef.current.scale.setScalar(corePulse);
-      materials.innerPulseMat.emissiveIntensity = 0.45 + Math.sin(t * 4.5) * 0.18 + energySurge * 0.85;
+      materials.innerPulseMat.emissiveIntensity = 0.45 + Math.sin(t * 4.5) * 0.18 + combinedSurge * 0.85;
     }
 
     if (quantumLatticeRef.current) {
@@ -418,8 +488,8 @@ export function QuantumCore3D({
       materials.quantumPointsMat.opacity = mode === "xray" ? 0.85 : mode === "wireframe" ? 0.55 : 0.38;
     }
 
-    // 4. Onda de Choque Electromagnética (en clic o en modo X-Ray)
-    const activePulse = Math.max(energySurge, mode === "xray" ? (Math.sin(t * 2.6) * 0.5 + 0.5) * 0.45 : 0);
+    // 6. Onda de Choque Electromagnética (en clic o en modo X-Ray)
+    const activePulse = Math.max(combinedSurge, mode === "xray" ? (Math.sin(t * 2.6) * 0.5 + 0.5) * 0.45 : 0);
     if (shockwaveRing1Ref.current && shockwaveRing2Ref.current) {
       const s1 = 0.85 + (1.0 - activePulse) * 1.45;
       const s2 = 0.65 + (1.0 - activePulse) * 1.85;
@@ -441,14 +511,32 @@ export function QuantumCore3D({
   const baseScale = isMobileViewport ? 0.68 : 0.86;
 
   return (
-    <group ref={rootGroupRef} position={[0, 0.52, -0.15]} scale={baseScale}>
+    <group
+      ref={rootGroupRef}
+      position={[0, 0.52, -0.15]}
+      scale={baseScale}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleAstrolabeClick();
+      }}
+    >
       {/* Iluminación de Estudio Ejecutiva: Oro Solar (#D4AF37), Platino (#F8FAFC) y Acero (#94A3B8) */}
       <directionalLight position={[4, 6, 5]} intensity={2.2} color="#F8FAFC" />
       <spotLight position={[-5, 4, 4]} intensity={2.0} angle={0.6} penumbra={0.85} color="#D4AF37" />
       <pointLight position={[0, 0, 0]} intensity={1.6 + energySurge * 2.5} color="#D4AF37" distance={4.5} />
 
       {/* =====================================================================
-          1. ANILLO CARDÁN EXTERIOR (Titanio Cepillado + 72 Marcas Micrométricas)
+          0. ANILLO ECUATORIAL FIJO DE REFERENCIA CON RETÍCULA VERNIER (R=1.54)
+         ===================================================================== */}
+      <group ref={equatorialVernierRef} rotation={[Math.PI / 2.15, 0.12, 0]}>
+        <mesh geometry={geometries.vernierReferenceTorus}>
+          <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+        </mesh>
+        <lineSegments geometry={geometries.vernierReferenceTicks} material={materials.steelTicksMat} />
+      </group>
+
+      {/* =====================================================================
+          1. ANILLO CARDÁN EXTERIOR (Titanio Cepillado + Pernos de Acoplamiento Exterior->Medio)
          ===================================================================== */}
       <group ref={outerGimbalRef}>
         <mesh geometry={geometries.outerTorus}>
@@ -459,11 +547,32 @@ export function QuantumCore3D({
         </mesh>
         <lineSegments geometry={geometries.outerTicks} material={materials.goldTicksMat} />
 
-        {/* 4 Bloques de Rodamiento Axial CNC (0°, 90°, 180°, 270°) */}
-        {[0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2].map((ang, idx) => (
+        {/* Pernos de Acoplamiento Mecánico (0° y 180°) conectando Anillo Exterior (1.38) con Medio (1.08) */}
+        {[0, Math.PI].map((ang, idx) => (
+          <group
+            key={`outer-mid-pivot-${idx}`}
+            position={[Math.cos(ang) * 1.23, Math.sin(ang) * 1.23, 0]}
+            rotation={[0, 0, ang + Math.PI / 2]}
+          >
+            {/* Perno cilíndrico en Bronce #D4AF37 */}
+            <mesh geometry={geometries.pivotOuterToMidPin}>
+              <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
+            </mesh>
+            {/* Collarines de bloqueo en Acero #E2E8F0 */}
+            <mesh geometry={geometries.pivotCollarFlange} position={[0, 0.11, 0]}>
+              <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+            </mesh>
+            <mesh geometry={geometries.pivotCollarFlange} position={[0, -0.11, 0]}>
+              <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+            </mesh>
+          </group>
+        ))}
+
+        {/* Cojinetes Axiales Exteriores (90° y 270°) */}
+        {[Math.PI / 2, (Math.PI * 3) / 2].map((ang, idx) => (
           <mesh
-            key={`outer-bearing-${idx}`}
-            geometry={geometries.bearingCylinder}
+            key={`outer-collar-${idx}`}
+            geometry={geometries.pivotCollarFlange}
             position={[Math.cos(ang) * 1.38, Math.sin(ang) * 1.38, 0]}
             rotation={[0, 0, ang + Math.PI / 2]}
           >
@@ -473,7 +582,7 @@ export function QuantumCore3D({
       </group>
 
       {/* =====================================================================
-          2. ANILLO CARDÁN INTERMEDIO (Bronce Anodizado / Oro Solar #D4AF37)
+          2. ANILLO CARDÁN INTERMEDIO (Bronce Anodizado + Pernos Medio->Interior)
          ===================================================================== */}
       <group ref={middleGimbalRef}>
         <mesh geometry={geometries.middleTorus}>
@@ -484,20 +593,30 @@ export function QuantumCore3D({
         </mesh>
         <lineSegments geometry={geometries.middleTicks} material={materials.steelTicksMat} />
 
-        {[0, Math.PI].map((ang, idx) => (
-          <mesh
-            key={`mid-bearing-${idx}`}
-            geometry={geometries.bearingCylinder}
-            position={[Math.cos(ang) * 1.08, Math.sin(ang) * 1.08, 0]}
+        {/* Pernos de Acoplamiento Mecánico (90° y 270°) conectando Anillo Medio (1.08) con Interior (0.78) */}
+        {[Math.PI / 2, (Math.PI * 3) / 2].map((ang, idx) => (
+          <group
+            key={`mid-inner-pivot-${idx}`}
+            position={[Math.cos(ang) * 0.93, Math.sin(ang) * 0.93, 0]}
             rotation={[0, 0, ang + Math.PI / 2]}
           >
-            <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
-          </mesh>
+            {/* Perno cilíndrico en Acero #E2E8F0 */}
+            <mesh geometry={geometries.pivotMidToInnerPin}>
+              <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+            </mesh>
+            {/* Collarines en Bronce #D4AF37 */}
+            <mesh geometry={geometries.pivotCollarFlange} position={[0, 0.10, 0]} scale={[0.85, 0.85, 0.85]}>
+              <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
+            </mesh>
+            <mesh geometry={geometries.pivotCollarFlange} position={[0, -0.10, 0]} scale={[0.85, 0.85, 0.85]}>
+              <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
+            </mesh>
+          </group>
         ))}
       </group>
 
       {/* =====================================================================
-          3. ANILLO CARDÁN INTERIOR (Obsidiana & Vernier Micrométrico)
+          3. ANILLO CARDÁN INTERIOR (Obsidiana & Pernos Interior->Núcleo)
          ===================================================================== */}
       <group ref={innerGimbalRef}>
         <mesh geometry={geometries.innerTorus}>
@@ -505,20 +624,47 @@ export function QuantumCore3D({
         </mesh>
         <lineSegments geometry={geometries.innerTicks} material={materials.goldTicksMat} />
 
-        {[Math.PI / 2, (Math.PI * 3) / 2].map((ang, idx) => (
-          <mesh
-            key={`inner-bearing-${idx}`}
-            geometry={geometries.bearingCylinder}
-            position={[Math.cos(ang) * 0.78, Math.sin(ang) * 0.78, 0]}
+        {/* Pernos de Acoplamiento Mecánico (0° y 180°) conectando Anillo Interior (0.78) con Jaula Núcleo (0.52) */}
+        {[0, Math.PI].map((ang, idx) => (
+          <group
+            key={`inner-core-pivot-${idx}`}
+            position={[Math.cos(ang) * 0.65, Math.sin(ang) * 0.65, 0]}
             rotation={[0, 0, ang + Math.PI / 2]}
           >
-            <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
-          </mesh>
+            <mesh geometry={geometries.pivotInnerToCorePin}>
+              <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
+            </mesh>
+            <mesh geometry={geometries.pivotCollarFlange} position={[0, 0.08, 0]} scale={[0.72, 0.72, 0.72]}>
+              <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+            </mesh>
+          </group>
         ))}
       </group>
 
       {/* =====================================================================
-          4. ESFERA / NÚCLEO CENTRAL DE CRISTAL ÓPTICO & PULSO CUÁNTICO
+          4. 4 NODOS ORBITALES SATELITALES ALREDEDOR DEL NÚCLEO DE CRISTAL ÓPTICO
+         ===================================================================== */}
+      <group ref={satellitesGroupRef} rotation={[0.42, 0, -0.28]}>
+        {[0, Math.PI / 2, Math.PI, (Math.PI * 3) / 2].map((ang, idx) => {
+          const satRadius = 0.64;
+          const x = Math.cos(ang) * satRadius;
+          const z = Math.sin(ang) * satRadius;
+          const y = (idx % 2 === 0 ? 1 : -1) * 0.12;
+          return (
+            <group key={`orbital-satellite-${idx}`} position={[x, y, z]} rotation={[ang, ang * 0.5, 0]}>
+              <mesh geometry={geometries.satelliteCoreGeo}>
+                <primitive object={selectRingMat(materials.anodizedBronzeGoldMat, true)} attach="material" />
+              </mesh>
+              <mesh geometry={geometries.satelliteHaloGeo} rotation={[Math.PI / 3, 0, 0]}>
+                <primitive object={selectRingMat(materials.brushedTitaniumMat)} attach="material" />
+              </mesh>
+            </group>
+          );
+        })}
+      </group>
+
+      {/* =====================================================================
+          5. ESFERA / NÚCLEO CENTRAL DE CRISTAL ÓPTICO & PULSO CUÁNTICO
          ===================================================================== */}
       <group>
         {/* Poliedro Refractivo Exterior de Cristal Óptico */}
@@ -528,8 +674,8 @@ export function QuantumCore3D({
               mode === "wireframe"
                 ? materials.cadWireframeOverlayMat
                 : mode === "xray"
-                ? materials.xrayShaderMat
-                : materials.opticalCrystalMat
+                  ? materials.xrayShaderMat
+                  : materials.opticalCrystalMat
             }
             attach="material"
           />
@@ -548,7 +694,7 @@ export function QuantumCore3D({
       </group>
 
       {/* =====================================================================
-          5. CAMPO DE PARTÍCULAS CUÁNTICAS & ONDA DE CHOQUE ELECTROMAGNÉTICA
+          6. CAMPO DE PARTÍCULAS CUÁNTICAS & ONDA DE CHOQUE ELECTROMAGNÉTICA
          ===================================================================== */}
       <points ref={quantumLatticeRef} geometry={geometries.quantumPointsGeo} material={materials.quantumPointsMat} />
 
@@ -567,4 +713,4 @@ export function QuantumCore3D({
     </group>
   );
 }
-
+export default QuantumCore3D;

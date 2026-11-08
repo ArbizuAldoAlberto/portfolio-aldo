@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-This document details the architecture, implementation, and production metrics of an **Offline-First mobile sync engine** built on SQLite's Write-Ahead Logging (WAL) mode. It was battle-tested in **TechZone**, a retail POS system operating in environments with intermittent connectivity (basements, remote fields, moving trucks).
+This document details the architecture, implementation, and production metrics of an **Offline-First mobile sync engine** built on SQLite's Write-Ahead Logging (WAL) mode. It was battle-tested in **AgroMarket Pro**, a retail POS system operating in environments with intermittent connectivity (basements, remote fields, moving trucks).
 
 **Key Results:**
 - **22% reduction** in lost sales due to connectivity failures
@@ -468,7 +468,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
 ## 4. Performance Metrics & Battle-Tested Results
 
-### TechZone Production Metrics (14 months)
+### AgroMarket Pro Production Metrics (14 months)
 
 | Metric | Value | Context |
 |--------|-------|---------|
@@ -585,7 +585,7 @@ The SQLite WAL architecture described here is not theoretical. It has processed 
 
 **Aldo Arbizu** is a Senior Product Engineer and the founder of **Arbizu Labs**, a software consultancy specializing in Offline-First mobile architectures, B2B SaaS platforms, and DeFi integrations.
 
-With a background in cybersecurity (UNGS) and physical security operations (Maipu Seguridad, Custodiar), Aldo builds software designed to survive the failures of the real world — from concrete basements to remote agricultural fields.
+With a background in cybersecurity (UNGS) and physical security operations (Custodiar), Aldo builds software designed to survive the failures of the real world — from concrete basements to remote agricultural fields.
 
 **Core Expertise:**
 - React Native (Expo Bare Workflow) with native bridges

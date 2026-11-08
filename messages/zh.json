@@ -112,8 +112,8 @@
       "item1": "Technological specialist in private security (Custodiar)",
       "item2": "Fulltime freelance — founded Arbizu Labs",
       "item3": "Fullstack MERN · First commercialized multi-tenant SaaS",
-      "item4": "Cybersecurity Diploma UNGS · TechZone offline-first sync",
-      "item5": "Analyst at Maipu Seguridad · VigiTrack core architecture",
+      "item4": "Cybersecurity Diploma UNGS · AgroMarket offline-first sync",
+      "item5": "SentinelOS & VigiTrack core architecture",
       "item6": "Crypto/DeFi engineering · 3D Prototyping & Universal Cart Integration"
     },
     "philanthropy": {
@@ -132,7 +132,7 @@
       "gpsAlert": "GPS Spoofing Alert",
       "gpsDesc": "SentinelOS Cheating Detector",
       "cartItem": "Add Cart Item",
-      "cartDesc": "TechZone Store Sync",
+      "cartDesc": "AgroMarket Store Sync",
       "panicAlarm": "Panic Alarm Event",
       "panicDesc": "VigiTrack Emergency Sync",
       "telemetryTitle": "LOCAL CORE TELEMETRY:"
@@ -438,8 +438,8 @@
           "solution": "Wealth management dashboard with dark glassmorphism and brushed gold accents."
         }
       },
-      "techzone": {
-        "title": "TechZone",
+      "agromarket_sync": {
+        "title": "AgroMarket",
         "role": "POS Retail & Omnichannel Gateway",
         "engineer": {
           "problem": "Loss of sales transactions due to abrupt connectivity drops.",

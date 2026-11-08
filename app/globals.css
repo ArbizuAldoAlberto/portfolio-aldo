@@ -3,14 +3,14 @@
 @source "../components";
 
 @theme {
-  --color-space-black: #04070d;
-  --color-deep-space: #07111e;
-  --color-orbital-teal: #34d399;
-  --color-amber-gold: #FFB130;
-  --color-electric-purple: #8B5CFF;
-  --color-coral-burn: #FF4C12;
-  --color-mist-gray: #a3c9d3;
-  --color-space-border: rgba(94, 242, 224, 0.14);
+  --color-space-black: #070b12;
+  --color-deep-space: #0f172a;
+  --color-orbital-teal: #d4af37;
+  --color-amber-gold: #d4af37;
+  --color-electric-purple: #94a3b8;
+  --color-coral-burn: #e09f5a;
+  --color-mist-gray: #94a3b8;
+  --color-space-border: rgba(255, 255, 255, 0.08);
 
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-outfit);
@@ -94,15 +94,15 @@ html[data-theme="v1"] {
 
   /* Geometría y contenedor */
   --container-max: 1360px;
-  --radius-arch: 10px;
-  --radius-card: 14px;
+  --radius-arch: 12px;
+  --radius-card: 16px;
 
   /* Compatibilidad con tokens heredados */
-  --color-space-black: #04070d;
-  --color-deep-space: #07111e;
-  --color-orbital-teal: #34d399;
-  --color-mist-gray: #a3c9d3;
-  --color-space-border: rgba(52, 211, 153, 0.22);
+  --color-space-black: #070b12;
+  --color-deep-space: #0f172a;
+  --color-orbital-teal: #d4af37;
+  --color-mist-gray: #94a3b8;
+  --color-space-border: rgba(255, 255, 255, 0.08);
 }
 
 /* ==========================================================================
@@ -698,7 +698,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   font-size: clamp(1rem, 1.3vw, 1.18rem);
   line-height: 1.65;
   font-weight: 400;
-  color: #b6dce4;
+  color: #CBD5E1;
   min-height: 3.3em;
   text-shadow:
     0 2px 18px rgba(2, 6, 11, 0.96),
@@ -706,7 +706,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
 }
 
 .hero-lede strong {
-  color: #ecf8f8;
+  color: #F8FAFC;
   font-weight: 600;
 }
 
@@ -731,9 +731,9 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   gap: 0.5rem;
   padding: 0.92rem 1.75rem;
   border-radius: var(--radius-arch);
-  background-color: #051624;
-  border: 1px solid rgba(94, 242, 224, 0.58);
-  color: #ecf8f8;
+  background-color: #070B12;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  color: #F8FAFC;
   font-family: var(--font-display);
   font-size: 0.86rem;
   font-weight: 600;
@@ -771,8 +771,8 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   pointer-events: none;
   background: radial-gradient(
     130px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(94, 242, 224, 0.32) 0%,
-    rgba(94, 242, 224, 0.1) 48%,
+    rgba(212, 175, 55, 0.32) 0%,
+    rgba(212, 175, 55, 0.1) 48%,
     transparent 100%
   );
   opacity: 0.85;
@@ -784,7 +784,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   border-color: var(--accent-strong);
   box-shadow:
     0 12px 34px rgba(0, 0, 0, 0.55),
-    0 0 24px rgba(94, 242, 224, 0.24);
+    0 0 24px rgba(212, 175, 55, 0.24);
 }
 
 .btn-magnetic:hover .btn-glow,
@@ -797,13 +797,13 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   display: inline-flex;
   align-items: center;
   padding: 0.6rem 0.4rem;
-  color: #ecf8f8;
+  color: #f8fafc;
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
-  border-bottom: 1px solid rgba(94, 242, 224, 0.58);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.58);
   text-shadow: 0 2px 12px rgba(2, 6, 11, 0.95);
   transition: color 0.2s ease, border-color 0.2s ease;
 }
@@ -966,6 +966,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   display: block;
   object-fit: cover;
   z-index: 1;
+  filter: sepia(0.78) saturate(1.15) hue-rotate(4deg) brightness(0.86) contrast(1.1);
 }
 
 /* Indicador batimétrico / orbital lateral con ancho fijo de 3.5rem (CLS = 0) */
@@ -1227,7 +1228,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   border-color: var(--accent-border-strong);
   box-shadow:
     0 22px 48px rgba(0, 0, 0, 0.48),
-    0 0 28px rgba(94, 242, 224, 0.14);
+    0 0 28px rgba(212, 175, 55, 0.14);
 }
 
 .artifact-stage {
@@ -1242,8 +1243,8 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   border-radius: var(--radius-arch);
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(94, 242, 224, 0.14) 0%,
-    rgba(94, 242, 224, 0.04) 48%,
+    rgba(212, 175, 55, 0.14) 0%,
+    rgba(212, 175, 55, 0.04) 48%,
     transparent 74%
   );
   overflow-x: clip;

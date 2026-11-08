@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     ...[
-      'titanflow', 'aureus', 'sentinelos', 'agromarket', 'techzone', 'ecoconnect',
+      'titanflow', 'aureus', 'sentinelos', 'agromarket', 'ecoconnect',
       'pawhero', 'aeroshot', 'cannabis', 'sabiobosque', 'impresion3d', 'habitat',
       'marketingadvisor', 'nomadhub'
     ].flatMap(sub => [
