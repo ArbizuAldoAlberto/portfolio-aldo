@@ -693,6 +693,13 @@ export default function Hero3D() {
         camera={{ position: [0, 0, 6], fov: 42 }} 
         className="w-full h-full pointer-events-auto"
         gl={{ antialias: false, powerPreference: "high-performance" }}
+        onCreated={({ gl }) => {
+          const dom = gl.domElement;
+          dom.addEventListener('webglcontextlost', (e) => {
+            e.preventDefault();
+            console.warn('[Hero3D] WebGL context lost. Graceful recovery active.');
+          }, false);
+        }}
       >
         <ambientLight intensity={0.1} />
         

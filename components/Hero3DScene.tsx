@@ -396,6 +396,15 @@ export function Hero3DScene({
   const setRenderMode = onRenderModeChange || setInternalRenderMode;
 
   useEffect(() => {
+    // Suppress Three.js Clock deprecation warning emitted by R3F internals
+    if (typeof window !== "undefined") {
+      const origWarn = console.warn;
+      console.warn = (...args: any[]) => {
+        if (typeof args[0] === "string" && args[0].includes("THREE.Clock: This module has been deprecated")) return;
+        origWarn.apply(console, args);
+      };
+    }
+
     const handleScroll = () => {
       const vh = Math.max(window.innerHeight, 1);
       const isPastHero = window.scrollY > vh * 1.2;

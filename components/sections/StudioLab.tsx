@@ -586,7 +586,18 @@ export default function StudioLab() {
               <span className="font-space text-[10px] uppercase tracking-wider text-[var(--color-mist-gray)]">{t('emulator')}</span>
             </div>
 
-            <Canvas frameloop={isInView ? 'always' : 'never'} camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full cursor-grab active:cursor-grabbing">
+            <Canvas 
+              frameloop={isInView ? 'always' : 'never'} 
+              camera={{ position: [0, 0, 4.5], fov: 45 }} 
+              className="w-full h-full cursor-grab active:cursor-grabbing"
+              onCreated={({ gl }) => {
+                const dom = gl.domElement;
+                dom.addEventListener('webglcontextlost', (e) => {
+                  e.preventDefault();
+                  console.warn('[StudioLab] WebGL context lost. Graceful recovery active.');
+                }, false);
+              }}
+            >
               <ambientLight intensity={0.4} />
               <pointLight position={[10, 10, 10]} color="#1D9E75" intensity={1.8} />
               <pointLight position={[-10, -5, -5]} color="#7F77DD" intensity={1.2} />

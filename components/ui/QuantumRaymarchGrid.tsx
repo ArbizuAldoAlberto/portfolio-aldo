@@ -25,6 +25,13 @@ export default function QuantumRaymarchGrid({ opacity = 0.30 }: { opacity?: numb
     const gl = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power' });
     if (!gl) return;
 
+    // Resiliencia WebGL Context Loss
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      if (animId) cancelAnimationFrame(animId);
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost, false);
+
     let animId = 0;
     let isDisposed = false;
 
@@ -175,6 +182,7 @@ export default function QuantumRaymarchGrid({ opacity = 0.30 }: { opacity?: numb
     return () => {
       isDisposed = true;
       cancelAnimationFrame(animId);
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', resize);
       if (quadBuffer) gl.deleteBuffer(quadBuffer);
