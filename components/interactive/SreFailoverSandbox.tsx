@@ -164,8 +164,8 @@ export function SreFailoverSandbox() {
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">
           <span className="text-[10px] text-[#94A3B8] block mb-1">THROUGHPUT</span>
-          <div className="text-[#F8FAFC] font-bold text-sm sm:text-base tabular-nums">
-            {rps.toLocaleString()} <span className="text-[10px] text-[#94A3B8] font-normal">req/s</span>
+          <div className="text-[#F8FAFC] font-bold text-sm sm:text-base tabular-nums" suppressHydrationWarning>
+            {rps.toLocaleString('en-US')} <span className="text-[10px] text-[#94A3B8] font-normal">req/s</span>
           </div>
         </div>
         <div className="p-3 rounded-xl bg-black/60 border border-white/[0.08]">

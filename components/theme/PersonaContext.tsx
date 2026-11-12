@@ -50,7 +50,7 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
     })
     
     // Update document title dynamically based on active persona (GAP PORT-1)
-    document.title = 'Aldo Arbizu | B2B Mobile & SaaS Architect'
+    document.title = 'Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect'
     
     console.log(`[NEXUS TELEMETRY] Persona updated dynamically: ${persona} (${iconPath})`)
   }, [persona, mounted])

@@ -149,8 +149,8 @@ export default function Services() {
               </span>
               
               <div className="flex items-baseline gap-2">
-                <span className="font-mono text-4xl md:text-5xl font-bold text-white transition-all">
-                  USD {total.toLocaleString()}
+                <span className="font-mono text-4xl md:text-5xl font-bold text-white transition-all" suppressHydrationWarning>
+                  USD {total.toLocaleString('en-US')}
                 </span>
                 <span className="font-space text-xs text-[var(--color-mist-gray)]/50">{t('budget.base')}</span>
               </div>
@@ -270,8 +270,8 @@ export default function Services() {
               <div className="text-center mb-8">
                 <Check className="mx-auto text-[var(--color-orbital-teal)] mb-4" size={40} />
                 <h3 className="font-serif text-2xl text-white mb-2">{t('modal.title')}</h3>
-                <p className="font-mono text-xs text-[var(--color-mist-gray)]">
-                  {t('modal.desc')} USD {total.toLocaleString()}.
+                <p className="font-mono text-xs text-[var(--color-mist-gray)]" suppressHydrationWarning>
+                  {t('modal.desc')} USD {total.toLocaleString('en-US')}.
                 </p>
               </div>
 
