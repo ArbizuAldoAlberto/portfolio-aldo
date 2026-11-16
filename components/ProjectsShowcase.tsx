@@ -136,15 +136,15 @@ export function ProjectsShowcase() {
     {
       id: "nomad",
       category: "agtech" as const,
-      domain: isEs ? "Táctico & Off-Grid" : "Tactical & Off-Grid",
-      badge: "LORA MESH",
-      title: "Nomad Tactical Hub",
+      domain: isEs ? "100% Humanitario & Off-Grid" : "100% Humanitarian & Off-Grid",
+      badge: "OMEGA v2.0 · 5 VECTORES",
+      title: "NOMAD Tactical Hub & Solidarity Network",
       desc: isEs
-        ? "Consola de campo para comunicaciones malladas LoRa off-grid, mapas topográficos vectoriales sin internet y telemetría de batería solar."
-        : "Off-grid tactical field console for LoRa mesh networks, offline vector topographic mapping, and solar power telemetry.",
-      tags: ["React Native", "LoRaWAN", "SQLite WAL", "Offline GIS"],
-      href: "https://nomadhub.aldoarbizu.com",
-      cta: isEs ? "Explorar Hub Táctico" : "Explore Tactical Hub",
+        ? "Ecosistema pentadimensional de supervivencia civil, triaje médico MARCH/SRO OMS, módem de radio AFSK/SSTV/Morse 800Hz, LoRa Meshtastic, Suite USB Ark exFAT con paridad PAR2, libros Kindle EPUB3 y Enrutador IA en 4 Anillos (NAIR)."
+        : "Pentadimensional civil survival ecosystem, MARCH/WHO ORS medical triage, AFSK/SSTV/800Hz Morse radio modem, LoRa Meshtastic, exFAT USB Ark with PAR2 self-healing, Kindle EPUB3 library, and 4-Ring Adaptive AI Router (NAIR).",
+      tags: ["Kotlin", "Jetpack Compose", "Room SQLite WAL", "AFSK/SSTV Radio", "LoRa Meshtastic", "USB Ark PAR2", "Kindle EPUB3", "NAIR 4-Ring AI", "PWA Offline-First"],
+      href: "https://nomadhub.aldoarbizu.com/",
+      cta: isEs ? "Abrir Estación PWA / Descargar APK & USB" : "Open PWA Station / Download APK & USB",
     },
   ];
 

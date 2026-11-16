@@ -93,6 +93,10 @@ export function useTacticalAudio() {
     [getContext]
   );
 
-  return { playHoverTick, playModeSwitch };
+  const playEngagePulse = useCallback(() => {
+    playHoverTick();
+  }, [playHoverTick]);
+
+  return { playHoverTick, playModeSwitch, playEngagePulse };
 }
 

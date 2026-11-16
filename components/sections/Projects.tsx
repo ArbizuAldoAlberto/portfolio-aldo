@@ -220,23 +220,23 @@ const rawProjects = [
   },
   {
     id: 'nomadhub',
-    title: 'NOMAD Tactical Hub',
-    type: 'prototype',
-    role: 'Off-grid Resilient Survival System',
-    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Vigenère Cipher', 'Morse Encoder'],
-    link: 'https://nomadhub.aldoarbizu.com',
+    title: 'NOMAD Tactical Hub & Solidarity Network',
+    type: 'labs',
+    role: '100% Humanitarian Off-Grid Crisis & Survival Ecosystem (v2.0.0-omega-ark)',
+    stack: ['Kotlin', 'Jetpack Compose', 'Room SQLite WAL', 'AFSK/SSTV/Morse 800Hz Modem', 'LoRa Meshtastic', 'exFAT USB Ark + PAR2', 'Kindle EPUB3', '4-Ring AI Router (NAIR)', 'PWA Offline-First'],
+    link: 'https://nomadhub.aldoarbizu.com/',
     featuredIn: ['agtech', 'security', 'engineer'],
     engineer: {
-      problem: 'Dependencia de servidores centrales para cifrado y cálculos de radio en crisis.',
-      solution: 'Calculadoras RF locales para antenas dipolo y cifrado Vigenère sin conexión.'
+      problem: 'Colapso total de redes celulares, servidores cloud y energía en catástrofes o zonas aisladas.',
+      solution: 'Arquitectura pentadimensional con fusión de sensores 360°, módem acústico AFSK/SSTV/Morse 800Hz, protocolo NEPP con corrección FEC y Enrutador IA en 4 Anillos (NAIR).'
     },
     security: {
-      problem: 'Caída de infraestructura telefónica que incomunica a comunidades vulnerables.',
-      solution: 'Portal de Solidaridad Humana con mensajería simulada LoRa Mesh P2P y mapas GPS offline.'
+      problem: 'Corrupción de datos en unidades USB de rescate, alertas trampa en redes mesh y coacción física.',
+      solution: 'Suite NOMAD Ark USB (exFAT) con autorreparación Reed-Solomon PAR2, cifrado AES-256-GCM/OTP, firmas Web of Trust, Duress PIN (9911) e interruptor EMCON.'
     },
     'agtech': {
-      problem: 'Diseño militar clásico descuidado que resulta ilegible en condiciones nocturnas.',
-      solution: 'Estilo cyber-dark con alto contraste verde neón y volt cian para mayor legibilidad.'
+      problem: 'Incompatibilidad de manuales críticos en lectores E-Ink/Kindle y fatiga visual nocturna en campo.',
+      solution: 'Compilación simultánea en PDF, EPUB3 reflujable para Kindle (3 semanas de batería), HTML con modos OLED Blackout #000000 / E-Ink y 14 calculadoras médicas/solares/RF.'
     }
   }
 ]
