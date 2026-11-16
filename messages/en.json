@@ -588,19 +588,19 @@
         }
       },
       "nomadhub": {
-        "title": "NOMAD Tactical Hub",
-        "role": "Off-grid Resilient Survival System",
+        "title": "NOMAD Tactical Hub & Solidarity Network",
+        "role": "100% Humanitarian Off-Grid Crisis & Survival Ecosystem (v2.0.0-omega-ark)",
         "engineer": {
-          "problem": "Dependence on central servers for encryption and radio calculations in crises.",
-          "solution": "Local RF calculators for dipole antennas and offline Vigenère encryption."
+          "problem": "Total blackout of cellular networks, cloud servers, and power grids during disasters or in remote areas.",
+          "solution": "Pentadimensional architecture with 360° sensor fusion, AFSK/SSTV/800Hz Morse radio modem, NEPP FEC packets, and 4-Ring Adaptive AI Router (NAIR)."
         },
         "security": {
-          "problem": "Collapse of telephone infrastructure cutting off vulnerable communities.",
-          "solution": "Human Solidarity Portal with simulated LoRa Mesh P2P messaging and offline GPS maps."
+          "problem": "NAND data corruption on rescue USB drives, spoofed mesh alerts, and physical coercion in conflict zones.",
+          "solution": "exFAT NOMAD Ark USB suite with PAR2 Reed-Solomon self-healing, AES-256-GCM/OTP encryption, Web-of-Trust signatures, Duress PIN, and EMCON silence switch."
         },
         "agtech": {
-          "problem": "Classic careless military design that is unreadable in night conditions.",
-          "solution": "Cyber-dark style with high contrast neon green and cyan volt for readability."
+          "problem": "Unreadable survival manuals on E-Ink/Kindle readers and severe night-vision fatigue in the field.",
+          "solution": "Simultaneous compilation to PDF, reflowable Kindle EPUB3 (3-week battery life), Offline-First PWA with OLED Blackout #000000 / E-Ink modes, and 14 medical/solar/RF calculators."
         }
       }
     }

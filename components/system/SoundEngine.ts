@@ -313,6 +313,10 @@ class SoundEngine {
       });
     } catch {}
   }
+
+  public playAlert() {
+    this.playSwitch();
+  }
 }
 
 export const soundEngine = new SoundEngine();
