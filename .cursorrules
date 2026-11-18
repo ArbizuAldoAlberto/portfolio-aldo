@@ -1,7 +1,7 @@
 # ==============================================================================
 # CONSTITUCIÓN TÉCNICA NEXUS — PROTOCOLO "OMNI-ELEVATION, IRONCLAD & UNSLOP"
 # ARCHIVO DE REGLAS PERMANENTE (.cursorrules / CLAUDE.md / GEMINI.md / AGENTS.md)
-# VERSIÓN: v2.1.0-ironclad | ESTÁNDAR: Staff/Principal Engineering & DevSecOps
+# VERSIÓN: v3.0.0-sovereign (Cimientos DevSecOps v2.1.0-ironclad) | ESTÁNDAR: Staff/Principal Engineering & Dynasty OS
 # EJES CONECTORES MAESTROS: aldoarbizu.com (Autoridad) & arbizulabs.com (Hub B2B)
 # ==============================================================================
 
@@ -108,26 +108,39 @@ Todo proyecto, agente, microservicio o aplicación que construimos debe elevar y
 
 ---
 
-## 3. CAPA 2 — PROTOCOLO "UNSLOP" Y SISTEMA DE DISEÑO DETERMINISTA
+## 3. CAPA 2 — PROTOCOLO "AXIOM SOVEREIGN INDUSTRIAL & UNSLOP" (ARQUITECTURA VISUAL v3.0.0-sovereign)
 
-### [MOD-05] PURGA DE PATRONES "AI SLOP" Y CONTRATO OBLIGATORIO `DESIGN.md`
+### [MOD-05] PURGA DE "AI SLOP", IDENTIDAD VECTORIAL Y BI-LUMINANCIA CONTROLADA
 1. **Patrones Prohibidos ("Slop Blacklist"):**
-   - Prohibidos los Heros centrados genéricos con *pill badges* tipo plantilla, fuentes sin jerarquía, grillas clónicas de 3 tarjetas con iconos genéricos, emojis de sistema (`⚛️`, `🚀`, `🛡️`) en UI corporativa, copy vacío inventado y componentes o contactos duplicados/inconsistentes.
-2. **Contrato Visual `DESIGN.md` (Dirección Rectora: *Orbital CNC & Horological Telemetry*):**
-   - **Tipografía:** `Geist Sans` (`700/800`, tracking `-0.03em`) + `JetBrains Mono` (`400/700`, `tabular-nums`).
-   - **Paleta WCAG AAA:** Fondo `#070B12`, Superficie `#0D131F`, Texto Primario `#F8FAFC` (18.1:1), Texto Secundario `#CBD5E1` (12.4:1), Acento Autoridad `#D4AF37` (9.4:1) y Acento Telemetría Viva `#10B981` (8.3:1).
-   - **Estructura y Grayscale Test:** Asimetría técnica `7:5`, divisores arquitectónicos de `1px`, crosshairs `+` en intersecciones, esquemáticos SVG CAD de `1.5px` y siluetas de sección diferenciadas en escala de grises.
+   - Prohibidos los Heros centrados genéricos con *pill badges* tipo plantilla, grillas clónicas con iconos repetitivos, emojis de sistema (`⚛️`, `🚀`, `🛡️`) en UI corporativa, copy vacío inventado, contactos inconsistentes y **prohibido reintroducir tipografías legadas (`Cormorant Garamond`, `Space Mono`, `Inter`, `Outfit`, `Space Grotesk`)**.
+2. **Identidad Vectorial & Dinastía de Productos (`SovereignBrandMark.tsx`):**
+   - Todo proyecto del ecosistema adopta el sistema SVG CAD geométrico de **`SovereignBrandMark.tsx`**: `<ArbizuLabsMark />` (Isotipo Maestro Arbizu Labs), `<AldoArbizuMonogram />` (Monograma Autoridad Staff/Principal) y `<ProductDynastyBadge code="SYS-01..12" />` (`SYS-01` TitanFlow a `SYS-12` Marketing AI), con `public/favicon.svg` y `src/app/icon.svg` sincronizados.
+3. **Tipografía Soberana Exclusiva:**
+   - Únicamente **`Geist Sans`** (`700/800`, tracking `-0.03em`) + **`JetBrains Mono`** (`400/700`, `tabular-nums` en precios, SLAs, trazabilidad y telemetría).
+4. **Tokens de Bi-Luminancia Controlada (`DESIGN.md` — WCAG AAA):**
+   - **Chasis Primario (SOC Night):** Fondo `#060709` (*Obsidian Void*), Superficie `#0B0D12` (*Chassis Slate*), Borde estructural `#1B202B`, Texto primario `#F2F0EA`.
+   - **Bloques Editoriales / Field Daylight (`[data-luminance="daylight"]` / `[data-field-daylight="true"]`):** Papel Titanio `#F2F0EA` con tinta `#07080A` (contraste `18.4:1` WCAG AAA).
+   - **Acentos Funcionales:** `#FF4F00` (*Signal Orange* — CTAs y conversión), `#D4AF37` (*Oxide Gold* — autoridad y verificación cuantitativa), `#00E599` (*Live Telemetry* — estado operativo real).
+5. **Estructura y Grayscale Test:**
+   - Asimetría técnica `7:5`, divisores arquitectónicos de `1px`, crosshairs `+` en intersecciones, esquemáticos SVG CAD de `1.5px` y siluetas de sección diferenciadas en escala de grises.
 
-### [MOD-06] EXPLORACIÓN DE 3 DIRECCIONES DE ARTE Y `SINGLE-SECTION LOCK`
-1. Para nuevos productos verticales, proponer siempre **3 Direcciones de Arte contrastantes** en la Fase 2 antes de escribir código UI.
-2. Refactorizar bajo bloqueo de sección única (*Single-Section Lock*), declarando qué se mantiene intacto y qué se transforma, sin inventar activos ni métricas falsas (*No-Hallucinated-Assets Rule*).
+### [MOD-06] CONVERGENCIA CRO, GEO, `ARBIZU // OS COMMAND BAR` & `SINGLE-SECTION LOCK`
+1. **Compresión CRO de 7 Etapas (`arbizulabs.com`):**
+   - Flujo lineal enfocado a conversión B2B: Hero Sovereign -> `ProductsBento` (`SYS-01..04` interactivos en vivo + catálogo `SYS-05..12`) -> Bloque editorial `WhyEnterprise` (`#F2F0EA`) -> Telemetría 3D/AgTech -> `Services` Geo-Aware (`3 tiers`) -> `RoiCalculator` con Dossier instantáneo `.MD` (`ARB-2026-XXXX`) -> `ContactSection` & verificador `/security`.
+2. **HUD Asimétrico (`aldoarbizu.com`) & Barra Universal `ARBIZU // OS`:**
+   - `aldoarbizu.com` expone HUD Asimétrico Staff/Principal con `<AldoArbizuMonogram />` y 3 rutas rápidas (`[FOR CTOs & VPs]`, `[FOR QUANT FOUNDERS]`, `[FOR B2B ENTERPRISE CLIENTS]`).
+   - Todo dashboard HTML y SPA satélite (`SYS-01..12`, incluyendo `agromarket.aldoarbizu.com`, `sentinelos.aldoarbizu.com` y `dashboards/*.html`) inyecta obligatoriamente `ARBIZU // OS COMMAND BAR` (`id="arbizu-os-command-bar"`) con emblema `SYS-XX`, App Switcher, toggle `[SOC NIGHT / FIELD DAYLIGHT]` y CTA B2B con captura pre-WhatsApp (`captureLeadAndProceed` / `__arbizuCommandLead`).
+3. **GEO / LLM Readiness & Landing Pages `/solutions/[slug]`:**
+   - Los ejes centrales exponen `/llms.txt` + `/llms-full.txt` actualizados y rutas SSG `/solutions/[slug]` en `sitemap.xml`, manteniendo purgado todo activo `INACTIVO` (`SabioBosque` -> `404`).
+4. **Regla de Transformación Segura:**
+   - Explorar **3 Direcciones de Arte contrastantes** para verticales nuevos en Fase 2 y refactorizar bajo `Single-Section Lock` sin inventar activos ni métricas falsas (*No-Hallucinated-Assets Rule*).
 
 ---
 
 ## 4. PROTOCOLO DE DESPLIEGUE ZERO-DOWNTIME Y COMANDOS RÁPIDOS
-1. **Checklist de Despliegue en Hetzner VPS (`[DEPLOY IRONCLAD]`):**
+1. **Checklist de Despliegue en Hetzner VPS (`[DEPLOY IRONCLAD]` & `[SOVEREIGN v3.0]`):**
    - Staging limpio (cero `.env`, `.db`, `.tar`, `.mp4`), validación `typecheck` + `build` + `audit-rls-intrusion.mjs` (`EXIT 0`).
    - Pre-Flight Anti-Lockout en VPS: verificar `WARROOM_SECRET_KEY` y rutas Linux antes de recargar, respaldar archivos de datos vivos (`arbizu_leads.json`, `warroom.db`, `live_telemetry_cache.json`) y preservar rutas productivas en `nexus_port_router.js` (`v2.8+`).
-   - Recarga `pm2 reload <app> --update-env`, snapshot con `backup-full.sh` + `verify-restore.sh` y auditoría E2E en vivo (`/api/status` -> `200`, `/api/warroom` sin token -> `401`, `/api/leads` >16KB -> `413`, proyectos inactivos -> `404`, CSP limpia de Vercel -> `0`).
+   - Recarga `pm2 reload <app> --update-env`, snapshot con `backup-full.sh` + `verify-restore.sh` y auditoría E2E en vivo (`/api/status` -> `200`, `/llms.txt` -> `200`, `/solutions/*` -> `200`, `/api/warroom` sin token -> `401`, `/api/leads` >16KB -> `413`, proyectos inactivos -> `404`, CSP limpia de Vercel -> `0`, `arbizu-os-command-bar` presente en 100% de satélites y cero mojibake UTF-8).
 2. **Comandos Rápidos en el IDE:**
-   `[AUDITORÍA TOTAL NEXUS]` | `[ELEVAR ECOSISTEMA]` | `[BLINDAR LANZAMIENTO]` | `[UNSLOP UI]` | `[DEPLOY IRONCLAD]`
+   `[AUDITORÍA TOTAL NEXUS]` | `[ELEVAR ECOSISTEMA]` | `[BLINDAR LANZAMIENTO]` | `[UNSLOP UI]` | `[DEPLOY IRONCLAD]` | `[SELLAR v3.0-sovereign]`
