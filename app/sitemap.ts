@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...[
       'titanflow', 'aureus', 'sentinelos', 'agromarket', 'ecoconnect',
-      'pawhero', 'aeroshot', 'cannabis', 'sabiobosque', 'impresion3d', 'habitat',
+      'pawhero', 'aeroshot', 'cannabis', 'impresion3d', 'habitat',
       'marketingadvisor', 'nomadhub'
     ].flatMap(sub => [
       {

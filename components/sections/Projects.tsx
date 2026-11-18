@@ -93,27 +93,6 @@ const rawProjects = [
     }
   },
   {
-    id: 'cannabis',
-    title: 'SabioBosque',
-    type: 'labs',
-    role: 'E-commerce & Legal Compliance SaaS',
-    stack: ['Next.js', 'React', 'Zustand', 'Supabase', 'Gemini API', 'Universal Cart'],
-    link: 'https://sabiobosque.aldoarbizu.com',
-    featuredIn: ['security', 'agtech', 'engineer'],
-    engineer: {
-      problem: 'Fricción en la verificación manual de recetas REPROCANN legales.',
-      solution: 'Validación automatizada con Gemini API de stock y recetas en pasarela.'
-    },
-    security: {
-      problem: 'Riesgo de sanciones por exceder stock legal y checkouts complejos.',
-      solution: 'e-Commerce integrado a la base federal REPROCANN y checkout Universal Cart.'
-    },
-    'agtech': {
-      problem: 'Sitios cannábicos informales que no transmiten rigurosidad.',
-      solution: 'Boutique digital refinada con gradientes verde esmeralda y micro-interacciones.'
-    }
-  },
-  {
     id: 'ecoconnect',
     title: 'EcoConnect',
     type: 'labs',
@@ -336,7 +315,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
                   <span className="w-2 h-2 rounded-full bg-amber-500/70" />
                   <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
                   <span className="text-slate-500 text-[9px] ml-2 hidden sm:inline">
-                    https://{project.id === 'cannabis' ? 'sabiobosque' : project.id}.aldoarbizu.com
+                    https://{project.id}.aldoarbizu.com
                   </span>
                 </div>
                 <div className="flex items-center gap-1 text-emerald-400 font-bold text-[9px]">
@@ -347,7 +326,7 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               <div className="relative aspect-[16/10] overflow-hidden bg-[#06080e]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/projects/${project.id === 'cannabis' ? 'sabiobosque' : project.id}.png`}
+                  src={`/projects/${project.id}.png`}
                   alt={`${project.title} Preview`}
                   loading="lazy"
                   className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"

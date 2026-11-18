@@ -4,8 +4,6 @@ import { JetBrains_Mono } from "next/font/google";
 import { MotionPreferencesProvider } from "../../components/system/MotionPreferences";
 import PremiumBackground from "../../components/theme/PremiumBackground";
 import BackgroundEffects from "../../components/theme/BackgroundEffects";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { PersonaProvider } from "../../components/theme/PersonaContext";
 import { SoundProvider } from "../../components/theme/SoundManager";
 import Navigation from "../../components/ui/Navigation";
@@ -176,42 +174,92 @@ export default async function LocalizedLayout({
                   <BackgroundEffects />
                   <SpotlightWrapper />
                   {children}
-                  {process.env.NEXT_PUBLIC_VERCEL_ENV && (
-                    <>
-                      <Analytics />
-                      <SpeedInsights />
-                    </>
-                  )}
                 </PersonaProvider>
               </SoundProvider>
             </SmoothScroll>
           </MotionPreferencesProvider>
         </NextIntlClientProvider>
 
-        {/* Schema.org Person JSON-LD for Google Rich Results */}
+        {/* Schema.org Cross-Hub Graph JSON-LD (aldoarbizu.com <-> arbizulabs.com) */}
         <Script
           id="schema-person"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Aldo Alberto Arbizu",
-              jobTitle: "Staff Site Reliability Engineer & Quantitative Systems Architect",
-              url: "https://aldoarbizu.com",
-              sameAs: ["https://github.com/ArbizuAldoAlberto", "https://linkedin.com/in/aldoarbizu"],
-              knowsAbout: [
-                "Site Reliability Engineering",
-                "Quantitative Trading",
-                "Binance Futures API",
-                "Kelly Criterion Risk Modeling",
-                "Distributed Systems",
-                "Layer-7 Failover",
-                "Kubernetes",
-                "TypeScript",
-                "Rust",
-                "Go",
-                "Base L2 Blockchain",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://aldoarbizu.com/#person",
+                  name: "Aldo Alberto Arbizu",
+                  jobTitle: "Staff Site Reliability Engineer & Quantitative Systems Architect",
+                  url: "https://aldoarbizu.com",
+                  email: "arbizualdoalberto@gmail.com",
+                  sameAs: [
+                    "https://github.com/ArbizuAldoAlberto",
+                    "https://www.linkedin.com/in/aldo-alberto-arbizu/",
+                    "https://arbizulabs.com",
+                  ],
+                  worksFor: { "@id": "https://arbizulabs.com/#organization" },
+                  founderOf: { "@id": "https://arbizulabs.com/#organization" },
+                  knowsAbout: [
+                    "Site Reliability Engineering",
+                    "Quantitative Trading",
+                    "Binance Futures API",
+                    "Kelly Criterion Risk Modeling",
+                    "Distributed Systems",
+                    "Layer-7 Failover",
+                    "Offline-First SQLite WAL",
+                    "TypeScript",
+                    "Rust",
+                    "Go",
+                    "Base L2 Blockchain",
+                  ],
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://arbizulabs.com/#organization",
+                  name: "Arbizu Labs",
+                  url: "https://arbizulabs.com",
+                  email: "aldo@arbizulabs.com",
+                  founder: { "@id": "https://aldoarbizu.com/#person" },
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "TitanFlow Quant Engine",
+                  applicationCategory: "FinanceApplication",
+                  operatingSystem: "Linux, Web",
+                  url: "https://titanflow.aldoarbizu.com",
+                  author: { "@id": "https://aldoarbizu.com/#person" },
+                  publisher: { "@id": "https://arbizulabs.com/#organization" },
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "SentinelOS Dispatch",
+                  applicationCategory: "SecurityApplication",
+                  operatingSystem: "Android, iOS, Web",
+                  url: "https://sentinelos.aldoarbizu.com",
+                  author: { "@id": "https://aldoarbizu.com/#person" },
+                  publisher: { "@id": "https://arbizulabs.com/#organization" },
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "AgroMarket Pro",
+                  applicationCategory: "BusinessApplication",
+                  operatingSystem: "Android, iOS, Web",
+                  url: "https://agromarket.aldoarbizu.com",
+                  author: { "@id": "https://aldoarbizu.com/#person" },
+                  publisher: { "@id": "https://arbizulabs.com/#organization" },
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "NOMAD Tactical Hub",
+                  applicationCategory: "UtilitiesApplication",
+                  operatingSystem: "Android, PWA, Linux",
+                  url: "https://nomadhub.aldoarbizu.com",
+                  author: { "@id": "https://aldoarbizu.com/#person" },
+                  publisher: { "@id": "https://arbizulabs.com/#organization" },
+                },
               ],
             }),
           }}

@@ -9,7 +9,7 @@ export default async function SubdomainPage({
 
   const validSubdomains = [
     'titanflow', 'sentinelos', 'aeroshot', 'agromarket',
-    'sabiobosque', 'ecoconnect', 'pawhero', 'impresion3d',
+    'ecoconnect', 'pawhero', 'impresion3d',
     'habitat', 'marketingadvisor', 'nomadhub', 'aureus',
     'cannabis', 'arbizulabs'
   ];

@@ -80,6 +80,13 @@ function AgTechGrid({ reducedMotion = false }: { reducedMotion?: boolean }) {
     return mat;
   }, []);
 
+  useEffect(() => {
+    return () => {
+      geometry.dispose();
+      material.dispose();
+    };
+  }, [geometry, material]);
+
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (gridRef.current) {
@@ -143,6 +150,13 @@ function TacticalAerospaceHUD({
 
     return { ringGeometry: ringGeo, tickGeometry: tickGeo };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      ringGeometry.dispose();
+      tickGeometry.dispose();
+    };
+  }, [ringGeometry, tickGeometry]);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -279,9 +293,12 @@ function OfflinePBREnvironment() {
   useEffect(() => {
     const pmrem = new THREE.PMREMGenerator(gl);
     pmrem.compileEquirectangularShader();
-    const env = pmrem.fromScene(new RoomEnvironment(), 0.04);
+    const roomEnv = new RoomEnvironment();
+    const env = pmrem.fromScene(roomEnv, 0.04);
     scene.environment = env.texture;
     return () => {
+      scene.environment = null;
+      roomEnv.dispose();
       pmrem.dispose();
       env.dispose();
     };
@@ -387,6 +404,8 @@ export function Hero3DScene({
   showOverlayControls = false,
 }: Hero3DSceneProps = {}) {
   const { reducedMotion } = useMotionPreferences();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contextListenersCleanupRef = useRef<(() => void) | null>(null);
   const [inViewport, setInViewport] = useState(true);
   const [energySurge, setEnergySurge] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -399,7 +418,7 @@ export function Hero3DScene({
     // Suppress Three.js Clock deprecation warning emitted by R3F internals
     if (typeof window !== "undefined") {
       const origWarn = console.warn;
-      console.warn = (...args: any[]) => {
+      console.warn = (...args: unknown[]) => {
         if (typeof args[0] === "string" && args[0].includes("THREE.Clock: This module has been deprecated")) return;
         origWarn.apply(console, args);
       };
@@ -407,13 +426,33 @@ export function Hero3DScene({
 
     const handleScroll = () => {
       const vh = Math.max(window.innerHeight, 1);
-      const isPastHero = window.scrollY > vh * 1.2;
-      setInViewport(!isPastHero);
       setScrollProgress(Math.min(1, Math.max(0, window.scrollY / vh)));
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      contextListenersCleanupRef.current?.();
+      contextListenersCleanupRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const target = containerRef.current;
+    if (!target || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) {
+          setInViewport(entry.isIntersecting);
+        }
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -431,6 +470,7 @@ export function Hero3DScene({
 
   return (
     <div
+      ref={containerRef}
       onClick={handleCanvasClick}
       className="relative w-full h-full cursor-3d select-none"
       data-cursor="3d"
@@ -442,14 +482,15 @@ export function Hero3DScene({
           antialias: true,
           powerPreference: "high-performance",
           alpha: true,
-          preserveDrawingBuffer: true,
+          preserveDrawingBuffer: false,
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.1,
         }}
         dpr={[1, 1.5]}
-        frameloop={inViewport ? "always" : "demand"}
+        frameloop={inViewport ? "always" : "never"}
         className="w-full h-full pointer-events-auto"
         onCreated={({ gl }) => {
+          contextListenersCleanupRef.current?.();
           const dom = gl.domElement;
           const handleContextLost = (event: Event) => {
             event.preventDefault();
@@ -460,6 +501,10 @@ export function Hero3DScene({
           };
           dom.addEventListener("webglcontextlost", handleContextLost, false);
           dom.addEventListener("webglcontextrestored", handleContextRestored, false);
+          contextListenersCleanupRef.current = () => {
+            dom.removeEventListener("webglcontextlost", handleContextLost, false);
+            dom.removeEventListener("webglcontextrestored", handleContextRestored, false);
+          };
         }}
       >
         <SceneContent

@@ -43,19 +43,6 @@ export function ProjectsShowcase() {
 
   const AUX_PROJECTS = [
     {
-      id: "sabiobosque",
-      category: "cybersec" as const,
-      domain: isEs ? "E-Commerce & AI Legal" : "E-Commerce & Legal AI",
-      badge: "LIVE SAAS",
-      title: "SabioBosque",
-      desc: isEs
-        ? "Validación automatizada de stock y recetas médicas legales REPROCANN en el checkout mediante Gemini API y Universal Cart."
-        : "Automated stock verification and REPROCANN medical prescription compliance validation at checkout via Gemini API.",
-      tags: ["Next.js", "Zustand", "Supabase", "Gemini API"],
-      href: "https://sabiobosque.aldoarbizu.com",
-      cta: isEs ? "Explorar SaaS" : "Explore SaaS",
-    },
-    {
       id: "aeroshot",
       category: "agtech" as const,
       domain: "Agro Drones & GIS",

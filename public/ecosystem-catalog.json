@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-11-18T04:45:00-03:00",
+  "owner": {
+    "name": "Aldo Alberto Arbizu",
+    "cuit": "20-38362060-1",
+    "authorityHub": "https://aldoarbizu.com",
+    "commercialHub": "https://arbizulabs.com",
+    "contactCorporate": "aldo@arbizulabs.com",
+    "contactDirect": "arbizualdoalberto@gmail.com",
+    "whatsapp": "https://wa.me/5492314489197"
+  },
+  "projects": [
+    {
+      "id": "titanflow",
+      "name": "TitanFlow Quant Engine",
+      "classification": "INTERNAL",
+      "engineeringSlug": "https://aldoarbizu.com/es/telemetry",
+      "commercialCase": "https://arbizulabs.com/cases/titanflow-defi-low-latency",
+      "liveEndpoint": "https://titanflow.aldoarbizu.com",
+      "port": 3005,
+      "stack": ["TypeScript", "Node.js", "CCXT", "WebSockets", "SQLite WAL", "Binance Futures API"],
+      "metrics": { "tickExecutionMs": "< 10ms", "riskCap": "1.50% max/trade", "persistence": "SQLite WAL" }
+    },
+    {
+      "id": "sentinelos",
+      "name": "SentinelOS Dispatch",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/sentinelos",
+      "commercialCase": "https://arbizulabs.com/cases/sentinelos-security-dispatch",
+      "liveEndpoint": "https://sentinelos.aldoarbizu.com",
+      "stack": ["React Native", "SQLite WAL", "Supabase RLS", "HMAC-SHA256", "Deno Edge Functions"],
+      "metrics": { "offlineAvailability": "100%", "syncReconciliation": "< 1.5s", "rlsIsolation": "Strict Multi-Tenant" }
+    },
+    {
+      "id": "agromarket",
+      "name": "AgroMarket Pro",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/agromarket",
+      "commercialCase": "https://arbizulabs.com/cases/agromarket-pro",
+      "liveEndpoint": "https://agromarket.aldoarbizu.com",
+      "stack": ["React Native", "TypeScript", "SQLite WAL", "Supabase RLS", "Three.js / LiDAR"],
+      "metrics": { "offlineTraceability": "100%", "compliance": "SENASA EID", "rlsIsolation": "Strict Authenticated" }
+    },
+    {
+      "id": "aeroshot",
+      "name": "AeroShot Drones",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/aeroshot",
+      "commercialCase": "https://arbizulabs.com/cases/aeroshot-drone-marketplace",
+      "liveEndpoint": "https://aeroshot.aldoarbizu.com",
+      "stack": ["Next.js", "React Native", "GIS WebGL", "Base L2"],
+      "metrics": { "licensingLatency": "< 2s", "exportFormats": "GeoJSON / KML" }
+    },
+    {
+      "id": "impresion3d",
+      "name": "Impresión 3D P2P",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/impresion3d",
+      "commercialCase": "https://arbizulabs.com/cases/impresion-3d-p2p",
+      "liveEndpoint": "https://impresion3d.aldoarbizu.com",
+      "stack": ["Three.js", "Solidity", "Base L2", "Kotlin", "Jetpack Compose"],
+      "metrics": { "stlSlicingMs": "< 500ms", "platformFee": "0% Intermediary" }
+    },
+    {
+      "id": "nomadhub",
+      "name": "NOMAD Tactical Hub & Solidarity Network",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/nomadhub",
+      "commercialCase": "https://arbizulabs.com/cases/nomad-tactical-hub",
+      "liveEndpoint": "https://nomadhub.aldoarbizu.com",
+      "stack": ["Kotlin", "Room SQLite WAL", "AFSK/SSTV/Morse 800Hz", "LoRa Meshtastic", "PWA"],
+      "metrics": { "offlineCalculators": 14, "usbSelfHealing": "PAR2 Reed-Solomon" }
+    },
+    {
+      "id": "ecoconnect",
+      "name": "EcoConnect ESG",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/ecoconnect",
+      "commercialCase": "https://arbizulabs.com/cases/ecoconnect-esg-registry",
+      "liveEndpoint": "https://ecoconnect.aldoarbizu.com",
+      "stack": ["Next.js", "Supabase RLS", "Sentinel-2 NDVI", "Base L2 SBT"],
+      "metrics": { "telemetry": "Sentinel-2 Satellite", "ledger": "Base L2 Soulbound" }
+    },
+    {
+      "id": "pawhero",
+      "name": "PawHero ID",
+      "classification": "PHILANTHROPIC",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/pawhero",
+      "commercialCase": "https://arbizulabs.com/cases/pawhero-pet-tracking",
+      "liveEndpoint": "https://pawhero.aldoarbizu.com",
+      "stack": ["React Native", "Three.js", "Base L2", "STL 3D Print"],
+      "metrics": { "commission": "0% Non-Profit", "tagFormat": "3D STL + QR" }
+    },
+    {
+      "id": "aureus",
+      "name": "Aureus Private Wealth OS",
+      "classification": "INTERNAL",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/aureus",
+      "commercialCase": "https://arbizulabs.com/cases/aureus-wealth-os",
+      "liveEndpoint": "https://aureus.aldoarbizu.com",
+      "stack": ["TypeScript", "Base L2", "Non-Custodial Vaults", "SQLite"],
+      "metrics": { "custody": "100% Non-Custodial", "circuitBreaker": "Automated Volatility Guard" }
+    },
+    {
+      "id": "habitat",
+      "name": "Hábitat Lease Engine",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/habitat",
+      "commercialCase": "https://arbizulabs.com/cases/habitat-lease-engine",
+      "liveEndpoint": "https://habitat.aldoarbizu.com",
+      "stack": ["Kotlin", "Jetpack Compose", "Room SQLite", "Solidity Base L2"],
+      "metrics": { "settlement": "Base L2 On-Chain", "offlineCapable": "100%" }
+    },
+    {
+      "id": "marketingadvisor",
+      "name": "Smart Marketing Advisor",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/marketingadvisor",
+      "commercialCase": "https://arbizulabs.com/cases/smart-marketing-advisor",
+      "liveEndpoint": "https://marketingadvisor.aldoarbizu.com",
+      "stack": ["Kotlin", "Jetpack Compose", "Ollama / Gemini 2.5", "Recharts"],
+      "metrics": { "inference": "Local Ollama + Cloud Fallback", "queue": "SQLite Local" }
+    },
+    {
+      "id": "verify",
+      "name": "SentinelOS Verify Portal",
+      "classification": "BILLABLE",
+      "engineeringSlug": "https://aldoarbizu.com/es/sites/sentinelos",
+      "commercialCase": "https://arbizulabs.com/products/sentinelos",
+      "liveEndpoint": "https://verify.aldoarbizu.com",
+      "stack": ["WebCrypto", "HMAC-SHA256", "Offline QR Verification"],
+      "metrics": { "auditPriceARS": 45000, "integrity": "SHA-256 Chain" }
+    }
+  ]
+}

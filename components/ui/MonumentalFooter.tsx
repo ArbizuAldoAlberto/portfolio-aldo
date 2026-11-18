@@ -79,8 +79,8 @@ export function MonumentalFooter() {
               : "Whether it is an Offline-First mobile app for zero-signal rural areas, a mathematical quant execution algorithm, or mission-critical software: let's discuss architecture and timeline."}
           </p>
 
-          {/* Email Gigante Interactivo con Copy to Clipboard */}
-          <div className="pt-2 pb-8">
+          {/* Email Gigante Interactivo con Copy to Clipboard + Canal Dual B2B / Directo */}
+          <div className="pt-2 pb-8 space-y-4">
             <button
               onClick={handleCopyEmail}
               onMouseEnter={() => {
@@ -91,7 +91,7 @@ export function MonumentalFooter() {
             >
               <div>
                 <span className="font-mono text-[11px] text-[#D4AF37] uppercase font-bold block mb-1">
-                  {isEs ? "// CLICK PARA COPIAR CORREO PERSONAL DE CONTACTO:" : "// CLICK TO COPY DIRECT CONTACT EMAIL:"}
+                  {isEs ? "// CONTACTO DIRECTO / RECRUITING SENIOR (CLICK PARA COPIAR):" : "// DIRECT CONTACT / SENIOR RECRUITING (CLICK TO COPY):"}
                 </span>
                 <span className="text-xl sm:text-3xl md:text-4xl font-mono font-bold text-[#F8FAFC] group-hover:text-[#D4AF37] transition-colors break-all">
                   arbizualdoalberto@gmail.com
@@ -118,6 +118,27 @@ export function MonumentalFooter() {
                 )}
               </div>
             </button>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 rounded-xl bg-[#0D131F]/80 border border-white/[0.08] font-mono text-xs">
+              <div className="flex items-center gap-2.5 text-[#CBD5E1]">
+                <span className="h-2 w-2 rounded-full bg-[#10B981]" />
+                <span className="text-[#94A3B8] uppercase">
+                  {isEs ? "Canal Corporativo / Contratos B2B:" : "Corporate / B2B Advisory:"}
+                </span>
+                <a
+                  href="mailto:aldo@arbizulabs.com"
+                  className="text-[#F8FAFC] font-bold hover:text-[#D4AF37] transition-colors"
+                >
+                  aldo@arbizulabs.com
+                </a>
+              </div>
+              <a
+                href="https://aldoarbizu.com"
+                className="text-[#94A3B8] hover:text-[#D4AF37] transition-colors"
+              >
+                aldoarbizu.com ↔ arbizulabs.com
+              </a>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-4 items-center">
