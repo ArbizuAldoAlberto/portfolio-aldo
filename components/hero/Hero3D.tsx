@@ -51,9 +51,9 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
   const particles = useMemo(() => {
     const arr = []
     const colorsMap = {
-      engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
-      'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
-      security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+      engineer: { primary: '#D4AF37', secondary: '#F2F0EA', accent: '#00E599' },
+      'agtech': { primary: '#00E599', secondary: '#F2F0EA', accent: '#FF4F00' },
+      security: { primary: '#00B4D8', secondary: '#F2F0EA', accent: '#FF4F00' },
     }
     const colors = colorsMap[persona] || colorsMap.engineer
 
@@ -96,9 +96,9 @@ function InteractiveStarRings({ clickPing }: { clickPing: { active: boolean; tim
     const speedMultiplier = 1.0 + mouseIntensity * 1.8
 
     const colorsMap = {
-      engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', hoverPrimary: '#a6ffc9', hoverSecondary: '#a6f8ff' },
-      'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', hoverPrimary: '#ffffff', hoverSecondary: '#d9d9e3' },
-      security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', hoverPrimary: '#55fcd0', hoverSecondary: '#bfaaff' },
+      engineer: { primary: '#D4AF37', secondary: '#F2F0EA', accent: '#00E599', hoverPrimary: '#F2F0EA', hoverSecondary: '#D4AF37' },
+      'agtech': { primary: '#00E599', secondary: '#F2F0EA', accent: '#FF4F00', hoverPrimary: '#F2F0EA', hoverSecondary: '#00E599' },
+      security: { primary: '#00B4D8', secondary: '#F2F0EA', accent: '#FF4F00', hoverPrimary: '#F2F0EA', hoverSecondary: '#00B4D8' },
     }
     const colors = colorsMap[persona] || colorsMap.engineer
 
@@ -195,9 +195,9 @@ function CyberOrganicTree() {
   }, [persona])
 
   const colorsMap = useMemo(() => ({
-    engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F', emissive: '#00FF66' },
-    'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF', emissive: '#8B8B9B' },
-    security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27', emissive: '#104f38' },
+    engineer: { primary: '#D4AF37', secondary: '#F2F0EA', accent: '#00E599', emissive: '#D4AF37' },
+    'agtech': { primary: '#00E599', secondary: '#F2F0EA', accent: '#FF4F00', emissive: '#10B981' },
+    security: { primary: '#00B4D8', secondary: '#F2F0EA', accent: '#FF4F00', emissive: '#0B4F6C' },
   }), [])
 
   const currentColors = useMemo(() => colorsMap[persona] || colorsMap.engineer, [persona, colorsMap])
@@ -674,9 +674,9 @@ export default function Hero3D() {
   const isInView = useInView(containerRef, { margin: "200px 0px" })
 
   const colorsMap = {
-    engineer: { primary: '#00FF66', secondary: '#00F0FF', accent: '#FF007F' },
-    'agtech': { primary: '#FFFFFF', secondary: '#8B8B9B', accent: '#DFDFEF' },
-    security: { primary: '#1D9E75', secondary: '#7F77DD', accent: '#EF9F27' },
+    engineer: { primary: '#D4AF37', secondary: '#F2F0EA', accent: '#00E599' },
+    'agtech': { primary: '#00E599', secondary: '#F2F0EA', accent: '#FF4F00' },
+    security: { primary: '#00B4D8', secondary: '#F2F0EA', accent: '#FF4F00' },
   }
   const currentColors = colorsMap[persona] || colorsMap.engineer
 

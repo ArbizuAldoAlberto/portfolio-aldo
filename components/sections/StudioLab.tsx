@@ -210,13 +210,13 @@ function HolographicPhoneCore() {
               {/* Dynamic Progress Bar */}
               <mesh position={[-0.6 + (bootProgress * 0.6), -0.2, 0.015]} scale={[bootProgress, 1, 1]}>
                 <planeGeometry args={[1.2, 0.06]} />
-                <meshBasicMaterial color="#00FF66" />
+                <meshBasicMaterial color="#00E599" />
               </mesh>
 
               {/* Micro diagnostic beeps/text boxes */}
               <mesh position={[0, 0.4, 0.01]}>
                 <planeGeometry args={[1.0, 0.12]} />
-                <meshBasicMaterial color="#00FF66" transparent opacity={0.1} />
+                <meshBasicMaterial color="#00E599" transparent opacity={0.1} />
               </mesh>
               <mesh position={[0, 0.1, 0.01]}>
                 <planeGeometry args={[0.8, 0.08]} />
@@ -254,11 +254,11 @@ function HolographicPhoneCore() {
                   <group position={[0.45, 0.8, 0]} onClick={(e) => { e.stopPropagation(); playClick(); setActiveApp('titanflow') }}>
                     <mesh>
                       <planeGeometry args={[0.35, 0.35]} />
-                      <meshBasicMaterial color="#00FF66" transparent opacity={0.2} />
+                      <meshBasicMaterial color="#00E599" transparent opacity={0.2} />
                     </mesh>
                     <lineSegments>
                       <edgesGeometry attach="geometry" args={[new THREE.PlaneGeometry(0.35, 0.35)]} />
-                      <lineBasicMaterial attach="material" color="#00FF66" />
+                      <lineBasicMaterial attach="material" color="#00E599" />
                     </lineSegments>
                   </group>
 
@@ -335,7 +335,7 @@ function HolographicPhoneCore() {
                   {/* Title Bar */}
                   <mesh position={[0, 1.4, 0]}>
                     <planeGeometry args={[1.5, 0.3]} />
-                    <meshBasicMaterial color="#00FF66" transparent opacity={0.15} />
+                    <meshBasicMaterial color="#00E599" transparent opacity={0.15} />
                   </mesh>
 
                   {/* Simulated cart items */}
@@ -349,7 +349,7 @@ function HolographicPhoneCore() {
                   {/* Blinking sync indicator */}
                   <mesh position={[0, -0.6, 0.01]}>
                     <planeGeometry args={[1.0, 0.2]} />
-                    <meshBasicMaterial color="#00FF66" transparent opacity={0.08} />
+                    <meshBasicMaterial color="#00E599" transparent opacity={0.08} />
                   </mesh>
 
                   {/* Back/Volver Button */}

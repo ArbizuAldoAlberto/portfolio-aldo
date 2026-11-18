@@ -1,12 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#0A0A0F" />
-  <path d="M16 6L24 16L16 26L8 16L16 6Z" fill="url(#founder-glow)" stroke="#EF9F27" stroke-width="1.5" />
-  <line x1="16" y1="6" x2="16" y2="26" stroke="#7F77DD" stroke-width="1" />
-  <line x1="8" y1="16" x2="24" y2="16" stroke="#7F77DD" stroke-width="1" />
-  <defs>
-    <radialGradient id="founder-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#7F77DD" stop-opacity="0.3" />
-      <stop offset="100%" stop-color="#1D9E75" stop-opacity="0" />
-    </radialGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-label="Aldo Arbizu Principal Architect Monogram">
+  <polygon points="18,4 46,4 60,18 60,46 46,60 18,60 4,46 4,18" fill="#060709" stroke="#D4AF37" stroke-width="2" />
+  <circle cx="32" cy="32" r="21" stroke="#1E2430" stroke-width="1" stroke-dasharray="2 2" />
+  <path d="M32 12L48 46H42L32 24L22 46H16L32 12Z" fill="#F2F0EA" />
+  <path d="M32 25L41 46H36.5L32 35.5L27.5 46H23L32 25Z" fill="#D4AF37" />
+  <circle cx="32" cy="43" r="2.5" fill="#00E599" />
 </svg>

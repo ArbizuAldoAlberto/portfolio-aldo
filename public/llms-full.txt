@@ -1,0 +1,20 @@
+# Aldo Alberto Arbizu — Full Principal Systems Monograph (`llms-full.txt`)
+
+Hub: `https://aldoarbizu.com` | Commercial Arm: `https://arbizulabs.com`
+Location: San Carlos de Bolívar, Buenos Aires, Argentina (UTC-3)
+Contacts: `arbizualdoalberto@gmail.com` (Direct / Senior Recruiting) · `aldo@arbizulabs.com` (Enterprise B2B)
+
+## Architecture Highlights
+1. **Zero-Downtime Multi-Service Production Mesh (Hetzner VPS + Cloudflare HTTP/2 Anycast):**
+   - `:3000` `aldoarbizu.com` (Next.js 16 Principal Monograph)
+   - `:3001` `nexus-router v2.8` (Layer-7 Host-based reverse proxy serving 14+ active subdomains)
+   - `:3002` `arbizulabs.com` (Next.js 16 Sovereign B2B Hub)
+   - `:3005` `titanflow.aldoarbizu.com` (Express + SSE Quant API)
+   - `:3050` `santuario-web` | `:3060` `sentinelos`
+2. **WebGL & Graphics Discipline (`ML-002` & `[PRE-MOD-04]`):**
+   - `preserveDrawingBuffer: false`, native `IntersectionObserver` pausing `frameloop`, local `/draco/` binaries (`DRACOLoader` + `MeshoptDecoder`), recursive `.dispose()` on geometries, materials, textures, and `PMREMGenerator` targets.
+3. **Security & Compliance Standard (`v2.1.0-ironclad`):**
+   - Zero `@vercel/analytics` or external telemetry domains in CSP headers (`0` references to `va.vercel-scripts.com`).
+   - Bidirectional Schema.org `JSON-LD` linking `https://aldoarbizu.com/#person` <-> `https://arbizulabs.com/#organization`.
+4. **Full Product Catalog & Solutions:**
+   - See `https://arbizulabs.com/llms-full.txt` and `https://arbizulabs.com/ecosystem-catalog.json`.

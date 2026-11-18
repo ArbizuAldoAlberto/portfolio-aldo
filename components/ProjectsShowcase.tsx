@@ -21,6 +21,7 @@ import { SreFailoverSandbox } from "./interactive/SreFailoverSandbox";
 import { soundEngine } from "./system/SoundEngine";
 import { useTacticalAudio } from "./audio/useTacticalAudio";
 import { useLocale, useTranslations } from "next-intl";
+import { ProductDynastyBadge, type DynastySystemCode } from "./ui/SovereignBrandMark";
 
 type LabCategory = "all" | "fintech" | "agtech" | "cybersec";
 
@@ -206,7 +207,8 @@ export function ProjectsShowcase() {
         >
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-white/[0.08] pb-6">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ 01 // 03 ]</span>
+              <ProductDynastyBadge code="SYS-01" className="w-8 h-8 shrink-0" />
+              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ SYS-01 // 03 ]</span>
               <span className="font-mono text-xs text-[#94A3B8] uppercase tracking-wider hidden sm:inline">
                 {isEs ? "Trading Cuantitativo & Mitigación de Riesgo" : "Quantitative Trading & Risk Mitigation"}
               </span>
@@ -330,7 +332,8 @@ export function ProjectsShowcase() {
         >
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-white/[0.08] pb-6">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ 02 // 03 ]</span>
+              <ProductDynastyBadge code="SYS-03" className="w-8 h-8 shrink-0" />
+              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ SYS-03 // 03 ]</span>
               <span className="font-mono text-xs text-[#94A3B8] uppercase tracking-wider hidden sm:inline">
                 {isEs ? "Logística Agropecuaria & Soluciones de Manga" : "Agricultural Logistics & Livestock Solutions"}
               </span>
@@ -363,8 +366,8 @@ export function ProjectsShowcase() {
                 </span>
                 <p className="text-[#94A3B8] font-sans text-xs sm:text-sm leading-relaxed">
                   {isEs
-                    ? "“Mi origen y formación siempre estuvo en el campo (EAS Del Valle). Conozco en persona el estrés de trabajar en la manga ganadera, donde todo debe ser rápido y dinámico para que los animales no se estresen ni se lastimen, y donde el software tradicional no sirve: pantallas que no se leen con el sol de frente, polvo, tierra en las manos y nula señal de internet. AgroMarket Pro nace para llevar soluciones tecnológicas prácticas a quienes trabajan en el barro.”"
-                    : "“My roots and education are deeply tied to agriculture (EAS Del Valle). I know firsthand the physical stress of working in livestock chutes, where handling must be fast and dynamic so animals don't get hurt, and where generic software fails: unreadable screens under intense sunlight, dust, mud, and zero internet connectivity. AgroMarket Pro is engineered to bring practical tech to real operators in the mud.”"}
+                    ? "“Conozco en primera persona el estrés operativo de trabajar en terreno agropecuario y en la manga ganadera, donde todo debe responder al instante y donde el software tradicional colapsa: pantallas ilegibles bajo el sol de frente, polvo y nula señal 4G. AgroMarket Pro nace para resolver operaciones críticas offline-first en el barro.”"
+                    : "“I know firsthand the operational stress of working in rural field logistics and livestock chutes, where generic cloud software collapses: unreadable screens under direct sunlight, dust, and zero cellular connectivity. AgroMarket Pro brings resilient offline-first engineering directly to field operations.”"}
                 </p>
               </div>
 
@@ -468,7 +471,8 @@ export function ProjectsShowcase() {
         >
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-white/[0.08] pb-6">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ 03 // 03 ]</span>
+              <ProductDynastyBadge code="SYS-02" className="w-8 h-8 shrink-0" />
+              <span className="font-mono text-xs font-bold text-[#D4AF37] tracking-wider">[ SYS-02 // 03 ]</span>
               <span className="font-mono text-xs text-[#94A3B8] uppercase tracking-wider hidden sm:inline">
                 {isEs ? "Seguridad Defensiva & Auditoría Offline-First" : "Defensive Security & Offline-First Auditing"}
               </span>
@@ -657,11 +661,27 @@ export function ProjectsShowcase() {
                 <span className="card-bracket card-bracket--br" aria-hidden="true" />
 
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-[10px] uppercase font-bold text-[#D4AF37]">
-                      {proj.domain}
-                    </span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded border bg-[#D4AF37]/10 text-[#E2E8F0] border-[#D4AF37]/30">
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="flex items-center gap-2">
+                      <ProductDynastyBadge
+                        code={
+                          ({
+                            aeroshot: "SYS-07",
+                            pawhero: "SYS-05",
+                            impresion3d: "SYS-08",
+                            ecoconnect: "SYS-10",
+                            aureus: "SYS-11",
+                            habitat: "SYS-09",
+                            nomad: "SYS-04",
+                          } as Record<string, DynastySystemCode>)[proj.id] ?? "SYS-04"
+                        }
+                        className="w-7 h-7 shrink-0"
+                      />
+                      <span className="font-mono text-[10px] uppercase font-bold text-[#D4AF37]">
+                        {proj.domain}
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-[2px] border bg-[#D4AF37]/10 text-[#E2E8F0] border-[#D4AF37]/30">
                       {proj.badge}
                     </span>
                   </div>

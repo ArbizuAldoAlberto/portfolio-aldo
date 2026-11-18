@@ -3,30 +3,25 @@
 @source "../components";
 
 @theme {
-  --color-space-black: #070b12;
-  --color-deep-space: #0f172a;
-  --color-orbital-teal: #d4af37;
-  --color-amber-gold: #d4af37;
-  --color-electric-purple: #94a3b8;
-  --color-coral-burn: #e09f5a;
-  --color-mist-gray: #94a3b8;
-  --color-space-border: rgba(255, 255, 255, 0.08);
+  --color-space-black: #060709;
+  --color-deep-space: #0B0D12;
+  --color-orbital-teal: #D4AF37;
+  --color-amber-gold: #D4AF37;
+  --color-electric-purple: #C2C8D4;
+  --color-coral-burn: #FF4F00;
+  --color-mist-gray: #8A93A6;
+  --color-space-border: #1B202B;
 
-  --font-serif: var(--font-cormorant);
-  --font-sans: var(--font-outfit);
-  --font-mono: var(--font-space);
-  --font-space: var(--font-space);
-  --font-jetbrains: var(--font-jetbrains);
+  --font-serif: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-space: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-jetbrains: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 /* ==========================================================================
-   ALDO ARBIZU — DARK ORBITAL (V1 ORBITAL DARK / V2 TURQUOISE PERIMETER)
-   Arquitectura CSS blindada:
-   - html, body, main: overflow-x: clip; overflow-y: visible (PROHIBIDO overflow: hidden)
-   - Sin contain/transform/filter en ancestros de .seq-sticky / #seq-canvas
-   - V1: Deep Space Orbital (#04070d / #07111e), texto #ecf8f8 / #a3c9d3, acento #34d399 / #5ef2e0
-   - V2: Luminous Turquoise Perimeter (#072a30 / #09353c), texto #f0fdfa / #b6ece6, acento #6fffe9
-         con el 55%x55% central del Hero video y #seq-canvas 100% libre de tinte (transparent)
+   ALDO ARBIZU — AXIOM SOVEREIGN INDUSTRIAL (v3.0-SOVEREIGN BI-LUMINANCE)
+   - html, body, main: overflow-x: clip; overflow-y: visible
    ========================================================================== */
 
 :root,
@@ -34,57 +29,62 @@ html:not([data-theme="v2"]),
 html[data-theme="v1"] {
   color-scheme: dark;
 
-  /* Paleta Ejecutiva — Titanium & Warm Bronze (#070B12 / #D4AF37 / #E2E8F0) */
-  --bg-seam: #070b12;
-  --bg-deep: #070b12;
-  --bg-surface: #0b111c;
-  --bg-elevated: #111927;
-  --bg-card: rgba(11, 17, 28, 0.84);
-  --bg-card-solid: #0b111c;
-  --bg-glass: rgba(7, 11, 18, 0.78);
-  --bg-btn: #0d1522;
+  --surface-void: #060709;
+  --surface-chassis: #0B0D12;
+  --surface-elevated: #11151D;
+  --surface-paper: #F2F0EA;
+  --ink-on-paper: #07080A;
+  --accent-signal: #FF4F00;
+  --accent-oxide-gold: #D4AF37;
+  --accent-telemetry: #00E599;
 
-  /* Tipografía Ejecutiva (WCAG AAA) */
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
+  --bg-seam: #060709;
+  --bg-deep: #060709;
+  --bg-surface: #0B0D12;
+  --bg-elevated: #11151D;
+  --bg-card: rgba(11, 13, 18, 0.88);
+  --bg-card-solid: #0B0D12;
+  --bg-glass: rgba(6, 7, 9, 0.84);
+  --bg-btn: #0B0D12;
 
-  /* Acentos Titanium & Solar Gold */
-  --accent: #d4af37;
-  --accent-strong: #f3e5ab;
+  /* Tipografía WCAG AAA */
+  --text-primary: #F6F7F9;
+  --text-secondary: #C2C8D4;
+  --text-muted: #8A93A6;
+
+  /* Acentos Soberanos */
+  --accent: #D4AF37;
+  --accent-strong: #F2F0EA;
   --accent-soft: rgba(212, 175, 55, 0.16);
-  --accent-border: rgba(212, 175, 55, 0.32);
-  --accent-border-strong: rgba(212, 175, 55, 0.65);
-  --grid-line: rgba(212, 175, 55, 0.06);
+  --accent-border: #1B202B;
+  --accent-border-strong: rgba(212, 175, 55, 0.62);
+  --grid-line: rgba(242, 240, 234, 0.05);
   --ambient-glow-a: rgba(212, 175, 55, 0.14);
-  --ambient-glow-b: rgba(148, 163, 184, 0.12);
+  --ambient-glow-b: rgba(255, 79, 0, 0.10);
 
-  /* Fusión de bordes de video y canvas V1 (0%..18% top y bottom) */
   --fuse-edge-height: 18%;
   --fuse-top-gradient: linear-gradient(
     to bottom,
-    #04070d 0%,
-    rgba(4, 7, 13, 0.84) 32%,
-    rgba(4, 7, 13, 0.36) 68%,
+    #060709 0%,
+    rgba(6, 7, 9, 0.84) 32%,
+    rgba(6, 7, 9, 0.36) 68%,
     transparent 100%
   );
   --fuse-bottom-gradient: linear-gradient(
     to top,
-    #04070d 0%,
-    rgba(4, 7, 13, 0.88) 34%,
-    rgba(4, 7, 13, 0.38) 70%,
+    #060709 0%,
+    rgba(6, 7, 9, 0.88) 34%,
+    rgba(6, 7, 9, 0.38) 70%,
     transparent 100%
   );
-  /* Viñeta perimetral V1: centro 70%x60% (incluyendo 55%x55%) 100% transparente */
   --perimeter-vignette:
-    linear-gradient(to right, rgba(4, 7, 13, 0.72) 0%, rgba(4, 7, 13, 0.26) 7%, transparent 15%),
-    linear-gradient(to left, rgba(4, 7, 13, 0.72) 0%, rgba(4, 7, 13, 0.26) 7%, transparent 15%);
+    linear-gradient(to right, rgba(6, 7, 9, 0.72) 0%, rgba(6, 7, 9, 0.26) 7%, transparent 15%),
+    linear-gradient(to left, rgba(6, 7, 9, 0.72) 0%, rgba(6, 7, 9, 0.26) 7%, transparent 15%);
 
-  /* Respaldo translúcido para beats sobre canvas (sin cajas opacas) */
   --beat-backdrop: radial-gradient(
     ellipse 72% 68% at 50% 50%,
-    rgba(4, 7, 13, 0.62) 0%,
-    rgba(4, 7, 13, 0.26) 62%,
+    rgba(6, 7, 9, 0.62) 0%,
+    rgba(6, 7, 9, 0.26) 62%,
     transparent 100%
   );
 
@@ -92,17 +92,15 @@ html[data-theme="v1"] {
   --font-display: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
 
-  /* Geometría y contenedor */
-  --container-max: 1360px;
-  --radius-arch: 12px;
-  --radius-card: 16px;
+  --container-max: 1440px;
+  --radius-arch: 2px;
+  --radius-card: 2px;
 
-  /* Compatibilidad con tokens heredados */
-  --color-space-black: #070b12;
-  --color-deep-space: #0f172a;
-  --color-orbital-teal: #d4af37;
-  --color-mist-gray: #94a3b8;
-  --color-space-border: rgba(255, 255, 255, 0.08);
+  --color-space-black: #060709;
+  --color-deep-space: #0B0D12;
+  --color-orbital-teal: #D4AF37;
+  --color-mist-gray: #8A93A6;
+  --color-space-border: #1B202B;
 }
 
 /* ==========================================================================

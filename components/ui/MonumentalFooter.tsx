@@ -5,6 +5,7 @@ import { Copy, Check, MapPin, Clock, Mail, ExternalLink } from "lucide-react";
 import { soundEngine } from "../system/SoundEngine";
 import { useTacticalAudio } from "../audio/useTacticalAudio";
 import { useLocale } from "next-intl";
+import { AldoArbizuMonogram, ArbizuLabsMark } from "./SovereignBrandMark";
 
 export function MonumentalFooter() {
   const locale = useLocale();
@@ -48,15 +49,16 @@ export function MonumentalFooter() {
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-[10px] bg-[#070B12] border border-[#D4AF37]/40 text-[#D4AF37] font-mono text-xs font-bold">
+            <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-[2px] bg-[#060709] border border-[#D4AF37]/40 text-[#D4AF37] font-mono text-xs font-bold">
+              <AldoArbizuMonogram className="w-6 h-6 shrink-0" />
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E599] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E599]" />
               </span>
               <span>
                 {isEs
-                  ? "DISPONIBLE PARA CONTRATOS B2B & ARQUITECTURA OFFLINE-FIRST"
-                  : "AVAILABLE FOR B2B & OFFLINE-FIRST ARCHITECTURES"}
+                  ? "PRINCIPAL ARCHITECT · B2B & OFFLINE-FIRST SYSTEMS"
+                  : "PRINCIPAL ARCHITECT · B2B & OFFLINE-FIRST SYSTEMS"}
               </span>
             </div>
 
@@ -174,10 +176,11 @@ export function MonumentalFooter() {
                 soundEngine.playClick();
                 playModeSwitch("pbr");
               }}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-[10px] bg-white/[0.06] border border-white/[0.12] text-[#F8FAFC] font-mono text-xs font-semibold hover:border-[#D4AF37] hover:bg-white/[0.10] transition-colors"
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-[2px] bg-[#0B0D12] border border-[#FF4F00]/60 text-[#F2F0EA] font-mono text-xs font-semibold hover:border-[#FF4F00] hover:bg-[#11151D] transition-colors"
             >
-              <span>{isEs ? "Visitar Arbizu Labs (Estudio Corporativo)" : "Visit Arbizu Labs (Corporate Studio)"}</span>
-              <ExternalLink className="w-4 h-4 text-[#D4AF37]" strokeWidth={1.5} />
+              <ArbizuLabsMark className="w-5 h-5 shrink-0" />
+              <span>{isEs ? "Visitar Arbizu Labs (Hub B2B)" : "Visit Arbizu Labs (B2B Hub)"}</span>
+              <ExternalLink className="w-4 h-4 text-[#FF4F00]" strokeWidth={1.5} />
             </a>
           </div>
         </div>
