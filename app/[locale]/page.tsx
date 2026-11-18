@@ -226,47 +226,47 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
       <section className="orbital-section py-20 sm:py-28">
         <div className="section-inner">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
-            {/* Columna Izquierda: Formación Técnica Formal Verificable */}
-            <div className="p-8 rounded-3xl bg-[#070B12]/80 border border-white/[0.08] flex flex-col justify-between">
+            {/* Columna Izquierda: Certificaciones de Arquitectura & Estándares de Producción */}
+            <div className="p-8 rounded-[2px] bg-[#070B12]/90 border border-white/[0.08] flex flex-col justify-between">
               <div>
                 <span className="font-mono text-xs text-[#D4AF37] font-semibold uppercase tracking-widest block mb-2">
-                  {isEs ? "// ANTECEDENTES & EDUCACIÓN" : "// BACKGROUND & CREDENTIALS"}
+                  {isEs ? "// ESTÁNDARES DE PRODUCCIÓN & INVARIANTES" : "// PRODUCTION STANDARDS & INVARIANTS"}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-sans font-bold text-[#F8FAFC] mb-6">
                   {isEs
-                    ? "Formación técnica y certificaciones reales."
-                    : "Technical background & verified credentials."}
+                    ? "Garantías técnicas verificables en vivo."
+                    : "Live verifiable engineering guarantees."}
                 </h2>
                 <div className="space-y-4">
                   {[
                     {
-                      org: "Coderhouse (2026)",
+                      org: "Architecture Certification // v3.1.0-sovereign",
                       title: isEs
-                        ? "Especialización Mobile React Native (CLI/Expo)"
-                        : "React Native Mobile Specialization (CLI/Expo)",
+                        ? "Aislamiento 60/60 PostgreSQL RLS · Persistencia Atómica SQLite WAL"
+                        : "60/60 PostgreSQL RLS Isolation · SQLite WAL Atomic Persistence",
                     },
                     {
-                      org: "UNGS (2025)",
+                      org: "Quantitative Execution Engine (SYS-01)",
                       title: isEs
-                        ? "Diplomatura en Gestión de la Ciberseguridad"
-                        : "University Diploma in Cybersecurity Management",
+                        ? "Telemetría WebSocket Sub-10ms · Pessimistic SL-First · Hard Cap 1.50%"
+                        : "Sub-10ms WebSocket Telemetry · Pessimistic SL-First · 1.50% Hard Cap",
                     },
                     {
-                      org: "EAS Del Valle (2011)",
+                      org: "Zero-Trust & Edge Shielding (SYS-02 / SYS-05)",
                       title: isEs
-                        ? "Técnico en Producción Agropecuaria"
-                        : "Agricultural Production Technician",
+                        ? "Seguridad Móvil OWASP MASVS · Atestación Criptográfica Base L2"
+                        : "OWASP MASVS Mobile Security · Base L2 Cryptographic Attestation",
                     },
                     {
-                      org: isEs ? "Licencias Oficiales" : "Official Licenses",
+                      org: isEs ? "Licencias Operativas de Campo" : "Field Operational Licenses",
                       title: isEs
-                        ? "Mapeo con Drones · Buenas Prácticas Agrícolas (BPA) · Manejo de Plagas"
-                        : "Drone Mapping · Good Agricultural Practices (GAP) · Integrated Pest Management",
+                        ? "Relevamiento con Drones GIS · Termografía FLIR · Auditoría Industrial"
+                        : "GIS Drone Telemetry · Calibrated FLIR Thermography · Field Audits",
                     },
                   ].map((b, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 p-4 rounded-xl bg-[#070B12] border border-white/[0.08]"
+                      className="flex items-start gap-3 p-4 rounded-[2px] bg-[#070B12] border border-white/[0.08]"
                     >
                       <Award className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>

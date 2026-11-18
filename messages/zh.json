@@ -403,7 +403,12 @@
       "stack": "STACK:",
       "demo": "Live Demo",
       "apk": "Android APK",
-      "b2b": "B2B 许可"
+      "b2b": "B2B 许可",
+      "types": {
+        "saas": "SaaS 平台",
+        "labs": "技术实验室",
+        "prototype": "架构原型"
+      }
     },
     "projects": {
       "titanflow": {
@@ -436,22 +441,6 @@
         "agtech": {
           "problem": "Cold banking interfaces lacking discretion and visual prestige.",
           "solution": "Wealth management dashboard with dark glassmorphism and brushed gold accents."
-        }
-      },
-      "agromarket_sync": {
-        "title": "AgroMarket",
-        "role": "POS Retail & Omnichannel Gateway",
-        "engineer": {
-          "problem": "Loss of sales transactions due to abrupt connectivity drops.",
-          "solution": "Atomic local queuing in SQLite WAL with automatic differential triggers."
-        },
-        "security": {
-          "problem": "Customer churn at physical counters due to unstable internet.",
-          "solution": "Offline-First POS with dual QR charging signatures and Google Pay checkout."
-        },
-        "agtech": {
-          "problem": "Slow catalog interfaces that interrupt customer flow.",
-          "solution": "Premium interactive catalog with Bento Grid transitions and refined typography."
         }
       },
       "sentinelos": {
@@ -614,31 +603,76 @@
           "solution": "Simultaneous compilation to PDF, reflowable Kindle EPUB3 (3-week battery life), Offline-First PWA with OLED Blackout #000000 / E-Ink modes, and 14 medical/solar/RF calculators."
         }
       }
-    },
-      "btnIdle": "启动B2B项目",
-      "btnLinking": "正在建立连接...",
-      "btnProcessing": "正在处理安全协议...",
-      "btnDone": "表单就绪"
-    },
-    "process": {
-      "step1": "1. 发现",
-      "step1Desc": "技术分析与目标。",
-      "step2": "2. 架构",
-      "step2Desc": "技术栈与数据库设计。",
-      "step3": "3. 开发",
-      "step3Desc": "敏捷迭代开发。",
-      "step4": "4. 质量保证与安全",
-      "step4Desc": "压力审计。",
-      "step5": "5. 部署",
-      "step5Desc": "移交与监控。"
-    },
-    "modal": {
-      "title": "项目就绪",
-      "desc": "估计的基础预算为",
-      "nameLabel": "全名 / 公司",
-      "emailLabel": "企业邮箱",
-      "btn": "请求技术通话"
     }
+  },
+  "OrbitalUI": {
+    "skipToContent": "跳至主要内容",
+    "navInmersion": "轨道潜航",
+    "navHybrid": "混合优势",
+    "navProjects": "生产案例",
+    "navStore": "系统套件",
+    "navServices": "技术服务",
+    "navContact": "联系",
+    "themeV1": "V1 轨道",
+    "themeV2": "V2 青蓝",
+    "themeSwitchAria": "配色版本切换",
+    "heroTitleLine1": "高韧性系统架构，",
+    "heroTitleLine2": "亚10毫秒量化执行与离线优先工程。",
+    "heroLedeLead": "首席系统架构师 & Staff SRE。",
+    "heroLedeBody": "已在生产环境验证的系统架构：SQLite WAL 原子持久化、60/60 PostgreSQL RLS 多租户隔离、零内存泄漏 60 FPS WebGL 与确定性量化执行引擎。",
+    "heroCtaPrimary": "检视生产级系统",
+    "heroCtaSecondary": "下载架构白皮书",
+    "workbenchLabel": "AXIOM 核心 // WEBGL",
+    "workbenchChromatic": "01 实体 PBR",
+    "workbenchWireframe": "02 CAD 线框",
+    "workbenchXray": "03 热成像着色器",
+    "diveAria": "轨道遥测潜航",
+    "diveCanvasAria": "240帧电影级镜头穿梭轨道遥测与本地持久化核心",
+    "diveDepthUnit": "km",
+    "beat1Title": "低延迟实时遥测",
+    "beat1Copy": "14毫秒并发 WebSockets 与基于凯利公式的动态仓位控制。每笔指令均零情绪干扰确定性执行。",
+    "beat2Title": "野外 SQLite WAL 持久化",
+    "beat2Copy": "当移动信号完全中断时，本地引擎可加密排队多达一万笔交易，并在恢复首个网络脉冲时原子同步。",
+    "beat3Title": "零信任核心与运维韧性",
+    "beat3Copy": "符合 OWASP MASVS 安全标准的纵深防御、Base L2 密码学存证及工业级持续运行保障。",
+    "artifactsTag": "// 竞争优势 · 混合前沿 (HYBRID EDGE)",
+    "artifactsTitle": "四大工程维度的交汇。",
+    "artifact1Tag": "SYS-03 // AGROMARKET · LIDAR 与 FLIR 遥测",
+    "artifact1Title": "农业科技与野外遥测",
+    "artifact1Desc": "储粮袋监测、离线地磅账本与 FLIR 热成像巡检直接转化为高可靠现场软件。",
+    "artifact1Alt": "搭载 LiDAR 遥测的农业多光谱无人机农田作业",
+    "artifact2Tag": "SQLite WAL · 零丢包同步",
+    "artifact2Title": "移动端离线优先引擎",
+    "artifact2Desc": "基于原子级本地持久化与异步队列构建。无信号偏远地区并非异常，而是架构铁律。",
+    "artifact2Alt": "用于本地事务持久化的 SQLite WAL 加密保险库",
+    "artifact3Tag": "SYS-02 // SENTINEL·OS · OWASP MASVS & 60/60 RLS",
+    "artifact3Title": "网络安全与零信任防护",
+    "artifact3Desc": "从物理安防到高韧性代码：非对称加密、GPS 坐标防篡改及 OWASP MASVS 终端防御。",
+    "artifact3Alt": "配备 OWASP MASVS 密码学护甲的零信任防御盾牌",
+    "artifact4Tag": "+15% 效率 · 凯利准则量化",
+    "artifact4Title": "商业系统与量化骨干",
+    "artifact4Desc": "管理 800+ SKU 复杂库存与 Binance Futures 算法执行，专注保护资产与扩展收益。",
+    "artifact4Alt": "用于算法执行与凯利准则的精密量化计时器",
+    "depthStat1Label": "离线本地安全排队事件",
+    "depthStat1Unit": "tx",
+    "depthStat2Label": "Binance Futures WebSocket 延迟",
+    "depthStat2Unit": "ms",
+    "depthStat3Label": "零差异审计库存规模",
+    "depthStat3Unit": "SKU",
+    "depthStat4Label": "现网农业科技生产模块",
+    "depthStat4Unit": "tools",
+    "compareTitle": "色彩系统对比器 · Dark Orbital",
+    "compareSubtitle": "V1 暗夜轨道 (#04070d) vs V2 青蓝边界 (#072a30)",
+    "compareSplit": "50/50 分屏卷帘",
+    "compareSide": "并排对比",
+    "compareCut": "分割",
+    "compareDesktop": "桌面端",
+    "compareMobile": "移动端 390×844",
+    "compareJumpHero": "首屏",
+    "compareJumpDive": "潜航",
+    "compareJumpArtifacts": "核心",
+    "compareJumpProjects": "项目",
+    "compareOpenV1": "打开 V1",
+    "compareOpenV2": "打开 V2"
   }
-}
 }

@@ -587,16 +587,22 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   position: relative;
   width: 100%;
   min-height: 100svh;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   /* Balance óptico para situar #hero-title entre 42% y 48% de altura de viewport */
-  padding: 13vh clamp(1.25rem, 5vw, 4rem) 14vh;
+  padding: clamp(6.25rem, 12vh, 8.5rem) clamp(1.25rem, 5vw, 4rem) clamp(6rem, 12vh, 8rem);
   background-color: var(--bg-seam);
   overflow-x: clip;
   border-bottom: none;
+}
+
+section[id],
+footer[id],
+div[id] {
+  scroll-margin-top: 5.5rem;
 }
 
 .hero-media {
@@ -1476,7 +1482,7 @@ html[data-theme="v2"] .theme-switch a[data-theme-link="v2"],
   }
 
   .hero {
-    padding: 13vh 1rem 14vh;
+    padding: 7.5rem 1rem 6.5rem;
   }
 
   .hero-title {

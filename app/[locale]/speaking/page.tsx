@@ -1,105 +1,152 @@
-'use client';
+import React from 'react';
 import Link from 'next/link';
-import { Calendar, Video, BookOpen, ArrowLeft, Mic } from 'lucide-react';
-import GlitchText from '../../../components/ui/GlitchText';
+import { ArrowLeft, ArrowUpRight, ShieldCheck, Terminal } from 'lucide-react';
 
-export default function SpeakingPage() {
-  const engagements = [
+export default async function SpeakingBriefingsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isEs = locale === 'es';
+
+  const briefings = [
     {
-      title: "Offline-First DeFi: Building Bots That Survive Network Failures",
-      event: "ETH Buenos Aires 2026",
-      date: "October 15, 2026",
-      location: "Buenos Aires, Argentina",
-      type: "Talk & Demo",
-      description: "How to design transactional queues using SQLite WAL and WebSocket handlers to prevent slippage and trade failures in low-connectivity zones."
+      code: 'BRIEF-01',
+      duration: '45 min · Executive & Engineering Review',
+      title: isEs
+        ? 'Arquitectura Offline-First con SQLite WAL y Sincronización Idempotente'
+        : 'Offline-First Architecture with SQLite WAL & Idempotent Sync',
+      summary: isEs
+        ? 'Diseño de colas locales tolerantes a desconexiones totales en campo (0% 4G), resolución determinista de conflictos y respaldo WAL verificado.'
+        : 'Designing zero-drop local persistence queues for 0% cellular zones, deterministic conflict resolution, and verifiable WAL recovery.',
+      topics: ['SQLite WAL', 'Idempotency-Key', 'React Native / PWA', 'SYS-03 AgroMarket'],
     },
     {
-      title: "Multi-Chain Portfolio Tracking with The Graph",
-      event: "Devcon 8",
-      date: "November 20, 2026",
-      location: "Bangkok, Thailand",
-      type: "Technical Workshop",
-      description: "Hands-on guide on subgraphs, handling blockchain reorganizations, and synchronizing user portfolio ledger balances in real-time."
+      code: 'BRIEF-02',
+      duration: '45 min · Security & Compliance Workshop',
+      title: isEs
+        ? 'Blindaje Multi-Tenant: Auditoría Automatizada de 60/60 Políticas PostgreSQL RLS'
+        : 'Multi-Tenant Hardening: 60/60 Automated PostgreSQL RLS Verification',
+      summary: isEs
+        ? 'Eliminación de fugas entre tenants, reglas `TO authenticated`, Edge 4-Layer Shielding (HMAC + 429 + 413 + Kill-Switch) y pruebas de intrusión reproducibles.'
+        : 'Eliminating cross-tenant leaks with strict RLS scopes, 4-layer API edge shielding, and reproducible adversarial test suites.',
+      topics: ['PostgreSQL RLS', 'OWASP MASVS', 'Edge 4-Layer Shield', 'SYS-02 SentinelOS'],
     },
     {
-      title: "SQLite WAL for High-Frequency Crypto Trading",
-      event: "Web3 Summit 2025",
-      date: "August 12, 2025",
-      location: "Remote",
-      type: "Virtual Keynote",
-      description: "Analyzing the performance thresholds of on-device SQLite databases in streaming order book telemetry feeds."
+      code: 'BRIEF-03',
+      duration: '45 min · Quantitative Systems Briefing',
+      title: isEs
+        ? 'Paridad 1:1 Backtest/Live & Ejecución Algorítmica Pessimistic SL-First'
+        : '1:1 Backtest/Live Parity & Pessimistic SL-First Algorithmic Execution',
+      summary: isEs
+        ? 'Ingesta por WebSocket sub-10ms en Binance Futures, evaluación conservadora OHLC, descuentos reales de Taker/Funding y adopción en caliente de posiciones.'
+        : 'Sub-10ms WebSocket streaming, conservative OHLC execution modeling, taker/funding accounting, and deterministic position supervision.',
+      topics: ['WebSockets <10ms', 'Pessimistic SL-First', 'Chandelier Trailing', 'SYS-01 TitanFlow'],
     },
     {
-      title: "Offline-First Architecture for Mobile Apps",
-      event: "React Native Conf 2025",
-      date: "May 05, 2025",
-      location: "Online",
-      type: "Panel Discussion",
-      description: "Best practices for Zustand state persistence, local sync conflicts resolution, and optimizing native JS bridges."
-    }
+      code: 'BRIEF-04',
+      duration: '60 min · Industrial Hardware & Thermal Audit',
+      title: isEs
+        ? 'Termografía FLIR Calibrada, Relevamiento LiDAR y Manufactura Paramétrica (ab3d-forge)'
+        : 'Calibrated FLIR Thermography, LiDAR Field Telemetry & Parametric CAD',
+      summary: isEs
+        ? 'Protocolos de inspección termográfica en instalaciones agroindustriales y modelado paramétrico Blender headless para repuestos funcionales.'
+        : 'Industrial thermal inspection workflows for grain storage and electrical panels paired with headless parametric CAD manufacturing.',
+      topics: ['FLIR Ironbow', 'LiDAR ToF', 'Blender Headless', 'SYS-07 / SYS-08'],
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-[#050508] text-slate-100 py-24 px-6 relative font-sans">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:30px_30px] opacity-20 pointer-events-none" />
-      
-      <div className="max-w-4xl mx-auto relative z-10">
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-[var(--color-orbital-teal)] transition mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" /> BACK TO NODE
-        </Link>
-
-        <div className="flex items-center gap-4 mb-12 border-b border-zinc-900 pb-8">
-          <Mic className="w-12 h-12 text-[var(--color-orbital-teal)]" />
-          <div>
-            <h1 className="text-4xl font-serif font-bold text-white tracking-tight">
-              <GlitchText speed={120} text="Speaking & Workshops" className="text-white" />
-            </h1>
-            <p className="text-zinc-500 font-mono text-xs mt-1 uppercase tracking-widest">Thought leadership, tech talks and hands-on workshops</p>
-          </div>
+    <main className="min-h-screen bg-[#060709] text-[#F2F0EA] pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-mono">
+      <div className="max-w-5xl mx-auto">
+        <div className="mb-8">
+          <Link
+            href={`/${locale}`}
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#8A93A6] hover:text-[#D4AF37] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            {isEs ? 'Volver al Hub' : 'Back to Hub'}
+          </Link>
         </div>
 
-        <section className="space-y-8 mb-16">
-          {engagements.map((eng, idx) => (
-            <div 
-              key={idx} 
-              className="p-8 rounded-2xl bg-zinc-950/60 border border-zinc-900 hover:border-zinc-800 transition flex flex-col md:flex-row md:items-start justify-between gap-6"
-            >
-              <div className="space-y-3 max-w-xl">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded text-[10px] font-mono bg-zinc-900 border border-zinc-850 text-[var(--color-orbital-teal)] font-bold uppercase tracking-wider">
-                    {eng.type}
-                  </span>
-                  <span className="text-xs font-mono text-zinc-500">{eng.date}</span>
-                </div>
-                <h3 className="text-xl font-bold text-white leading-snug">{eng.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{eng.description}</p>
-              </div>
-
-              <div className="text-right md:min-w-[200px] font-mono text-xs space-y-1 text-zinc-500">
-                <div className="text-white font-bold">{eng.event}</div>
-                <div>{eng.location}</div>
-              </div>
-            </div>
-          ))}
-        </section>
-
-        {/* Call to action */}
-        <section className="p-8 rounded-2xl bg-zinc-950 border border-zinc-900 text-center">
-          <h3 className="text-lg font-bold text-white mb-2">Book Me for Your Event</h3>
-          <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">
-            I speak globally on offline-first architecture, mobile performance optimization, n8n automations, and DeFi systems.
+        <header className="border-b border-[#1B202B] pb-8 mb-12">
+          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest text-[#D4AF37] font-bold mb-3">
+            <Terminal className="w-3.5 h-3.5" />
+            // TECHNICAL BRIEFINGS, WORKSHOPS &amp; ARCHITECTURE REVIEWS
+          </div>
+          <h1 className="font-sans text-3xl sm:text-5xl font-extrabold tracking-[-0.03em] text-[#F2F0EA] mb-4">
+            {isEs
+              ? 'Technical Briefings & Sesiones de Arquitectura'
+              : 'Technical Briefings & Architecture Workshops'}
+          </h1>
+          <p className="font-sans text-base text-[#C2C8D4] max-w-3xl leading-relaxed">
+            {isEs
+              ? 'Sesiones técnicas privadas para equipos de ingeniería, CTOs y directorios industriales sobre arquitecturas reales en producción (sin material genérico).'
+              : 'Private engineering briefings and hands-on architecture sessions for CTOs, VPs of Engineering, and industrial operations teams.'}
           </p>
-          <a 
-            href="mailto:arbizualdoalberto@gmail.com"
-            className="inline-block py-3 px-8 rounded bg-transparent border border-[var(--color-orbital-teal)]/30 hover:border-[var(--color-orbital-teal)] text-white hover:text-black hover:bg-[var(--color-orbital-teal)] font-mono tracking-widest text-xs font-bold transition-all"
-          >
-            CONTACT SPEAKER NODE
-          </a>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {briefings.map((b) => (
+            <article
+              key={b.code}
+              className="p-6 sm:p-8 rounded-[2px] border border-[#1B202B] bg-[#0B0D12] flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 text-[10px] uppercase tracking-widest mb-3">
+                  <span className="text-[#FF4F00] font-bold">{b.code}</span>
+                  <span className="text-[#00E599]">{b.duration}</span>
+                </div>
+                <h2 className="font-sans text-xl font-bold text-[#F2F0EA] mb-3 leading-snug">
+                  {b.title}
+                </h2>
+                <p className="font-sans text-sm text-[#C2C8D4] leading-relaxed mb-5">{b.summary}</p>
+              </div>
+              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[#1B202B]">
+                {b.topics.map((topic) => (
+                  <span
+                    key={topic}
+                    className="px-2 py-0.5 rounded-[2px] border border-[#1B202B] bg-[#060709] text-[10px] text-[#8A93A6]"
+                  >
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <section className="p-6 sm:p-8 rounded-[2px] border border-[#D4AF37]/40 bg-[#0B0D12] flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#D4AF37] font-bold mb-1">
+              <ShieldCheck className="w-4 h-4" />
+              {isEs ? 'SOLICITAR WORKSHOP PRIVADO / REVIEW' : 'REQUEST PRIVATE BRIEFING / WORKSHOP'}
+            </div>
+            <p className="font-sans text-sm text-[#C2C8D4]">
+              {isEs
+                ? 'Disponible en modalidad remota internacional (GMT-3) o auditoría técnica presencial en Argentina.'
+                : 'Available for remote global engineering teams or on-site technical audits in Argentina.'}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <Link
+              href={`/${locale}#contacto`}
+              className="px-5 py-3 rounded-[2px] bg-[#FF4F00] hover:bg-[#e64600] text-white font-bold text-xs uppercase tracking-wider"
+            >
+              {isEs ? 'Coordinar Sesión' : 'Book Briefing'}
+            </Link>
+            <a
+              href="https://wa.me/5492314489197?text=Hola%20Aldo,%20deseo%20coordinar%20un%20Technical%20Briefing%20para%20nuestro%20equipo."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-5 py-3 rounded-[2px] border border-[#1B202B] bg-[#060709] hover:border-[#00E599] text-[#F2F0EA] font-bold text-xs uppercase tracking-wider"
+            >
+              WhatsApp Directo <ArrowUpRight className="w-3.5 h-3.5 text-[#00E599]" />
+            </a>
+          </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 }

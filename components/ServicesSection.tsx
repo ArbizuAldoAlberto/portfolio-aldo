@@ -38,7 +38,7 @@ const getCoordinates = (isEs: boolean) => [
   {
     id: "web3",
     label: "Web3 / Cripto (USDT · USDC — Base L2 / ERC-20)",
-    value: "0x71C95911E9a5D330f4D621842EC243EE1343292e",
+    value: "0xb73ca1C37e9aA57F3051A0E8381Ca9CBA772A718",
     sub: isEs ? "Liquidación internacional sin intermediarios" : "Direct borderless settlement with zero intermediaries",
   },
 ];
