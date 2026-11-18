@@ -72,3 +72,11 @@ Para mantener el estatus inmersivo del portfolio, todo cambio o adición al fron
 El portafolio se conecta conceptualmente con la bitácora local de Obsidian a través de `.nexus_memory.md` y las anotaciones de despliegue. 
 *   Cualquier cambio de arquitectura importante, resolución de bugs o modificación del túnel de red (Cloudflare) debe documentarse en el registro de telemetría de NEXUS para que el usuario mantenga su bitácora sincronizada y evite repetir errores.
 *   Usa enlaces de tipo markdown estándar y evita referencias rotas a rutas relativas del sistema operativo.
+
+---
+
+## 🛡️ Constitución Técnica NEXUS (`v2.1.0-ironclad`) — Protocolo Omni-Elevation, Ironclad & Unslop
+
+*   **Reglamento Rector Completo:** Leer y cumplir estrictamente [NEXUS_CONSTITUTION.md](./NEXUS_CONSTITUTION.md) y [.cursorrules](./.cursorrules) antes de modificar código, escenas WebGL o rutas.
+*   **Sistema Visual (`Orbital CNC & Horological Telemetry`):** Contrato en [DESIGN.md](./DESIGN.md) (`Geist Sans` + `JetBrains Mono` `tabular-nums`, `#070B12`, `#0D131F`, `#D4AF37`, telemetría `#10B981`).
+*   **Invariantes de Soberanía y Rendimiento:** Tipado estricto (`npm run typecheck` sin `ignoreBuildErrors`), WebGL 60 FPS (`preserveDrawingBuffer: false`, `IntersectionObserver`, `.dispose()` determinista), cero telemetría cautiva de Vercel en CSP/paquetes y grafo `JSON-LD` cruzado con `arbizulabs.com`.
