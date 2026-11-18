@@ -112,7 +112,7 @@ export default async function LocalizedLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as "en" | "es")) notFound();
+  if (!routing.locales.includes(locale as "en" | "es" | "zh")) notFound();
   const messages = await getMessages();
 
   return (

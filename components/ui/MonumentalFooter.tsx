@@ -43,6 +43,7 @@ export function MonumentalFooter() {
 
   return (
     <footer id="contacto" className="site-footer" data-section="footer">
+      <div id="contact" className="scroll-mt-24" />
       <div className="section-inner">
         {/* Contenedor Monumental */}
         <div className="p-8 sm:p-14 lg:p-18 rounded-2xl bg-[#070B12]/85 border border-white/[0.08] hover:border-[#D4AF37]/40 transition-colors shadow-[0_24px_80px_rgba(0,0,0,0.75)] relative overflow-hidden mb-14">

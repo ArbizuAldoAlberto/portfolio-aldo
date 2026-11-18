@@ -2,37 +2,35 @@ import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
 import { getArticleBySlug } from '../../../lib/telemetry-loader';
 
-// Se remueve 'edge' runtime para permitir el uso de fs dentro de getArticleBySlug.
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const slug = searchParams.get('slug');
   const persona = searchParams.get('persona') || 'founder';
 
   const colors: Record<string, string> = {
-    founder: '#00ff66',
-    dev: '#00ccff',
-    gentleman: '#d4af37'
+    founder: '#FF4F00',
+    dev: '#00E599',
+    gentleman: '#D4AF37',
   };
 
   const titles: Record<string, string> = {
-    founder: 'ROI-Driven Product Engineer',
-    dev: 'Offline-First Mobile Expert',
-    gentleman: 'B2B SaaS Architect'
+    founder: 'Principal Systems Architect · Staff SRE',
+    dev: 'Offline-First SQLite WAL & 60/60 RLS Engineer',
+    gentleman: 'Sovereign B2B & Deterministic Quant Systems',
   };
 
-  let titleText = 'Aldo Arbizu';
+  let titleText = 'Aldo Alberto Arbizu';
   let subtitleText = titles[persona] || titles.founder;
-  let accentColor = colors[persona] || colors.founder;
+  let accentColor = colors[persona] || '#D4AF37';
   let isArticle = false;
-  let categoryText = '';
+  let categoryText = 'AXIOM SOVEREIGN // v3.1.0';
 
   if (slug) {
     const article = await getArticleBySlug(slug);
     if (article) {
       titleText = article.meta.title;
-      subtitleText = `Aldo Arbizu — ${article.meta.readTime} read`;
-      accentColor = colors[article.meta.persona] || colors.founder;
+      subtitleText = `Aldo Arbizu · ${article.meta.readTime} read`;
+      accentColor = colors[article.meta.persona] || '#D4AF37';
       isArticle = true;
       categoryText = article.meta.category;
     }
@@ -42,93 +40,86 @@ export async function GET(req: NextRequest) {
     (
       <div
         style={{
-          background: '#050508',
+          background: '#060709',
           width: '100%',
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          padding: '80px',
-          fontFamily: 'serif',
-          position: 'relative',
+          justifyContent: 'space-between',
+          padding: '64px',
+          color: '#F2F0EA',
+          fontFamily: 'monospace',
+          border: `2px solid ${accentColor}55`,
         }}
       >
-        {/* Background glow */}
-        <div style={{
-          position: 'absolute',
-          top: '-100px',
-          right: '-100px',
-          width: '800px',
-          height: '800px',
-          backgroundImage: `radial-gradient(circle, ${accentColor}33 0%, transparent 70%)`,
-          borderRadius: '50%',
-        }} />
-
-        {/* Badge */}
-        <div style={{
-          background: `${accentColor}15`,
-          color: accentColor,
-          padding: '8px 24px',
-          border: `1px solid ${accentColor}40`,
-          borderRadius: '24px',
-          fontSize: '24px',
-          fontFamily: 'monospace',
-          marginBottom: '40px',
-          textTransform: 'uppercase',
-          letterSpacing: '2px',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
-          <span style={{ width: '12px', height: '12px', background: accentColor, borderRadius: '50%', marginRight: '16px' }}></span>
-          {isArticle ? categoryText : 'NEXUS ACTIVE NODE'}
-        </div>
-
-        {/* Title */}
-        <div style={{
-          fontSize: isArticle ? '70px' : '110px',
-          color: 'white',
-          fontWeight: 700,
-          lineHeight: 1.1,
-          marginBottom: '20px',
-          maxWidth: '1000px',
-        }}>
-          {titleText}
-        </div>
-
-        {/* Subtitle */}
-        <div style={{
-          fontSize: '40px',
-          color: '#8c9bb0',
-          fontFamily: 'monospace',
-          marginBottom: '80px',
-        }}>
-          {subtitleText}
-        </div>
-
-        {/* Logo/Footer */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginTop: 'auto',
-          fontSize: '36px',
-          color: 'white',
-          fontWeight: 'bold',
-          letterSpacing: '1px'
-        }}>
-          <div style={{
-            width: '60px',
-            height: '60px',
-            background: accentColor,
-            color: 'black',
+        <div
+          style={{
             display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 'bold',
-            marginRight: '24px',
-            borderRadius: '12px'
-          }}>A</div>
-          <span>Arbizu Labs</span>
+            borderBottom: '1px solid #1B202B',
+            paddingBottom: '24px',
+          }}
+        >
+          <span
+            style={{
+              fontSize: 20,
+              fontWeight: 700,
+              letterSpacing: '0.18em',
+              color: '#D4AF37',
+              textTransform: 'uppercase',
+            }}
+          >
+            {categoryText}
+          </span>
+          <span
+            style={{
+              fontSize: 18,
+              color: '#00E599',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+            }}
+          >
+            60/60 RLS · &lt;10MS · WAL ACID
+          </span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          <div
+            style={{
+              fontSize: isArticle ? 48 : 62,
+              fontWeight: 800,
+              lineHeight: 1.08,
+              color: '#F2F0EA',
+              letterSpacing: '-0.03em',
+            }}
+          >
+            {titleText}
+          </div>
+          <div
+            style={{
+              fontSize: 26,
+              color: accentColor,
+              fontWeight: 600,
+            }}
+          >
+            {subtitleText}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderTop: '1px solid #1B202B',
+            paddingTop: '24px',
+            fontSize: 18,
+            color: '#8A93A6',
+          }}
+        >
+          <span>ALDOARBIZU.COM // ARBIZULABS.COM</span>
+          <span style={{ color: '#F2F0EA', fontWeight: 700 }}>BUENOS AIRES · GMT-3</span>
         </div>
       </div>
     ),

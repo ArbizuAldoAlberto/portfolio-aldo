@@ -106,7 +106,7 @@ export default function HeroSection() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 bg-[#060709]/80 backdrop-blur-[4px] p-4 sm:p-5 rounded-[2px] border border-[#1B202B]/90 shadow-[0_12px_40px_rgba(6,7,9,0.75)]">
               <h1
                 id="hero-title"
                 className="font-sans font-extrabold text-2xl sm:text-4xl lg:text-[2.75rem] leading-[1.02] tracking-[-0.04em] text-[#F6F7F9] mb-3"
