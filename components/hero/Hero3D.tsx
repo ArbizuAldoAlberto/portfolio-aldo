@@ -601,7 +601,6 @@ function ProjectSatellites() {
     { name: 'AgroMarket Pro', desc: 'AgriTech Logistics & Marketplace', color: '#EF9F27', radius: 2.3, speed: 0.25 },
     { name: 'SentinelOS', desc: 'Security Dispatch & Command Center', color: '#EF4444', radius: 2.6, speed: -0.3 },
     { name: 'AeroShot', desc: 'Agricultural Drone Processing SaaS', color: '#7F77DD', radius: 2.9, speed: 0.2 },
-    { name: 'SabioBosque', desc: 'E-commerce & Legal Compliance SaaS', color: '#10b981', radius: 3.2, speed: -0.15 },
     { name: 'Hábitat', desc: 'Decentralized Direct Rentals', color: '#EF9F27', radius: 3.5, speed: 0.1 },
     { name: 'PawHero', desc: 'Pet Tracking & IoT Telemetry', color: '#7F77DD', radius: 3.8, speed: -0.08 }
   ], [])

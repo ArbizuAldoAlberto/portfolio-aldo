@@ -7,6 +7,7 @@
         "prebuild": "node scripts/scan_security_gate.js",
         "build": "next build",
         "start": "next start",
+        "typecheck": "tsc --noEmit",
         "lint": "eslint"
     },
     "dependencies": {
@@ -15,8 +16,6 @@
         "@react-three/postprocessing": "^3.0.4",
         "@tsparticles/react": "^3.0.0",
         "@types/three": "^0.185.4",
-        "@vercel/analytics": "^2.0.1",
-        "@vercel/speed-insights": "^2.0.0",
         "clsx": "^2.1.1",
         "framer-motion": "^12.43.0",
         "geist": "^1.7.2",

@@ -492,19 +492,19 @@
         }
       },
       "cannabis": {
-        "title": "SabioBosque",
-        "role": "E-commerce & Legal Compliance SaaS",
+        "title": "CannaSavias",
+        "role": "B2B Software Simulator & REPROCANN Traceability",
         "engineer": {
-          "problem": "Friction in manual verification of legal REPROCANN prescriptions.",
-          "solution": "Automated validation of stock and prescriptions at checkout using Gemini API."
+          "problem": "Friction in manual verification of authorized club quotas and traceability logs.",
+          "solution": "Technical software demo for compliance auditing and inventory control."
         },
         "security": {
-          "problem": "Risk of penalties for exceeding legal stock and complex checkouts.",
-          "solution": "e-Commerce integrated with federal REPROCANN database and Universal Cart checkout."
+          "problem": "Regulatory risk and need for auditable traceability in authorized clubs.",
+          "solution": "Demonstrative B2B software platform with strict access control and auditing."
         },
         "agtech": {
-          "problem": "Informal cannabis sites that do not convey rigor.",
-          "solution": "Refined digital boutique with emerald green gradients and micro-interactions."
+          "problem": "Informal administrative workflows lacking digital traceability.",
+          "solution": "Clean B2B software demonstration interface with auditable architecture."
         }
       },
       "ecoconnect": {
