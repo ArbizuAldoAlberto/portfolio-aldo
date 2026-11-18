@@ -1,0 +1,21 @@
+# Aldo Alberto Arbizu — Principal Systems Architect, Staff SRE & Founder (`aldoarbizu.com`)
+
+> Principal Hub: https://aldoarbizu.com
+> Commercial Studio Hub: https://arbizulabs.com
+> Direct Senior Recruiting & Principal Architecture Contact: arbizualdoalberto@gmail.com
+> Corporate / B2B Advisory: aldo@arbizulabs.com | +54 9 2314 489197
+
+## Core Engineering Profile
+Aldo Alberto Arbizu is a Principal Systems Architect, Staff Site Reliability Engineer (SRE), and Founder of Arbizu Labs, specializing in:
+- **Quantitative Algorithmic Trading Systems (`TitanFlow V7.5`):** Sub-10ms persistent Binance Futures WebSockets, deterministic exit engine (`SL`, `TP1 2.50x ATR`, `TP2 4.50x ATR`, adaptive `Chandelier Trailing`), Pessimistic SL-First backtest/live parity, 1.50% hard collateral risk cap.
+- **Offline-First Distributed Mobile & Field Systems (`AgroMarket Pro`, `SentinelOS`, `NOMAD`):** SQLite WAL (`journal_mode = WAL`), zero-loss conflict-free transaction queues, React Native / Kotlin / Next.js 16 architectures operating reliably under total cellular blackouts.
+- **DevSecOps & Multi-Tenant Hardening (`v2.1.0-ironclad`):** PostgreSQL RLS cross-tenant isolation (`60/60 PASS`), fail-closed Edge middleware using Web Crypto constant-time comparison, 4-Layer Edge Function protection, verified `<60s` rollback and SQLite integrity snapshots.
+- **Creative WebGL & Bit-to-Atom Hardware:** Real-time Three.js/R3F scenes at 60 FPS with local Draco compression, deterministic `.dispose()` VRAM lifecycle, and FLIR/LiDAR/Blender (`ab3d-forge`) industrial integration.
+
+## Flagship Systems & Live Proofs
+- [SYS-01 TitanFlow Quant Engine](https://titanflow.aldoarbizu.com)
+- [SYS-02 SentinelOS Security Suite](https://sentinelos.aldoarbizu.com)
+- [SYS-03 AgroMarket Pro](https://agromarket.aldoarbizu.com)
+- [SYS-04 NOMAD Tactical Hub](https://nomadhub.aldoarbizu.com)
+- [Arbizu Labs Commercial Hub](https://arbizulabs.com)
+- [Complete Architecture Specification](/llms-full.txt)

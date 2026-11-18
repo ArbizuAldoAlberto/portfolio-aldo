@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "../../i18n/routing";
 import { soundEngine } from "../system/SoundEngine";
 import { useMotionPreferences } from "../system/MotionPreferences";
+import { AldoArbizuMonogram } from "./SovereignBrandMark";
 
 export default function Navigation() {
   const locale = useLocale();
@@ -83,29 +84,19 @@ export default function Navigation() {
         data-header
         data-scrolled={isScrolled ? "true" : "false"}
       >
-        {/* Brand & Executive Titanium/Bronze Mark */}
+        {/* Brand & Sovereign Double-A Monogram */}
         <a
           href={homeHref}
           onMouseEnter={() => soundEngine.playHover()}
           onClick={() => soundEngine.playClick()}
-          className="brand"
+          className="brand flex items-center gap-2.5"
           aria-label="Aldo Arbizu, inicio"
         >
-          <svg className="brand-mark text-[#D4AF37]" viewBox="0 0 32 32" aria-hidden="true">
-            <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" strokeWidth="1.3" />
-            <ellipse
-              cx="16"
-              cy="16"
-              rx="13.5"
-              ry="5.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.1"
-              transform="rotate(-24 16 16)"
-            />
-            <circle cx="16" cy="16" r="2.4" fill="currentColor" />
-          </svg>
-          <span className="brand-word tracking-wider text-slate-100">ALDO ARBIZU</span>
+          <AldoArbizuMonogram className="w-8 h-8 shrink-0" />
+          <div className="flex flex-col">
+            <span className="brand-word tracking-[0.12em] text-[#F2F0EA] font-extrabold">ALDO ARBIZU</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#D4AF37]">PRINCIPAL ARCHITECT</span>
+          </div>
         </a>
 
         {/* Navegación Ejecutiva Limpia */}

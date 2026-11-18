@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { soundEngine } from "./system/SoundEngine";
 import { useTacticalAudio } from "./audio/useTacticalAudio";
 import type { Hero3DSceneProps } from "./Hero3DScene";
 import QuantumRaymarchGrid from "./ui/QuantumRaymarchGrid";
+import { AldoArbizuMonogram } from "./ui/SovereignBrandMark";
 
 const Hero3DScene = dynamic<Hero3DSceneProps>(
   () => import("./Hero3DScene").then((mod) => mod.Hero3DScene),
@@ -18,6 +19,8 @@ const Hero3DScene = dynamic<Hero3DSceneProps>(
 );
 
 export default function HeroSection() {
+  const locale = useLocale();
+  const isEs = locale === "es";
   const t = useTranslations("OrbitalUI");
   const [renderMode, setRenderMode] = useState<"chromatic" | "wireframe" | "xray">("chromatic");
   const [mount3D, setMount3D] = useState(false);
@@ -85,55 +88,87 @@ export default function HeroSection() {
         <div className="edge-fuse edge-fuse--bottom" aria-hidden="true" />
       </div>
 
-      {/* Consola tipográfica anclada al tercio inferior para despejar el Astrolabio CNC 3D */}
-      <div className="hero-content">
-        <div className="relative z-10 mx-auto max-w-4xl rounded-3xl bg-[#070B12]/72 px-5 sm:px-8 py-4 sm:py-5 backdrop-blur-md border border-[#D4AF37]/25 shadow-[0_24px_80px_rgba(0,0,0,0.85)] flex flex-col items-center text-center mt-60 md:mt-72 mb-3 sm:mb-4">
-          <h1 id="hero-title" className="hero-title !text-2xl sm:!text-4xl md:!text-5xl" data-split>
-            <span className="line">{t("heroTitleLine1")}</span>
-            <span className="line text-[#D4AF37]">{t("heroTitleLine2")}</span>
-          </h1>
-
-          <p className="hero-lede !mt-2 !text-xs sm:!text-sm">
-            <strong className="text-[#E2E8F0]">{t("heroLedeLead")}</strong> {t("heroLedeBody")}
-          </p>
-        </div>
-
-        <div className="hero-actions">
-          <a
-            href="#proyectos"
-            data-magnetic
-            onMouseEnter={() => {
-              soundEngine.playHover();
-              playHoverTick();
-            }}
-            onClick={() => soundEngine.playClick()}
-            className="btn-magnetic border-[#D4AF37]/45"
-          >
-            <span className="btn-label">
-              <span>{t("heroCtaPrimary")}</span>
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] group-hover:scale-110 transition-all duration-200">
-                <ArrowUpRight className="w-3.5 h-3.5 drop-shadow-[0_0_6px_currentColor]" />
+      {/* HUD Asimétrico de Consola Staff/Principal (Zero Cápsula Centrada) */}
+      <div className="hero-content w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full border border-[#1B202B] bg-[#060709]/85 backdrop-blur-md p-5 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,0.9)] text-left">
+          {/* Barra Superior HUD Principal Architect */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-5 border-b border-[#1B202B] font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] tabular-nums">
+            <div className="flex items-center gap-3">
+              <AldoArbizuMonogram className="w-7 h-7 shrink-0" />
+              <span className="text-[#F2F0EA] font-bold">
+                [ALDO ALBERTO ARBIZU // PRINCIPAL SYSTEMS ARCHITECT &amp; FOUNDER AT ARBIZU LABS]
               </span>
-            </span>
-            <span className="btn-glow" aria-hidden="true" />
-          </a>
+            </div>
+            <div className="flex items-center gap-2 text-[#00E599] font-bold">
+              <span className="h-2 w-2 rounded-full bg-[#00E599] animate-pulse" />
+              <span>60 FPS · 0 VRAM LEAKS · 60/60 RLS</span>
+            </div>
+          </div>
 
-          <a
-            href="#inmersion"
-            onMouseEnter={() => {
-              soundEngine.playHover();
-              playHoverTick();
-            }}
-            onClick={() => soundEngine.playClick()}
-            className="link-quiet"
-          >
-            {t("heroCtaSecondary")}
-          </a>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+            <div className="lg:col-span-7">
+              <h1
+                id="hero-title"
+                className="font-sans font-extrabold text-2xl sm:text-4xl lg:text-[2.75rem] leading-[1.02] tracking-[-0.04em] text-[#F6F7F9] mb-3"
+                data-split
+              >
+                <span className="block">{t("heroTitleLine1")}</span>
+                <span className="block text-[#D4AF37]">{t("heroTitleLine2")}</span>
+              </h1>
+              <p className="font-mono text-xs sm:text-sm text-[#C2C8D4] leading-relaxed max-w-2xl">
+                <strong className="text-[#F2F0EA]">{t("heroLedeLead")}</strong> {t("heroLedeBody")}
+              </p>
+            </div>
+
+            {/* Ruteo Rápido por Perfil de Decisor */}
+            <div className="lg:col-span-5 flex flex-col gap-2 font-mono text-[11px]">
+              <a
+                href="#proyectos"
+                onMouseEnter={() => {
+                  soundEngine.playHover();
+                  playHoverTick();
+                }}
+                onClick={() => soundEngine.playClick()}
+                className="p-3 border border-[#1B202B] bg-[#0B0D12] hover:border-[#D4AF37] text-[#F6F7F9] flex items-center justify-between transition-colors"
+              >
+                <span className="font-bold text-[#D4AF37]">[FOR CTOs &amp; VPs OF ENGINEERING]</span>
+                <span className="text-[#8A93A6]">→ {isEs ? "Failover & Benchmarks" : "Failover & Specs"}</span>
+              </a>
+              <a
+                href="#inmersion"
+                onMouseEnter={() => {
+                  soundEngine.playHover();
+                  playHoverTick();
+                }}
+                onClick={() => soundEngine.playClick()}
+                className="p-3 border border-[#1B202B] bg-[#0B0D12] hover:border-[#00E599] text-[#F6F7F9] flex items-center justify-between transition-colors"
+              >
+                <span className="font-bold text-[#00E599]">[FOR QUANT &amp; FINTECH FOUNDERS]</span>
+                <span className="text-[#8A93A6]">→ TitanFlow &lt;10ms</span>
+              </a>
+              <a
+                href="https://arbizulabs.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => {
+                  soundEngine.playHover();
+                  playHoverTick();
+                }}
+                onClick={() => soundEngine.playClick()}
+                className="p-3 border border-[#FF4F00]/60 bg-[#FF4F00]/10 hover:bg-[#FF4F00] text-[#F2F0EA] hover:text-[#060709] flex items-center justify-between font-bold transition-colors"
+              >
+                <span>[FOR B2B ENTERPRISE CLIENTS]</span>
+                <span className="inline-flex items-center gap-1">
+                  arbizulabs.com <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Workbench Servidor Cuántico Orbital // Astrolabio CNC acoplado al borde inferior */}
-      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Astrolabio CNC // Núcleo Workbench">
+      {/* Workbench Servidor Cuántico Orbital // Controles WebGL */}
+      <div className="hero-workbench-dock flex scale-90 md:scale-100" role="group" aria-label="Núcleo WebGL Workbench">
         <span className="hero-workbench-label text-[#D4AF37]">{t("workbenchLabel")}</span>
         <button
           type="button"
@@ -147,7 +182,7 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "chromatic" ? " is-active" : ""}`}
         >
-          {t("workbenchChromatic")}
+          [01 SOLID PBR]
         </button>
         <button
           type="button"
@@ -161,7 +196,7 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "wireframe" ? " is-active" : ""}`}
         >
-          {t("workbenchWireframe")}
+          [02 CAD WIREFRAME]
         </button>
         <button
           type="button"
@@ -175,7 +210,7 @@ export default function HeroSection() {
           }}
           className={`hero-workbench-btn${renderMode === "xray" ? " is-active" : ""}`}
         >
-          {t("workbenchXray")}
+          [03 THERMAL SHADER]
         </button>
       </div>
 
