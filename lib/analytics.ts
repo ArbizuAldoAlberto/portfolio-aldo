@@ -3,25 +3,18 @@
 // Tipado seguro para el dataLayer
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: unknown[]) => void;
+    dataLayer: Record<string, unknown>[];
   }
 }
 
-import { track } from '@vercel/analytics';
-
 /**
- * Evento base genérico para GA4 y Vercel Analytics
+ * Evento base genérico soberano para GA4 (sin telemetría cautiva de terceros)
  */
 export const trackEvent = (eventName: string, params?: Record<string, string | number | boolean>) => {
   if (typeof window !== 'undefined') {
     if (window.gtag) {
       window.gtag('event', eventName, params);
-    }
-    try {
-      track(eventName, params);
-    } catch (e) {
-      // Ignorar errores de Vercel Analytics si no está inicializado
     }
   }
 };
