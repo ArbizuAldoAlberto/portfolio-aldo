@@ -1,102 +1,168 @@
 'use server'
 
+import crypto from 'crypto'
+
+function isConfiguredSecret(val?: string): boolean {
+  if (!val) return false
+  const upper = val.trim().toUpperCase()
+  return (
+    upper.length > 8 &&
+    !upper.includes('PLACEHOLDER') &&
+    !upper.includes('XXXX') &&
+    !upper.includes('YYYY') &&
+    !upper.includes('YOUR_')
+  )
+}
+
 export async function submitLead(prevState: any, formData: FormData) {
   try {
     // 1. Honeypot check for bots
     const botField = formData.get('bot-field')
     if (botField) {
       console.warn('Bot detectado: Campo honeypot llenado.')
-      // Simulate success so bots stop trying
       return { success: true, message: 'Mensaje enviado correctamente.' }
     }
 
     // 2. Extract Data
     const name = formData.get('name')?.toString().trim() || 'Anónimo'
-    const email = formData.get('email')?.toString().trim() || ''
+    const email = formData.get('email')?.toString().trim().toLowerCase() || ''
     const company = formData.get('company')?.toString().trim() || 'No especificada'
     const message = formData.get('message')?.toString().trim() || ''
-    const source = formData.get('source')?.toString() || 'contact_form'
-    const services = formData.get('services')?.toString() || ''
-    const total = formData.get('total')?.toString() || ''
+    const source = formData.get('source')?.toString().trim() || 'contact_form'
+    const servicesRaw = formData.get('services')?.toString().trim() || ''
+    const totalRaw = formData.get('total')?.toString().trim() || '0'
+    const totalNum = Number.isFinite(Number(totalRaw)) ? Math.max(0, Number(totalRaw)) : 0
 
     // 3. Validation
-    if (!email || !email.includes('@')) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return { success: false, message: 'Por favor ingresa un email válido.' }
     }
     if (!message && source !== 'ucp_checkout') {
       return { success: false, message: 'El mensaje no puede estar vacío.' }
     }
 
-    const leadData = {
-      name,
-      email,
-      company,
-      message,
-      source,
-      services,
-      total,
-      timestamp: new Date().toISOString(),
-    }
+    const servicesList = servicesRaw
+      ? servicesRaw.split(',').map((s) => s.trim()).filter(Boolean)
+      : [source]
 
-    const promises = []
+    const timeBucket = Math.floor(Date.now() / (5 * 60 * 1000))
+    const idempotencyKey = crypto
+      .createHash('sha256')
+      .update(`aldoarbizu|${email}|${source}|${message}|${timeBucket}`)
+      .digest('hex')
 
-    // 4. Send Email via Resend
-    if (process.env.RESEND_API_KEY) {
-      let emailContent = `Nuevo lead de ${name} (${email})\nEmpresa: ${company}\n\nMensaje:\n${message}`
-      if (source === 'ucp_checkout') {
-        emailContent = `Nuevo lead UCP de ${name} (${email})\nServicios: ${services}\nTotal Estimado: USD ${total}`
-      }
+    const leadsApiUrl = process.env.ARBIZU_LEADS_API_URL || 'https://arbizulabs.com/api/leads'
 
-      const toEmail = process.env.RESEND_TO_EMAIL || 'aldo@arbizulabs.com'
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'NEXUS Autonomous <onboarding@resend.dev>'
-      
-      const resendPromise = fetch('https://api.resend.com/emails', {
+    let persistedInLedger = false
+    let sentViaResend = false
+    let sentViaTelegram = false
+
+    // 4. Primary Canonical Persistence: Arbizu Labs SQLite WAL + JSON + Telegram Ops (/api/leads)
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 8000)
+      const res = await fetch(leadsApiUrl, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Origin': 'https://aldoarbizu.com',
+          'Idempotency-Key': idempotencyKey,
         },
         body: JSON.stringify({
-          from: fromEmail,
-          to: toEmail,
-          reply_to: email,
-          subject: source === 'ucp_checkout' ? '💸 Nuevo Lead de UCP Checkout' : '📩 Nuevo Mensaje del Portfolio',
-          text: emailContent
-        })
-      }).then(async res => {
-        if (!res.ok) {
-          const errText = await res.text()
-          console.error('Error enviando a Resend - Status:', res.status, 'Text:', res.statusText, 'Body:', errText)
-        } else {
-          console.log('Correo enviado exitosamente vía Resend a:', toEmail)
+          name,
+          email,
+          company,
+          services: servicesList,
+          total: totalNum,
+          message: message || `Lead UCP Checkout (${servicesList.join(', ')})`,
+          source: `aldoarbizu.com:${source}`,
+        }),
+        signal: controller.signal,
+      })
+      clearTimeout(timeoutId)
+
+      if (res.ok) {
+        persistedInLedger = true
+      } else {
+        const errBody = await res.text().catch(() => '')
+        console.error('[aldoarbizu submitLead] /api/leads HTTP error:', res.status, errBody.slice(0, 200))
+      }
+    } catch (err) {
+      console.error('[aldoarbizu submitLead] Error conectando a /api/leads:', err)
+    }
+
+    // 5. Secondary Email Dispatch via Resend (when configured with a real key)
+    if (isConfiguredSecret(process.env.RESEND_API_KEY)) {
+      try {
+        let emailContent = `Nuevo lead de ${name} (${email})\nEmpresa: ${company}\nOrigen: aldoarbizu.com (${source})\n\nMensaje:\n${message}`
+        if (source === 'ucp_checkout') {
+          emailContent = `Nuevo lead UCP de ${name} (${email})\nServicios: ${servicesRaw}\nTotal Estimado: USD ${totalNum}`
         }
-      }).catch(err => console.error('Error en fetch Resend:', err))
-      
-      promises.push(resendPromise)
+
+        const toEmail = process.env.RESEND_TO_EMAIL || 'aldo@arbizulabs.com'
+        const fromEmail = process.env.RESEND_FROM_EMAIL || 'NEXUS Autonomous <onboarding@resend.dev>'
+
+        const res = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: fromEmail,
+            to: toEmail,
+            reply_to: email,
+            subject: source === 'ucp_checkout' ? '💸 Nuevo Lead de UCP Checkout (aldoarbizu.com)' : '📩 Nuevo Lead B2B (aldoarbizu.com)',
+            text: emailContent,
+          }),
+        })
+        if (res.ok) {
+          sentViaResend = true
+        } else {
+          const errText = await res.text().catch(() => '')
+          console.error('[aldoarbizu submitLead] Resend error:', res.status, errText.slice(0, 200))
+        }
+      } catch (err) {
+        console.error('[aldoarbizu submitLead] Fetch Resend error:', err)
+      }
     }
 
-    // 5. Send Webhook to n8n
-    if (process.env.N8N_WEBHOOK_URL) {
-      const n8nPromise = fetch(process.env.N8N_WEBHOOK_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(leadData)
-      }).then(res => {
-        if (!res.ok) console.error('Error enviando webhook a n8n:', res.statusText)
-      }).catch(err => console.error('Error en fetch n8n:', err))
-      
-      promises.push(n8nPromise)
+    // 6. Direct Telegram Fallback (only if primary /api/leads ledger failed so we never lose a lead)
+    if (!persistedInLedger && isConfiguredSecret(process.env.TELEGRAM_BOT_TOKEN) && process.env.TELEGRAM_CHAT_ID) {
+      try {
+        const tgRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: process.env.TELEGRAM_CHAT_ID,
+            text: `🚨 [FALLBACK LEAD aldoarbizu.com]\n👤 ${name} (${company})\n📧 ${email}\n💼 ${servicesList.join(', ')}\n💰 $${totalNum}\n💬 ${message.slice(0, 500)}`,
+          }),
+        })
+        if (tgRes.ok) {
+          sentViaTelegram = true
+        }
+      } catch (err) {
+        console.error('[aldoarbizu submitLead] Telegram fallback error:', err)
+      }
     }
 
-    // Wait for all external API calls to finish
-    await Promise.allSettled(promises)
+    // 7. Strict Delivery Verification (NEVER return silent fake success if all channels failed)
+    if (!persistedInLedger && !sentViaResend && !sentViaTelegram) {
+      return {
+        success: false,
+        message: 'No pudimos confirmar el registro automático en este momento. Contáctame directo por WhatsApp (+54 9 2314 489197) o a aldo@arbizulabs.com.',
+      }
+    }
 
-    return { success: true, message: 'El mensaje fue cifrado y enviado exitosamente a la bóveda. Me pondré en contacto pronto.' }
-
+    return {
+      success: true,
+      message: 'El mensaje fue registrado y despachado exitosamente. Me pondré en contacto a la brevedad.',
+    }
   } catch (error) {
     console.error('Lead action error:', error)
-    return { success: false, message: 'Hubo un error al procesar la transmisión. Por favor, intenta de nuevo.' }
+    return {
+      success: false,
+      message: 'Hubo un error al procesar la transmisión. Por favor, intenta de nuevo o escribe a WhatsApp (+54 9 2314 489197).',
+    }
   }
 }
