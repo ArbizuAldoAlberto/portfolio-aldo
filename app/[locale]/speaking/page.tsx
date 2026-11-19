@@ -132,7 +132,7 @@ export default async function SpeakingBriefingsPage({
           <div className="flex flex-wrap gap-3 shrink-0">
             <Link
               href={`/${locale}#contacto`}
-              className="px-5 py-3 rounded-[2px] bg-[#FF4F00] hover:bg-[#e64600] text-white font-bold text-xs uppercase tracking-wider"
+              className="px-5 py-3 rounded-[2px] bg-[#FF4F00] hover:bg-[#D4AF37] text-[#07080A] font-extrabold font-bold text-xs uppercase tracking-wider"
             >
               {isEs ? 'Coordinar Sesión' : 'Book Briefing'}
             </Link>

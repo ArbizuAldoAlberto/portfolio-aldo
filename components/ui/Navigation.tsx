@@ -139,7 +139,7 @@ export default function Navigation() {
             aria-label="Cambiar idioma ES / EN"
           >
             <span className={locale === "es" ? "text-[#D4AF37] font-bold" : "opacity-75"}>ES</span>
-            <span className="opacity-40">/</span>
+            <span className="opacity-75 text-slate-400">/</span>
             <span className={locale === "en" ? "text-[#D4AF37] font-bold" : "opacity-75"}>EN</span>
           </button>
 

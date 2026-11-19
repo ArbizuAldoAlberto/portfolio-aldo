@@ -107,7 +107,7 @@ export function ArchitectureDiagram({ systemId }: ArchitectureDiagramProps) {
               className={`p-3 rounded-xl border relative flex flex-col justify-between ${colorClasses}`}
             >
               <div className="flex justify-between items-start mb-2">
-                <span className="text-[10px] opacity-60 font-bold">0{i + 1}</span>
+                <span className="text-[10px] text-slate-300 font-bold">0{i + 1}</span>
                 {node.tag && (
                   <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-white/10 uppercase">
                     {node.tag}

@@ -249,7 +249,7 @@ export default async function SubdomainNodePage({
               href={liveHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-[2px] bg-[#FF4F00] hover:bg-[#e64600] text-white font-bold text-xs uppercase tracking-widest transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-[2px] bg-[#FF4F00] hover:bg-[#D4AF37] text-[#07080A] font-extrabold font-bold text-xs uppercase tracking-widest transition-colors"
             >
               <span>{isEs ? 'Abrir Plataforma en Vivo' : 'Launch Live Platform'}</span>
               <ArrowUpRight className="w-4 h-4" />
