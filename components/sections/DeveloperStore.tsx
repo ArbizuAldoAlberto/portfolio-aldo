@@ -35,10 +35,10 @@ export default function DeveloperStore() {
     {
       title: "TitanFlow Alerts Lite",
       price: "$14",
-      tag: isEs ? "SCRIPT PYTHON QUANT" : "PYTHON QUANT SCRIPT",
+      tag: isEs ? "MONITOR PYTHON TELEGRAM" : "PYTHON TELEMETRY CLI",
       description: isEs
-        ? "Monitoreo en tiempo real de spreads de arbitraje en Binance Spot/Futures mediante WebSockets de baja latencia con notificaciones Telegram."
-        : "Real-time basis & funding spread monitor on Binance Spot/Futures via low-latency WebSockets with instant Telegram alerts.",
+        ? "Script Python liviano para monitorear cotizaciones en Binance API con alertas instantáneas por umbrales configurables en Telegram."
+        : "Lightweight Python CLI monitor polling Binance public ticker feeds with instant upper/lower threshold alerts on Telegram.",
       url: "https://arbizualdo.gumroad.com/l/titan-alerts",
       icon: Zap,
     },
