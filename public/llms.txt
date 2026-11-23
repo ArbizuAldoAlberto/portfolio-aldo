@@ -18,4 +18,6 @@ Aldo Alberto Arbizu is a Principal Systems Architect, Staff Site Reliability Eng
 - [SYS-03 AgroMarket Pro](https://agromarket.aldoarbizu.com)
 - [SYS-04 NOMAD Tactical Hub](https://nomadhub.aldoarbizu.com)
 - [Arbizu Labs Commercial Hub](https://arbizulabs.com)
+- [Civic Impact & 3D Preservation Portal (Ring 2 — Filántropo & PawHero)](https://aldoarbizu.com/impacto)
+- [Santuario YO SOY Contemplative Library (Ring 3)](https://santuario.aldoarbizu.com)
 - [Complete Architecture Specification](/llms-full.txt)

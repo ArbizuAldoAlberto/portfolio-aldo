@@ -219,7 +219,17 @@ export function MonumentalFooter() {
             <span className="text-[#F8FAFC]">San Carlos de Bolívar, Buenos Aires, Argentina</span>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <a
+              href="/impacto"
+              onMouseEnter={() => {
+                soundEngine.playHover();
+                playHoverTick();
+              }}
+              className="hover:text-[#F8FAFC] transition-colors text-[#CBD5E1]"
+            >
+              {isEs ? "Impacto Social (/impacto)" : "Civic Impact (/impacto)"}
+            </a>
             <a
               href="https://arbizulabs.com"
               target="_blank"

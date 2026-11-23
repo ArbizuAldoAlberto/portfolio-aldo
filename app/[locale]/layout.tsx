@@ -88,9 +88,9 @@ export async function generateMetadata({
       locale: locale,
       images: [
         {
-          url: "/api/og?persona=founder",
+          url: "https://aldoarbizu.com/assets/brand-v2/aldo-editorial-architecture.webp",
           width: 1200,
-          height: 630,
+          height: 675,
           alt: "Aldo Arbizu — Staff SRE & Quantitative Systems Architect",
         },
       ],
@@ -99,7 +99,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: "Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect",
       description: "Sistemas distribuidos de alta disponibilidad y ejecución algorítmica de baja latencia.",
-      images: ["/api/og?persona=founder"],
+      images: ["https://aldoarbizu.com/assets/brand-v2/aldo-editorial-architecture.webp"],
     },
   };
 }
