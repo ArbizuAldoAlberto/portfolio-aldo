@@ -47,7 +47,7 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Skip all internal paths (_next, api, etc.)
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
+  // Skip internal paths, static assets, and standalone /impacto civic archive
+  matcher: ['/((?!api|_next|_vercel|impacto|.*\\..*).*)']
 };
 // NEXUS REFRESH

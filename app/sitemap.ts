@@ -29,6 +29,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/impacto`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    },
     ...[
       'titanflow', 'aureus', 'sentinelos', 'agromarket', 'ecoconnect',
       'pawhero', 'aeroshot', 'cannabis', 'impresion3d', 'habitat',

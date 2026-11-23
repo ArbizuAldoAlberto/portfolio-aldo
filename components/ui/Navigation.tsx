@@ -116,6 +116,9 @@ export default function Navigation() {
           <a href="#contacto" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
             {t("navContact")}
           </a>
+          <a href="/impacto" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
+            {isEs ? "Impacto" : "Impact"}
+          </a>
         </nav>
 
         {/* Controles Ejecutivos Derecha (Sin selectores V1/V2 — Paleta Titanium & Warm Bronze) */}
