@@ -78,17 +78,17 @@ export function OfflineTelemetryHUD() {
   return (
     <aside
       aria-label="Telemetría Offline-First"
-      className="fixed bottom-4 left-4 z-[90] font-mono select-none"
+      className="fixed bottom-4 right-4 z-[90] font-mono select-none"
     >
       <div
         onClick={() => setIsExpanded((prev) => !prev)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#070B12]/90 backdrop-blur-md border border-[#D4AF37]/35 shadow-[0_8px_30px_rgba(0,0,0,0.85)] text-xs text-[#F8FAFC] cursor-pointer hover:border-[#D4AF37] transition-all"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-[2px] bg-[#060709] border border-[#D4AF37]/50 text-xs text-[#F2F0EA] cursor-pointer hover:border-[#D4AF37] transition-colors"
       >
         <span
-          className={`w-2 h-2 rounded-full ${
+          className={`w-2 h-2 ${
             effectiveOffline
-              ? "bg-[#E09F5A] animate-ping"
-              : "bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.8)]"
+              ? "bg-[#E09F5A]"
+              : "bg-[#00E599]"
           }`}
         />
 
@@ -132,7 +132,7 @@ export function OfflineTelemetryHUD() {
       {isExpanded && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="mt-2 w-72 rounded-2xl bg-[#070B12]/95 backdrop-blur-xl border border-[#D4AF37]/40 p-4 shadow-2xl text-[11px] space-y-2.5 animate-in fade-in slide-in-from-bottom-2 duration-200"
+          className="mt-2 w-72 rounded-[2px] bg-[#0B0D12] border border-[#D4AF37]/50 p-4 text-[11px] space-y-2.5"
         >
           <div className="flex items-center justify-between border-b border-white/[0.08] pb-2">
             <span className="text-[10px] text-[#D4AF37] font-bold tracking-wider uppercase">

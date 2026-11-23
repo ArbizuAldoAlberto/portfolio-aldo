@@ -90,7 +90,7 @@ export default function HeroSection() {
 
       {/* HUD Asimétrico de Consola Staff/Principal (Zero Cápsula Centrada) */}
       <div className="hero-content w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative z-10 w-full border border-[#1B202B] bg-[#060709]/85 backdrop-blur-md p-5 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,0.9)] text-left">
+        <div className="relative z-10 w-full border border-[#1B202B] bg-[#060709] p-5 sm:p-8 text-left">
           {/* Barra Superior HUD Principal Architect */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-5 border-b border-[#1B202B] font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] tabular-nums">
             <div className="flex items-center gap-3">
@@ -100,13 +100,13 @@ export default function HeroSection() {
               </span>
             </div>
             <div className="flex items-center gap-2 text-[#00E599] font-bold">
-              <span className="h-2 w-2 rounded-full bg-[#00E599] animate-pulse" />
+              <span className="h-2 w-2 bg-[#00E599]" />
               <span>60 FPS · 0 VRAM LEAKS · 60/60 RLS</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-            <div className="lg:col-span-7 bg-[#060709]/80 backdrop-blur-[4px] p-4 sm:p-5 rounded-[2px] border border-[#1B202B]/90 shadow-[0_12px_40px_rgba(6,7,9,0.75)]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            <div className="lg:col-span-7 bg-[#0B0D12] p-4 sm:p-5 rounded-[2px] border border-[#1B202B] flex flex-col justify-between">
               <h1
                 id="hero-title"
                 className="font-sans font-extrabold text-2xl sm:text-4xl lg:text-[2.75rem] leading-[1.02] tracking-[-0.04em] text-[#F6F7F9] mb-3"
@@ -121,7 +121,19 @@ export default function HeroSection() {
             </div>
 
             {/* Ruteo Rápido por Perfil de Decisor */}
-            <div className="lg:col-span-5 flex flex-col gap-2 font-mono text-[11px]">
+            <div className="lg:col-span-5 flex flex-col justify-between gap-3 font-mono text-[11px]">
+              <div className="relative border border-[#1B202B] bg-[#0B0D12] overflow-hidden">
+                <img
+                  src="/assets/brand-v2/aldo-editorial-architecture.webp"
+                  alt="Estudio de arquitectura de sistemas distribuidos e instrumentación de hardware — Aldo Alberto Arbizu"
+                  className="w-full h-44 sm:h-48 object-cover block"
+                  loading="eager"
+                />
+                <div className="px-3 py-1.5 border-t border-[#1B202B] bg-[#060709] flex items-center justify-between text-[9px] uppercase tracking-widest text-[#C2C8D4]">
+                  <span>DOSSIER ARCH // BARE-METAL + FIELD OPS</span>
+                  <span className="text-[#D4AF37]">BOLÍVAR · ARG</span>
+                </div>
+              </div>
               <a
                 href="#proyectos"
                 onMouseEnter={() => {

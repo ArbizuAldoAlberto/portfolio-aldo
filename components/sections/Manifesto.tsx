@@ -78,7 +78,7 @@ export default function Manifesto() {
             {/* Title with word-by-word reveal */}
             <motion.h2
               ref={titleRef}
-              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-8 max-w-4xl leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-[#F2F0EA] mb-8 max-w-4xl leading-tight tracking-[-0.03em]"
             >
               <GlitchText delay={0.1} text={content.title} />
             </motion.h2>
@@ -107,15 +107,10 @@ export default function Manifesto() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: '-50px' }}
-                  whileHover={{ 
-                    y: -4, 
-                    transition: { duration: 0.3 },
-                    boxShadow: '0 12px 40px rgba(29, 158, 117, 0.08)'
-                  }}
-                  className="glass-surface p-8 group"
+                  className="bg-[#0B0D12] border border-[#1B202B] hover:border-[#D4AF37] p-8 group transition-colors"
                 >
-                  <div className="text-[var(--color-orbital-teal)] font-space mb-4 font-bold text-lg group-hover:text-gradient transition-all">{pillar.num}</div>
-                  <h3 className="font-serif text-2xl text-white mb-3 group-hover:text-[var(--color-orbital-teal)] transition-colors duration-300">{pillar.title}</h3>
+                  <div className="text-[#D4AF37] font-mono mb-4 font-bold text-lg">{pillar.num}</div>
+                  <h3 className="font-sans text-2xl font-bold text-[#F2F0EA] mb-3 group-hover:text-[#FF4F00] transition-colors">{pillar.title}</h3>
                   <p className="font-mono text-sm text-[var(--color-mist-gray)]">{pillar.desc}</p>
                 </motion.div>
               ))}

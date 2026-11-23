@@ -48,12 +48,12 @@ export default function DeveloperStore() {
     <section id="store" className="orbital-section py-20 sm:py-28">
       <div className="section-inner">
         <div className="mb-14 sm:mb-18 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[10px] bg-[#D4AF37]/10 border border-[#D4AF37]/30 font-mono text-xs text-[#D4AF37] mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[2px] bg-[#0B0D12] border border-[#D4AF37]/40 font-mono text-xs text-[#D4AF37] mb-4">
             <Code2 className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} />
             <span>{isEs ? "RECURSOS DE CÓDIGO // GUMROAD STORE" : "CODE RESOURCES // GUMROAD STORE"}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-sans font-bold text-[#F8FAFC] tracking-tight mb-4">
-            Digital Store & Boilerplates
+            Digital Store &amp; Boilerplates
           </h2>
           <p className="text-[#94A3B8] font-sans text-sm sm:text-base max-w-2xl leading-relaxed">
             {isEs
@@ -68,32 +68,32 @@ export default function DeveloperStore() {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
+                transition={{ delay: i * 0.08, duration: 0.4 }}
                 onPointerEnter={playHoverTick}
-                className="p-6 sm:p-8 rounded-2xl bg-[#070B12]/80 border border-white/[0.08] hover:border-[#D4AF37]/40 transition-all flex flex-col justify-between group shadow-[0_20px_50px_rgba(0,0,0,0.65)]"
+                className="p-6 sm:p-8 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] hover:border-[#D4AF37] transition-colors flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-[#070B12] border border-[#D4AF37]/35 flex items-center justify-center text-[#D4AF37] group-hover:border-[#D4AF37] transition-colors shadow-[0_0_14px_rgba(212,175,55,0.18)]">
-                      <Icon className="w-6 h-6" strokeWidth={1.5} />
+                    <div className="w-11 h-11 rounded-[2px] bg-[#060709] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37]">
+                      <Icon className="w-5 h-5" strokeWidth={1.5} />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 border border-[#D4AF37]/30 px-2.5 py-1 rounded-lg font-bold">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#D4AF37] bg-[#060709] border border-[#1B202B] px-2.5 py-1 rounded-[2px] font-bold">
                       {item.tag}
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-sans font-bold text-[#F8FAFC] mb-2 group-hover:text-[#D4AF37] transition-colors">
+                  <h3 className="text-xl sm:text-2xl font-sans font-bold text-[#F2F0EA] mb-2 group-hover:text-[#FF4F00] transition-colors">
                     {item.title}
                   </h3>
                   <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="font-mono text-3xl font-black text-[#F8FAFC]">{item.price}</span>
-                    <span className="font-mono text-xs text-[#94A3B8]">USD</span>
+                    <span className="font-mono text-3xl font-extrabold text-[#F2F0EA]">{item.price}</span>
+                    <span className="font-mono text-xs text-[#8A93A6]">USD</span>
                   </div>
 
-                  <p className="font-sans text-xs sm:text-sm text-[#94A3B8] leading-relaxed mb-8">
+                  <p className="font-sans text-xs sm:text-sm text-[#C2C8D4] leading-relaxed mb-8">
                     {item.description}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ export default function DeveloperStore() {
                     soundEngine.playClick();
                     playModeSwitch("pbr");
                   }}
-                  className="w-full py-3.5 px-4 rounded-xl bg-white/[0.06] hover:bg-[#D4AF37] hover:text-[#070B12] border border-white/[0.12] hover:border-transparent text-[#F8FAFC] font-mono text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full py-3.5 px-4 rounded-[2px] bg-[#FF4F00] hover:bg-[#D4AF37] text-[#060709] font-mono text-xs font-extrabold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
                 >
                   <span>{isEs ? "Adquirir en Gumroad" : "Buy on Gumroad"}</span>
                   <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
