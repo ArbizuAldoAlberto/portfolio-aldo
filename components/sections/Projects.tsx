@@ -298,28 +298,28 @@ function ProjectCard({ project, index, total }: { project: typeof rawProjects[0]
               </span>
 
               {isFeatured && (
-                <span className={`font-space text-[9px] tracking-widest font-bold px-2 py-0.5 rounded border ${isSecurity ? 'border-[#EF4444] text-[#EF4444] shadow-[0_0_10px_rgba(239,68,68,0.2)]' : isAgtech ? 'border-[#84CC16] text-[#84CC16] shadow-[0_0_10px_rgba(132,204,22,0.2)]' : 'border-[var(--color-orbital-teal)] text-[var(--color-orbital-teal)] shadow-[0_0_10px_rgba(29,158,117,0.2)]'}`}>
+                <span className={`font-mono text-[9px] tracking-widest font-bold px-2 py-0.5 rounded-[2px] border ${isSecurity ? 'border-[#EF4444] text-[#EF4444]' : isAgtech ? 'border-[#84CC16] text-[#84CC16]' : 'border-[#D4AF37] text-[#D4AF37]'}`}>
                   {t('labels.featured')}
                 </span>
               )}
             </div>
 
-            <h3 className="font-serif text-3xl md:text-4xl text-white mb-2 group-hover:text-gradient transition-all">{t(`projects.${project.id}.title`)}</h3>
-            <div className="font-space text-[var(--color-orbital-teal)] text-sm mb-6 font-bold" style={{ color: 'var(--color-orbital-teal)' }}>{t(`projects.${project.id}.role`)}</div>
+            <h3 className="font-sans text-3xl md:text-4xl font-extrabold text-[#F2F0EA] mb-2">{t(`projects.${project.id}.title`)}</h3>
+            <div className="font-mono text-[#D4AF37] text-sm mb-6 font-bold">{t(`projects.${project.id}.role`)}</div>
 
             {/* Real Project Screenshot Browser Mockup */}
-            <div className="relative mb-6 rounded-xl border border-white/10 bg-black/80 overflow-hidden shadow-lg group-hover:border-[var(--color-orbital-teal)]/40 transition-colors">
-              <div className="flex items-center justify-between px-3 py-2 bg-black/90 border-b border-white/5 text-[10px] font-mono text-slate-400">
+            <div className="relative mb-6 rounded-[2px] border border-[#1B202B] bg-[#060709] overflow-hidden group-hover:border-[#D4AF37] transition-colors">
+              <div className="flex items-center justify-between px-3 py-2 bg-[#0B0D12] border-b border-[#1B202B] text-[10px] font-mono text-[#C2C8D4]">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-500/70" />
-                  <span className="w-2 h-2 rounded-full bg-amber-500/70" />
-                  <span className="w-2 h-2 rounded-full bg-emerald-500/70" />
-                  <span className="text-slate-500 text-[9px] ml-2 hidden sm:inline">
+                  <span className="w-2 h-2 bg-[#FF4F00]" />
+                  <span className="w-2 h-2 bg-[#D4AF37]" />
+                  <span className="w-2 h-2 bg-[#00E599]" />
+                  <span className="text-[#8A93A6] text-[9px] ml-2 hidden sm:inline">
                     https://{project.id}.aldoarbizu.com
                   </span>
                 </div>
-                <div className="flex items-center gap-1 text-emerald-400 font-bold text-[9px]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <div className="flex items-center gap-1 text-[#00E599] font-bold text-[9px]">
+                  <span className="w-1.5 h-1.5 bg-[#00E599]" />
                   <span>LIVE · 200 OK</span>
                 </div>
               </div>
