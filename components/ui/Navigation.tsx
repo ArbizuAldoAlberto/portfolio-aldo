@@ -26,7 +26,12 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (pathname === "/compare" || pathname.startsWith("/compare/")) {
+  if (
+    pathname === "/compare" ||
+    pathname.startsWith("/compare/") ||
+    pathname === "/impacto" ||
+    pathname.startsWith("/impacto/")
+  ) {
     return null;
   }
 

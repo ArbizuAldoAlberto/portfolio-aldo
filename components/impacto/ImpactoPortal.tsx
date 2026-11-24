@@ -91,7 +91,7 @@ export default function ImpactoPortal() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F3EC] text-[#1A1D1F] selection:bg-[#B45309]/20">
+    <div data-impacto-root="true" className="min-h-screen bg-[#F6F3EC] text-[#1A1D1F] selection:bg-[#B45309]/20">
       {/* Navegación Editorial Sobria (Anillo 2) */}
       <header className="border-b border-[#D9D2C3] bg-[#FFFFFF]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">

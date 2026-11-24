@@ -15,6 +15,14 @@ export const metadata: Metadata = {
   description:
     "Filantropía de Transición, criptografía offline Ed25519, privacidad FLE:v2 (Ley 25.326), Preservación 3D solidaria con Hellbot Magna 2 y red PawHero (0% comisión).",
   metadataBase: new URL("https://aldoarbizu.com"),
+  manifest: "/impacto-manifest.json",
+  icons: {
+    icon: [
+      { url: "/impacto-icons/favicon.ico", sizes: "any" },
+      { url: "/impacto-icons/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/impacto-icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   alternates: {
     canonical: "https://aldoarbizu.com/impacto",
   },
@@ -45,10 +53,12 @@ export default function ImpactoLayout({
   return (
     <html
       lang="es"
+      data-impacto="true"
       className={`${GeistSans.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <body
+        data-impacto="true"
         className="bg-[#F6F3EC] text-[#1A1D1F] font-sans antialiased overflow-x-clip"
         suppressHydrationWarning
       >
