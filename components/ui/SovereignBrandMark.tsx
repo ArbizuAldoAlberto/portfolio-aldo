@@ -40,26 +40,28 @@ export function ArbizuLabsMark({ className = "w-8 h-8" }: { className?: string }
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
+      viewBox="0 0 24 24"
       fill="none"
       className={className}
       aria-label="Arbizu Labs Sovereign Isotype"
     >
-      <polygon
-        points="18,4 46,4 60,18 60,46 46,60 18,60 4,46 4,18"
-        fill="#0B0D12"
+      <rect x="0" y="0" width="24" height="24" rx="4" fill="#0B0D12" />
+      <path
+        d="M16.5 4.5 H8 L4.5 8 V16.5"
         stroke="#F2F0EA"
-        strokeWidth="2"
+        strokeWidth="2.6"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        fill="none"
       />
-      <polygon
-        points="20,9 44,9 55,20 55,44 44,55 20,55 9,44 9,20"
-        stroke="#262C3A"
-        strokeWidth="1"
+      <polygon points="10.5,19.5 16,19.5 19.5,16 19.5,10.5" fill="#FF4F00" />
+      <path
+        d="M8.5 15.5 L15.5 8.5"
+        stroke="#F2F0EA"
+        strokeWidth="2.4"
+        strokeLinecap="square"
+        fill="none"
       />
-      <path d="M32 13L49 48H41.5L32 27.5L22.5 48H15L32 13Z" fill="#F2F0EA" />
-      <path d="M23 39H41" stroke="#0B0D12" strokeWidth="4" />
-      <rect x="29" y="35" width="6" height="6" fill="#FF4F00" />
-      <path d="M32 4V8M32 56V60M4 32H8M56 32H60" stroke="#D4AF37" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -68,21 +70,28 @@ export function AldoArbizuMonogram({ className = "w-8 h-8" }: { className?: stri
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
+      viewBox="0 0 24 24"
       fill="none"
       className={className}
       aria-label="Aldo Arbizu Principal Architect Monogram"
     >
-      <polygon
-        points="18,4 46,4 60,18 60,46 46,60 18,60 4,46 4,18"
-        fill="#060709"
-        stroke="#D4AF37"
-        strokeWidth="1.75"
+      <rect x="0" y="0" width="24" height="24" rx="4" fill="#07080A" />
+      <path
+        d="M5.5 19.5 L12 4.5 L18.5 19.5"
+        stroke="#F2F0EA"
+        strokeWidth="2.5"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        fill="none"
       />
-      <circle cx="32" cy="32" r="21" stroke="#1E2430" strokeWidth="1" strokeDasharray="2 2" />
-      <path d="M32 12L48 46H42L32 24L22 46H16L32 12Z" fill="#F2F0EA" />
-      <path d="M32 25L41 46H36.5L32 35.5L27.5 46H23L32 25Z" fill="#D4AF37" />
-      <circle cx="32" cy="43" r="2.2" fill="#00E599" />
+      <path
+        d="M8.5 14 L15.5 11.5"
+        stroke="#D4AF37"
+        strokeWidth="2.3"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <circle cx="12" cy="18.2" r="1.8" fill="#D4AF37" />
     </svg>
   );
 }
