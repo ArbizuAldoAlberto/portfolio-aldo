@@ -29,30 +29,7 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return
-    
-    // Find all links containing 'icon' in rel
-    let links = document.querySelectorAll("link[rel*='icon']")
-    
-    if (links.length === 0) {
-      const defaultLink = document.createElement('link')
-      defaultLink.rel = 'icon'
-      defaultLink.type = 'image/svg+xml'
-      document.head.appendChild(defaultLink)
-      links = document.querySelectorAll("link[rel*='icon']")
-    }
-
-    const iconPath = `/favicon-${persona}.svg`
-    
-    links.forEach(link => {
-      const htmlLink = link as HTMLLinkElement
-      htmlLink.href = iconPath
-      htmlLink.type = 'image/svg+xml'
-    })
-    
-    // Update document title dynamically based on active persona (GAP PORT-1)
     document.title = 'Aldo Alberto Arbizu — Staff SRE & Quantitative Systems Architect'
-    
-    console.log(`[NEXUS TELEMETRY] Persona updated dynamically: ${persona} (${iconPath})`)
   }, [persona, mounted])
 
   const setPersona = (newPersona: PersonaType) => {
