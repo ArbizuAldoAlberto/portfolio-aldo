@@ -215,6 +215,15 @@ main,
   background-color: var(--bg-seam);
 }
 
+html[data-impacto="true"],
+html[data-impacto="true"] body,
+html[data-impacto="true"] main,
+[data-impacto-root],
+[data-impacto-root] main {
+  background-color: #F6F3EC !important;
+  color: #1A1D1F !important;
+}
+
 /* Prohibición expresa de cursivas decorativas genéricas */
 em,
 i {
