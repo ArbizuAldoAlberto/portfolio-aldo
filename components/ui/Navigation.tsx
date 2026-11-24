@@ -1,20 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Volume2, VolumeX, Eye, EyeOff, ExternalLink, FileText } from "lucide-react";
+import { ExternalLink, FileText } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "../../i18n/routing";
-import { soundEngine } from "../system/SoundEngine";
-import { useMotionPreferences } from "../system/MotionPreferences";
+import { usePathname } from "../../i18n/routing";
 import { AldoArbizuMonogram } from "./SovereignBrandMark";
 
 export default function Navigation() {
   const locale = useLocale();
   const t = useTranslations("OrbitalUI");
   const pathname = usePathname();
-  const router = useRouter();
-  const { reducedMotion, toggleReducedMotion } = useMotionPreferences();
-  const [isMuted, setIsMuted] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -31,25 +26,12 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setIsMuted(soundEngine.isMuted());
-    const unsub = soundEngine.subscribe((muted) => setIsMuted(muted));
-    return unsub;
-  }, []);
-
   if (pathname === "/compare" || pathname.startsWith("/compare/")) {
     return null;
   }
 
   const toggleLanguage = () => {
-    soundEngine.playClick();
     if (typeof window !== "undefined") {
-      const scrollY = window.scrollY;
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      sessionStorage.setItem("webanti_scroll_y", String(scrollY));
-      sessionStorage.setItem("webanti_scroll_ratio", String(scrollY / maxScroll));
-      sessionStorage.setItem("webanti_restoring_scroll", "true");
-
       const nextLocale = locale === "es" ? "en" : "es";
       const currentPath = window.location.pathname;
       const currentSearch = window.location.search;
@@ -59,16 +41,6 @@ export default function Navigation() {
       const targetUrl = `/${nextLocale}${cleanPath === "/" ? "" : cleanPath}${currentSearch}${currentHash}`;
       window.location.href = targetUrl;
     }
-  };
-
-  const handleSoundToggle = () => {
-    const next = soundEngine.toggleMute();
-    setIsMuted(next);
-  };
-
-  const handleMotionToggle = () => {
-    soundEngine.playClick();
-    toggleReducedMotion();
   };
 
   const homeHref = `/${locale}`;
@@ -84,11 +56,8 @@ export default function Navigation() {
         data-header
         data-scrolled={isScrolled ? "true" : "false"}
       >
-        {/* Brand & Sovereign Double-A Monogram */}
         <a
           href={homeHref}
-          onMouseEnter={() => soundEngine.playHover()}
-          onClick={() => soundEngine.playClick()}
           className="brand flex items-center gap-2.5"
           aria-label="Aldo Arbizu, inicio"
         >
@@ -99,45 +68,27 @@ export default function Navigation() {
           </div>
         </a>
 
-        {/* Navegación Ejecutiva Limpia */}
-        <nav className="site-nav" aria-label="Secciones">
-          <a href="#inmersion" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {t("navInmersion")}
-          </a>
-          <a href="#sobre-mi" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {t("navHybrid")}
-          </a>
-          <a href="#proyectos" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {t("navProjects")}
-          </a>
-          <a href="#servicios" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {t("navServices")}
-          </a>
-          <a href="#contacto" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {t("navContact")}
-          </a>
-          <a href="/impacto" onMouseEnter={() => soundEngine.playHover()} onClick={() => soundEngine.playClick()}>
-            {isEs ? "Impacto" : "Impact"}
-          </a>
+        <nav className="site-nav" aria-label="Navegación principal">
+          <a href="#sobre-mi">{isEs ? "Trayectoria" : "Craft"}</a>
+          <a href="#proyectos">{isEs ? "Casos" : "Cases"}</a>
+          <a href="#servicios">{isEs ? "Servicios" : "Services"}</a>
+          <a href="/impacto">{isEs ? "Impacto" : "Impact"}</a>
+          <a href="#contacto">{isEs ? "Contacto" : "Contact"}</a>
         </nav>
 
-        {/* Controles Ejecutivos Derecha (Sin selectores V1/V2 — Paleta Titanium & Warm Bronze) */}
         <div className="header-controls">
           <a
             href="/cv/cv-unificado-aldo-arbizu.pdf"
             download
-            onMouseEnter={() => soundEngine.playHover()}
-            onClick={() => soundEngine.playClick()}
-            className="ctrl-btn !hidden lg:!inline-flex border-[#D4AF37]/40 text-[#D4AF37] hover:border-[#D4AF37]"
+            className="ctrl-btn !hidden lg:!inline-flex border-[#1B202B] text-[#C2C8D4] hover:border-[#D4AF37] hover:text-[#F2F0EA]"
           >
             <FileText size={12} className="text-[#D4AF37]" />
-            <span>{isEs ? "Resumen Ejecutivo (PDF)" : "Executive Summary (PDF)"}</span>
+            <span>CV PDF</span>
           </a>
 
           <button
             type="button"
             onClick={toggleLanguage}
-            onMouseEnter={() => soundEngine.playHover()}
             className="ctrl-btn"
             aria-label="Cambiar idioma ES / EN"
           >
@@ -146,35 +97,13 @@ export default function Navigation() {
             <span className={locale === "en" ? "text-[#D4AF37] font-bold" : "opacity-75"}>EN</span>
           </button>
 
-          <button
-            type="button"
-            onClick={handleSoundToggle}
-            onMouseEnter={() => soundEngine.playHover()}
-            className={`ctrl-btn !hidden sm:!inline-flex${!isMuted ? " ctrl-btn--active" : ""}`}
-            aria-label={isMuted ? "Activar audio ambiental" : "Silenciar audio"}
-          >
-            {isMuted ? <VolumeX size={13} /> : <Volume2 size={13} />}
-          </button>
-
-          <button
-            type="button"
-            onClick={handleMotionToggle}
-            onMouseEnter={() => soundEngine.playHover()}
-            className={`ctrl-btn !hidden md:!inline-flex${reducedMotion ? " ctrl-btn--active" : ""}`}
-            aria-label={reducedMotion ? "Movimiento reducido activo" : "Movimiento cinemático activo"}
-          >
-            {reducedMotion ? <EyeOff size={13} /> : <Eye size={13} />}
-          </button>
-
           <a
             href="https://arbizulabs.com"
             target="_blank"
             rel="noopener noreferrer"
-            onMouseEnter={() => soundEngine.playHover()}
-            onClick={() => soundEngine.playClick()}
-            className="ctrl-btn !hidden xl:!inline-flex"
+            className="ctrl-btn !hidden sm:!inline-flex border-[#D4AF37]/40 text-[#D4AF37] hover:border-[#D4AF37]"
           >
-            <span>ARBIZU LABS</span>
+            <span>Arbizu Labs</span>
             <ExternalLink size={11} />
           </a>
         </div>

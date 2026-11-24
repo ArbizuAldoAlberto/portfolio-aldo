@@ -2,12 +2,10 @@
 
 import { useEffect } from "react";
 import HeroSection from "@/components/HeroSection";
-import OrbitalDiveSequence from "@/components/sections/OrbitalDiveSequence";
 import { ProjectsShowcase } from "@/components/ProjectsShowcase";
 import DeveloperStore from "@/components/sections/DeveloperStore";
 import ServicesSection from "@/components/ServicesSection";
 import { MonumentalFooter } from "@/components/ui/MonumentalFooter";
-import { useTacticalAudio } from "@/components/audio/useTacticalAudio";
 import {
   Tractor,
   Smartphone,
@@ -28,67 +26,34 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
   const locale = useLocale();
   const t = useTranslations("OrbitalUI");
   const isEs = locale === "es";
-  const { playHoverTick } = useTacticalAudio();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const isV2 =
-      forceTheme === "v2" ||
-      window.location.pathname.includes("/v2") ||
-      window.location.search.includes("theme=v2");
-    const themeVal = isV2 ? "v2" : "v1";
+    const themeVal = forceTheme === "v2" ? "v2" : "v1";
     document.documentElement.setAttribute("data-theme", themeVal);
-    if (window.__webanti) {
-      window.__webanti.theme = themeVal;
-    }
   }, [forceTheme]);
-
-  const handleTiltMove = (e: React.PointerEvent<HTMLElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    const px = (e.clientX - rect.left) / rect.width;
-    const py = (e.clientY - rect.top) / rect.height;
-    const rotY = (px - 0.5) * 10;
-    const rotX = (0.5 - py) * 8;
-    card.style.setProperty("--gx", `${(px * 100).toFixed(1)}%`);
-    card.style.setProperty("--gy", `${(py * 100).toFixed(1)}%`);
-    card.style.transform = `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-  };
-
-  const handleTiltLeave = (e: React.PointerEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
-  };
 
   const hybridArtifacts = [
     {
       icon: Tractor,
-      cadType: "drone" as const,
-      alt: t("artifact1Alt"),
       tag: t("artifact1Tag"),
       title: t("artifact1Title"),
       desc: t("artifact1Desc"),
     },
     {
       icon: Smartphone,
-      cadType: "sqlite" as const,
-      alt: t("artifact2Alt"),
       tag: t("artifact2Tag"),
       title: t("artifact2Title"),
       desc: t("artifact2Desc"),
     },
     {
       icon: Shield,
-      cadType: "shield" as const,
-      alt: t("artifact3Alt"),
       tag: t("artifact3Tag"),
       title: t("artifact3Title"),
       desc: t("artifact3Desc"),
     },
     {
       icon: TrendingUp,
-      cadType: "quant" as const,
-      alt: t("artifact4Alt"),
       tag: t("artifact4Tag"),
       title: t("artifact4Title"),
       desc: t("artifact4Desc"),
@@ -96,151 +61,104 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
   ];
 
   return (
-    <main id="contenido" className="min-h-screen selection:bg-[#D4AF37]/30 selection:text-white">
-      {/* 1. HERO SECTION CINEMÁTICO (VIDEO LOOP 6S + ESCENA 3D + VIÑETA PERIMETRAL) */}
+    <main id="contenido" className="min-h-screen bg-[#060709] text-[#F2F0EA] selection:bg-[#D4AF37]/30 selection:text-white">
+      {/* 1. HERO EDITORIAL OBSIDIANA */}
       <HeroSection />
 
-      {/* 2. MOTOR SCROLLYTELLING <CANVAS> DE 240 FOTOGRAMAS */}
-      <OrbitalDiveSequence />
-
-      {/* 3. EL FACTOR HÍBRIDO · 4 ACTIVOS 3D FLOTANTES */}
+      {/* 2. EL FACTOR HÍBRIDO · FOTOGRAFÍA EDITORIAL + 4 PILARES DE INGENIERÍA */}
       <section
         id="sobre-mi"
-        className="artifacts"
+        className="py-10 sm:py-12 bg-[#060709] border-b border-[#1B202B]"
         data-section="artifacts"
         aria-labelledby="artefactos-title"
       >
-        <div className="particles" data-particles aria-hidden="true" />
-        <div className="section-inner">
-          <div className="mb-12 text-center sm:text-left">
-            <span className="font-mono text-xs text-[#D4AF37] font-semibold uppercase tracking-widest block mb-2">
-              {t("artifactsTag")}
-            </span>
-            <h2 id="artefactos-title" className="section-title mb-0" data-reveal>
-              {t("artifactsTitle")}
-            </h2>
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-[#1B202B] pb-4">
+            <div>
+              <span className="font-mono text-[11px] text-[#D4AF37] font-semibold uppercase tracking-[0.14em] block mb-2">
+                {t("artifactsTag")}
+              </span>
+              <h2 id="artefactos-title" className="text-2xl sm:text-4xl font-sans font-bold text-[#F6F7F9] tracking-tight">
+                {t("artifactsTitle")}
+              </h2>
+            </div>
+            <p className="font-sans text-xs sm:text-sm text-[#8A93A6] max-w-xl leading-relaxed">
+              {isEs
+                ? "Cuatro disciplinas de hardware y software operando juntas desde la manga ganadera y los perímetros sin red hasta mercados financieros de baja latencia."
+                : "Four physical and software disciplines operating together from rural fields to low-latency markets."}
+            </p>
           </div>
 
-          <div className="artifact-grid">
-            {hybridArtifacts.map((item, i) => (
-              <article
-                key={i}
-                className="artifact-card group relative overflow-hidden"
-                data-tilt
-                onPointerEnter={playHoverTick}
-                onPointerMove={handleTiltMove}
-                onPointerLeave={handleTiltLeave}
-              >
-                {/* Directional Pointer Spotlight Halo */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    background:
-                      "radial-gradient(280px circle at var(--gx, 50%) var(--gy, 50%), rgba(212, 175, 55, 0.16), transparent 72%)",
-                  }}
-                />
-                {/* Mechanical Corner Brackets */}
-                <span className="card-bracket card-bracket--tl" aria-hidden="true" />
-                <span className="card-bracket card-bracket--tr" aria-hidden="true" />
-                <span className="card-bracket card-bracket--bl" aria-hidden="true" />
-                <span className="card-bracket card-bracket--br" aria-hidden="true" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <figure className="lg:col-span-5 border border-[#1B202B] bg-[#0B0D12] overflow-hidden">
+              <img
+                src="/assets/brand-v2/aldo-craft-four-worlds.webp"
+                alt={
+                  isEs
+                    ? "Artefactos físicos de hardware embebido, campo agropecuario, llave criptográfica y bitácora técnica"
+                    : "Physical artifacts spanning embedded hardware, agriculture, cryptographic keys, and technical notebook"
+                }
+                width={1280}
+                height={720}
+                className="w-full aspect-[16/10] object-cover block"
+                loading="lazy"
+              />
+              <figcaption className="px-4 py-2 border-t border-[#1B202B] font-mono text-[10px] uppercase tracking-widest text-[#8A93A6] flex items-center justify-between">
+                <span>BIT-TO-ATOM // 4 DISCIPLINAS EN PRODUCCIÓN</span>
+                <span className="text-[#D4AF37]">WAL + RLS</span>
+              </figcaption>
+            </figure>
 
-                <div className="artifact-stage flex items-center justify-center p-4">
-                  {item.cadType === "drone" && (
-                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
-                      <circle cx="100" cy="100" r="64" stroke="#D4AF37" strokeOpacity="0.4" strokeWidth="1.5" />
-                      <line x1="48" y1="48" x2="152" y2="152" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.9" />
-                      <line x1="152" y1="48" x2="48" y2="152" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.9" />
-                      <circle cx="48" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
-                      <circle cx="152" cy="48" r="22" stroke="#D4AF37" strokeWidth="1.5" />
-                      <circle cx="48" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
-                      <circle cx="152" cy="152" r="22" stroke="#D4AF37" strokeWidth="1.5" />
-                      <polygon points="100,72 124,100 100,128 76,100" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.08)" />
-                      <circle cx="100" cy="100" r="6" fill="#D4AF37" />
-                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // UAV-LIDAR-V4</text>
-                    </svg>
-                  )}
-                  {item.cadType === "sqlite" && (
-                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
-                      <ellipse cx="100" cy="58" rx="50" ry="18" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.08)" />
-                      <path d="M50 58 V100 C50 110 72 118 100 118 C128 118 150 110 150 100 V58" stroke="#94A3B8" strokeWidth="1.5" />
-                      <path d="M50 100 V142 C50 152 72 160 100 160 C128 160 150 152 150 142 V100" stroke="#D4AF37" strokeWidth="1.5" />
-                      <line x1="100" y1="36" x2="100" y2="168" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity="0.4" strokeDasharray="2 4" />
-                      <circle cx="100" cy="100" r="5" fill="#D4AF37" />
-                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // SQLITE-WAL-ENGINE</text>
-                    </svg>
-                  )}
-                  {item.cadType === "shield" && (
-                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
-                      <polygon points="100,34 154,58 154,108 100,164 46,108 46,58" stroke="#D4AF37" strokeWidth="1.5" fill="rgba(212,175,55,0.07)" />
-                      <polygon points="100,52 138,70 138,104 100,144 62,104 62,70" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.85" />
-                      <circle cx="100" cy="96" r="14" stroke="#D4AF37" strokeWidth="1.5" />
-                      <circle cx="100" cy="96" r="4" fill="#D4AF37" />
-                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // ZERO-TRUST-MASVS</text>
-                    </svg>
-                  )}
-                  {item.cadType === "quant" && (
-                    <svg viewBox="0 0 200 200" className="w-40 h-40 drop-shadow-[0_0_16px_rgba(212,175,55,0.28)]" fill="none" aria-label={item.alt}>
-                      <circle cx="100" cy="100" r="84" stroke="#94A3B8" strokeWidth="1.5" strokeOpacity="0.28" strokeDasharray="3 5" />
-                      <circle cx="100" cy="100" r="62" stroke="#D4AF37" strokeWidth="1.5" />
-                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#94A3B8" strokeWidth="1.5" transform="rotate(-28 100 100)" />
-                      <ellipse cx="100" cy="100" rx="62" ry="24" stroke="#D4AF37" strokeWidth="1.5" transform="rotate(32 100 100)" />
-                      <polyline points="54,126 82,98 104,112 144,68" stroke="#D4AF37" strokeWidth="1.5" />
-                      <circle cx="144" cy="68" r="4.5" fill="#D4AF37" />
-                      <text x="100" y="188" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">CAD // KELLY-QUANT-CORE</text>
-                    </svg>
-                  )}
-                </div>
-                <div className="flex items-center justify-between gap-3 mb-3">
-                  <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-[#070B12] border border-[#D4AF37]/45 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.5),0_0_12px_rgba(212,175,55,0.2)] group-hover:border-[#D4AF37] group-hover:scale-105 transition-all duration-300">
-                    <item.icon className="w-5 h-5 text-[#D4AF37]" strokeWidth={1.5} />
-                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_#D4AF37] animate-pulse" />
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 border border-[#1B202B] bg-[#0B0D12]">
+              {hybridArtifacts.map((item, i) => (
+                <article
+                  key={i}
+                  className="p-4 border-b border-[#1B202B] sm:odd:border-r flex flex-col justify-between gap-2.5"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="w-9 h-9 rounded-[2px] bg-[#060709] border border-[#1B202B] flex items-center justify-center text-[#D4AF37]">
+                      <item.icon className="w-4 h-4" strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono text-[10px] font-bold tracking-wider text-[#D4AF37] uppercase">
+                      {item.tag}
+                    </span>
                   </div>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#070B12]/90 border border-[#D4AF37]/35 font-mono text-[10px] font-bold tracking-wider text-[#E2E8F0] uppercase shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
-                    <span>{item.tag}</span>
+                  <div>
+                    <h3 className="font-sans text-lg font-bold text-[#F6F7F9] mb-1.5">{item.title}</h3>
+                    <p className="font-sans text-xs sm:text-sm text-[#C2C8D4] leading-relaxed">{item.desc}</p>
                   </div>
-                </div>
-                <h3 className="artifact-name">{item.title}</h3>
-                <p className="artifact-copy">{item.desc}</p>
-              </article>
-            ))}
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. SHOWCASE EDITORIAL VERTICAL DE PROYECTOS PRINCIPALES & LABS */}
+      {/* 3. SHOWCASE DE CASOS EN PRODUCCIÓN & SANDBOX SRE */}
       <ProjectsShowcase />
 
-      {/* 5. DIGITAL STORE & BOILERPLATES (GUMROAD) */}
+      {/* 4. DIGITAL STORE & BOILERPLATES */}
       <DeveloperStore />
 
-      {/* 6. SERVICIOS Y PRICING B2B */}
+      {/* 5. SERVICIOS Y PRICING B2B */}
       <ServicesSection />
 
-      {/* 7. PRUEBA DE CONFIANZA & ESTUDIO CORPORATIVO ARBIZU LABS */}
-      <section className="orbital-section py-20 sm:py-28">
-        <div className="section-inner">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
-            {/* Columna Izquierda: Certificaciones de Arquitectura & Estándares de Producción */}
-            <div className="p-8 rounded-[2px] bg-[#070B12]/90 border border-white/[0.08] flex flex-col justify-between">
+      {/* 6. GARANTÍAS VERIFICABLES & ESTUDIO ARBIZU LABS */}
+      <section className="py-10 sm:py-12 bg-[#060709] border-t border-[#1B202B]">
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            <div className="p-5 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] flex flex-col justify-between">
               <div>
-                <span className="font-mono text-xs text-[#D4AF37] font-semibold uppercase tracking-widest block mb-2">
-                  {isEs ? "// ESTÁNDARES DE PRODUCCIÓN & INVARIANTES" : "// PRODUCTION STANDARDS & INVARIANTS"}
+                <span className="font-mono text-[11px] text-[#D4AF37] font-semibold uppercase tracking-[0.14em] block mb-1.5">
+                  {isEs ? "ESTÁNDARES DE PRODUCCIÓN" : "PRODUCTION STANDARDS"}
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-sans font-bold text-[#F8FAFC] mb-6">
-                  {isEs
-                    ? "Garantías técnicas verificables en vivo."
-                    : "Live verifiable engineering guarantees."}
+                <h2 className="text-2xl sm:text-3xl font-sans font-bold text-[#F6F7F9] mb-4">
+                  {isEs ? "Garantías técnicas verificables en vivo." : "Live verifiable engineering guarantees."}
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {[
                     {
-                      org: "Architecture Certification // v3.1.0-sovereign",
+                      org: "Architecture Certification // v3.1.0",
                       title: isEs
                         ? "Aislamiento 60/60 PostgreSQL RLS · Persistencia Atómica SQLite WAL"
                         : "60/60 PostgreSQL RLS Isolation · SQLite WAL Atomic Persistence",
@@ -266,77 +184,66 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                   ].map((b, i) => (
                     <div
                       key={i}
-                      className="flex items-start gap-3 p-4 rounded-[2px] bg-[#070B12] border border-white/[0.08]"
+                      className="flex items-start gap-2.5 p-2.5 rounded-[2px] bg-[#060709] border border-[#1B202B]"
                     >
-                      <Award className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                      <Award className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
                       <div>
-                        <div className="font-mono text-xs text-[#D4AF37] font-bold">{b.org}</div>
-                        <div className="font-sans text-sm text-[#F8FAFC] font-medium">{b.title}</div>
+                        <div className="font-mono text-[11px] text-[#D4AF37] font-bold">{b.org}</div>
+                        <div className="font-sans text-xs sm:text-sm text-[#F2F0EA] font-medium">{b.title}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="pt-6 border-t border-white/[0.08] mt-6 flex items-center gap-2 text-xs font-mono text-[#94A3B8]">
+              <div className="pt-3.5 border-t border-[#1B202B] mt-3.5 flex items-center gap-2 text-xs font-mono text-[#8A93A6]">
                 <CheckCircle2 className="w-4 h-4 text-[#D4AF37]" />
-                <span>
-                  {isEs
-                    ? "Titulación y certificaciones auditables."
-                    : "Auditable degrees and certifications."}
-                </span>
+                <span>{isEs ? "Titulación y certificaciones auditables." : "Auditable degrees and certifications."}</span>
               </div>
             </div>
 
-            {/* Columna Derecha: Presentación Oficial de Arbizu Labs */}
-            <div className="p-8 rounded-3xl bg-[#070B12]/80 border border-white/[0.08] flex flex-col justify-between relative overflow-hidden shadow-2xl">
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
-
+            <div className="p-5 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2 font-mono text-xs text-[#D4AF37] font-bold uppercase">
                     <Building2 className="w-4 h-4 text-[#D4AF37]" />
-                    <span>
-                      {isEs ? "ESTUDIO CORPORATIVO // ARBIZU LABS" : "CORPORATE STUDIO // ARBIZU LABS"}
-                    </span>
+                    <span>{isEs ? "ESTUDIO B2B // ARBIZU LABS" : "CORPORATE STUDIO // ARBIZU LABS"}</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-lg bg-[#070B12] text-[#D4AF37] border border-[#D4AF37]/40 font-bold">
+                  <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-[2px] bg-[#060709] text-[#D4AF37] border border-[#1B202B] font-bold">
                     SOFTWARE HOUSE
                   </span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-sans font-bold text-[#F8FAFC] mb-4">Arbizu Labs</h3>
+                <h3 className="text-2xl sm:text-3xl font-sans font-bold text-[#F6F7F9] mb-3">Arbizu Labs</h3>
 
-                <p className="font-sans text-sm text-[#94A3B8] leading-relaxed mb-6">
+                <p className="font-sans text-sm text-[#C2C8D4] leading-relaxed mb-4">
                   {isEs ? (
                     <>
-                      <strong className="text-[#F8FAFC]">Arbizu Labs</strong> es mi estudio de software y consultoría
-                      técnica corporativa, especializado en el diseño y construcción de arquitecturas críticas:
-                      aplicaciones móviles Offline-First, automatización de flujos con agentes de IA y sistemas que
-                      no fallan en entornos hostiles.
+                      <strong className="text-[#F6F7F9]">Arbizu Labs</strong> es mi estudio de software y consultoría
+                      técnica corporativa, especializado en sistemas offline-first, plataformas B2B, hardware embebido y
+                      automatización de procesos en producción real.
                     </>
                   ) : (
                     <>
-                      <strong className="text-[#F8FAFC]">Arbizu Labs</strong> is my corporate software studio and
-                      technical consultancy, specialized in designing and building mission-critical architectures:
-                      Offline-First mobile apps, AI-agent automations, and resilient systems built to withstand
-                      extreme environments.
+                      <strong className="text-[#F6F7F9]">Arbizu Labs</strong> is my corporate software studio focused
+                      on offline-first mobile apps, B2B platforms, embedded hardware, and deterministic production
+                      systems.
                     </>
                   )}
                 </p>
 
-                <div className="space-y-2.5 mb-8">
+                <div className="space-y-2 mb-5">
                   {[
                     isEs
                       ? "Desarrollo de software a medida para empresas y productores."
-                      : "Custom software development for enterprise and agricultural operations.",
+                      : "Custom software engineering for enterprise and field operations.",
                     isEs
-                      ? "Arquitectura de datos resiliente con persistencia local y sincronización en la nube."
-                      : "Resilient data architecture with local persistence and asynchronous cloud sync.",
+                      ? "Persistencia local SQLite WAL y sincronización resiliente en nube."
+                      : "Local SQLite WAL persistence with resilient asynchronous cloud sync.",
                     isEs
-                      ? "Auditoría técnica, seguridad móvil y automatizaciones n8n."
-                      : "Technical audit, mobile app security, and n8n workflow automations.",
+                      ? "Auditorías técnicas, seguridad OWASP/RLS y automatizaciones n8n."
+                      : "Technical audits, OWASP/RLS hardening, and n8n workflow automation.",
                   ].map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs font-sans text-[#94A3B8]">
+                    <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm font-sans text-[#C2C8D4]">
                       <span className="text-[#D4AF37] font-bold">✓</span>
                       <span>{item}</span>
                     </div>
@@ -348,21 +255,17 @@ export default function LocalizedHome({ forceTheme }: LocalizedHomeProps = {}) {
                 href="https://arbizulabs.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-magnetic
-                className="btn-magnetic w-full"
+                className="w-full py-3.5 px-5 min-h-[44px] rounded-[2px] bg-[#D4AF37] hover:bg-[#F2F0EA] text-[#060709] font-mono text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors"
               >
-                <span className="btn-label">
-                  <span>{isEs ? "Conoce Más en ArbizuLabs.com" : "Learn More at ArbizuLabs.com"}</span>
-                  <ExternalLink className="w-4 h-4" />
-                </span>
-                <span className="btn-glow" aria-hidden="true" />
+                <span>{isEs ? "Visitar ArbizuLabs.com" : "Visit ArbizuLabs.com"}</span>
+                <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 8. FOOTER MONUMENTAL CON COPY-TO-CLIPBOARD Y RELOJ UTC-3 */}
+      {/* 7. FOOTER CONTACTO */}
       <MonumentalFooter />
     </main>
   );

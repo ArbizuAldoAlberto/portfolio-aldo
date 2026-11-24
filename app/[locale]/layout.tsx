@@ -2,23 +2,13 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { JetBrains_Mono } from "next/font/google";
 import { MotionPreferencesProvider } from "../../components/system/MotionPreferences";
-import PremiumBackground from "../../components/theme/PremiumBackground";
-import BackgroundEffects from "../../components/theme/BackgroundEffects";
-import { PersonaProvider } from "../../components/theme/PersonaContext";
-import { SoundProvider } from "../../components/theme/SoundManager";
 import Navigation from "../../components/ui/Navigation";
-import FastTrackBar from "../../components/ui/FastTrackBar";
-import FloatingProjectsButton from "../../components/ui/FloatingProjectsButton";
-import { BootSequence } from "../../components/system/BootSequence";
-import { OfflineTelemetryHUD } from "../../components/system/OfflineTelemetryHUD";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
-import { SmoothScroll } from "../../components/theme/SmoothScroll";
 import Script from "next/script";
-import SpotlightWrapper from "../../components/theme/SpotlightWrapper";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
@@ -67,9 +57,11 @@ export async function generateMetadata({
     authors: [{ name: "Aldo Arbizu", url: "https://aldoarbizu.com" }],
     metadataBase: new URL("https://aldoarbizu.com"),
     icons: {
-      icon: "/favicon-founder.svg",
-      shortcut: "/favicon-founder.svg",
-      apple: "/favicon-founder.svg",
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     },
     alternates: {
       canonical: "/",
@@ -124,7 +116,7 @@ export default async function LocalizedLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="preload" as="image" href="/media/hero/hero-poster.webp" fetchPriority="high" />
+        <link rel="preload" as="image" href="/assets/brand-v2/aldo-editorial-architecture.webp" fetchPriority="high" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{
@@ -132,15 +124,11 @@ export default async function LocalizedLayout({
               var s=window.location.search||"";
               var isV2=/\\/v2(\\/|$)/.test(p)||s.indexOf("theme=v2")!==-1;
               document.documentElement.setAttribute("data-theme",isV2?"v2":"v1");
-              if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-              var y = sessionStorage.getItem('webanti_scroll_y');
-              var r = sessionStorage.getItem('webanti_restoring_scroll');
-              if (r && y) { window.scrollTo(0, parseFloat(y)); }
             }catch(e){}})();`,
           }}
         />
       </head>
-      <body className="antialiased selection:bg-emerald-400/30 selection:text-white relative" suppressHydrationWarning>
+      <body className="bg-[#060709] text-[#F2F0EA] antialiased selection:bg-[#D4AF37]/30 selection:text-white relative" suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID &&
           !process.env.NEXT_PUBLIC_GA_ID.includes("YYYY") &&
           !process.env.NEXT_PUBLIC_GA_ID.includes("XXXX") && (
@@ -162,21 +150,8 @@ export default async function LocalizedLayout({
 
         <NextIntlClientProvider messages={messages}>
           <MotionPreferencesProvider>
-            <SmoothScroll>
-              <SoundProvider>
-                <PersonaProvider>
-                  <BootSequence />
-                  <FastTrackBar />
-                  <Navigation />
-                  <FloatingProjectsButton />
-                  <OfflineTelemetryHUD />
-                  <PremiumBackground />
-                  <BackgroundEffects />
-                  <SpotlightWrapper />
-                  {children}
-                </PersonaProvider>
-              </SoundProvider>
-            </SmoothScroll>
+            <Navigation />
+            {children}
           </MotionPreferencesProvider>
         </NextIntlClientProvider>
 

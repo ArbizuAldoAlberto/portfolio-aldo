@@ -1,15 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Smartphone, Bot, Zap, ExternalLink, Code2 } from "lucide-react";
-import { soundEngine } from "../system/SoundEngine";
-import { useTacticalAudio } from "../audio/useTacticalAudio";
 import { useLocale } from "next-intl";
 
 export default function DeveloperStore() {
   const locale = useLocale();
   const isEs = locale === "es";
-  const { playHoverTick, playModeSwitch } = useTacticalAudio();
 
   const KITS = [
     {
@@ -17,7 +13,7 @@ export default function DeveloperStore() {
       price: "$29",
       tag: isEs ? "BOILERPLATE MÓVIL" : "MOBILE BOILERPLATE",
       description: isEs
-        ? "Boilerplate de producción para apps móviles que deben funcionar sin internet. SQLite con WAL, Expo EAS y Zustand auto-sync asíncrono."
+        ? "Base de producción para apps móviles que operan sin internet. SQLite con WAL, Expo EAS y cola de sincronización asíncrona."
         : "Production boilerplate for Offline-First mobile apps. SQLite WAL mode, Expo EAS bare workflow, and async background sync.",
       url: "https://arbizualdo.gumroad.com/l/offline-starter",
       icon: Smartphone,
@@ -27,7 +23,7 @@ export default function DeveloperStore() {
       price: "$19",
       tag: isEs ? "FLUJO N8N & AI" : "N8N WORKFLOW & AI",
       description: isEs
-        ? "Workflow n8n completo para captura y scoring de leads con Google Gemini AI, integraciones de CRM y alertas en tiempo real en Telegram."
+        ? "Workflow n8n para captura y calificación de leads con Google Gemini AI, sincronización CRM y alertas en Telegram."
         : "Complete n8n workflow for lead capture & automated scoring with Google Gemini AI, CRM sync, and instant Telegram alerts.",
       url: "https://arbizualdo.gumroad.com/l/n8n-crm",
       icon: Bot,
@@ -37,7 +33,7 @@ export default function DeveloperStore() {
       price: "$14",
       tag: isEs ? "MONITOR PYTHON TELEGRAM" : "PYTHON TELEMETRY CLI",
       description: isEs
-        ? "Script Python liviano para monitorear cotizaciones en Binance API con alertas instantáneas por umbrales configurables en Telegram."
+        ? "Monitor Python liviano sobre Binance API pública con alertas instantáneas por umbrales configurables en Telegram."
         : "Lightweight Python CLI monitor polling Binance public ticker feeds with instant upper/lower threshold alerts on Telegram.",
       url: "https://arbizualdo.gumroad.com/l/titan-alerts",
       icon: Zap,
@@ -45,55 +41,52 @@ export default function DeveloperStore() {
   ];
 
   return (
-    <section id="store" className="orbital-section py-20 sm:py-28">
-      <div className="section-inner">
-        <div className="mb-14 sm:mb-18 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[2px] bg-[#0B0D12] border border-[#D4AF37]/40 font-mono text-xs text-[#D4AF37] mb-4">
-            <Code2 className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} />
-            <span>{isEs ? "RECURSOS DE CÓDIGO // GUMROAD STORE" : "CODE RESOURCES // GUMROAD STORE"}</span>
+    <section id="store" className="py-8 sm:py-10 bg-[#060709] border-t border-[#1B202B]">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-[#1B202B] pb-4">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[#D4AF37] mb-2">
+              <Code2 className="w-3.5 h-3.5 text-[#D4AF37]" strokeWidth={1.5} />
+              <span>{isEs ? "HERRAMIENTAS & BOILERPLATES" : "ENGINEERING BOILERPLATES"}</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-sans font-bold text-[#F6F7F9] tracking-tight">
+              Digital Store &amp; Kits Técnicos
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-sans font-bold text-[#F8FAFC] tracking-tight mb-4">
-            Digital Store &amp; Boilerplates
-          </h2>
-          <p className="text-[#94A3B8] font-sans text-sm sm:text-base max-w-2xl leading-relaxed">
+          <p className="text-[#8A93A6] font-sans text-xs sm:text-sm max-w-xl leading-relaxed">
             {isEs
-              ? "Acelera tu desarrollo con mis plantillas y herramientas de producción listas para usar. Código limpio, documentado, tipado en TypeScript/Python y optimizado para el mundo real."
-              : "Accelerate your engineering with production-ready templates and tools. Clean, documented code typed in TypeScript/Python and built for real-world constraints."}
+              ? "Código tipado en TypeScript y Python listo para entornos sin red estable y despliegues en producción."
+              : "Production-ready TypeScript and Python foundations engineered for unreliable networks."}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {KITS.map((item, i) => {
             const Icon = item.icon;
             return (
-              <motion.div
+              <article
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                onPointerEnter={playHoverTick}
-                className="p-6 sm:p-8 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] hover:border-[#D4AF37] transition-colors flex flex-col justify-between group"
+                className="p-4 sm:p-5 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] hover:border-[#D4AF37] transition-colors flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-11 h-11 rounded-[2px] bg-[#060709] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37]">
-                      <Icon className="w-5 h-5" strokeWidth={1.5} />
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-9 h-9 rounded-[2px] bg-[#060709] border border-[#1B202B] flex items-center justify-center text-[#D4AF37]">
+                      <Icon className="w-4 h-4" strokeWidth={1.5} />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#D4AF37] bg-[#060709] border border-[#1B202B] px-2.5 py-1 rounded-[2px] font-bold">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#C2C8D4] bg-[#060709] border border-[#1B202B] px-2.5 py-1 rounded-[2px]">
                       {item.tag}
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-sans font-bold text-[#F2F0EA] mb-2 group-hover:text-[#FF4F00] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-sans font-bold text-[#F2F0EA] mb-1.5">
                     {item.title}
                   </h3>
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="font-mono text-3xl font-extrabold text-[#F2F0EA]">{item.price}</span>
+                  <div className="flex items-baseline gap-1.5 mb-2.5">
+                    <span className="font-mono text-2xl font-extrabold text-[#D4AF37] tabular-nums">{item.price}</span>
                     <span className="font-mono text-xs text-[#8A93A6]">USD</span>
                   </div>
 
-                  <p className="font-sans text-xs sm:text-sm text-[#C2C8D4] leading-relaxed mb-8">
+                  <p className="font-sans text-xs sm:text-sm text-[#C2C8D4] leading-relaxed mb-4">
                     {item.description}
                   </p>
                 </div>
@@ -102,20 +95,12 @@ export default function DeveloperStore() {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onMouseEnter={() => {
-                    soundEngine.playHover();
-                    playHoverTick();
-                  }}
-                  onClick={() => {
-                    soundEngine.playClick();
-                    playModeSwitch("pbr");
-                  }}
-                  className="w-full py-3.5 px-4 rounded-[2px] bg-[#FF4F00] hover:bg-[#D4AF37] text-[#060709] font-mono text-xs font-extrabold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 min-h-[44px] rounded-[2px] border border-[#2A3140] bg-[#060709] hover:border-[#D4AF37] hover:text-[#D4AF37] text-[#F2F0EA] font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
                 >
-                  <span>{isEs ? "Adquirir en Gumroad" : "Buy on Gumroad"}</span>
-                  <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+                  <span>{isEs ? "Ver en Gumroad" : "View on Gumroad"}</span>
+                  <ExternalLink className="w-3.5 h-3.5" strokeWidth={1.5} />
                 </a>
-              </motion.div>
+              </article>
             );
           })}
         </div>

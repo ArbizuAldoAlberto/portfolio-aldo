@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Copy, Check, MapPin, Clock, Mail, ExternalLink } from "lucide-react";
-import { soundEngine } from "../system/SoundEngine";
-import { useTacticalAudio } from "../audio/useTacticalAudio";
 import { useLocale } from "next-intl";
 import { AldoArbizuMonogram, ArbizuLabsMark } from "./SovereignBrandMark";
 
@@ -12,7 +10,6 @@ export function MonumentalFooter() {
   const isEs = locale === "es";
   const [copied, setCopied] = useState<boolean>(false);
   const [localTime, setLocalTime] = useState<string>("");
-  const { playHoverTick, playModeSwitch } = useTacticalAudio();
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,219 +23,124 @@ export function MonumentalFooter() {
       });
       setLocalTime(timeStr);
     };
-
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, [isEs]);
 
   const handleCopyEmail = () => {
-    soundEngine.playClick();
-    playModeSwitch("pbr");
-    navigator.clipboard.writeText("arbizualdoalberto@gmail.com");
+    navigator.clipboard.writeText("arbizualdoalberto@gmail.com").catch(() => {});
     setCopied(true);
-    soundEngine.playSuccess();
     setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <footer id="contacto" className="site-footer" data-section="footer">
+    <footer id="contacto" className="py-10 bg-[#060709] border-t border-[#1B202B]" data-section="footer">
       <div id="contact" className="scroll-mt-24" />
-      <div className="section-inner">
-        {/* Contenedor Monumental */}
-        <div className="p-8 sm:p-14 lg:p-18 rounded-2xl bg-[#070B12]/85 border border-white/[0.08] hover:border-[#D4AF37]/40 transition-colors shadow-[0_24px_80px_rgba(0,0,0,0.75)] relative overflow-hidden mb-14">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-            <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-[2px] bg-[#060709] border border-[#D4AF37]/40 text-[#D4AF37] font-mono text-xs font-bold">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="p-5 sm:p-7 rounded-[2px] bg-[#0B0D12] border border-[#1B202B] mb-5">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4 pb-3 border-b border-[#1B202B]">
+            <div className="inline-flex items-center gap-3 text-[#D4AF37] font-mono text-xs font-bold">
               <AldoArbizuMonogram className="w-6 h-6 shrink-0" />
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E599] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E599]" />
-              </span>
-              <span>
-                {isEs
-                  ? "PRINCIPAL ARCHITECT · B2B & OFFLINE-FIRST SYSTEMS"
-                  : "PRINCIPAL ARCHITECT · B2B & OFFLINE-FIRST SYSTEMS"}
-              </span>
+              <span>PRINCIPAL ARCHITECT · OFFLINE-FIRST &amp; QUANT SYSTEMS</span>
             </div>
 
-            <div className="flex items-center gap-2 font-mono text-xs text-[#94A3B8]">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#8A93A6]">
               <Clock className="w-4 h-4 text-[#D4AF37]" strokeWidth={1.5} />
               <span>BOLÍVAR, ARG (UTC-3):</span>
-              <span className="text-[#F8FAFC] font-bold tabular-nums">{localTime || "--:--:--"}</span>
+              <span className="text-[#F6F7F9] font-bold tabular-nums">{localTime || "--:--:--"}</span>
             </div>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-bold text-[#F8FAFC] tracking-tight leading-[1.1] max-w-4xl mb-6">
+          <h2 className="text-2xl sm:text-3xl font-sans font-bold text-[#F6F7F9] tracking-tight leading-[1.15] max-w-3xl mb-3">
             {isEs
               ? "¿Construimos un sistema que resista la prueba del mundo real?"
               : "Shall we build a system that withstands real-world constraints?"}
           </h2>
 
-          <p className="text-[#94A3B8] font-sans text-sm sm:text-base max-w-2xl mb-10 leading-relaxed">
+          <p className="text-[#C2C8D4] font-sans text-sm max-w-2xl mb-4 leading-relaxed">
             {isEs
-              ? "Ya sea una aplicación móvil para zonas rurales sin señal, un algoritmo que opere con rigor matemático o una infraestructura crítica: hablemos de arquitectura, requerimientos y plazos."
-              : "Whether it is an Offline-First mobile app for zero-signal rural areas, a mathematical quant execution algorithm, or mission-critical software: let's discuss architecture and timeline."}
+              ? "Aplicaciones móviles offline-first, plataformas críticas o motores algorítmicos deterministas: hablemos de arquitectura, alcance y plazos reales."
+              : "Offline-First mobile applications, critical B2B platforms, or deterministic engines: let's discuss architecture and concrete milestones."}
           </p>
 
-          {/* Email Gigante Interactivo con Copy to Clipboard + Canal Dual B2B / Directo */}
-          <div className="pt-2 pb-8 space-y-4">
+          <div className="space-y-3 mb-4">
             <button
+              type="button"
               onClick={handleCopyEmail}
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              className="group w-full text-left p-6 sm:p-8 rounded-2xl bg-[#070B12] border border-white/[0.10] hover:border-[#D4AF37]/60 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl"
+              className="group w-full text-left p-3.5 rounded-[2px] bg-[#060709] border border-[#1B202B] hover:border-[#D4AF37] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer"
             >
               <div>
-                <span className="font-mono text-[11px] text-[#D4AF37] uppercase font-bold block mb-1">
-                  {isEs ? "// CONTACTO DIRECTO / RECRUITING SENIOR (CLICK PARA COPIAR):" : "// DIRECT CONTACT / SENIOR RECRUITING (CLICK TO COPY):"}
+                <span className="font-mono text-[10px] text-[#D4AF37] uppercase font-bold block mb-1">
+                  {isEs ? "CONTACTO DIRECTO / ENGINEERING (CLICK PARA COPIAR)" : "DIRECT CONTACT / ENGINEERING (CLICK TO COPY)"}
                 </span>
-                <span className="text-xl sm:text-3xl md:text-4xl font-mono font-bold text-[#F8FAFC] group-hover:text-[#D4AF37] transition-colors break-all">
+                <span className="text-lg sm:text-2xl font-mono font-bold text-[#F6F7F9] group-hover:text-[#D4AF37] transition-colors break-all">
                   arbizualdoalberto@gmail.com
                 </span>
               </div>
 
               <div
-                className={`px-6 py-3.5 rounded-[10px] font-mono text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
+                className={`px-4 py-2.5 rounded-[2px] font-mono text-xs font-bold transition-colors flex items-center gap-2 shrink-0 ${
                   copied
-                    ? "bg-[#D4AF37] text-[#070B12] shadow-[0_0_20px_rgba(212,175,55,0.35)]"
-                    : "bg-white/[0.08] text-[#F8FAFC] group-hover:bg-[#D4AF37] group-hover:text-[#070B12]"
+                    ? "bg-[#D4AF37] text-[#060709]"
+                    : "bg-[#11151D] text-[#F2F0EA] border border-[#2A3140] group-hover:border-[#D4AF37]"
                 }`}
               >
-                {copied ? (
-                  <>
-                    <Check size={16} strokeWidth={1.5} />
-                    <span>{isEs ? "¡COPIADO AL PORTAPAPELES!" : "COPIED TO CLIPBOARD!"}</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={16} strokeWidth={1.5} />
-                    <span>{isEs ? "COPIAR EMAIL" : "COPY EMAIL"}</span>
-                  </>
-                )}
+                {copied ? <Check size={15} /> : <Copy size={15} />}
+                <span>{copied ? (isEs ? "COPIADO" : "COPIED") : isEs ? "COPIAR EMAIL" : "COPY EMAIL"}</span>
               </div>
             </button>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 rounded-xl bg-[#0D131F]/80 border border-white/[0.08] font-mono text-xs">
-              <div className="flex items-center gap-2.5 text-[#CBD5E1]">
-                <span className="h-2 w-2 rounded-full bg-[#10B981]" />
-                <span className="text-[#94A3B8] uppercase">
-                  {isEs ? "Canal Corporativo / Contratos B2B:" : "Corporate / B2B Advisory:"}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 rounded-[2px] bg-[#060709] border border-[#1B202B] font-mono text-xs">
+              <div className="flex items-center gap-2 text-[#C2C8D4]">
+                <span className="text-[#8A93A6] uppercase">
+                  {isEs ? "Canal B2B Arbizu Labs:" : "Corporate B2B:"}
                 </span>
-                <a
-                  href="mailto:aldo@arbizulabs.com"
-                  className="text-[#F8FAFC] font-bold hover:text-[#D4AF37] transition-colors"
-                >
+                <a href="mailto:aldo@arbizulabs.com" className="text-[#F6F7F9] font-bold hover:text-[#D4AF37]">
                   aldo@arbizulabs.com
                 </a>
               </div>
-              <a
-                href="https://aldoarbizu.com"
-                className="text-[#94A3B8] hover:text-[#D4AF37] transition-colors"
-              >
-                aldoarbizu.com ↔ arbizulabs.com
-              </a>
+              <span className="text-[#8A93A6]">WhatsApp: +54 9 2314 489197</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap gap-3 items-center">
             <a
               href="mailto:arbizualdoalberto@gmail.com"
-              data-magnetic
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              onClick={() => {
-                soundEngine.playClick();
-                playModeSwitch("xray");
-              }}
-              className="btn-magnetic"
+              className="inline-flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-[2px] bg-[#D4AF37] hover:bg-[#F2F0EA] text-[#060709] font-mono text-xs font-extrabold uppercase tracking-wider transition-colors"
             >
-              <span className="btn-label">
-                <Mail className="w-4 h-4" strokeWidth={1.5} />
-                <span>{isEs ? "Redactar Correo Directo" : "Compose Direct Email"}</span>
-              </span>
-              <span className="btn-glow" aria-hidden="true" />
+              <Mail className="w-4 h-4" strokeWidth={1.5} />
+              <span>{isEs ? "Redactar Correo Directo" : "Compose Direct Email"}</span>
             </a>
 
             <a
               href="https://arbizulabs.com"
               target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              onClick={() => {
-                soundEngine.playClick();
-                playModeSwitch("pbr");
-              }}
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-[2px] bg-[#0B0D12] border border-[#FF4F00]/60 text-[#F2F0EA] font-mono text-xs font-semibold hover:border-[#FF4F00] hover:bg-[#11151D] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-[2px] bg-[#060709] border border-[#2A3140] hover:border-[#D4AF37] text-[#F2F0EA] font-mono text-xs font-semibold uppercase tracking-wider transition-colors"
             >
-              <ArbizuLabsMark className="w-5 h-5 shrink-0" />
-              <span>{isEs ? "Visitar Arbizu Labs (Hub B2B)" : "Visit Arbizu Labs (B2B Hub)"}</span>
-              <ExternalLink className="w-4 h-4 text-[#FF4F00]" strokeWidth={1.5} />
+              <ArbizuLabsMark className="w-4 h-4 shrink-0" />
+              <span>{isEs ? "Visitar Arbizu Labs (Hub B2B)" : "Visit Arbizu Labs"}</span>
+              <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
             </a>
           </div>
         </div>
 
-        {/* Marquee del Stack Tecnológico (sin bordes completos de 1px) */}
-        <div className="mb-12 overflow-hidden py-4 select-none opacity-85 hover:opacity-100 transition-opacity">
-          <div className="flex whitespace-nowrap gap-8 animate-marquee font-mono text-xs text-[#94A3B8] uppercase font-medium">
-            {[
-              "React Native",
-              "Next.js 16",
-              "SQLite WAL",
-              "Supabase RLS",
-              "Three.js / WebGL",
-              "TypeScript",
-              "Python Quant",
-              "Binance Futures API",
-              "Kelly Criterion",
-              "LoRaWAN IoT",
-              "n8n Automation",
-              "OWASP MASVS",
-              "Arbizu Labs",
-            ].map((item, i) => (
-              <span key={i} className="inline-flex items-center gap-2">
-                <span className="text-[#D4AF37]">✦</span>
-                <span>{item}</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Barra Inferior de Metadatos */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-xs font-mono text-[#94A3B8]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#8A93A6]">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#D4AF37]" strokeWidth={1.5} />
-            <span className="text-[#F8FAFC]">San Carlos de Bolívar, Buenos Aires, Argentina</span>
+            <span className="text-[#C2C8D4]">San Carlos de Bolívar, Buenos Aires, Argentina</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            <a
-              href="/impacto"
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              className="hover:text-[#F8FAFC] transition-colors text-[#CBD5E1]"
-            >
+          <div className="flex flex-wrap items-center justify-center gap-5">
+            <a href="/impacto" className="hover:text-[#F6F7F9] transition-colors">
               {isEs ? "Impacto Social (/impacto)" : "Civic Impact (/impacto)"}
             </a>
             <a
               href="https://arbizulabs.com"
               target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              className="hover:text-[#F8FAFC] transition-colors text-[#D4AF37] font-bold"
+              className="hover:text-[#F6F7F9] text-[#D4AF37] font-bold transition-colors"
             >
               arbizulabs.com ↗
             </a>
@@ -246,25 +148,17 @@ export function MonumentalFooter() {
               href="https://github.com/ArbizuAldoAlberto"
               target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              className="hover:text-[#F8FAFC] transition-colors flex items-center gap-1.5"
+              className="hover:text-[#F6F7F9] transition-colors"
             >
-              <span>GitHub</span>
+              GitHub
             </a>
             <a
               href="https://www.linkedin.com/in/aldo-alberto-arbizu/"
               target="_blank"
               rel="noopener noreferrer"
-              onMouseEnter={() => {
-                soundEngine.playHover();
-                playHoverTick();
-              }}
-              className="hover:text-[#F8FAFC] transition-colors flex items-center gap-1.5"
+              className="hover:text-[#F6F7F9] transition-colors"
             >
-              <span>LinkedIn</span>
+              LinkedIn
             </a>
           </div>
         </div>
