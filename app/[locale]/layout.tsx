@@ -111,6 +111,7 @@ export default async function LocalizedLayout({
     <html
       lang={locale}
       data-theme="v1"
+      data-luminance="dark"
       data-scroll-behavior="smooth"
       className={`${GeistSans.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
@@ -124,11 +125,15 @@ export default async function LocalizedLayout({
               var s=window.location.search||"";
               var isV2=/\\/v2(\\/|$)/.test(p)||s.indexOf("theme=v2")!==-1;
               document.documentElement.setAttribute("data-theme",isV2?"v2":"v1");
+              var lum=localStorage.getItem("aldo_portfolio_luminance");
+              if(lum!=="light"&&lum!=="dark"){lum="dark";}
+              document.documentElement.setAttribute("data-luminance",lum);
+              document.documentElement.style.colorScheme=lum;
             }catch(e){}})();`,
           }}
         />
       </head>
-      <body className="bg-[#060709] text-[#F2F0EA] antialiased selection:bg-[#D4AF37]/30 selection:text-white relative" suppressHydrationWarning>
+      <body className="bg-[var(--bg-seam,#060709)] text-[var(--text-primary,#F2F0EA)] antialiased selection:bg-[#D4AF37]/30 selection:text-[#060709] relative" suppressHydrationWarning>
         {process.env.NEXT_PUBLIC_GA_ID &&
           !process.env.NEXT_PUBLIC_GA_ID.includes("YYYY") &&
           !process.env.NEXT_PUBLIC_GA_ID.includes("XXXX") && (
