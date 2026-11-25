@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { JetBrains_Mono } from "next/font/google";
-import Script from "next/script";
 import "../globals.css";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-jetbrains-mono",
+  display: "swap",
   preload: true,
 });
 
 export const metadata: Metadata = {
   title: "Impacto Social & Preservación 3D | Aldo Alberto Arbizu — Archivo Cívico",
   description:
-    "Filantropía de Transición, criptografía offline Ed25519, privacidad FLE:v2 (Ley 25.326), Preservación 3D solidaria con Hellbot Magna 2 y red PawHero (0% comisión).",
+    "Programas comunitarios documentados en Bolívar, Buenos Aires: preservación médica e infantil con impresión 3D solidaria (Hellbot Magna 2) y red gratuita PawHero con 0% comisión.",
   metadataBase: new URL("https://aldoarbizu.com"),
   manifest: "/impacto-manifest.json",
   icons: {
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Impacto Social & Preservación 3D | Archivo Cívico — Aldo Arbizu",
     description:
-      "Del apoyo inmediato (Fase 1 Ocre) a la reciprocidad comunitaria (Fase 2 Bosque) con trazabilidad verificable offline y preservación 3D solidaria.",
+      "Programas reales de asistencia inmediata, fabricación 3D solidaria y adopción animal sin intermediarios.",
     url: "https://aldoarbizu.com/impacto",
     siteName: "Aldo Alberto Arbizu — Impacto Social",
     type: "website",
@@ -54,12 +56,28 @@ export default function ImpactoLayout({
     <html
       lang="es"
       data-impacto="true"
+      data-impacto-theme="light"
       className={`${GeistSans.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{
+              var t=localStorage.getItem("aldo_impacto_luminance");
+              if(t!=="light"&&t!=="dark"){t="light";}
+              document.documentElement.setAttribute("data-impacto-theme",t);
+              document.documentElement.style.colorScheme=t;
+              var l=localStorage.getItem("aldo_impacto_locale");
+              if(l==="en"||l==="es"){document.documentElement.lang=l;}
+            }catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         data-impacto="true"
-        className="bg-[#F6F3EC] text-[#1A1D1F] font-sans antialiased overflow-x-clip"
+        className="font-sans antialiased overflow-x-clip"
+        style={{ backgroundColor: "var(--impacto-bg)", color: "var(--impacto-ink)" }}
         suppressHydrationWarning
       >
         <Script
@@ -74,9 +92,9 @@ export default function ImpactoLayout({
               "name": "Impacto Social & Preservación 3D — Archivo Cívico",
               "isPartOf": { "@id": "https://aldoarbizu.com/#person" },
               "about": [
-                "Filantropía de Transición Offline-First",
-                "Preservación 3D y Bioseguridad Pediátrica",
-                "Red PawHero (Sin Fines de Lucro)"
+                "Asistencia Comunitaria Directa",
+                "Fabricación 3D Solidaria Hellbot Magna 2",
+                "Red PawHero (0% Comisión)"
               ]
             }),
           }}

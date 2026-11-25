@@ -1,502 +1,528 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Printer, Radio, HeartHandshake, BookOpen, CheckCircle2, Layers } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
+  HeartHandshake,
+  Mail,
+  MessageSquare,
+  Moon,
+  Printer,
+  ShieldCheck,
+  Sparkles,
+  Sun,
+} from "lucide-react";
 
-type PhaseView = "recovery" | "impact" | "preservation";
+type ImpactoTheme = "light" | "dark";
+type ImpactoLocale = "es" | "en";
+type SimStage = "relief" | "community" | "fabricated";
 
-interface CauseItem {
+interface FieldProgram {
   id: string;
-  tag: string;
-  title: string;
-  description: string;
   image: string;
-  width: number;
-  height: number;
-  progressPct: number;
-  metrics: string;
+  badgeEs: string;
+  badgeEn: string;
+  titleEs: string;
+  titleEn: string;
+  descEs: string;
+  descEn: string;
+  impactEs: string;
+  impactEn: string;
 }
 
-const CAUSES: readonly CauseItem[] = [
+const PROGRAMS: FieldProgram[] = [
   {
-    id: "food-sovereignty",
-    tag: "Nutrición",
-    title: "Soberanía Alimentaria Comunitaria",
-    description:
-      "Nodos locales con vales firmados por Ed25519 para retirar bolsones frescos sin formularios humillantes ni colas visibles.",
+    id: "bridge-3d",
+    image: "/projects/impresion3d.png",
+    badgeEs: "PUENTE 3D · HELLBOT MAGNA 2",
+    badgeEn: "3D BRIDGE · HELLBOT MAGNA 2",
+    titleEs: "Fabricación 3D Solidaria con Material Biocompatible (PETG)",
+    titleEn: "Solidarity 3D Manufacturing in Safe PETG Filament",
+    descEs:
+      "Producción sin fines de lucro de soportes médicos, organizadores pediátricos, repuestos escolares y protectores ergonómicos sobre cama térmica de 300x300 mm para familias y cooperadoras.",
+    descEn:
+      "Zero-profit manufacturing of pediatric care holders, accessible school tools, and repair parts on our 300x300mm heated-bed printer for local families and schools.",
+    impactEs: "Entrega directa gratuita · Cero ganancia comercial",
+    impactEn: "Direct free delivery · Zero commercial markup",
+  },
+  {
+    id: "pawhero",
+    image: "/projects/pawhero.png",
+    badgeEs: "PAWHERO · 0% COMISIÓN",
+    badgeEn: "PAWHERO · 0% PLATFORM FEE",
+    titleEs: "Red Comunitaria de Rescate y Adopción Animal",
+    titleEn: "Community Pet Rescue & Shelter Support Network",
+    descEs:
+      "Plataforma gratuita para identificar mascotas perdidas mediante placas físicas simples y coordinar alertas vecinales. Cada aporte voluntario llega 100% íntegro a los refugios locales.",
+    descEn:
+      "Free public tool to locate lost pets using durable scan tags and neighborhood alerts. 100% of every voluntary contribution goes straight to animal shelters with zero fee.",
+    impactEs: "0% comisión retenida · Acceso libre para refugios",
+    impactEn: "0% fee retained · Always free for animal shelters",
+  },
+  {
+    id: "food-network",
     image: "/impact/food_sovereignty.webp",
-    width: 960,
-    height: 644,
-    progressPct: 71,
-    metrics: "1.240 personas asistidas · 2G USSD compatible",
+    badgeEs: "RED BARRIAL · BOLÍVAR",
+    badgeEn: "NEIGHBORHOOD NETWORK · BOLÍVAR",
+    titleEs: "Coordinación de Alimentos e Insumos Esenciales",
+    titleEn: "Direct Food & Essential Supplies Coordination",
+    descEs:
+      "Conexión directa entre donantes, productores locales y comedores barriales mediante entregas verificadas mano a mano, eliminando gastos administrativos.",
+    descEn:
+      "Direct coordination between local growers, donors, and community kitchens with hand-to-hand delivery verification and zero administrative overhead.",
+    impactEs: "Trazabilidad transparente · 100% entrega en destino",
+    impactEn: "Clear delivery confirmation · Direct local impact",
   },
   {
-    id: "healthcare-access",
-    tag: "Salud Preventiva",
-    title: "Clínicas Móviles y Bioseguridad Pediátrica",
-    description:
-      "Desinfección sin isopropanol, trazabilidad sanitaria y atención primaria en parajes rurales desconectados.",
+    id: "pediatric-health",
     image: "/impact/healthcare_access.webp",
-    width: 960,
-    height: 644,
-    progressPct: 52,
-    metrics: "3.890 consultas registradas · FLE:v2 Ley 25.326",
+    badgeEs: "CUIDADO Y SALUD",
+    badgeEn: "COMMUNITY HEALTH SUPPORT",
+    titleEs: "Insumos Reutilizables y Cuidado Pediátrico",
+    titleEn: "Reusable Aids & Pediatric Care Support",
+    descEs:
+      "Diseño rápido de bandejas lavables, cierres higiénicos y adaptadores simples que ayudan a cuidadores y salas de primeros auxilios en momentos de necesidad urgente.",
+    descEn:
+      "Rapid custom fabrication of washable trays, hygienic closures, and daily care adapters requested by family caregivers and neighborhood clinics.",
+    impactEs: "Material PETG lavable · Respaldo técnico directo",
+    impactEn: "Washable PETG material · Direct support",
   },
   {
-    id: "education-tech",
-    tag: "Educación & Oficio",
-    title: "Aulas Solares y Fabricación Digital Solidaria",
-    description:
-      "Acceso a computación offline, alfabetización técnica y réplicas didácticas seguras fabricadas en PETG virgen.",
+    id: "open-tech",
     image: "/impact/education_tech.webp",
-    width: 960,
-    height: 644,
-    progressPct: 55,
-    metrics: "560 estudiantes rurales · Modelo abierto .3MF",
+    badgeEs: "OFICIOS Y TECNOLOGÍA ABIERTA",
+    badgeEn: "SKILLS & OPEN TECHNOLOGY",
+    titleEs: "Alfabetización Técnica y Respaldo de Emergencia",
+    titleEn: "Technical Literacy & Emergency Tooling",
+    descEs:
+      "Talleres prácticos de reparación, diseño 3D inicial y guías comunitarias listas para funcionar en escuelas rurales incluso sin conexión estable a internet.",
+    descEn:
+      "Hands-on workshops on repair, beginner 3D modeling, and offline educational resources prepared for rural schools.",
+    impactEs: "Manuales abiertos · Sin licencias ni suscripciones",
+    impactEn: "Open handbooks · Free community access",
   },
 ];
 
 export default function ImpactoPortal() {
-  const [phaseView, setPhaseView] = useState<PhaseView>("recovery");
-  const [stabilityScore, setStabilityScore] = useState<number>(62);
-  const [claimedCount, setClaimedCount] = useState<number>(0);
-  const [pledgedUsd, setPledgedUsd] = useState<number>(10);
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const [simulationMatch, setSimulationMatch] = useState<boolean>(false);
+  const [theme, setTheme] = useState<ImpactoTheme>("light");
+  const [locale, setLocale] = useState<ImpactoLocale>("es");
+  const [simStage, setSimStage] = useState<SimStage>("relief");
 
-  const isPhase2 = stabilityScore >= 80 || phaseView === "impact";
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedTheme = localStorage.getItem("aldo_impacto_luminance");
+    const nextTheme: ImpactoTheme = savedTheme === "dark" ? "dark" : "light";
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-impacto-theme", nextTheme);
+    document.documentElement.style.colorScheme = nextTheme;
 
-  const handleClaimAid = (label: string) => {
-    setClaimedCount((c) => c + 1);
-    setStabilityScore((s) => Math.min(100, s + 12));
-    setFeedback(`Solicitud optimista registrada offline (${label}). Token Ed25519 en cola de sincronización.`);
+    const savedLocale = localStorage.getItem("aldo_impacto_locale");
+    if (savedLocale === "en" || savedLocale === "es") {
+      setLocale(savedLocale);
+      document.documentElement.lang = savedLocale;
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next: ImpactoTheme = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    if (typeof window !== "undefined") {
+      document.documentElement.setAttribute("data-impacto-theme", next);
+      document.documentElement.style.colorScheme = next;
+      try {
+        localStorage.setItem("aldo_impacto_luminance", next);
+      } catch {
+        // ignore storage errors
+      }
+    }
   };
 
-  const handleSimulateTransition = () => {
-    setStabilityScore(86);
-    setSimulationMatch(true);
-    setPhaseView("impact");
-    setFeedback(
-      "Umbral alcanzado (86/100). Modo Reciprocidad activado con Fondo de Impacto Comunitario — Arbizu Labs (Simulación)."
-    );
+  const toggleLocale = () => {
+    const next: ImpactoLocale = locale === "es" ? "en" : "es";
+    setLocale(next);
+    if (typeof window !== "undefined") {
+      document.documentElement.lang = next;
+      try {
+        localStorage.setItem("aldo_impacto_locale", next);
+      } catch {
+        // ignore storage errors
+      }
+    }
   };
 
-  const handleSimulatePledge = (amount: number) => {
-    setPledgedUsd((p) => p + amount);
-    setPhaseView("impact");
-    setFeedback(
-      `Simulación registrada: $${amount} USD asignados a causas comunitarias (${Math.round(amount * 1.25)} raciones o ${amount * 25}g de filamento PETG).`
-    );
-  };
+  const isEs = locale === "es";
+
+  const allianceWaHref = `https://wa.me/5492314489197?text=${encodeURIComponent(
+    isEs
+      ? "Hola Aldo, te escribo desde aldoarbizu.com/impacto para proponer una alianza comunitaria o solicitar apoyo con impresión 3D / PawHero."
+      : "Hello Aldo, I am reaching out from aldoarbizu.com/impacto regarding a community partnership or 3D solidarity / PawHero collaboration."
+  )}`;
 
   return (
-    <div data-impacto-root="true" className="min-h-screen bg-[#F6F3EC] text-[#1A1D1F] selection:bg-[#B45309]/20">
-      {/* Navegación Editorial Sobria (Anillo 2) */}
-      <header className="border-b border-[#D9D2C3] bg-[#FFFFFF]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+    <div
+      data-impacto-root="true"
+      style={{ backgroundColor: "var(--impacto-bg)", color: "var(--impacto-ink)" }}
+      className="min-h-screen flex flex-col"
+    >
+      {/* Top Civic Header */}
+      <header
+        style={{
+          backgroundColor: "var(--impacto-card)",
+          borderColor: "var(--impacto-border)",
+        }}
+        className="sticky top-0 z-40 border-b px-4 sm:px-6 lg:px-10 py-3.5"
+      >
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <Link
-              href="/es"
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-[4px] border border-[#D9D2C3] bg-[#F6F3EC] text-[#1A1D1F] hover:border-[#1A1D1F] text-xs font-mono font-semibold transition-colors"
+            <a
+              href="https://aldoarbizu.com"
+              style={{
+                borderColor: "var(--impacto-border)",
+                backgroundColor: "var(--impacto-elevated)",
+                color: "var(--impacto-ink)",
+              }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[4px] border text-xs font-mono font-bold hover:opacity-90 transition-opacity"
             >
-              <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.75} />
+              <ArrowLeft className="w-3.5 h-3.5" />
               <span>aldoarbizu.com</span>
-            </Link>
-            <span className="font-mono text-xs uppercase tracking-wider text-[#4B525A] truncate">
-              Anillo 2 · Archivo Cívico Cálido
+            </a>
+            <span
+              style={{ color: "var(--impacto-green)" }}
+              className="hidden sm:inline font-mono text-xs font-bold uppercase tracking-wider truncate"
+            >
+              {isEs ? "Archivo Cívico y Acción Comunitaria" : "Civic Impact & Community Archive"}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <a
-              href="https://pawhero.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-2 rounded-[4px] border border-[#D9D2C3] bg-[#FFFFFF] text-[#1E4D3B] hover:border-[#1E4D3B] text-xs font-mono font-bold"
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              data-testid="lang-toggle"
+              onClick={toggleLocale}
+              style={{
+                borderColor: "var(--impacto-border)",
+                backgroundColor: "var(--impacto-elevated)",
+                color: "var(--impacto-ink)",
+              }}
+              className="px-3 py-1.5 rounded-[4px] border font-mono text-xs font-bold cursor-pointer"
+              aria-label={isEs ? "Cambiar idioma a inglés" : "Switch language to Spanish"}
             >
-              PawHero (0% Comisión)
-            </a>
-            <a
-              href="https://santuario.aldoarbizu.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-2 rounded-[4px] border border-[#D9D2C3] bg-[#F6F3EC] text-[#4B525A] hover:text-[#1A1D1F] text-xs font-mono"
+              <span className={isEs ? "underline font-extrabold" : "opacity-70"}>ES</span>
+              <span className="mx-1 opacity-50">/</span>
+              <span className={!isEs ? "underline font-extrabold" : "opacity-70"}>EN</span>
+            </button>
+
+            <button
+              type="button"
+              data-testid="theme-toggle"
+              onClick={toggleTheme}
+              style={{
+                borderColor: "var(--impacto-border)",
+                backgroundColor: "var(--impacto-elevated)",
+                color: "var(--impacto-ink)",
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] border font-mono text-xs font-bold cursor-pointer"
+              aria-label={isEs ? "Alternar modo claro u oscuro" : "Toggle light or dark mode"}
             >
-              Santuario YO SOY
-            </a>
+              {theme === "light" ? (
+                <>
+                  <Moon className="w-3.5 h-3.5" />
+                  <span>{isEs ? "Oscuro" : "Dark"}</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="w-3.5 h-3.5" />
+                  <span>{isEs ? "Claro" : "Light"}</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
-        {/* Encabezado Editorial & Selector Dual */}
-        <section className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 sm:p-8 space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6E0D3] pb-4">
-            <span
-              className={`inline-flex items-center gap-2 px-3 py-1 rounded-[4px] font-mono text-xs font-bold uppercase ${
-                isPhase2
-                  ? "bg-[#E7F1EC] text-[#1E4D3B] border border-[#1E4D3B]"
-                  : "bg-[#FEF3C7] text-[#92400E] border border-[#B45309]"
-              }`}
-            >
-              <span>{isPhase2 ? "Fase 2 · Reciprocidad Activa" : "Fase 1 · Estabilización Digna"}</span>
-            </span>
-            <span className="font-mono text-xs text-[#4B525A]">
-              Programa Filántropo · XState + Ed25519 + Ley 25.326
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-10 py-12 space-y-14">
+        {/* Hero */}
+        <section className="space-y-5 border-b pb-10" style={{ borderColor: "var(--impacto-border)" }}>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-[#144D36] text-white font-mono text-xs font-bold uppercase tracking-wider">
+            <HeartHandshake className="w-3.5 h-3.5" />
+            <span>
+              {isEs ? "INICIATIVA SOCIAL DIRECTA · BOLÍVAR, BS. AS." : "DIRECT COMMUNITY IMPACT · ARGENTINA"}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-7 space-y-4">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#1A1D1F] leading-tight">
-                Impacto Social de Transición &amp; Preservación 3D Solidaria
-              </h1>
-              <p className="text-base text-[#4B525A] leading-relaxed">
-                Arquitectura cívica diseñada para acompañar a una persona desde la urgencia alimentaria hasta la
-                reciprocidad comunitaria, sin estigmas ni exposición de datos personales, combinando hardware abierto
-                con infraestructura offline-first.
-              </p>
-            </div>
+          <h1
+            style={{ color: "var(--impacto-ink)" }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08]"
+          >
+            {isEs ? "Programas de Campo Documentados" : "Documented Field Programs"}
+          </h1>
 
-            <div className="lg:col-span-5 bg-[#F6F3EC] border border-[#D9D2C3] rounded-[6px] p-5 space-y-3">
-              <div className="flex items-baseline justify-between">
-                <span className="font-mono text-xs uppercase text-[#4B525A] font-semibold">
-                  Índice de Estabilidad Vital
-                </span>
-                <span
-                  className="font-mono text-2xl font-extrabold"
-                  style={{ color: isPhase2 ? "#1E4D3B" : "#B45309" }}
-                >
-                  {stabilityScore}/100
-                </span>
-              </div>
-              <div className="w-full h-3 bg-[#FFFFFF] border border-[#D9D2C3] rounded-[3px] overflow-hidden">
-                <div
-                  className="h-full transition-all duration-300"
-                  style={{
-                    width: `${stabilityScore}%`,
-                    backgroundColor: isPhase2 ? "#1E4D3B" : "#B45309",
-                  }}
-                />
-              </div>
-              <p className="text-xs text-[#4B525A] leading-relaxed">
-                {isPhase2
-                  ? "Estabilidad superada (>= 80). El sistema habilita micro-aportes comunitarios y canje de filamento 3D."
-                  : "Por debajo de 80 puntos la interfaz prioriza asistencia inmediata sin formularios complejos."}
-              </p>
-              <div className="grid grid-cols-3 gap-2 pt-1 font-mono text-xs">
-                <div className="bg-[#FFFFFF] border border-[#D9D2C3] p-2 rounded-[4px] text-center">
-                  <div className="font-bold text-[#1A1D1F]">{claimedCount}</div>
-                  <div className="text-[11px] text-[#4B525A]">Vales locales</div>
-                </div>
-                <div className="bg-[#FFFFFF] border border-[#D9D2C3] p-2 rounded-[4px] text-center">
-                  <div className="font-bold text-[#1E4D3B]">${pledgedUsd}</div>
-                  <div className="text-[11px] text-[#4B525A]">Simulado USD</div>
-                </div>
-                <div className="bg-[#FFFFFF] border border-[#D9D2C3] p-2 rounded-[4px] text-center">
-                  <div className="font-bold text-[#B45309]">112/112</div>
-                  <div className="text-[11px] text-[#4B525A]">Suite Core</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Selector de Vistas (Fitts >= 64px en botones de acción primaria) */}
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setPhaseView("recovery")}
-              className={`min-h-[64px] px-4 py-3 rounded-[6px] border text-sm font-bold text-left transition-colors ${
-                phaseView === "recovery"
-                  ? "bg-[#B45309] border-[#92400E] text-[#FFFFFF]"
-                  : "bg-[#F6F3EC] border-[#D9D2C3] text-[#1A1D1F] hover:border-[#B45309]"
-              }`}
-            >
-              1. Estabilización
-            </button>
-            <button
-              type="button"
-              onClick={() => setPhaseView("impact")}
-              className={`min-h-[64px] px-4 py-3 rounded-[6px] border text-sm font-bold text-left transition-colors ${
-                phaseView === "impact"
-                  ? "bg-[#1E4D3B] border-[#163B2D] text-[#FFFFFF]"
-                  : "bg-[#F6F3EC] border-[#D9D2C3] text-[#1A1D1F] hover:border-[#1E4D3B]"
-              }`}
-            >
-              2. Reciprocidad
-            </button>
-            <button
-              type="button"
-              onClick={() => setPhaseView("preservation")}
-              className={`min-h-[64px] px-4 py-3 rounded-[6px] border text-sm font-bold text-left transition-colors ${
-                phaseView === "preservation"
-                  ? "bg-[#1A1D1F] border-[#1A1D1F] text-[#F6F3EC]"
-                  : "bg-[#F6F3EC] border-[#D9D2C3] text-[#1A1D1F] hover:border-[#1A1D1F]"
-              }`}
-            >
-              3. Preservación 3D
-            </button>
-            <button
-              type="button"
-              onClick={handleSimulateTransition}
-              className="min-h-[64px] px-4 py-3 rounded-[6px] border border-[#1E4D3B] bg-[#E7F1EC] text-[#1E4D3B] hover:bg-[#1E4D3B] hover:text-[#FFFFFF] text-sm font-bold transition-colors"
-            >
-              Simular Transición 80+
-            </button>
-          </div>
-
-          {feedback && (
-            <div
-              role="status"
-              className="p-4 rounded-[6px] bg-[#E7F1EC] border border-[#1E4D3B] text-[#1E4D3B] text-sm font-medium flex items-center gap-2.5"
-            >
-              <CheckCircle2 className="w-4 h-4 shrink-0" strokeWidth={2} />
-              <span>{feedback}</span>
-            </div>
-          )}
-
-          {simulationMatch && (
-            <div className="p-4 rounded-[6px] bg-[#FEF3C7] border border-[#B45309] text-[#78350F] text-sm font-semibold">
-              Fondo de Impacto Comunitario — Arbizu Labs (Simulación): contrapartida 2x activa para prototipos de
-              reciprocidad y filamento solidario.
-            </div>
-          )}
+          <p
+            style={{ color: "var(--impacto-muted)" }}
+            className="text-base sm:text-lg max-w-3xl leading-relaxed"
+          >
+            {isEs
+              ? "Espacio dedicado exclusivamente a causas comunitarias sin fines de lucro: fabricación solidaria en impresión 3D para familias y escuelas, rescate animal gratuito con PawHero y coordinación transparente de ayuda directa."
+              : "A dedicated space for non-profit local work: solidarity 3D printing for families and schools, fee-free pet rescue through PawHero, and transparent direct community aid."}
+          </p>
         </section>
 
-        {/* Bloque Operativo Según Fase Seleccionada */}
-        {phaseView === "recovery" && (
-          <section aria-labelledby="sec-recovery" className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 sm:p-8 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E6E0D3] pb-3">
-              <h2 id="sec-recovery" className="text-xl font-bold text-[#1A1D1F]">
-                Asistencia Inmediata de Fricción Cero (Ley de Fitts &gt;= 64px)
-              </h2>
-              <span className="font-mono text-xs text-[#92400E] bg-[#FEF3C7] border border-[#B45309] px-2.5 py-1 rounded-[4px]">
-                Optimistic UI &lt; 100ms
-              </span>
+        {/* Flagship Pillar Cards: Puente 3D + PawHero */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            style={{
+              backgroundColor: "var(--impacto-card)",
+              borderColor: "var(--impacto-border)",
+            }}
+            className="rounded-[6px] border p-6 space-y-3"
+          >
+            <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider" style={{ color: "var(--impacto-ochre)" }}>
+              <Printer className="w-4 h-4" />
+              <span>{isEs ? "PILAR HARDWARE SOLIDARIO" : "SOLIDARITY HARDWARE PILLAR"}</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button
-                type="button"
-                onClick={() => handleClaimAid("Ración Nutricional Diaria")}
-                className="min-h-[64px] p-5 rounded-[6px] bg-[#B45309] hover:bg-[#92400E] text-[#FFFFFF] text-left flex flex-col justify-between gap-2 transition-colors"
-              >
-                <span className="font-bold text-base">Soberanía Alimentaria</span>
-                <span className="text-xs opacity-95">Vale Ed25519 en nodo local · Sin formularios</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleClaimAid("Tarea Micro-Ingreso 15m")}
-                className="min-h-[64px] p-5 rounded-[6px] bg-[#F6F3EC] hover:bg-[#EFEAE0] border border-[#D9D2C3] hover:border-[#B45309] text-[#1A1D1F] text-left flex flex-col justify-between gap-2 transition-colors"
-              >
-                <span className="font-bold text-base">Micro-Tareas Verificadas</span>
-                <span className="text-xs text-[#4B525A]">Micro-ingresos digitales • Liquidación directa</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleClaimAid("Punto Seguro Comunitario")}
-                className="min-h-[64px] p-5 rounded-[6px] bg-[#F6F3EC] hover:bg-[#EFEAE0] border border-[#D9D2C3] hover:border-[#B45309] text-[#1A1D1F] text-left flex flex-col justify-between gap-2 transition-colors"
-              >
-                <span className="font-bold text-base">Puntos Seguros &amp; Refugio</span>
-                <span className="text-xs text-[#4B525A]">Disponibilidad zonal con K-Anonymity 4h</span>
-              </button>
-            </div>
-          </section>
-        )}
-
-        {phaseView === "impact" && (
-          <section aria-labelledby="sec-impact" className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 sm:p-8 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E6E0D3] pb-3">
-              <h2 id="sec-impact" className="text-xl font-bold text-[#1A1D1F]">
-                Simulador de Reciprocidad Comunitaria
-              </h2>
-              <span className="font-mono text-xs text-[#1E4D3B] bg-[#E7F1EC] border border-[#1E4D3B] px-2.5 py-1 rounded-[4px]">
-                Fase 2 · Verde Bosque
-              </span>
-            </div>
-            <p className="text-sm text-[#4B525A]">
-              Simulación de canalización directa sin retención intermedia. Cada módulo muestra el equivalente en
-              raciones alimentarias o gramos de filamento virgen para réplicas 3D sanitizadas.
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[1, 5, 10, 25].map((usd) => (
-                <button
-                  key={usd}
-                  type="button"
-                  onClick={() => handleSimulatePledge(usd)}
-                  className={`min-h-[64px] px-4 py-3 rounded-[6px] border font-mono text-sm font-bold flex flex-col items-center justify-center transition-colors ${
-                    usd === 25
-                      ? "bg-[#1E4D3B] hover:bg-[#163B2D] border-[#1E4D3B] text-[#FFFFFF]"
-                      : "bg-[#F6F3EC] hover:bg-[#EFEAE0] border-[#D9D2C3] text-[#1A1D1F]"
-                  }`}
-                >
-                  <span>${usd} USD</span>
-                  <span className="text-[11px] font-normal opacity-85">{usd * 25}g PETG</span>
-                </button>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {phaseView === "preservation" && (
-          <section aria-labelledby="sec-pres" className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 sm:p-8 space-y-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E6E0D3] pb-3">
-              <h2 id="sec-pres" className="text-xl font-bold text-[#1A1D1F]">
-                Puente Preservación 3D · Hellbot Magna 2 Dual 300
-              </h2>
-              <span className="font-mono text-xs text-[#1A1D1F] bg-[#EFEAE0] border border-[#D9D2C3] px-2.5 py-1 rounded-[4px]">
-                Protocolos 1.1 – 3.1
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div className="bg-[#F6F3EC] border border-[#D9D2C3] rounded-[6px] p-4 space-y-2">
-                <div className="font-mono text-xs font-bold text-[#B45309] uppercase">1. Escaneo &amp; Escala</div>
-                <p className="text-[#4B525A] leading-relaxed">
-                  Calibración estricta con cubo de 20x20 mm (&lt;= 1.50% desvío), polarización cruzada sin talco
-                  abrasivo y empaquetado abierto <code>.3MF</code> &lt; 50 MB.
-                </p>
-              </div>
-              <div className="bg-[#F6F3EC] border border-[#D9D2C3] rounded-[6px] p-4 space-y-2">
-                <div className="font-mono text-xs font-bold text-[#1E4D3B] uppercase">2. Bioseguridad &amp; Triaje</div>
-                <p className="text-[#4B525A] leading-relaxed">
-                  Sanitización libre de alcohol isopropanol y detección pediátrica de piezas frágiles: las piezas
-                  históricas pasan a museo aliado y se canjean por bobinas virgenes.
-                </p>
-              </div>
-              <div className="bg-[#F6F3EC] border border-[#D9D2C3] rounded-[6px] p-4 space-y-2">
-                <div className="font-mono text-xs font-bold text-[#1A1D1F] uppercase">3. Producción en Taller</div>
-                <p className="text-[#4B525A] leading-relaxed">
-                  Las réplicas estériles se imprimen en el taller <strong>Hellbot Magna 2</strong> de San Carlos de
-                  Bolívar con grabado bajorrelieve y firma Ed25519 verificable.
-                </p>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Tarjetas Documentales con WebP Optimizadas (CLS = 0) */}
-        <section aria-labelledby="sec-causes" className="space-y-5">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 id="sec-causes" className="text-2xl font-bold text-[#1A1D1F]">
-              Programas de Campo Documentados
+            <h2 className="text-2xl font-bold">
+              {isEs ? "Puente 3D (Hellbot Magna 2)" : "3D Bridge (Hellbot Magna 2)"}
             </h2>
-            <span className="font-mono text-xs text-[#4B525A]">
-              WebP comprimido (&lt; 220 KB total) · CLS = 0
+            <p style={{ color: "var(--impacto-muted)" }} className="text-sm leading-relaxed">
+              {isEs
+                ? "Destinamos capacidad real de nuestra impresora 3D de gran formato (300x300 mm) y filamento PETG resistente para fabricar adaptadores, repuestos escolares e insumos comunitarios sin costo comercial."
+                : "We allocate dedicated print capacity on our large-format 300x300mm printer using durable PETG filament to fabricate school repairs and assistive parts at zero commercial profit."}
+            </p>
+          </div>
+
+          <div
+            style={{
+              backgroundColor: "var(--impacto-card)",
+              borderColor: "var(--impacto-border)",
+            }}
+            className="rounded-[6px] border p-6 space-y-3"
+          >
+            <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider" style={{ color: "var(--impacto-green)" }}>
+              <ShieldCheck className="w-4 h-4" />
+              <span>{isEs ? "RED ABIERTA SIN LUCRO" : "NON-PROFIT OPEN NETWORK"}</span>
+            </div>
+            <h2 className="text-2xl font-bold">
+              {isEs ? "PawHero (0% comisión)" : "PawHero (0% commission)"}
+            </h2>
+            <p style={{ color: "var(--impacto-muted)" }} className="text-sm leading-relaxed">
+              {isEs
+                ? "Herramienta comunitaria 100% gratuita para reunir mascotas perdidas con sus familias y canalizar aportes directos a refugios de animales. Arbizu Labs no retiene comisiones ni cobra por la plataforma."
+                : "100% free community rescue platform helping reunite lost pets with their families while routing support directly to shelters with 0% commission taken."}
+            </p>
+          </div>
+        </section>
+
+        {/* Documented Causes Grid */}
+        <section className="space-y-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              {isEs ? "Frentes Activos en Comunidad" : "Active Community Initiatives"}
+            </h2>
+            <span style={{ color: "var(--impacto-muted)" }} className="font-mono text-xs">
+              {isEs ? "5 líneas documentadas · Entrega verificable" : "5 documented streams · Direct delivery"}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CAUSES.map((cause) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PROGRAMS.map((item) => (
               <article
-                key={cause.id}
-                className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] overflow-hidden flex flex-col justify-between"
+                key={item.id}
+                style={{
+                  backgroundColor: "var(--impacto-card)",
+                  borderColor: "var(--impacto-border)",
+                }}
+                className="rounded-[6px] border overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="aspect-[960/644] bg-[#EFEAE0] border-b border-[#D9D2C3] overflow-hidden">
+                  <div className="aspect-[16/10] w-full overflow-hidden border-b" style={{ borderColor: "var(--impacto-border)" }}>
                     <img
-                      src={cause.image}
-                      alt={cause.title}
-                      width={cause.width}
-                      height={cause.height}
-                      className="w-full h-full object-cover block"
-                      loading="eager"
+                      src={item.image}
+                      alt={isEs ? item.titleEs : item.titleEn}
+                      className="w-full h-full object-cover object-center"
+                      loading="lazy"
                     />
                   </div>
                   <div className="p-5 space-y-2.5">
-                    <span className="inline-block px-2.5 py-1 rounded-[3px] bg-[#E7F1EC] text-[#1E4D3B] border border-[#1E4D3B] font-mono text-[11px] font-bold uppercase">
-                      {cause.tag}
-                    </span>
-                    <h3 className="text-lg font-bold text-[#1A1D1F] leading-snug">{cause.title}</h3>
-                    <p className="text-sm text-[#4B525A] leading-relaxed">{cause.description}</p>
+                    <div
+                      style={{ color: "var(--impacto-green)" }}
+                      className="font-mono text-[11px] font-bold uppercase tracking-wider"
+                    >
+                      {isEs ? item.badgeEs : item.badgeEn}
+                    </div>
+                    <h3 className="text-lg font-bold leading-snug">
+                      {isEs ? item.titleEs : item.titleEn}
+                    </h3>
+                    <p style={{ color: "var(--impacto-muted)" }} className="text-sm leading-relaxed">
+                      {isEs ? item.descEs : item.descEn}
+                    </p>
                   </div>
                 </div>
-                <div className="px-5 pb-5 pt-2 space-y-2">
-                  <div className="w-full h-2 bg-[#EFEAE0] rounded-[2px] overflow-hidden border border-[#D9D2C3]">
-                    <div
-                      className="h-full bg-[#1E4D3B]"
-                      style={{ width: `${cause.progressPct}%` }}
-                    />
-                  </div>
-                  <div className="font-mono text-[11px] text-[#4B525A] font-semibold">{cause.metrics}</div>
+                <div
+                  style={{
+                    backgroundColor: "var(--impacto-elevated)",
+                    borderColor: "var(--impacto-border)",
+                    color: "var(--impacto-ink)",
+                  }}
+                  className="px-5 py-3 border-t font-mono text-xs font-semibold"
+                >
+                  {isEs ? item.impactEs : item.impactEn}
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        {/* Arquitectura Criptográfica, 2G USSD y Sinergias Sociales (Anillo 2 -> Anillo 3) */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 space-y-4">
-            <div className="flex items-center gap-2 text-[#1E4D3B] font-mono text-xs font-bold uppercase">
-              <ShieldCheck className="w-4 h-4" strokeWidth={1.75} />
-              <span>Criptografía Cívica &amp; Canal 2G Offline</span>
+        {/* Clearly Separated Interactive Demo Simulator */}
+        <section
+          aria-labelledby="demo-sim-title"
+          style={{
+            backgroundColor: "var(--impacto-elevated)",
+            borderColor: "var(--impacto-border)",
+          }}
+          className="rounded-[6px] border-2 border-dashed p-6 sm:p-8 space-y-5"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-[#8A4500] text-white font-mono text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{isEs ? "DEMOSTRACIÓN INTERACTIVA · SIN TRANSACCIONES REALES" : "INTERACTIVE DEMO SIMULATOR · EDUCATIONAL ONLY"}</span>
             </div>
-            <h2 className="text-xl font-bold text-[#1A1D1F]">Privacidad sin Vigilancia (Ley 25.326)</h2>
-            <ul className="space-y-2.5 text-sm text-[#4B525A]">
-              <li className="flex items-start gap-2.5">
-                <Layers className="w-4 h-4 text-[#B45309] shrink-0 mt-0.5" />
-                <span>
-                  <strong className="text-[#1A1D1F]">Firmas Ed25519 offline:</strong> verificación local de vales y
-                  fichas 3D en dispositivos sin internet ni servidores centrales activos.
-                </span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-[#1E4D3B] shrink-0 mt-0.5" />
-                <span>
-                  <strong className="text-[#1A1D1F]">Cifrado FLE:v2 + Crypto-Shredding:</strong> borrado irrecuperable
-                  destruyendo la clave por beneficiario y ofuscación K-Anonymity en ventanas de 4h.
-                </span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <Radio className="w-4 h-4 text-[#B45309] shrink-0 mt-0.5" />
-                <span>
-                  <strong className="text-[#1A1D1F]">Red 2G / USSD / SMS Headless:</strong> operación de emergencia sin
-                  smartphones ni planes de datos móviles.
-                </span>
-              </li>
-            </ul>
+            <span style={{ color: "var(--impacto-muted)" }} className="font-mono text-xs">
+              {isEs ? "Recorrido ilustrativo de cómo organizamos una ayuda" : "Step-by-step walk-through of local support"}
+            </span>
           </div>
 
-          <div className="bg-[#FFFFFF] border border-[#D9D2C3] rounded-[6px] p-6 space-y-4 flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-[#B45309] font-mono text-xs font-bold uppercase">
-                <HeartHandshake className="w-4 h-4" strokeWidth={1.75} />
-                <span>Red Sin Fines de Lucro · Arbizu Labs</span>
+          <h2 id="demo-sim-title" className="text-2xl font-bold">
+            {isEs ? "Simulador de Coordinación Paso a Paso" : "Step-by-Step Support Flow Simulator"}
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={() => setSimStage("relief")}
+              style={{
+                borderColor: simStage === "relief" ? "#8A4500" : "var(--impacto-border)",
+                backgroundColor: simStage === "relief" ? "#8A4500" : "var(--impacto-card)",
+                color: simStage === "relief" ? "#FFFFFF" : "var(--impacto-ink)",
+              }}
+              className="p-4 rounded-[4px] border text-left cursor-pointer transition-colors"
+            >
+              <div className="font-mono text-xs font-bold uppercase">
+                {isEs ? "1. Asistencia Inmediata" : "1. Immediate Relief"}
               </div>
-              <h2 className="text-xl font-bold text-[#1A1D1F]">Sinergias Abiertas del Ecosistema</h2>
-              <p className="text-sm text-[#4B525A] leading-relaxed">
-                Separación estricta de anillos: este espacio agrupa únicamente iniciativas de impacto cívico,
-                rescate solidario e infraestructura social gratuita, sin mezclar el catálogo B2B comercial.
-              </p>
-            </div>
+              <div className="text-sm font-semibold mt-1">
+                {isEs ? "Urgencia de barrio o familia" : "Urgent family or shelter need"}
+              </div>
+            </button>
 
-            <div className="space-y-2.5 pt-2">
-              <a
-                href="https://pawhero.aldoarbizu.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[64px] px-4 py-3 rounded-[6px] border border-[#1E4D3B] bg-[#E7F1EC] hover:bg-[#1E4D3B] text-[#1E4D3B] hover:text-[#FFFFFF] flex items-center justify-between text-sm font-bold transition-colors"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <Printer className="w-4 h-4" />
-                  <span>PawHero — Protección Animal &amp; Refugios</span>
-                </span>
-                <span className="font-mono text-xs">0% COMISIÓN</span>
-              </a>
+            <button
+              type="button"
+              onClick={() => setSimStage("community")}
+              style={{
+                borderColor: simStage === "community" ? "#144D36" : "var(--impacto-border)",
+                backgroundColor: simStage === "community" ? "#144D36" : "var(--impacto-card)",
+                color: simStage === "community" ? "#FFFFFF" : "var(--impacto-ink)",
+              }}
+              className="p-4 rounded-[4px] border text-left cursor-pointer transition-colors"
+            >
+              <div className="font-mono text-xs font-bold uppercase">
+                {isEs ? "2. Red Comunitaria" : "2. Community Bridge"}
+              </div>
+              <div className="text-sm font-semibold mt-1">
+                {isEs ? "Conexión con comedor o refugio" : "Verified match with local group"}
+              </div>
+            </button>
 
-              <a
-                href="https://santuario.aldoarbizu.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[64px] px-4 py-3 rounded-[6px] border border-[#D9D2C3] bg-[#F6F3EC] hover:border-[#1A1D1F] text-[#1A1D1F] flex items-center justify-between text-sm font-bold transition-colors"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#4B525A]" />
-                  <span>Anillo 3: Santuario YO SOY (Biblioteca Contemplativa)</span>
-                </span>
-                <span className="font-mono text-xs text-[#4B525A]">EXTERNO ↗</span>
-              </a>
+            <button
+              type="button"
+              onClick={() => setSimStage("fabricated")}
+              style={{
+                borderColor: simStage === "fabricated" ? "#111317" : "var(--impacto-border)",
+                backgroundColor: simStage === "fabricated" ? "#111317" : "var(--impacto-card)",
+                color: simStage === "fabricated" ? "#FFFFFF" : "var(--impacto-ink)",
+              }}
+              className="p-4 rounded-[4px] border text-left cursor-pointer transition-colors"
+            >
+              <div className="font-mono text-xs font-bold uppercase">
+                {isEs ? "3. Entrega y Registro" : "3. Hand-Off & Record"}
+              </div>
+              <div className="text-sm font-semibold mt-1">
+                {isEs ? "Confirmación simple de recepción" : "Simple delivery confirmation"}
+              </div>
+            </button>
+          </div>
+
+          <div
+            style={{
+              backgroundColor: "var(--impacto-card)",
+              borderColor: "var(--impacto-border)",
+            }}
+            className="p-4 rounded-[4px] border text-sm leading-relaxed"
+          >
+            {simStage === "relief" &&
+              (isEs
+                ? "Etapa 1 (Modo Demostración): Se recibe el pedido urgente de una familia, escuela o refugio y se prioriza sin burocracia."
+                : "Stage 1 (Demo Mode): An urgent request from a local family, school, or shelter is logged directly with zero red tape.")}
+            {simStage === "community" &&
+              (isEs
+                ? "Etapa 2 (Modo Demostración): Se asigna material disponible, impresión 3D solidaria en Hellbot Magna 2 o difusión abierta en la red PawHero (0% comisión)."
+                : "Stage 2 (Demo Mode): Available supplies, Hellbot Magna 2 solidarity 3D print time, or fee-free PawHero outreach are matched to the need.")}
+            {simStage === "fabricated" &&
+              (isEs
+                ? "Etapa 3 (Modo Demostración): Queda documentada la entrega real a los destinatarios, asegurando transparencia completa para vecinos y colaboradores."
+                : "Stage 3 (Demo Mode): Final hand-off is recorded simply so local neighbors and partners can trust every effort reached its destination.")}
+          </div>
+        </section>
+
+        {/* Community Alliances CTA */}
+        <section
+          style={{
+            backgroundColor: "var(--impacto-card)",
+            borderColor: "var(--impacto-border)",
+          }}
+          className="rounded-[6px] border p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
+        >
+          <div className="space-y-2 max-w-2xl">
+            <div style={{ color: "var(--impacto-green)" }} className="font-mono text-xs font-bold uppercase tracking-wider">
+              {isEs ? "ALIANZAS COMUNITARIAS ABIERTAS" : "OPEN COMMUNITY PARTNERSHIPS"}
             </div>
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              {isEs
+                ? "¿Representas una escuela, hospital, club o refugio?"
+                : "Representing a school, community clinic, club, or shelter?"}
+            </h2>
+            <p style={{ color: "var(--impacto-muted)" }} className="text-sm leading-relaxed">
+              {isEs
+                ? "Coordinamos piezas impresas en 3D sin costo de ganancia, apoyo tecnológico abierto o difusión directa en PawHero (0% comisión). Conversación directa y transparente."
+                : "We coordinate non-profit 3D printed parts, open civic tooling, or free PawHero shelter support directly with zero intermediaries."}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <a
+              href={allianceWaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-[4px] bg-[#144D36] text-white font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>{isEs ? "Proponer Alianza por WhatsApp" : "Partner via WhatsApp"}</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="mailto:aldo@arbizulabs.com?subject=Alianza%20Comunitaria%20Impacto"
+              style={{
+                borderColor: "var(--impacto-border)",
+                backgroundColor: "var(--impacto-elevated)",
+                color: "var(--impacto-ink)",
+              }}
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-[4px] border font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+            >
+              <Mail className="w-4 h-4" />
+              <span>aldo@arbizulabs.com</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
         </section>
       </main>
